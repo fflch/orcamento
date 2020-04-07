@@ -16,16 +16,16 @@
 <div class="card">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><b>Ano</b>: {{ $movimento->ano }}</li>
-        <li class="list-group-item"><b>Concluído</b>: 
+        <li class="list-group-item"> 
 @if ($movimento->concluido == 1)
                       X
                     @endif 
-         </li>
-        <li class="list-group-item"><b>Ativo</b>: 
+         <b> Concluído</b></li>
+        <li class="list-group-item"> 
 @if ($movimento->ativo == 1)
                       X
                     @endif 
-        </li>
+        <b> Ativo</b></li>
     </ul>
 </div>
 

@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'IndexController@index')->name('home');
 
 Route::resource('/movimentos', 'MovimentoController');
+Route::resource('/tipocontas', 'TipoContaController');
