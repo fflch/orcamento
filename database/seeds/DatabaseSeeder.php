@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
 		    //UsersTableSeeder::class,
             MovimentoSeeder::class,
             AreaSeeder::class,
+            TipoContaSeeder::class,
 	    ]);
     }
 }
