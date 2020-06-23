@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             MovimentoSeeder::class,
             AreaSeeder::class,
             TipoContaSeeder::class,
+            DotOrcamentariaSeeder::class,
 	    ]);
     }
 }
