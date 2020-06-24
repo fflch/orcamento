@@ -12,10 +12,18 @@ class AreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$areas = Area::all()->sortBy('nome');
-        $areas = Area::paginate(5);
+        //dd($request->busca);
+        if($request->busca != null){
+            //$areas = Area::all()->sortBy('nome');
+            $areas = Area::where('nome','LIKE',"%{$request->busca}%")->paginate(5);
+        }
+        else{
+            //$areas = Area::all()->sortBy('nome');
+            $areas = Area::paginate(5);
+        }        
+
         return view('areas.index')->with('areas', $areas);
     }
 

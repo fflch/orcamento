@@ -12,10 +12,17 @@ class TipoContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$tipocontas = TipoConta::all()->sortBy('descricao');
-        $tipocontas = TipoConta::paginate(5);
+        //dd($request->busca);
+        if($request->busca != null){
+            //$tipocontas = TipoConta::all()->sortBy('descricao');
+            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(5);
+        }
+        else{
+            //$tipocontas = TipoConta::all()->sortBy('descricao');
+            $tipocontas = TipoConta::paginate(5);
+        }        
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }
 
