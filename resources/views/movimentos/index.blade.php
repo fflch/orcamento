@@ -13,6 +13,7 @@
 </a>
 
 <div class="table-responsive">
+<p>{{ $movimentos->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
@@ -53,6 +54,6 @@
             @endforeach
         </tbody>
     </table>
+    <p>{{ $movimentos->links() }}</p>   
 </div>
-
 @stop

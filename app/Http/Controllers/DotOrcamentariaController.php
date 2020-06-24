@@ -14,7 +14,8 @@ class DotOrcamentariaController extends Controller
      */
     public function index()
     {
-        $dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+        //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+        $dotorcamentarias = DotOrcamentaria::paginate(5);
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
 

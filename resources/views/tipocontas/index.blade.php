@@ -13,6 +13,7 @@
 </a>
 
 <div class="table-responsive">
+<p>{{ $tipocontas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
@@ -53,6 +54,6 @@
             @endforeach
         </tbody>
     </table>
+    <p>{{ $tipocontas->links() }}</p>
 </div>
-
 @stop

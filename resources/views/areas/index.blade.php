@@ -13,6 +13,7 @@
 </a>
 
 <div class="table-responsive">
+<p>{{ $areas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
@@ -41,6 +42,6 @@
             @endforeach
         </tbody>
     </table>
+    <p>{{ $areas->links() }}</p>
 </div>
-
 @stop

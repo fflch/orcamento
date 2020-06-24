@@ -13,6 +13,7 @@
 </a>
 
 <div class="table-responsive">
+<p>{{ $dotorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr>
@@ -53,6 +54,6 @@
             @endforeach
         </tbody>
     </table>
+<p>{{ $dotorcamentarias->links() }}</p>
 </div>
-
 @stop
