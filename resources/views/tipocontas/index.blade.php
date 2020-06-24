@@ -8,9 +8,20 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<a href="{{ route('tipocontas.create') }}" class="btn btn-success">
+<p><a href="{{ route('tipocontas.create') }}" class="btn btn-success">
     Adicionar Tipo de Conta
-</a>
+</a></p>
+
+<form method="get" action="/tipocontas">
+  <div class="row">
+    <div class=" col-sm input-group">
+      <input type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Nome">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-success"> Buscar </button>
+      </span>
+    </div>
+  </div>
+</form>
 
 <div class="table-responsive">
 <p>{{ $tipocontas->links() }}</p>

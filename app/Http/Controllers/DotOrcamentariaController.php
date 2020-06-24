@@ -12,10 +12,17 @@ class DotOrcamentariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
-        $dotorcamentarias = DotOrcamentaria::paginate(5);
+        //dd($request->busca);
+        if($request->busca != null){
+            //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->paginate(5);
+        }
+        else{
+            //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+            $dotorcamentarias = DotOrcamentaria::paginate(5);
+        }       
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
 

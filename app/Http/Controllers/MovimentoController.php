@@ -12,10 +12,17 @@ class MovimentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
-        $movimentos = Movimento::paginate(5);
+        //dd($request->busca);
+        if($request->busca != null){
+            //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
+            $movimentos = Movimento::where('ano','=',$request->busca)->paginate(5);
+        }
+        else{
+            //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
+            $movimentos = Movimento::paginate(5);
+        }
         return view('movimentos.index')->with('movimentos', $movimentos);
     }
 

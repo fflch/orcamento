@@ -8,9 +8,20 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<a href="{{ route('movimentos.create') }}" class="btn btn-success">
+<p><a href="{{ route('movimentos.create') }}" class="btn btn-success">
     Adicionar Movimento
-</a>
+</a></p>
+
+<form method="get" action="/movimentos">
+  <div class="row">
+    <div class=" col-sm input-group">
+      <input type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Ano">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-success"> Buscar </button>
+      </span>
+    </div>
+  </div>
+</form>
 
 <div class="table-responsive">
 <p>{{ $movimentos->links() }}</p>
