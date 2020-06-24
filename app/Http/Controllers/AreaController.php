@@ -14,7 +14,8 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $areas = Area::all()->sortBy('nome');
+        //$areas = Area::all()->sortBy('nome');
+        $areas = Area::paginate(5);
         return view('areas.index')->with('areas', $areas);
     }
 

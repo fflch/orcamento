@@ -14,7 +14,8 @@ class MovimentoController extends Controller
      */
     public function index()
     {
-        $movimentos = Movimento::all()->sortByDesc('ano');
+        //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
+        $movimentos = Movimento::paginate(5);
         return view('movimentos.index')->with('movimentos', $movimentos);
     }
 
@@ -78,7 +79,6 @@ class MovimentoController extends Controller
     {
         //return view('movimentos.edit');
         return view('movimentos.edit', compact('movimento'));
-    
     }
 
     /**

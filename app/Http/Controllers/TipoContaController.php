@@ -14,7 +14,8 @@ class TipoContaController extends Controller
      */
     public function index()
     {
-        $tipocontas = TipoConta::all()->sortBy('descricao');
+        //$tipocontas = TipoConta::all()->sortBy('descricao');
+        $tipocontas = TipoConta::paginate(5);
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }
 
