@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DotOrcamentaria;
 use Illuminate\Http\Request;
+use App\Http\Requests\DotOrcamentariaRequest;
 
 class DotOrcamentariaController extends Controller
 {
@@ -42,16 +43,8 @@ class DotOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DotOrcamentariaRequest $request)
     {
-       // Validações
-        $request->validate([
-            'dotacao'        => 'numeric|required',
-            //'concluido'  => 'required|numeric|min:8|max:30',
-            //'ativo'      => 'numeric',
-        ]);
- 
-        // Persistência
         $dotorcamentaria = new DotOrcamentaria;
         $dotorcamentaria->dotacao        = $request->dotacao;
         $dotorcamentaria->grupo          = $request->grupo;

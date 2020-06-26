@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TipoConta;
 use Illuminate\Http\Request;
+use App\Http\Requests\TipoContaRequest;
 
 class TipoContaController extends Controller
 {
@@ -42,12 +43,8 @@ class TipoContaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TipoContaRequest $request)
     {
-        $request->validate([
-            'descricao'        => 'required',
-        ]);
- 
         $tipoconta = new TipoConta;
         $tipoconta->descricao          = $request->descricao;
         $tipoconta->cpfo               = $request->cpfo;
