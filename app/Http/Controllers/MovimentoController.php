@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Movimento;
 use Illuminate\Http\Request;
+use App\Http\Requests\MovimentoRequest;
 
 class MovimentoController extends Controller
 {
@@ -42,17 +43,8 @@ class MovimentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MovimentoRequest $request)
     {
-       // Validações
-        $request->validate([
-            'ano'        => 'numeric|required',
-            //'concluido'  => 'required|numeric|min:8|max:30',
-            //'ativo'      => 'numeric',
-
-        ]);
- 
-        // Persistência
         $movimento = new Movimento;
         $movimento->ano       = $request->ano;
         $movimento->concluido = $request->concluido;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use Illuminate\Http\Request;
+use App\Http\Requests\AreaRequest;
 
 class AreaController extends Controller
 {
@@ -43,14 +44,8 @@ class AreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AreaRequest $request)
     {
-       // Validações
-        $request->validate([
-            'nome'        => 'required',
-        ]);
- 
-        // Persistência
         $area = new Area;
         $area->nome       = $request->nome;
         
