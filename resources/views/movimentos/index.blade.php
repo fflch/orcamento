@@ -52,13 +52,14 @@
                       X
                     @endif</td>
                 <td align="center">
-                    <a href="{{action('MovimentoController@edit', $movimento->id)}}" class="btn btn-warning">Editar</a>
+                  <a class="btn btn-warning" href="/movimentos/{{$movimento->id}}/edit">Editar</a>
+                    
                 </td>
                 <td align="center">
-                    <form action="{{action('MovimentoController@destroy', $movimento->id)}}" method="post">
-                        {{csrf_field()}}
+                    <form method="post" role="form" action="{{ route('movimentos.destroy', $movimento) }}" >
+                        @csrf
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit">Deletar</button>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o registro?');">Deletar</button>
                     </form>
                 </td>
             </tr>

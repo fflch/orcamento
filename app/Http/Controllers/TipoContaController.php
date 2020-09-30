@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\TipoConta;
+use App\Models\TipoConta;
 use Illuminate\Http\Request;
 use App\Http\Requests\TipoContaRequest;
 

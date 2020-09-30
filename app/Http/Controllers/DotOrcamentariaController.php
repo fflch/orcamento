@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DotOrcamentaria;
+use App\Models\DotOrcamentaria;
 use Illuminate\Http\Request;
 use App\Http\Requests\DotOrcamentariaRequest;
 

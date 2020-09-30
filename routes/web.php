@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\MovimentoController;
+use App\Http\Controllers\TipoContaController;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\DotOrcamentariaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'IndexController@index')->name('home');
+Route::get('/', [IndexController::class, 'index'])->name('home');
 
-Route::resource('/movimentos', 'MovimentoController');
-Route::resource('/tipocontas', 'TipoContaController');
-Route::resource('/areas', 'AreaController');
-Route::resource('/dotorcamentarias', 'DotOrcamentariaController');
+Route::resource('movimentos', MovimentoController::class);
+Route::resource('tipocontas', TipoContaController::class);
+Route::resource('areas', AreaController::class);
+Route::resource('dotorcamentarias', DotOrcamentariaController::class);

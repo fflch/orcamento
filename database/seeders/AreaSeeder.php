@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\Area;
+use App\Models\Area;
 
 class AreaSeeder extends Seeder
 {
@@ -23,6 +25,6 @@ class AreaSeeder extends Seeder
         Area::create($area1);
         Area::create($area2);
 
-        factory(Area::class, 10)->create();
+        Area::factory(10)->create();
     }
 }

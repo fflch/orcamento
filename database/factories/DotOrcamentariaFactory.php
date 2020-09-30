@@ -1,19 +1,34 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
-use App\DotOrcamentaria;
+use App\Models\DotOrcamentaria;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(DotOrcamentaria::class, function (Faker $faker) {
-    $boleanos = ['1','0'];	
-    return [
-        'dotacao' => $faker->numberBetween($min = 1000, $max = 9000),
-        'grupo'=> $faker->numberBetween($min = 1000, $max = 9000),
-        'descricaogrupo'=> $faker->sentence,
-        'item'=> $faker->numberBetween($min = 1000, $max = 9000),
-        'descricaoitem'=> $faker->sentence,
-        'receita' => $boleanos[array_rand($boleanos)],
-    ];
-});
+class DotOrcamentariaFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = DotOrcamentaria::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $boleanos = ['1','0'];	
+        return [
+            'dotacao' => $this->faker->numberBetween($min = 1000, $max = 9000),
+            'grupo'=> $this->faker->numberBetween($min = 1000, $max = 9000),
+            'descricaogrupo'=> $this->faker->sentence,
+            'item'=> $this->faker->numberBetween($min = 1000, $max = 9000),
+            'descricaoitem'=> $this->faker->sentence,
+            'receita' => $boleanos[array_rand($boleanos)],
+        ];
+    }
+}

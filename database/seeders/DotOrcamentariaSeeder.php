@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\DotOrcamentaria;
+use App\Models\DotOrcamentaria;
 
 class DotOrcamentariaSeeder extends Seeder
 {
@@ -33,6 +35,6 @@ class DotOrcamentariaSeeder extends Seeder
         DotOrcamentaria::create($dotorcamentaria1);
         DotOrcamentaria::create($dotorcamentaria2);
 
-        factory(DotOrcamentaria::class, 10)->create();
+        DotOrcamentaria::factory(10)->create();
     }
 }

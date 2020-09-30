@@ -52,14 +52,14 @@
                       X
                     @endif</td>
                 <td align="center">
-                    <a href="{{action('TipoContaController@edit', $tipoconta->id)}}" class="btn btn-warning">Editar</a>
+                <a class="btn btn-warning" href="/tipocontas/{{$tipoconta->id}}/edit">Editar</a>
                 </td>
                 <td align="center">
-                    <form action="{{action('TipoContaController@destroy', $tipoconta->id)}}" method="post">
-                        {{csrf_field()}}
+                <form method="post" role="form" action="{{ route('tipocontas.destroy', $tipoconta) }}" >
+                        @csrf
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit">Deletar</button>
-                    </form>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o registro?');">Deletar</button>
+                </form>
                 </td>
             </tr>
             @endforeach

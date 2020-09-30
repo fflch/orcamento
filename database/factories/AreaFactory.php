@@ -1,13 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
+use App\Models\Area;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Model;
 use Faker\Generator as Faker;
-use App\Area;
 
-$factory->define(Area::class, function (Faker $faker) {
-    return [
-        'nome' => $faker->name,
-    ];
-});
+class AreaFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Area::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'nome' => $this->faker->name,
+        ];
+    }
+}

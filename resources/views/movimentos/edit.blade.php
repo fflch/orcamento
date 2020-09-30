@@ -12,9 +12,9 @@
     @include('messages.errors')
 
     <div class="col-md-6">
-        <form method="post" action="{{ action('MovimentoController@update', $movimento->id) }}">
-            {{ csrf_field() }}
-            {{ method_field('patch') }}
+        <form method="post" action="/movimentos/{{$movimento->id}}">
+            @csrf
+            @method('patch')
             @include('movimentos.form')
         </form>
     </div>
