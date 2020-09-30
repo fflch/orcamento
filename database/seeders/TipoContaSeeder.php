@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\TipoConta;
+use App\Models\TipoConta;
 
 class TipoContaSeeder extends Seeder
 {
@@ -27,6 +29,6 @@ class TipoContaSeeder extends Seeder
         TipoConta::create($tipoconta1);
         TipoConta::create($tipoconta2);
 
-        factory(TipoConta::class, 10)->create();
+        TipoConta::factory(10)->create();
     }
 }

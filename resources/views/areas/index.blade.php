@@ -13,6 +13,8 @@
 </a></p>
 
 <form method="get" action="/areas">
+@csrf
+@method('patch')
   <div class="row">
     <div class=" col-sm input-group">
       <input type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Nome">
@@ -40,14 +42,15 @@
                 <td align="left"><a href="/areas/{{ $area->id }}">{{ $area->nome }}</a></td>
 
                 <td align="center">
-                    <a href="{{action('AreaController@edit', $area->id)}}" class="btn btn-warning">Editar</a>
+                    <a class="btn btn-warning" href="/areas/{{$area->id}}/edit">Editar</a>
                 </td>
                 <td align="center">
-                    <form action="{{action('AreaController@destroy', $area->id)}}" method="post">
-                        {{csrf_field()}}
+                <form method="post" role="form" action="{{ route('areas.destroy', $area) }}" >
+                        @csrf
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit">Deletar</button>
-                    </form>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o registro?');">Deletar</button>
+                </form>
+                    
                 </td>
             </tr>
             @endforeach

@@ -1,16 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
-use App\TipoConta;
+use App\Models\TipoConta;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(TipoConta::class, function (Faker $faker) {
-    $boleanos = ['1','0'];	
-    return [
-        'descricao'          => $faker->name,
-        'cpfo'               => $boleanos[array_rand($boleanos)], 
-        'relatoriobalancete' => $boleanos[array_rand($boleanos)],
-    ];
-});
+class TipoContaFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = TipoConta::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        $boleanos = ['1','0'];	
+        return [
+            'descricao'          => $this->faker->name,
+            'cpfo'               => $boleanos[array_rand($boleanos)], 
+            'relatoriobalancete' => $boleanos[array_rand($boleanos)],
+        ];
+    }
+}

@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\Movimento;
+use App\Models\Movimento;
 
 class MovimentoSeeder extends Seeder
 {
@@ -29,6 +31,6 @@ class MovimentoSeeder extends Seeder
         Movimento::create($movimento1);
         Movimento::create($movimento2);
 
-        factory(Movimento::class, 10)->create();
+        Movimento::factory(10)->create();
     }
 }

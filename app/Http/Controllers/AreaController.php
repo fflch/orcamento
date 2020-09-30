@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Area;
+use App\Models\Area;
 use Illuminate\Http\Request;
 use App\Http\Requests\AreaRequest;
 

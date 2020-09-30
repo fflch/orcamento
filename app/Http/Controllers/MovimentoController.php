@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Movimento;
+use App\Models\Movimento;
 use Illuminate\Http\Request;
 use App\Http\Requests\MovimentoRequest;
 
