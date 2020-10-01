@@ -2,10 +2,10 @@
 
 return [
     'title'=> env('APP_NAME'),
-    'dashboard_url' => '/',
-    'logout_method' => 'GET',
+    'dashboard_url' => '/movimentos',
+    'logout_method' => 'POST',
     'logout_url' => '/logout',
-    'login_url' => '/',
+    'login_url' => '/login',
     'menu' => [
         [
             'text' => 'Movimentos',

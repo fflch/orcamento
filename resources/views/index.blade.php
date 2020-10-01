@@ -8,9 +8,9 @@
 
 @section('content')
     @parent
-        @auth
-            <script>window.location = "/";</script>
+        @auth            
+            Você agora fez seu login com a senha única USP <a href="/logout"> Faça seu Logout! </a>
         @else
-            Você ainda não fez seu login com a senha única USP <a href="/senhaunica/login"> Faça seu Login! </a>
+            Você ainda não fez seu login com a senha única USP <a href="/login"> Faça seu Login! </a>
         @endauth
 @stop

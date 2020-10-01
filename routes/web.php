@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\TipoContaController;
 use App\Http\Controllers\AreaController;
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
+
+Route::get('login', [LoginController::class, 'redirectToProvider']);
+Route::get('callback', [LoginController::class, 'handleProviderCallback']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
