@@ -45,13 +45,10 @@ class TipoContaController extends Controller
      */
     public function store(TipoContaRequest $request)
     {
-        $tipoconta = new TipoConta;
-        $tipoconta->descricao          = $request->descricao;
-        $tipoconta->cpfo               = $request->cpfo;
-        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
-        
+        $validated = $request->validated();
+        TipoConta::create($validated);
+       
         //$tipoconta->user_id = \Auth::user()->id;
-        $tipoconta->save();
 
         $request->session()->flash('alert-success', 'Tipo de Conta cadastrado com sucesso!');
         return redirect()->route('tipocontas.index');
@@ -86,20 +83,14 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoConta $tipoconta)
+    public function update(TipoContaRequest $request, TipoConta $tipoconta)
     {
-        $request->validate([
-            'descricao'        => 'required',
-        ]);
- 
-        $tipoconta->descricao          = $request->descricao;
-        $tipoconta->cpfo               = $request->cpfo;
-        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
+        $validated = $request->validated();
+        $tipoconta->update($validated);
         
         //$tipoconta->user_id = \Auth::user()->id;
-        $tipoconta->save();
 
-        $request->session()->flash('alert-success', 'Tipo de Conta cadastrado com sucesso!');
+        $request->session()->flash('alert-success', 'Tipo de Conta alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
 
@@ -112,6 +103,6 @@ class TipoContaController extends Controller
     public function destroy(TipoConta $tipoconta)
     {
         $tipoconta->delete();
-        return redirect()->route('tipocontas.index')->with('alert-danger', 'Tipo de Conta deletado!');
+        return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
     }
 }

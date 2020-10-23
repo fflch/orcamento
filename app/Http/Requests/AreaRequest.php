@@ -27,4 +27,10 @@ class AreaRequest extends FormRequest
             'nome' => 'required',
         ];
     }
+
+    public function messages(){
+        return [
+            'nome.required' => 'Digite o Nome da Área.',
+        ];
+    }
 }

@@ -31,4 +31,17 @@ class DotOrcamentariaRequest extends FormRequest
             'descricaoitem'  => 'required',
         ];
     }
+
+    public function messages(){
+        return [
+            'dotacao.required'        => 'Digite a Dotação.',
+            'dotacao.integer'         => 'A Dotação deve ser um número inteiro.',
+            'grupo.required'          => 'Digite o Grupo.',
+            'descricaogrupo.required' => 'Digite a Descrição do Grupo.',
+            'item.required'           => 'Digite o Item.',
+            'descricaoitem.required'  => 'Digite a Descrição do Item.',
+
+
+        ];
+    }
 }

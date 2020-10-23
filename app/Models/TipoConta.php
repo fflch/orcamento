@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class TipoConta extends Model
 {
     use HasFactory;
+    protected $fillable = ['descricao'];
+
 }

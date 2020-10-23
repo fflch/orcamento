@@ -8,20 +8,27 @@
     @include('messages.flash')
     @include('messages.errors')
 
+<div class="form-group">
+<label>
 <p><a href="{{ route('movimentos.create') }}" class="btn btn-success">
     Adicionar Movimento
 </a></p>
+</label>
 
+<label>
 <form method="get" action="/movimentos">
   <div class="row">
     <div class=" col-sm input-group">
-      <input type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Ano">
+      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Ano">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-success"> Buscar </button>
       </span>
     </div>
   </div>
 </form>
+</label>
+
+</div>
 
 <div class="table-responsive">
 <p>{{ $movimentos->links() }}</p>

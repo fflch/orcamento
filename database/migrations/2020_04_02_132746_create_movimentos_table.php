@@ -16,8 +16,10 @@ class CreateMovimentosTable extends Migration
         Schema::create('movimentos', function (Blueprint $table) {
             $table->id();
             $table->integer('ano');
-            $table->boolean('concluido')->nullable();;
-            $table->boolean('ativo')->nullable();;
+            $table->boolean('concluido')->default(0);
+            $table->boolean('ativo')->default(0);
+            //$table->boolean('concluido')->nullable();;
+            //$table->boolean('ativo')->nullable();;
             $table->timestamps();
         });
     }

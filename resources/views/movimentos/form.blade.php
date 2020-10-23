@@ -12,9 +12,9 @@
 </div>
 
 <div class="form-group">
-    <label class="checkbox-inline"><input type="checkbox" name="ativo" value="1"
+    <label class="checkbox-inline"><input type="checkbox" name="ativo" value="1" 
         @if (isset($movimento->id) and ($movimento->ativo === 1))
-                checked
+             checked
         @endif >
         <label for="ativo"> Ativo</label></label>
 </div>

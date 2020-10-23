@@ -9,7 +9,7 @@
     @include('messages.errors')
 
 <div>
-    <a href="{{action('MovimentoController@edit', $movimento->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{ route('movimentos.edit',$movimento->id) }}" class="btn btn-success">Editar</a>
 </div>
 <br>
 

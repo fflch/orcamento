@@ -9,7 +9,8 @@
     @include('messages.errors')
 
 <div>
-    <a href="{{action('TipoContaController@edit', $tipoconta->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{ route('tipocontas.edit',$tipoconta->id) }}" class="btn btn-success">Editar</a>
+
 </div>
 <br>
 
