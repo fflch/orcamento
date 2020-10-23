@@ -45,16 +45,10 @@ class DotOrcamentariaController extends Controller
      */
     public function store(DotOrcamentariaRequest $request)
     {
-        $dotorcamentaria = new DotOrcamentaria;
-        $dotorcamentaria->dotacao        = $request->dotacao;
-        $dotorcamentaria->grupo          = $request->grupo;
-        $dotorcamentaria->descricaogrupo = $request->descricaogrupo;
-        $dotorcamentaria->item           = $request->item;
-        $dotorcamentaria->descricaoitem  = $request->descricaoitem;
-        $dotorcamentaria->receita        = $request->receita;
-        
+        $validated = $request->validated();
+        DotOrcamentaria::create($validated);
+  
         //$dotorcamentaria->user_id = \Auth::user()->id;
-        $dotorcamentaria->save();
 
         $request->session()->flash('alert-success', 'Dotação Orçamentária cadastrada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
@@ -89,27 +83,14 @@ class DotOrcamentariaController extends Controller
      * @param  \App\DotOrcamentaria  $dotOrcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DotOrcamentaria $dotorcamentaria)
+    public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria)
     {
-       // Validações
-        $request->validate([
-            'dotacao'        => 'numeric|required',
-            //'concluido'  => 'required|numeric|min:8|max:30',
-            //'ativo'      => 'numeric',
-        ]);
- 
-        // Persistência
-        $dotorcamentaria->dotacao        = $request->dotacao;
-        $dotorcamentaria->grupo          = $request->grupo;
-        $dotorcamentaria->descricaogrupo = $request->descricaogrupo;
-        $dotorcamentaria->item           = $request->item;
-        $dotorcamentaria->descricaoitem  = $request->descricaoitem;
-        $dotorcamentaria->receita        = $request->receita;
+        $validated = $request->validated();
+        $dotorcamentaria->update($validated);
         
         //$dotorcamentaria->user_id = \Auth::user()->id;
-        $dotorcamentaria->save();
 
-        $request->session()->flash('alert-success', 'Dotação Orçamentária cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Dotação Orçamentária alterada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
 
@@ -122,6 +103,6 @@ class DotOrcamentariaController extends Controller
     public function destroy(DotOrcamentaria $dotorcamentaria)
     {
         $dotorcamentaria->delete();
-        return redirect()->route('dotorcamentarias.index')->with('alert-danger', 'Dotação Orçamentária deletada!');
+        return redirect()->route('dotorcamentarias.index')->with('alert-success', 'Dotação Orçamentária deletada com sucesso!');
     }
 }

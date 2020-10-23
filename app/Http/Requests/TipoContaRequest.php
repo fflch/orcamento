@@ -24,7 +24,17 @@ class TipoContaRequest extends FormRequest
     public function rules()
     {
         return [
-            'descricao' => 'required',
+            'descricao'          => 'required',
+            'cpfo'               => 'boolean',
+            'relatoriobalancete' => 'boolean',
+        ];
+    }
+
+    public function messages(){
+        return [
+            'descricao.required'         => 'Digite a Descrição do Tipo de Conta.',
+            'cpfo.boolean'               => 'O campo Faz Contra-Partida com a Ficha Orçamentária deve estar marcado ou desmarcado.',
+            'relatoriobalancete.boolean' => 'O campo Deve constar no relatório Balancete deve estar marcado ou desmarcado.',
         ];
     }
 }

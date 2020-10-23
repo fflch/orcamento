@@ -9,7 +9,8 @@
     @include('messages.errors')
 
 <div>
-    <a href="{{action('DotOrcamentariaController@edit', $dotorcamentaria->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{ route('dotorcamentarias.edit',$dotorcamentaria->id) }}" class="btn btn-success">Editar</a>
+
 </div>
 <br>
 

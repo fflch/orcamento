@@ -9,7 +9,8 @@
     @include('messages.errors')
 
 <div>
-    <a href="{{action('AreaController@edit', $area->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{ route('areas.edit',$area->id) }}" class="btn btn-success">Editar</a>
+
 </div>
 <br>
 

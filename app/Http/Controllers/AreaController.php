@@ -46,11 +46,10 @@ class AreaController extends Controller
      */
     public function store(AreaRequest $request)
     {
-        $area = new Area;
-        $area->nome       = $request->nome;
+        $validated = $request->validated();
+        Area::create($validated);
         
         //$area->user_id = \Auth::user()->id;
-        $area->save();
 
         $request->session()->flash('alert-success', 'Área cadastrada com sucesso!');
         return redirect()->route('areas.index');
@@ -85,20 +84,14 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Area $area)
+    public function update(AreaRequest $request, Area $area)
     {
-       // Validações
-        $request->validate([
-            'nome'        => 'required',
-        ]);
- 
-        // Persistência
-        $area->nome       = $request->nome;
-        
+        $validated = $request->validated();
+        $area->update($validated);
+              
         //$area->user_id = \Auth::user()->id;
-        $area->save();
 
-        $request->session()->flash('alert-success', 'Área cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Área alterada com sucesso!');
         return redirect()->route('areas.index');
     }
 
@@ -111,6 +104,6 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         $area->delete();
-        return redirect()->route('areas.index')->with('alert-danger', 'Área deletada!');
+        return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
     }
 }

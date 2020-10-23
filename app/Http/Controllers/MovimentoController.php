@@ -45,13 +45,10 @@ class MovimentoController extends Controller
      */
     public function store(MovimentoRequest $request)
     {
-        $movimento = new Movimento;
-        $movimento->ano       = $request->ano;
-        $movimento->concluido = $request->concluido;
-        $movimento->ativo     = $request->ativo;
+        $validated = $request->validated();
+        Movimento::create($validated);
         
         //$movimento->user_id = \Auth::user()->id;
-        $movimento->save();
 
         $request->session()->flash('alert-success', 'Movimento cadastrado com sucesso!');
         return redirect()->route('movimentos.index');
@@ -76,7 +73,6 @@ class MovimentoController extends Controller
      */
     public function edit(Movimento $movimento)
     {
-        //return view('movimentos.edit');
         return view('movimentos.edit', compact('movimento'));
     }
 
@@ -87,26 +83,14 @@ class MovimentoController extends Controller
      * @param  \App\Movimento  $movimento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movimento $movimento)
+    public function update(MovimentoRequest $request, Movimento $movimento)
     {
-       // Validações
-        $request->validate([
-            'ano'        => 'numeric|required',
-            //'concluido'  => 'required|numeric|min:8|max:30',
-            //'ativo'      => 'numeric',
-
-        ]);
- 
-        // Persistência
-        //$movimento = new Movimento;
-        $movimento->ano       = $request->ano;
-        $movimento->concluido = $request->concluido;
-        $movimento->ativo     = $request->ativo;
+        $validated = $request->validated();
+        $movimento->update($validated);
         
         //$movimento->user_id = \Auth::user()->id;
-        $movimento->save();
 
-        $request->session()->flash('alert-success', 'Movimento cadastrado com sucesso!');
+        $request->session()->flash('alert-success', 'Movimento alterado com sucesso!');
         return redirect()->route('movimentos.index');
     }
 
@@ -119,6 +103,6 @@ class MovimentoController extends Controller
     public function destroy(Movimento $movimento, Request $request)
     {
         $movimento->delete();
-        return redirect()->route('movimentos.index')->with('alert-danger', 'Movimento deletado!');
+        return redirect()->route('movimentos.index')->with('alert-success', 'Movimento deletado com sucesso!!');
     }
 }
