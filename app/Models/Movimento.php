@@ -9,4 +9,10 @@ class Movimento extends Model
 {
     use HasFactory;
     protected $fillable = ['ano','concluido','ativo'];
+
+    public static function movimento_ativo(){
+        $movimento_ativo = Movimento::where('ativo','=','1')->first();
+        //dd($movimento_ativo);
+        return $movimento_ativo;
+    }
 }
