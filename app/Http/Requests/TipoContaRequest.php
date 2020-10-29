@@ -24,6 +24,7 @@ class TipoContaRequest extends FormRequest
     public function rules()
     {
         return [
+            'tipoconta_id'          => 'integer',
             'descricao'          => 'required',
             'cpfo'               => 'boolean',
             'relatoriobalancete' => 'boolean',

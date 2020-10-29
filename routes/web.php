@@ -6,7 +6,11 @@ use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\TipoContaController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DotOrcamentariaController;
+use App\Http\Controllers\ContaController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\selTipoContaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +33,6 @@ Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
 Route::resource('areas', AreaController::class);
 Route::resource('dotorcamentarias', DotOrcamentariaController::class);
+Route::resource('contas', ContaController::class);
+
+Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);

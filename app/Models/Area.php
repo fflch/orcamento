@@ -9,4 +9,9 @@ class Area extends Model
 {
     use HasFactory;
     protected $fillable = ['nome'];
+
+    public static function lista_areas(){
+        $lista_areas = Area::all()->sortBy('nome');
+        return $lista_areas;
+    }
 }

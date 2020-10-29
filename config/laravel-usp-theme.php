@@ -27,6 +27,10 @@ return [
             'url' => '/dotorcamentarias',
             'can' => '',
         ],
-
+        [
+            'text' => 'Contas',
+            'url' => '/contas',
+            'can' => '',
+        ],
     ]
 ];
