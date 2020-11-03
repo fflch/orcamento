@@ -4,12 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Conta;
-
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Area;
 use App\Models\User;
-
 
 class ContaSeeder extends Seeder
 {
@@ -23,30 +21,30 @@ class ContaSeeder extends Seeder
         $conta1 = [
             'id'           => 1001,
             'nome'         => 'Orçamento',
-            'email'        => 'teste1@usp.br',
+            'email'        => 'aaa@usp.br',
             'numero'       => 1,
             'ativo'        => 1,
             'movimento_id' => Movimento::create()->id,
-            'tipoconta_id' => TipoConta::create()->id,
             'area_id'      => Area::create()->id,
             'user_id'      => User::create()->id,
+            'tipoconta_id' => TipoConta::create()->id,
         ];
 
-        /*$conta2 = [
-            'id'           => 1001,
+        $conta2 = [
+            'id'           => 1002,
             'nome'         => 'Renda Industrial',
-            'email'        => 'teste2@usp.br',
+            'email'        => 'bbb@usp.br',
             'numero'       => 2,
             'ativo'        => 0,
-            'movimento_id' => Movimento::factory()->create()->id,
-            'tipoconta_id' => TipoConta::factory()->create()->id,
-            'area_id'      => Area::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
-        ];*/
+            'movimento_id' => Movimento::create()->id,
+            'area_id'      => Area::create()->id,
+            'user_id'      => User::create()->id,
+            'tipoconta_id' => TipoConta::create()->id,
+        ];
 
         Conta::create($conta1);
-        //Conta::create($conta2);
+        Conta::create($conta2);
 
-        conta::factory(10)->create();
+        Conta::factory(10)->create();
     }
 }

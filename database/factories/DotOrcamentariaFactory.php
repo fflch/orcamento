@@ -23,12 +23,12 @@ class DotOrcamentariaFactory extends Factory
     {
         $boleanos = ['1','0'];	
         return [
-            'dotacao' => $this->faker->numberBetween($min = 1000, $max = 9000),
-            'grupo'=> $this->faker->numberBetween($min = 1000, $max = 9000),
-            'descricaogrupo'=> $this->faker->sentence,
-            'item'=> $this->faker->numberBetween($min = 1000, $max = 9000),
-            'descricaoitem'=> $this->faker->sentence,
-            'receita' => $boleanos[array_rand($boleanos)],
+            'dotacao'        => $this->faker->numberBetween($min = 1000, $max = 9000),
+            'grupo'          => $this->faker->numberBetween($min = 1000, $max = 9000),
+            'descricaogrupo' => $this->faker->sentence,
+            'item'           => $this->faker->numberBetween($min = 1000, $max = 9000),
+            'descricaoitem'  => $this->faker->sentence,
+            'receita'        => $boleanos[array_rand($boleanos)],
         ];
     }
 }

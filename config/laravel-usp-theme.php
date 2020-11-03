@@ -32,5 +32,10 @@ return [
             'url' => '/contas',
             'can' => '',
         ],
+        [
+            'text' => 'Notas',
+            'url' => '/notas',
+            'can' => '',
+        ],
     ]
 ];

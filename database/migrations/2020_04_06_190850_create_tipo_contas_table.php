@@ -15,7 +15,7 @@ class CreateTipoContasTable extends Migration
     {
         Schema::create('tipo_contas', function (Blueprint $table) {
             $table->id();
-            $table->text('descricao')->default('Orçamento');
+            $table->text('descricao')->nullable();
             $table->boolean('cpfo')->nullable();
             $table->boolean('relatoriobalancete')->nullable();
             $table->timestamps();
