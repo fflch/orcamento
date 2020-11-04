@@ -26,4 +26,9 @@ class Conta extends Model
         return $this->belongsTo(TipoConta::class);
     }
 
+    public static function lista_contas(){
+        $lista_contas = Conta::all()->sortBy('nome');
+        return $lista_contas;
+    }
+
 }

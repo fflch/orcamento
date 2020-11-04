@@ -24,10 +24,14 @@ class ContaSeeder extends Seeder
             'email'        => 'aaa@usp.br',
             'numero'       => 1,
             'ativo'        => 1,
-            'movimento_id' => Movimento::create()->id,
+            'movimento_id' => Movimento::factory()->create()->id,
+            'tipoconta_id' => TipoConta::factory()->create()->id,
+            'area_id'      => Area::factory()->create()->id,
+            'user_id'      => User::factory()->create()->id,
+            /*'movimento_id' => Movimento::create()->id,
             'area_id'      => Area::create()->id,
             'user_id'      => User::create()->id,
-            'tipoconta_id' => TipoConta::create()->id,
+            'tipoconta_id' => TipoConta::create()->id,*/
         ];
 
         $conta2 = [
@@ -36,10 +40,14 @@ class ContaSeeder extends Seeder
             'email'        => 'bbb@usp.br',
             'numero'       => 2,
             'ativo'        => 0,
-            'movimento_id' => Movimento::create()->id,
+            'movimento_id' => Movimento::factory()->create()->id,
+            'tipoconta_id' => TipoConta::factory()->create()->id,
+            'area_id'      => Area::factory()->create()->id,
+            'user_id'      => User::factory()->create()->id,
+            /*'movimento_id' => Movimento::create()->id,
             'area_id'      => Area::create()->id,
             'user_id'      => User::create()->id,
-            'tipoconta_id' => TipoConta::create()->id,
+            'tipoconta_id' => TipoConta::create()->id,*/
         ];
 
         Conta::create($conta1);

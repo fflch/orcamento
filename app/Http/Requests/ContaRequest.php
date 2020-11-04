@@ -24,25 +24,25 @@ class ContaRequest extends FormRequest
     public function rules()
     {
         return [
-            'tipoconta_id'   => 'required',
-            'area_id'   => 'required',
-            'nome'   => 'required',
-            'email'  => 'required|email',
-            'numero' => 'required|integer',
-            'ativo'  => 'boolean',
+            'tipoconta_id' => 'required',
+            'area_id'      => 'required',
+            'nome'         => 'required',
+            'email'        => 'required|email',
+            'numero'       => 'required|integer',
+            'ativo'        => 'boolean',
         ];
     }
 
     public function messages(){
         return [
-            'tipoconta_id.required'   => 'Escolha o Tipo de Conta.',
-            'area_id.required'   => 'Escolha o Nome da Área.',
-            'nome.required'   => 'Digite o Nome da Conta.',
-            'email.required'  => 'Digite o E-mail da Conta.',
-            'email.email'  => 'Informe um endereço de E-mail válido.',
-            'numero.required' => 'Digite o Número da Conta.',
-            'nmumero.integer' => 'O Número deve ser um número inteiro.',
-            'ativo.boolean'   => 'O campo Ativo deve estar marcado ou desmarcado.',
+            'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
+            'area_id.required'      => 'Escolha o Nome da Área.',
+            'nome.required'         => 'Digite o Nome da Conta.',
+            'email.required'        => 'Digite o E-mail da Conta.',
+            'email.email'           => 'Informe um endereço de E-mail válido.',
+            'numero.required'       => 'Digite o Número da Conta.',
+            'nmumero.integer'       => 'O Número deve ser um número inteiro.',
+            'ativo.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }
 }

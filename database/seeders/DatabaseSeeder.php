@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             TipoContaSeeder::class,
             DotOrcamentariaSeeder::class,
             ContaSeeder::class,
+            LancamentoSeeder::class,
 	    ]);
     }
 }

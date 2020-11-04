@@ -26,7 +26,7 @@ class NotaRequest extends FormRequest
         return [
             'tipoconta_id' => 'required',
             'texto'        => 'required',
-            'tipo'         => 'required',
+            'tipo'         => ['required', 'in:Descrição,Observacao'],
         ];
     }
 
