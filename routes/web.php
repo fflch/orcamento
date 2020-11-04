@@ -8,11 +8,9 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DotOrcamentariaController;
 use App\Http\Controllers\ContaController;
 use App\Http\Controllers\NotaController;
-
+use App\Http\Controllers\LancamentoController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\selTipoContaController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +35,6 @@ Route::resource('areas', AreaController::class);
 Route::resource('dotorcamentarias', DotOrcamentariaController::class);
 Route::resource('contas', ContaController::class);
 Route::resource('notas', NotaController::class);
+Route::resource('lancamentos', LancamentoController::class);
 
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);

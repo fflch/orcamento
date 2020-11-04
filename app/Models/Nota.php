@@ -17,4 +17,18 @@ class Nota extends Model
     public function tipoconta(){
         return $this->belongsTo(TipoConta::class);
     }
+
+    public static function lista_descricoes(){
+        //$lista_descricoes = Nota::where('tipo','LIKE','%Descri%')->orderBy('texto');
+        $lista_descricoes = Nota::all()->sortBy('texto');
+
+        return $lista_descricoes;
+    }
+
+    public static function lista_observacoes(){
+        //$lista_observacoes = Nota::where('tipo','LIKE','%Observa%')->orderBy('texto');
+        $lista_observacoes = Nota::all()->sortBy('texto');
+
+        return $lista_observacoes;
+    }
 }

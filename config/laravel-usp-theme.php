@@ -37,5 +37,10 @@ return [
             'url' => '/notas',
             'can' => '',
         ],
+        [
+            'text' => 'Lançamentos',
+            'url' => '/lancamentos',
+            'can' => '',
+        ],
     ]
 ];

@@ -27,7 +27,8 @@ class ContaController extends Controller
             //$contas = Conta::paginate(5)->sortByDesc('nome');
             $contas = Conta::paginate(5);
         }
-        return view('contas.index')->with('contas', $contas);    }
+        return view('contas.index')->with('contas', $contas);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -114,7 +115,8 @@ class ContaController extends Controller
         $conta->update($validated);
         
         $request->session()->flash('alert-success', 'Conta alterada com sucesso!');
-        return redirect()->route('contas.index');    }
+        return redirect()->route('contas.index');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -125,5 +127,6 @@ class ContaController extends Controller
     public function destroy(Conta $conta, Request $request)
     {
         $conta->delete();
-        return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!!');    }
+        return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!');
+    }
 }
