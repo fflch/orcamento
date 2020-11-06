@@ -9,6 +9,7 @@ use App\Http\Controllers\DotOrcamentariaController;
 use App\Http\Controllers\ContaController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\LancamentoController;
+use App\Http\Controllers\FicOrcamentariaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\selTipoContaController;
 
@@ -36,5 +37,7 @@ Route::resource('dotorcamentarias', DotOrcamentariaController::class);
 Route::resource('contas', ContaController::class);
 Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
+Route::resource('ficorcamentarias', FicOrcamentariaController::class);
+
 
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);

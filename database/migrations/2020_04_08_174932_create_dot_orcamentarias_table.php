@@ -22,6 +22,8 @@ class CreateDotOrcamentariasTable extends Migration
             $table->string('descricaoitem', 100);
             $table->boolean('receita')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
