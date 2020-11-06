@@ -10,4 +10,9 @@ class DotOrcamentaria extends Model
     use HasFactory;
     protected $fillable = ['dotacao','grupo','descricaogrupo','item','descricaoitem','receita'];
 
+    public static function lista_dotorcamentarias(){
+        $lista_dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+        return $lista_dotorcamentarias;
+    }
+
 }

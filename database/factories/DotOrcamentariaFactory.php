@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\DotOrcamentaria;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 class DotOrcamentariaFactory extends Factory
 {
@@ -29,6 +30,8 @@ class DotOrcamentariaFactory extends Factory
             'item'           => $this->faker->numberBetween($min = 1000, $max = 9000),
             'descricaoitem'  => $this->faker->sentence,
             'receita'        => $boleanos[array_rand($boleanos)],
+            'user_id'        => User::factory()->create()->id,
+
         ];
     }
 }

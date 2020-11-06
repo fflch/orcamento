@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\DotOrcamentaria;
+use App\Models\User;
 
 class DotOrcamentariaSeeder extends Seeder
 {
@@ -21,6 +22,7 @@ class DotOrcamentariaSeeder extends Seeder
             'item'           => '0333012',
             'descricaoitem'  => 'Teste 123 456 ...',
             'receita'        => '1',
+            'user_id'        => User::factory()->create()->id,
         ];
 
         $dotorcamentaria2 = [
@@ -30,6 +32,7 @@ class DotOrcamentariaSeeder extends Seeder
             'item'           => '0333012',
             'descricaoitem'  => 'Teste 654 321 ...',
             'receita'        => '0',
+            'user_id'        => User::factory()->create()->id,
         ];
 
         DotOrcamentaria::create($dotorcamentaria1);

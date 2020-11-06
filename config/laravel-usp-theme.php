@@ -42,5 +42,10 @@ return [
             'url' => '/lancamentos',
             'can' => '',
         ],
+        [
+            'text' => 'Ficha Orçamentária',
+            'url' => '/ficorcamentarias',
+            'can' => '',
+        ],
     ]
 ];
