@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ContaSeeder::class,
             LancamentoSeeder::class,
             FicOrcamentariaSeeder::class,
+            ContaUsuarioSeeder::class,
 	    ]);
     }
 }

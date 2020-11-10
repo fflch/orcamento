@@ -37,4 +37,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function lista_usuarios(){
+        $lista_usuarios = User::all()->sortBy('name');
+        return $lista_usuarios;
+    }
 }
