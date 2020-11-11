@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Movimento;
+use App\Models\User;
 
 class MovimentoSeeder extends Seeder
 {
@@ -15,22 +16,22 @@ class MovimentoSeeder extends Seeder
     public function run()
     {
         $movimento1 = [
-            'id'        => 1001,
             'ano'       => '2020',
             'concluido' => '1', 
             'ativo'     => '1',
+            'user_id'   => User::factory()->create()->id,
         ];
 
         $movimento2 = [
-            'id'        => 1002,
             'ano'       => '2021',
             'concluido' => '1', 
             'ativo'     => '1',
+            'user_id'   => User::factory()->create()->id,
         ];
 
         Movimento::create($movimento1);
         Movimento::create($movimento2);
 
-        Movimento::factory(10)->create();
+        Movimento::factory(5)->create();
     }
 }

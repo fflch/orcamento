@@ -1,13 +1,12 @@
 <?php
 
 namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\FicOrcamentaria;
 use App\Models\Movimento;
 use App\Models\DotOrcamentaria;
 use App\Models\User;
-
-
-use App\Models\FicOrcamentaria;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FicOrcamentariaFactory extends Factory
 {
@@ -27,12 +26,12 @@ class FicOrcamentariaFactory extends Factory
     {
         $valores = [1.00, 999.99];
         return [
-            'id'           => $this->faker->numberBetween($min = 1010, $max = 9000),
             'data'         => $this->faker->date,
             'empenho'      => $this->faker->numberBetween($min = 1111111, $max = 9999999),
             'descricao'    => $this->faker->sentence,
             'debito'       => $valores[array_rand($valores)],
             'credito'      => $valores[array_rand($valores)],
+            'saldo'        => '0.00',
             'observacao'   => $this->faker->sentence,
             'movimento_id' => Movimento::factory()->create()->id,
             'dotacao_id'   => DotOrcamentaria::factory()->create()->id,

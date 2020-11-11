@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Area;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Model;
-use Faker\Generator as Faker;
+use App\Models\Area;
+use App\Models\User;
 
 class AreaFactory extends Factory
 {
@@ -24,7 +23,8 @@ class AreaFactory extends Factory
     public function definition()
     {
         return [
-            'nome' => $this->faker->name,
+            'nome'    => $this->faker->name,
+            'user_id' => User::factory()->create()->id,
         ];
     }
 }

@@ -2,13 +2,11 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Conta;
-use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Area;
 use App\Models\User;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ContaFactory extends Factory
 {
@@ -33,7 +31,6 @@ class ContaFactory extends Factory
             'email'        => $this->faker->email,
             'numero'       => $this->faker->numberBetween($min = 2030, $max = 2999),
             'ativo'        => $boleanos[array_rand($boleanos)],
-            'movimento_id' => Movimento::factory()->create()->id,
             'tipoconta_id' => TipoConta::factory()->create()->id,
             'area_id'      => Area::factory()->create()->id,
             'user_id'      => User::factory()->create()->id,

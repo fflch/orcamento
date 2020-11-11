@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\TipoConta;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\TipoConta;
+use App\Models\User;
 
 class TipoContaFactory extends Factory
 {
@@ -26,6 +27,7 @@ class TipoContaFactory extends Factory
             'descricao'          => $this->faker->name,
             'cpfo'               => $boleanos[array_rand($boleanos)], 
             'relatoriobalancete' => $boleanos[array_rand($boleanos)],
+            'user_id'            => User::factory()->create()->id,
         ];
     }
 }

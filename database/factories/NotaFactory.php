@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Nota;
 use App\Models\TipoConta;
 use App\Models\User;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NotaFactory extends Factory
 {
@@ -26,7 +25,6 @@ class NotaFactory extends Factory
     {
         $tipos = ['Descrição','Observação'];	
         return [
-            'id'           => $this->faker->numberBetween($min = 1010, $max = 9000),
             'texto'        => $this->faker->name,
             'tipo'         => $tipos[array_rand($tipos)],
             'tipoconta_id' => TipoConta::factory()->create()->id,

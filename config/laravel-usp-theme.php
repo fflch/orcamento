@@ -15,8 +15,8 @@ $administracao = [
 */
 return [
     'title'=> env('APP_NAME'),
-    'dashboard_url' => '/movimentos',
-    'logout_method' => 'POST',
+    'dashboard_url' => '/',
+    'logout_method' => 'post',
     'logout_url' => '/logout',
     'login_url' => '/login',
     'menu' => [

@@ -15,9 +15,11 @@ class CreateTipoContasTable extends Migration
     {
         Schema::create('tipo_contas', function (Blueprint $table) {
             $table->id();
-            $table->text('descricao')->nullable();
-            $table->boolean('cpfo')->nullable();
-            $table->boolean('relatoriobalancete')->nullable();
+            $table->text('descricao');
+            $table->boolean('cpfo');
+            $table->boolean('relatoriobalancete');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }

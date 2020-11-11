@@ -29,7 +29,7 @@ Route::get('/', [IndexController::class, 'index'])->name('home');
 
 Route::get('login', [LoginController::class, 'redirectToProvider']);
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout']);
 
 Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
