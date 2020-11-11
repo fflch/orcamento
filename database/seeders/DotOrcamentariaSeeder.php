@@ -38,6 +38,6 @@ class DotOrcamentariaSeeder extends Seeder
         DotOrcamentaria::create($dotorcamentaria1);
         DotOrcamentaria::create($dotorcamentaria2);
 
-        DotOrcamentaria::factory(10)->create();
+        DotOrcamentaria::factory(5)->create();
     }
 }

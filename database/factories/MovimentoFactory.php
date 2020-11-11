@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Movimento;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Model;
-use Faker\Generator as Faker;
+use App\Models\Movimento;
+use App\Models\User;
 
 class MovimentoFactory extends Factory
 {
@@ -25,10 +24,10 @@ class MovimentoFactory extends Factory
     {
         $boleanos = ['1','0'];	
         return [
-            'id'        => $this->faker->numberBetween($min = 1010, $max = 9000),
-            'ano'       => $this->faker->numberBetween($min = 2030, $max = 2999),
+            'ano'       => $this->faker->numberBetween($min = 2030, $max = 2099),
             'concluido' => $boleanos[array_rand($boleanos)], 
             'ativo'     => $boleanos[array_rand($boleanos)],
+            'user_id'   => User::factory()->create()->id,
         ];
     }
 }

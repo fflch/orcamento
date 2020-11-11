@@ -15,21 +15,25 @@ class CreateLancamentosTable extends Migration
     {
         Schema::create('lancamentos', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('movimento_id')->nullable();
+            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('set null');
+            $table->unsignedBigInteger('ficorcamentaria_id')->nullable();
+            $table->foreign('ficorcamentaria_id')->references('id')->on('fic_orcamentarias')->onDelete('set null');
+            $table->unsignedBigInteger('conta_id')->nullable();
+            $table->foreign('conta_id')->references('id')->on('contas')->onDelete('set null');
             $table->string('grupo', 4);
             $table->boolean('receita')->nullable();
             $table->date('data');
             $table->integer('empenho');
-            $table->string('descricao', 100);
+            $table->string('descricao', 150);
             $table->double('debito', 15, 2);
             $table->double('credito', 15, 2);
-            $table->string('observacao', 100);
+            $table->double('saldo', 15, 2);
+            $table->boolean('estornado')->nullable();
+            $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->unsignedBigInteger('movimento_id')->nullable();
-            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('set null');
-            $table->unsignedBigInteger('conta_id')->nullable();
-            $table->foreign('conta_id')->references('id')->on('contas')->onDelete('set null');
+            $table->timestamps();
         });
     }
 

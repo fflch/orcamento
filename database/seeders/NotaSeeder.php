@@ -17,27 +17,21 @@ class NotaSeeder extends Seeder
     public function run()
     {
         $nota1 = [
-            'id'           => 1001,
             'texto'        => 'Suplementação de Cursos',
             'tipo'         => 'Descrição',
             'tipoconta_id' => TipoConta::factory()->create()->id,
             'user_id'      => User::factory()->create()->id,
-            //'tipoconta_id' => TipoConta::create()->id,
-            //'user_id'      => User::create()->id,
         ];
         $nota2 = [
-            'id'           => 1002,
             'texto'        => 'Referente JAN/',
             'tipo'         => 'Observação',
             'tipoconta_id' => TipoConta::factory()->create()->id,
             'user_id'      => User::factory()->create()->id,
-            //'tipoconta_id' => TipoConta::create()->id,
-            //'user_id'      => User::create()->id,
         ];
 
         Nota::create($nota1);
         Nota::create($nota2);
 
-        Nota::factory(10)->create();
+        Nota::factory(5)->create();
     }
 }

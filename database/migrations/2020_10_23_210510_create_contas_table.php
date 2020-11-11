@@ -15,19 +15,17 @@ class CreateContasTable extends Migration
     {
         Schema::create('contas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome', 100);
-            $table->string('email');
-            $table->integer('numero');
-            $table->boolean('ativo');
-            $table->timestamps();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->unsignedBigInteger('movimento_id')->nullable();
-            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('set null');
             $table->unsignedBigInteger('tipoconta_id')->nullable();
             $table->foreign('tipoconta_id')->references('id')->on('tipo_contas')->onDelete('set null');
             $table->unsignedBigInteger('area_id')->nullable();
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('set null');
+            $table->string('nome', 150);
+            $table->string('email');
+            $table->integer('numero');
+            $table->boolean('ativo');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->timestamps();
         });
     }
 
