@@ -35,8 +35,9 @@ class NotaController extends Controller
     public function create()
     {
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
-
-        return view('notas.create', compact('lista_tipos_contas'));
+        $lista_tipos = Nota::lista_tipos();
+        //dd($lista_tipos);
+        return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
     }
 
     /**
@@ -81,8 +82,9 @@ class NotaController extends Controller
     public function edit(Nota $nota)
     {
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
+        $lista_tipos = Nota::lista_tipos();
 
-        return view('notas.edit', compact('nota','lista_tipos_contas'));
+        return view('notas.edit', compact('nota','lista_tipos_contas','lista_tipos'));
     }
 
     /**

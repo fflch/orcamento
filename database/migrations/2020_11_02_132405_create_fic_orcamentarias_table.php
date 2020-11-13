@@ -22,9 +22,9 @@ class CreateFicOrcamentariasTable extends Migration
             $table->date('data');
             $table->integer('empenho');
             $table->string('descricao', 150);
-            $table->double('debito', 15, 2);
-            $table->double('credito', 15, 2);
-            $table->double('saldo', 15, 2);
+            $table->float('debito', 15, 2);
+            $table->float('credito', 15, 2);
+            $table->float('saldo', 15, 2);
             $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

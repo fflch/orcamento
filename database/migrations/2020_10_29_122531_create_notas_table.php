@@ -17,8 +17,8 @@ class CreateNotasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('tipoconta_id')->nullable();
             $table->foreign('tipoconta_id')->references('id')->on('tipo_contas')->onDelete('set null');
-            //$table->string('tipo');
-            $table->enum('tipo', ['Descrição', 'Observação'])->default('Descrição');
+            $table->string('tipo');
+            //$table->enum('tipo', ['Descrição', 'Observação'])->default('Descrição');
             $table->string('texto',150);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
