@@ -6,20 +6,27 @@
         @foreach($lista_tipos_contas as $lista_tipo_conta)
             <option value="{{ $lista_tipo_conta->id }}">{{ $lista_tipo_conta->descricao }}</option>
         @endforeach
-
 </select>
 </div>
 <div class="form-group">
     <label for="texto">Texto</label>
     <input type="text" class="form-control" name="texto" value="{{ $nota->texto ?? old('texto') }}" placeholder="Ex: Suplementação">
 </div>
+
 <div class="form-group">
     <label for="Tipo">Tipo</label>
     <select class="form-control" name="tipo" >
         <option value="{{ $nota->tipo ?? old('tipo') }}">{{ $nota->tipo ?? old('tipo') }}</option>
         <option value=null>----------</option>
-        <option value='Descrição'>Descrição</option>
-        <option value='Observação'>Observação</option>
+
+    @foreach($lista_tipos as $lista_tipo)
+    @if( old('tipo') == '')
+        <option value='{{ $lista_tipo }}' {{ ($nota->tipo == $lista_tipo) ? 'selected':'' }}>{{ $lista_tipo }}</option>
+    @else
+        <option value='{{ $lista_tipo }}' {{ (old('tipo') == $lista_tipo) ? 'selected':'' }}>{{ $lista_tipo }}</option>
+    @endif
+    @endforeach
+
     </select>
 </div>
 

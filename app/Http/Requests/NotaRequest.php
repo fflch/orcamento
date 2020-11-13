@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Nota;
 
 class NotaRequest extends FormRequest
 {
@@ -26,7 +28,7 @@ class NotaRequest extends FormRequest
         return [
             'tipoconta_id' => 'required',
             'texto'        => 'required',
-            'tipo'         => ['required', 'in:Descrição,Observacao'],
+            'tipo'         => ['required', Rule::in(Nota::lista_tipos())],
         ];
     }
 
@@ -35,6 +37,7 @@ class NotaRequest extends FormRequest
             'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
             'texto.required'        => 'Digite o Texto da Nota.',
             'tipo.required'         => 'Escolha o tipo da Nota.',
+            'tipo.in'               => 'Escolha uma das opções diponíveis.',
         ];
     }
 }

@@ -23,7 +23,7 @@ class NotaFactory extends Factory
      */
     public function definition()
     {
-        $tipos = ['Descrição','Observação'];	
+        $tipos = Nota::lista_tipos();	
         return [
             'texto'        => $this->faker->name,
             'tipo'         => $tipos[array_rand($tipos)],

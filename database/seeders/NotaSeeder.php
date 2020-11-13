@@ -16,15 +16,16 @@ class NotaSeeder extends Seeder
      */
     public function run()
     {
+        $tipos = Nota::lista_tipos();	
         $nota1 = [
             'texto'        => 'Suplementação de Cursos',
-            'tipo'         => 'Descrição',
+            'tipo'         => $tipos[array_rand($tipos)],
             'tipoconta_id' => TipoConta::factory()->create()->id,
             'user_id'      => User::factory()->create()->id,
         ];
         $nota2 = [
             'texto'        => 'Referente JAN/',
-            'tipo'         => 'Observação',
+            'tipo'         => $tipos[array_rand($tipos)],
             'tipoconta_id' => TipoConta::factory()->create()->id,
             'user_id'      => User::factory()->create()->id,
         ];
