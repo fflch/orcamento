@@ -22,11 +22,11 @@ class FicOrcamentariaController extends Controller
     {
         if($request->busca != null){
             //$ficorcamentarias = FicOrcamentaria::paginate(5)->sortByDesc('nome');
-            $ficorcamentarias = FicOrcamentaria::where('descricao','LIKE','%'.$request->busca.'%')->paginate(5);
+            $ficorcamentarias = FicOrcamentaria::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
         }
         else{
             //$ficorcamentarias = FicOrcamentaria::paginate(5)->sortByDesc('nome');
-            $ficorcamentarias = FicOrcamentaria::paginate(5);
+            $ficorcamentarias = FicOrcamentaria::paginate(10);
         }
         return view('ficorcamentarias.index')->with('ficorcamentarias', $ficorcamentarias);
     }

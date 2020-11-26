@@ -17,15 +17,15 @@ class MovimentoSeeder extends Seeder
     {
         $movimento1 = [
             'ano'       => '2020',
-            'concluido' => '1', 
-            'ativo'     => '1',
+            'concluido' => TRUE, 
+            'ativo'     => FALSE,
             'user_id'   => User::factory()->create()->id,
         ];
 
         $movimento2 = [
             'ano'       => '2021',
-            'concluido' => '1', 
-            'ativo'     => '1',
+            'concluido' => FALSE,
+            'ativo'     => TRUE,
             'user_id'   => User::factory()->create()->id,
         ];
 

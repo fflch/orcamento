@@ -8,17 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Conta extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome','email', 'numero', 'ativo'];
+    protected $fillable = ['tipoconta_id','area_id','nome','email','numero','ativo','user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function movimento(){
-        return $this->belongsTo(Movimento::class);
-    }
-
-    public function area(){
+        public function area(){
         return $this->belongsTo(Area::class);
     }
 

@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Lancamento;
 use App\Models\Movimento;
-
 use App\Models\Conta;
 use App\Models\Nota;
-
-
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
-
 
 class LancamentoController extends Controller
 {
@@ -24,11 +20,11 @@ class LancamentoController extends Controller
     {
         if($request->busca != null){
             //$lancamentos = Lancamento::paginate(5)->sortByDesc('nome');
-            $lancamentos = Lancamento::where('nome','=',$request->busca)->paginate(5);
+            $lancamentos = Lancamento::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
         }
         else{
             //$lancamentos = Lancamento::paginate(5)->sortByDesc('nome');
-            $lancamentos = Lancamento::paginate(5);
+            $lancamentos = Lancamento::paginate(10);
         }
         return view('lancamentos.index')->with('lancamentos', $lancamentos);
     }
@@ -44,8 +40,6 @@ class LancamentoController extends Controller
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
 
-        //dd($lista_descricoes);
-
         return view('lancamentos.create', compact('lista_contas','lista_descricoes','lista_observacoes'));
     }
 
@@ -57,16 +51,11 @@ class LancamentoController extends Controller
      */
     public function store(LancamentoRequest $request)
     {
-        //dd($request->observacao);
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
-
-        //$lancamento->conta_id = $request->conta_id;
         $validated['conta_id'] = $request->conta_id;
-        //dd($validated);
-
         Lancamento::create($validated);
 
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
@@ -110,13 +99,9 @@ class LancamentoController extends Controller
     {
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
-        //dd(auth()->user()->id);
-        $validated['user_id'] = auth()->user()->id;
-        //dd($validated);
-
         $lancamento->movimento_id = $movimento_ativo->id;
         $lancamento->conta_id = $request->conta_id;
-
+        $validated['user_id'] = auth()->user()->id;
         $lancamento->update($validated);
         
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');

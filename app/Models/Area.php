@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Area extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome','user_id'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     public static function lista_areas(){
         $lista_areas = Area::all()->sortBy('nome');

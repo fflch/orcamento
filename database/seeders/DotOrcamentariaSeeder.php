@@ -21,7 +21,7 @@ class DotOrcamentariaSeeder extends Seeder
             'descricaogrupo' => 'Teste 123 456 ...',
             'item'           => '0333012',
             'descricaoitem'  => 'Teste 123 456 ...',
-            'receita'        => '1',
+            'receita'        => TRUE,
             'user_id'        => User::factory()->create()->id,
         ];
 
@@ -31,7 +31,7 @@ class DotOrcamentariaSeeder extends Seeder
             'descricaogrupo' => 'Teste 654 321 ...',
             'item'           => '0333012',
             'descricaoitem'  => 'Teste 654 321 ...',
-            'receita'        => '0',
+            'receita'        => FALSE,
             'user_id'        => User::factory()->create()->id,
         ];
 

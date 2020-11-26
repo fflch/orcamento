@@ -17,6 +17,7 @@
 <div class="card">
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><b>Nome</b>: {{ $area->nome }}</li>
+        <li class="list-group-item"><b>Cadastrado/Alterado por</b>: {{ $area->user->name ?? '' }}</li>
     </ul>
 </div>
 

@@ -26,6 +26,7 @@
                       X
                     @endif 
         <b> Ativo</b></li>
+        <li class="list-group-item"><b>Cadastrado/Alterado por</b>: {{ $movimento->user->name ?? '' }}</li>
     </ul>
 </div>
 

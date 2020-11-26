@@ -14,20 +14,18 @@
     Adicionar Conta x Usuário
 </a></p>
 </label>
-
 <label>
 <form method="get" action="/contausuarios">
   <div class="row">
     <div class=" col-sm input-group">
       <input size="80%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Nome">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-success"> Buscar </button>
+        <button type="submit" class="btn btn-success">Buscar</button>
       </span>
     </div>
   </div>
 </form>
 </label>
-
 </div>
 
 <div class="table-responsive">

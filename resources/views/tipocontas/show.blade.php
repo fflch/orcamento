@@ -27,6 +27,7 @@
                       X
                     @endif 
         <b> Deve constar no relatório Balancete</b></li>
+        <li class="list-group-item"><b>Cadastrado/Alterado por</b>: {{ $tipoconta->user->name ?? '' }}</li>
     </ul>
 </div>
 
