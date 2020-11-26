@@ -18,11 +18,11 @@ class TipoContaController extends Controller
         //dd($request->busca);
         if($request->busca != null){
             //$tipocontas = TipoConta::all()->sortBy('descricao');
-            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(5);
+            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(10);
         }
         else{
             //$tipocontas = TipoConta::all()->sortBy('descricao');
-            $tipocontas = TipoConta::paginate(5);
+            $tipocontas = TipoConta::paginate(10);
         }        
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }
@@ -45,11 +45,27 @@ class TipoContaController extends Controller
      */
     public function store(TipoContaRequest $request)
     {
+        /*SEM TipoContaRequest
+        if($request->cpfo != 1)
+            $request->cpfo = 0;
+
+        if($request->relatoriobalancete != 1)
+            $request->relatoriobalancete = 0;
+
+        $tipoconta = new TipoConta;
+        $tipoconta->descricao = $request->descricao;
+        $tipoconta->cpfo = $request->cpfo;
+        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
+        $tipoconta->user_id = \Auth::user()->id;
+        $tipoconta->save();*/
+                
+        /*COM TipoContaRequest*/
         $validated = $request->validated();
+        $validated['cpfo'] = $request->cpfo;
+        $validated['relatoriobalancete'] = $request->relatoriobalancete;
+        $validated['user_id'] = \Auth::user()->id;
         TipoConta::create($validated);
        
-        //$tipoconta->user_id = \Auth::user()->id;
-
         $request->session()->flash('alert-success', 'Tipo de Conta cadastrado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
@@ -85,11 +101,27 @@ class TipoContaController extends Controller
      */
     public function update(TipoContaRequest $request, TipoConta $tipoconta)
     {
+        /*SEM TipoContaRequest
+        if($request->cpfo != 1)
+            $request->cpfo = 0;
+
+        if($request->relatoriobalancete != 1)
+            $request->relatoriobalancete = 0;
+
+        $tipoconta->descricao = $request->descricao;
+        $tipoconta->cpfo = $request->cpfo;
+        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
+        $tipoconta->user_id = \Auth::user()->id;
+        $tipoconta->save();*/
+
+
+        /*COM TipoContaRequest*/
         $validated = $request->validated();
+        $validated['cpfo'] = $request->cpfo;
+        $validated['relatoriobalancete'] = $request->relatoriobalancete;
+        $validated['user_id'] = \Auth::user()->id;
         $tipoconta->update($validated);
         
-        //$tipoconta->user_id = \Auth::user()->id;
-
         $request->session()->flash('alert-success', 'Tipo de Conta alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }

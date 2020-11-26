@@ -4,15 +4,19 @@
 </div>
 
 <div class="form-group">
-    <label class="checkbox-inline"><input type="checkbox" name="concluido" value="1"
+    <label class="checkbox-inline">
+    <input type="checkbox" name="concluido" value="1"
         @if (isset($movimento->id) and ($movimento->concluido === 1))
-                checked
+             checked
+        @else
+            value="0"
         @endif >
         <label for="concluido"> Concluído</label></label>
 </div>
 
 <div class="form-group">
-    <label class="checkbox-inline"><input type="checkbox" name="ativo" value="1" 
+    <label class="checkbox-inline">
+    <input type="checkbox" name="ativo" value="1" 
         @if (isset($movimento->id) and ($movimento->ativo === 1))
              checked
         @endif >

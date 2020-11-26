@@ -21,11 +21,11 @@ class ContaController extends Controller
     {
         if($request->busca != null){
             //$contas = Conta::paginate(5)->sortByDesc('nome');
-            $contas = Conta::where('nome','=',$request->busca)->paginate(5);
+            $contas = Conta::where('nome','=',$request->busca)->paginate(10);
         }
         else{
             //$contas = Conta::paginate(5)->sortByDesc('nome');
-            $contas = Conta::paginate(5);
+            $contas = Conta::paginate(10);
         }
         return view('contas.index')->with('contas', $contas);
     }
@@ -51,16 +51,18 @@ class ContaController extends Controller
      */
     public function store(ContaRequest $request)
     {
-        $movimento_ativo = Movimento::movimento_ativo();
+        //$movimento_ativo = Movimento::movimento_ativo();
+
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = $movimento_ativo->id;
+        $validated['tipoconta_id'] = $request->tipoconta_id;
+        $validated['area_id']= $request->area_id;
+        $validated['ativo'] = $request->ativo;
+        $validated['user_id'] = \Auth::user()->id;
+
+        //$validated['movimento_id'] = $movimento_ativo->id;
 
         //$conta->tipoconta_id = $request->tipoconta_id;
-        $validated['tipoconta_id'] = $request->tipoconta_id;
         //$conta->area_id = $request->area_id;
-        $validated['area_id']= $request->area_id;
-        //dd($validated);
 
         Conta::create($validated);
 
@@ -102,15 +104,16 @@ class ContaController extends Controller
      */
     public function update(ContaRequest $request, Conta $conta)
     {
-        $movimento_ativo = Movimento::movimento_ativo();
+        //$movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
-        //dd(auth()->user()->id);
-        $validated['user_id'] = auth()->user()->id;
-        //dd($validated);
+        $validated['tipoconta_id'] = $request->tipoconta_id;
+        $validated['area_id']= $request->area_id;
+        $validated['ativo'] = $request->ativo;
+        $validated['user_id'] = \Auth::user()->id;
 
-        $conta->movimento_id = $movimento_ativo->id;
-        $conta->tipoconta_id = $request->tipoconta_id;
-        $conta->area_id = $request->area_id;
+        //$conta->movimento_id = $movimento_ativo->id;
+        //$conta->tipoconta_id = $request->tipoconta_id;
+        //$conta->area_id = $request->area_id;
 
         $conta->update($validated);
         

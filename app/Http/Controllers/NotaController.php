@@ -18,11 +18,11 @@ class NotaController extends Controller
     {
        if($request->busca != null){
         //$notas = Nota::paginate(5)->sortByDesc('texto');
-        $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->paginate(5);
+        $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->paginate(10);
     }
         else{
             //$notas = Nota::paginate(5)->sortByDesc('texto');
-            $notas = Nota::paginate(5);
+            $notas = Nota::paginate(10);
         }
         return view('notas.index')->with('notas', $notas);
     }

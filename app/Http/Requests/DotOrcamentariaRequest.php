@@ -40,8 +40,6 @@ class DotOrcamentariaRequest extends FormRequest
             'descricaogrupo.required' => 'Digite a Descrição do Grupo.',
             'item.required'           => 'Digite o Item.',
             'descricaoitem.required'  => 'Digite a Descrição do Item.',
-
-
         ];
     }
 }

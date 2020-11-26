@@ -18,11 +18,11 @@ class DotOrcamentariaController extends Controller
         //dd($request->busca);
         if($request->busca != null){
             //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
-            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->paginate(5);
+            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->paginate(10);
         }
         else{
             //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
-            $dotorcamentarias = DotOrcamentaria::paginate(5);
+            $dotorcamentarias = DotOrcamentaria::paginate(10);
         }       
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
@@ -46,10 +46,10 @@ class DotOrcamentariaController extends Controller
     public function store(DotOrcamentariaRequest $request)
     {
         $validated = $request->validated();
+        $validated['receita'] = $request->receita;
+        $validated['user_id'] = \Auth::user()->id;
         DotOrcamentaria::create($validated);
   
-        //$dotorcamentaria->user_id = \Auth::user()->id;
-
         $request->session()->flash('alert-success', 'Dotação Orçamentária cadastrada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
@@ -86,10 +86,10 @@ class DotOrcamentariaController extends Controller
     public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria)
     {
         $validated = $request->validated();
+        $validated['receita'] = $request->receita;
+        $validated['user_id'] = \Auth::user()->id;
         $dotorcamentaria->update($validated);
         
-        //$dotorcamentaria->user_id = \Auth::user()->id;
-
         $request->session()->flash('alert-success', 'Dotação Orçamentária alterada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }

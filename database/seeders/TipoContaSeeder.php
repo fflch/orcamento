@@ -17,15 +17,15 @@ class TipoContaSeeder extends Seeder
     {
         $tipoconta1 = [
             'descricao'          => 'Orçamento',
-            'cpfo'               => '1', 
-            'relatoriobalancete' => '0',
+            'cpfo'               => TRUE, 
+            'relatoriobalancete' => FALSE,
             'user_id'            => User::factory()->create()->id,
         ];
 
         $tipoconta2 = [
             'descricao'          => 'Renda Industrial',
-            'cpfo'               => '0', 
-            'relatoriobalancete' => '1',
+            'cpfo'               => FALSE, 
+            'relatoriobalancete' => TRUE,
             'user_id'            => User::factory()->create()->id,
         ];
 

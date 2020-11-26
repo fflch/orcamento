@@ -26,7 +26,7 @@
                       X
                     @endif 
          <b> Receita</b></li>
-        
+         <li class="list-group-item"><b>Cadastrado/Alterado por</b>: {{ $dotorcamentaria->user->name ?? '' }}</li>
     </ul>
 </div>
 

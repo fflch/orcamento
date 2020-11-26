@@ -22,7 +22,7 @@ class CreateContasTable extends Migration
             $table->string('nome', 150);
             $table->string('email');
             $table->integer('numero');
-            $table->boolean('ativo');
+            $table->boolean('ativo')->nullable()->default(FALSE);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();

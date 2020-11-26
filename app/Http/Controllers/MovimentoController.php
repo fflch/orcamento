@@ -18,11 +18,11 @@ class MovimentoController extends Controller
         //dd($request->busca);
         if($request->busca != null){
             //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
-            $movimentos = Movimento::where('ano','=',$request->busca)->paginate(5);
+            $movimentos = Movimento::where('ano','=',$request->busca)->paginate(10);
         }
         else{
             //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
-            $movimentos = Movimento::paginate(5);
+            $movimentos = Movimento::paginate(10);
         }
         return view('movimentos.index')->with('movimentos', $movimentos);
     }
@@ -45,10 +45,26 @@ class MovimentoController extends Controller
      */
     public function store(MovimentoRequest $request)
     {
-        $validated = $request->validated();
-        Movimento::create($validated);
+        /*SEM MovimentoRequest
+        if($request->concluido != 1)
+            $request->concluido = 0;
+
+        if($request->ativo != 1)
+            $request->ativo = 0;
+
+        $movimento = new Movimento;
+        $movimento->ano = $request->ano;
+        $movimento->concluido = $request->concluido;
+        $movimento->ativo = $request->ativo;
+        $movimento->user_id = \Auth::user()->id;
+        $movimento->save();*/
         
-        //$movimento->user_id = \Auth::user()->id;
+        /*COM MovimentoRequest*/
+        $validated = $request->validated();
+        $validated['concluido'] =  $request->concluido;
+        $validated['ativo'] = $request->ativo;
+        $validated['user_id'] = \Auth::user()->id;
+        Movimento::create($validated);
 
         $request->session()->flash('alert-success', 'Movimento cadastrado com sucesso!');
         return redirect()->route('movimentos.index');
@@ -85,10 +101,25 @@ class MovimentoController extends Controller
      */
     public function update(MovimentoRequest $request, Movimento $movimento)
     {
+        /*SEM MovimentoRequest
+        if($request->concluido != 1)
+            $request->concluido = 0;
+
+        if($request->ativo != 1)
+            $request->ativo = 0;
+
+        $movimento->ano = $request->ano;
+        $movimento->concluido = $request->concluido;
+        $movimento->ativo = $request->ativo;
+        $movimento->user_id = \Auth::user()->id;
+        $movimento->save();*/
+
+        /*COM MovimentoRequest*/
         $validated = $request->validated();
+        $validated['concluido'] =  $request->concluido;
+        $validated['ativo'] = $request->ativo;
+        $movimento->user_id = \Auth::user()->id;
         $movimento->update($validated);
-        
-        //$movimento->user_id = \Auth::user()->id;
 
         $request->session()->flash('alert-success', 'Movimento alterado com sucesso!');
         return redirect()->route('movimentos.index');

@@ -20,7 +20,7 @@ class LancamentoSeeder extends Seeder
     {
         $lancamento1 = [
             'grupo'              => '080',
-            'receita'            => 1,
+            'receita'            => TRUE,
             'data'               => '2020-01-01',
             'empenho'            => 1234567,
             'descricao'          => 'Suplementação de cursos',
@@ -36,7 +36,7 @@ class LancamentoSeeder extends Seeder
 
         $lancamento2 = [
             'grupo'              => '857',
-            'receita'            => 0,
+            'receita'            => FALSE,
             'data'               => '2020-12-01',
             'empenho'            => 7654321,
             'descricao'          => 'Despesas com Almoxarifado',

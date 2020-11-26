@@ -14,7 +14,6 @@
     Adicionar Conta
 </a></p>
 </label>
-
 <label>
 <form method="get" action="/contas">
   <div class="row">
@@ -27,7 +26,6 @@
   </div>
 </form>
 </label>
-
 </div>
 
 <div class="table-responsive">
@@ -63,7 +61,7 @@
                     <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}" >
                         @csrf
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o registro?');">Deletar</button>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
                     </form>
                 </td>
             </tr>

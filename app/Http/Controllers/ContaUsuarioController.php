@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContaUsuario;
-use App\Models\Conta;
-use App\Models\User;
+//use App\Models\Conta;
+//use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContaUsuarioRequest;
 
@@ -20,11 +20,11 @@ class ContaUsuarioController extends Controller
     {
         if($request->busca != null){
             //$contausuarios = ContaUsuario::paginate(5)->sortByDesc('nome');
-            $contausuarios = ContaUsuario::where('id_usuario','=',$request->busca)->paginate(5);
+            $contausuarios = ContaUsuario::where('id_usuario','=',$request->busca)->paginate(10);
         }
         else{
             //$contausuarios = ContaUsuario::paginate(5)->sortByDesc('nome');
-            $contausuarios = ContaUsuario::paginate(5);
+            $contausuarios = ContaUsuario::paginate(10);
         }
         return view('contausuarios.index')->with('contausuarios', $contausuarios);
     }
@@ -39,8 +39,6 @@ class ContaUsuarioController extends Controller
         $lista_contas = Conta::lista_contas();
         $lista_usuarios = User::lista_usuarios();
 
-        //dd($lista_descricoes);
-
         return view('contausuarios.create', compact('lista_contas','lista_usuarios'));
     }
 
@@ -53,14 +51,9 @@ class ContaUsuarioController extends Controller
     public function store(ContaUsuarioRequest $request)
     {
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
-
-        //$contausuario->conta_id = $request->conta_id;
         $validated['id_conta'] = $request->id_conta;
-        //$contausuario->id_usuario = $request->id_usuario;
         $validated['id_usuario'] = $request->id_usuario;
-        //dd($validated);
-
+        $validated['user_id'] = \Auth::user()->id;
         ContaUsuario::create($validated);
 
         $request->session()->flash('alert-success', 'Conta x Usuário cadastrada com sucesso!');
@@ -102,16 +95,9 @@ class ContaUsuarioController extends Controller
     public function update(ContaUsuarioRequest $request, ContaUsuario $contausuario)
     {
         $validated = $request->validated();
-        //dd(auth()->user()->id);
-        $validated['user_id'] = auth()->user()->id;
-        //dd($validated);
-
         $contausuario->id_conta = $request->id_conta;
         $contausuario->id_usuario = $request->id_usuario;
-        $contausuario->user_id = auth()->user()->id;
-
-
-
+        $validated['user_id'] = \Auth::user()->id;
         $contausuario->update($validated);
         
         $request->session()->flash('alert-success', 'Conta x Usuário alterada com sucesso!');

@@ -15,7 +15,6 @@
 
 <div class="card">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>Movimento</b>: {{ $conta->movimento->ano ?? ''}}</li>
         <li class="list-group-item"><b>Tipo de Conta</b>: {{ $conta->tipoconta->descricao ?? '' }}</li>
         <li class="list-group-item"><b>Área</b>: {{ $conta->area->nome ?? '' }}</li>
 

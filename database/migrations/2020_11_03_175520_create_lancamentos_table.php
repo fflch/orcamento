@@ -22,14 +22,14 @@ class CreateLancamentosTable extends Migration
             $table->unsignedBigInteger('conta_id')->nullable();
             $table->foreign('conta_id')->references('id')->on('contas')->onDelete('set null');
             $table->string('grupo', 4);
-            $table->boolean('receita')->nullable();
+            $table->boolean('receita')->nullable()->default(FALSE);
             $table->date('data');
             $table->integer('empenho');
             $table->string('descricao', 150);
             $table->float('debito', 15, 2);
             $table->float('credito', 15, 2);
             $table->float('saldo', 15, 2);
-            $table->boolean('estornado')->nullable();
+            $table->boolean('estornado')->nullable()->default(FALSE);
             $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

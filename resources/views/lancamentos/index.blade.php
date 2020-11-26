@@ -14,12 +14,11 @@
     Adicionar Lançamento
 </a></p>
 </label>
-
 <label>
 <form method="get" action="/lancamentos">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Nome">
+      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Descrição">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-success"> Buscar </button>
       </span>
@@ -27,7 +26,6 @@
   </div>
 </form>
 </label>
-
 </div>
 
 <div class="table-responsive">
@@ -59,7 +57,7 @@
                     <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
                         @csrf
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o lançamento?');">Deletar</button>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Deletar</button>
                     </form>
                 </td>
             </tr>

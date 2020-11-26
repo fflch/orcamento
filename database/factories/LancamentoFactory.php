@@ -26,12 +26,12 @@ class LancamentoFactory extends Factory
      */
     public function definition()
     {
-        $boleanos = ['1','0'];
+        //$boleanos = ['1','0'];
         $valores = [1.00, 999.99];
-
         return [
                 'grupo'              => '0' . $this->faker->numberBetween($min = 80, $max = 89),
-                'receita'            => $boleanos[array_rand($boleanos)],
+                //'receita'            => $boleanos[array_rand($boleanos)],
+                'receita'            => $this->faker->boolean,
                 'data'               => $this->faker->date,
                 'empenho'            => $this->faker->numberBetween($min = 1111111, $max = 9999999),
                 'descricao'          => $this->faker->sentence,
