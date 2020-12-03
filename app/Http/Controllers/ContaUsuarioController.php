@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContaUsuario;
-//use App\Models\Conta;
-//use App\Models\User;
+use App\Models\Conta;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContaUsuarioRequest;
 
@@ -68,6 +68,7 @@ class ContaUsuarioController extends Controller
      */
     public function show(ContaUsuario $contausuario)
     {
+        //dd($contausuario);
         return view('contausuarios.show', compact('contausuario'));
     }
 

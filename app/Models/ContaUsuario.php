@@ -15,10 +15,10 @@ class ContaUsuario extends Model
     }
 
     public function conta(){
-        return $this->belongsTo(Conta::class);
+        return $this->belongsTo(Conta::class,'id_conta');
     }
 
     public function usuario(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id_usuario');
     }
 }
