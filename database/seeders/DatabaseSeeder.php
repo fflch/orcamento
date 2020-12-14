@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             LancamentoSeeder::class,
             FicOrcamentariaSeeder::class,
             ContaUsuarioSeeder::class,
+            UnidadeSeeder::class,
 	    ]);
     }
 }
