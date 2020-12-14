@@ -11,6 +11,7 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\FicOrcamentariaController;
 use App\Http\Controllers\ContaUsuarioController;
+use App\Http\Controllers\UnidadeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\selTipoContaController;
 
@@ -41,5 +42,6 @@ Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
+Route::resource('unidades', UnidadeController::class);
 
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);

@@ -18,5 +18,5 @@
 @stop
 
 @section('footer')
-FFLCH
+FFLCH-USP
 @stop

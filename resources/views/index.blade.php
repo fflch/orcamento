@@ -9,8 +9,8 @@
 @section('content')
     @parent
         @auth            
-            Você agora fez seu login com a senha única USP <a href="/logout"> Faça seu Logout! </a>
+            Você fez login com sucesso. Utilize o menu acima para usar os recursos do sistema.
         @else
-            Você ainda não fez seu login com a senha única USP <a href="/login"> Faça seu Login! </a>
+            Você ainda não fez login. Faça-o utilizando número USP e senha única. Clique <a href="/login">aqui</a>.
         @endauth
 @stop
