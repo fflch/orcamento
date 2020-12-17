@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lancamento extends Model
 {
     use HasFactory;
-    protected $fillable = ['descricao','observacao','grupo','data', 'empenho','debito','credito'];
+    protected $fillable = ['movimento_id','conta_id','descricao','receita','observacao','grupo','data','empenho','debito','credito','user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);

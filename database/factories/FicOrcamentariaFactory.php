@@ -24,7 +24,7 @@ class FicOrcamentariaFactory extends Factory
      */
     public function definition()
     {
-        $valores = [1.00, 999.99];
+        $valores = [0.00, 999.99];
         return [
             'data'         => $this->faker->date,
             'empenho'      => $this->faker->numberBetween($min = 1111111, $max = 9999999),

@@ -1,7 +1,7 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Tipo de Conta</h1>
+@section('title')
+    Tipos de Conta
 @stop
 
 @section('content')
@@ -10,18 +10,16 @@
 
 <div class="form-group">
 <label>
-<p><a href="{{ route('tipocontas.create') }}" class="btn btn-success">
-    Adicionar Tipo de Conta
-</a></p>
+<p><a href="{{ route('tipocontas.create') }}" class="btn btn-success">Adicionar Tipo de Conta</a></p>
 </label>
 
 <label>
 <form method="get" action="/tipocontas">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="87%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Nome">
+      <input size="87%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-success"> Buscar </button>
+        <button type="submit" class="btn btn-success">Buscar</button>
       </span>
     </div>
   </div>
@@ -34,11 +32,11 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
-                <th width="10%" align="center">#</th>
-                <th width="50%" align="left">Descrição</th>
-                <th width="10%" align="center">C.P.F.O.</th>
-                <th width="10%" align="center">Balancete</th>
-                <th width="20%" align="center" colspan="2">Ações</th>
+                <th width="5%" align="center">#</th>
+                <th width="75%" align="left">Descrição</th>
+                <th width="5%" align="center">C.P.F.O.</th>
+                <th width="5%" align="center">Balancete</th>
+                <th width="10%" align="center" colspan="2">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -46,20 +44,9 @@
             <tr>
                 <td align="center">{{ $tipoconta->id }}</td>
                 <td align="left"><a href="/tipocontas/{{ $tipoconta->id }}">{{ $tipoconta->descricao }}</a></td>
-
-                <td align="center">
-                    @if ($tipoconta->cpfo == 1)
-                      X
-                    @endif 
-                </td>
-
-                <td align="center">
-                    @if ($tipoconta->relatoriobalancete == 1)
-                      X
-                    @endif</td>
-                <td align="center">
-                <a class="btn btn-warning" href="/tipocontas/{{$tipoconta->id}}/edit">Editar</a>
-                </td>
+                <td align="center">@if ($tipoconta->cpfo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center">@if ($tipoconta->relatoriobalancete == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center"><a class="btn btn-warning" href="/tipocontas/{{$tipoconta->id}}/edit">Editar</a></td>
                 <td align="center">
                 <form method="post" role="form" action="{{ route('tipocontas.destroy', $tipoconta) }}" >
                         @csrf

@@ -1,21 +1,19 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Tipo de Conta</h1>
-@stop
+@section('title')
+  Adicionar Tipo de Conta
+@endsection
 
 @section('content')
-
-<div class="row">
+<div class="border rounded bg-light">
+  <h3 class="ml-2 mt-2">Adicionar Tipo de Conta</h3>
+  <div class="p-4">
     @include('messages.flash')
     @include('messages.errors')
-
-        <div class="col-md-6">
-            <form method="post" action="{{ url('tipocontas') }}">
-                {{ csrf_field() }}
-                @include('tipocontas.form')
-            </form>
-        </div>
-    </div>
-
+    <form method="post" action="{{ url('tipocontas') }}">
+      @csrf
+      @include('tipocontas.form')
+    </form>
+  </div>
+</div>
 @stop

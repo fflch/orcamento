@@ -1,21 +1,19 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Ficha Orçamentária</h1>
-@stop
+@section('title')
+  Adicionar Ficha Orçamentária
+@endsection
 
 @section('content')
-
-<div class="row">
+<div class="border rounded bg-light">
+  <h3 class="ml-2 mt-2">Adicionar Ficha Orçamentária</h3>
+  <div class="p-4">
     @include('messages.flash')
     @include('messages.errors')
-
-        <div class="col-md-6">
-            <form method="post" action="{{ url('ficorcamentarias') }}">
-                {{ csrf_field() }}
-                @include('ficorcamentarias.form')
-            </form>
-        </div>
-    </div>
-
+    <form method="post" action="{{ url('ficorcamentarias') }}">
+      @csrf
+      @include('ficorcamentarias.form')
+    </form>
+  </div>
+</div>
 @stop

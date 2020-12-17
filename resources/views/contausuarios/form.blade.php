@@ -1,4 +1,5 @@
-<div class="form-group">
+<div class="form-row">
+<div class="form-group col-md-6">
     <label for="conta">Conta</label>
 <input class="form-control" list="id_conta" name="id_conta">
 <datalist id="id_conta">
@@ -10,7 +11,7 @@
 </datalist>
 </div>
 
-<div class="form-group">
+<div class="form-group col-md-6">
     <label for="usuario">Usuário</label>
 <input class="form-control" list="id_usuario" name="id_usuario">
 <datalist id="id_usuario">
@@ -21,11 +22,14 @@
   @endforeach
 </datalist>
 </div>
+</div>
 
-<div class="panel panel-default">
+<div class="form-row">
+    <div class="panel panel-default">
         <div class="panel-body">
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Enviar">
+            <div class="form-group col-md-12">
+                <input type="submit" class="btn btn-primary" value="Salvar">
+                <input type="reset" class="btn btn-warning" value="Desfazer">
             </div>
         </div>
     </div>

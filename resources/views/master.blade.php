@@ -12,11 +12,17 @@
     <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
 @stop
 
+@section('title')
+Sistema de Controle Orçamentário
+@endsection
+
+
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 @stop
 
 @section('footer')
+<hr>
 FFLCH-USP
 @stop
