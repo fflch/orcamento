@@ -1,34 +1,32 @@
 @extends('master')
 
-@section('content_header')
-  <h1>Tipo de Conta: {{ $tipoconta->descricao }} </h1>
-@stop
+@section('title')
+    Tipo de Conta: {{ $tipoconta->descricao }}
+@endsection
 
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 
-<div>
-    <a href="{{ route('tipocontas.edit',$tipoconta->id) }}" class="btn btn-success">Editar</a>
-
+<div class="form-row">
+    <div class="form-group col-md-1">
+        <a href="{{ route('tipocontas.edit',$tipoconta->id) }}" class="btn btn-warning">Editar</a>
+    </div>
+    <div class="form-group col-md-1">
+        <form method="post" role="form" action="{{ route('tipocontas.destroy', $tipoconta) }}" >
+            @csrf
+            <input name="_method" type="hidden" value="DELETE">
+            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Tipo de Conta?');">Deletar</button>
+        </form>
+    </div>
 </div>
-<br>
-
 <div class="card">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>Descrição</b>: {{ $tipoconta->descricao }}</li>
-        <li class="list-group-item"> 
-@if ($tipoconta->cpfo == 1)
-                      X
-                    @endif 
-         <b> Faz Contra-Partida com a Ficha Orçamentária</b></li>
-        <li class="list-group-item"> 
-@if ($tipoconta->relatoriobalancete == 1)
-                      X
-                    @endif 
-        <b> Deve constar no relatório Balancete</b></li>
-        <li class="list-group-item"><b>Cadastrado/Alterado por</b>: {{ $tipoconta->user->name ?? '' }}</li>
+        <li class="list-group-item"><b>ID:</b> {{ $tipoconta->id }}</li>
+        <li class="list-group-item"><b>Descrição:</b> {{ $tipoconta->descricao }}</li>
+        <li class="list-group-item"><b>Faz Contra-Partida com a Ficha Orçamentária:</b>@if ($tipoconta->cpfo == 1) [ x ] @else [ &nbsp; ] @endif</li>
+        <li class="list-group-item"><b>Deve constar no relatório Balancete:</b>@if ($tipoconta->relatoriobalancete == 1) [ x ] @else [ &nbsp; ] @endif</li>
+        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $tipoconta->user->name ?? '' }}</li>
     </ul>
 </div>
-
 @stop

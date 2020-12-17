@@ -1,7 +1,7 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Lançamento</h1>
+@section('title')
+    Lançamentos
 @stop
 
 @section('content')
@@ -10,15 +10,13 @@
 
 <div class="form-group">
 <label>
-<p><a href="{{ route('lancamentos.create') }}" class="btn btn-success">
-    Adicionar Lançamento
-</a></p>
+<p><a href="{{ route('lancamentos.create') }}" class="btn btn-success">Adicionar Lançamento</a></p>
 </label>
 <label>
 <form method="get" action="/lancamentos">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Descrição">
+      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-success"> Buscar </button>
       </span>
@@ -34,11 +32,12 @@
         <thead>
             <tr align="center">
                 <th width="5%" align="center">#</th>
-                <th width="25%" align="left">Conta</th>
-                <th width="30%" align="left">Descrição</th>
+                <th width="20%" align="left">Conta</th>
+                <th width="35%" align="left">Descrição</th>
                 <th width="10%" align="left">Débito</th>
                 <th width="10%" align="center">Crédito</th>
-                <th width="20%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center">Saldo</th>
+                <th width="10%" align="center" colspan="2">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -47,12 +46,19 @@
                 <td align="center">{{ $lancamento->id }}</td>
                 <td align="left"><a href="/lancamentos/{{ $lancamento->id }}">{{ $lancamento->conta->nome ?? '' }}</a></td>
                 <td align="left">{{ $lancamento->descricao }}</td>
-                <td align="right">{{ $lancamento->debito }}</td>
-                <td align="right">{{ $lancamento->credito }}</td>
-
-                <td align="center">
-                  <a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a>
-                </td>
+                @if($lancamento->debito != 0.00)
+                    <td align="right">{{ $lancamento->debito }}</td>
+                @else
+                    <td align="right">&nbsp;</td>
+                @endif
+                
+                @if($lancamento->credito != 0.00)
+                    <td align="right">{{ $lancamento->credito }}</td>
+                @else
+                    <td align="right">&nbsp;</td>
+                @endif
+                <td align="right">{{ $lancamento->saldo }}</td>
+                <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
                         @csrf
@@ -62,6 +68,12 @@
                 </td>
             </tr>
             @endforeach
+            <tr>
+            <td colspan="3">&nbsp;</td>
+            <td align="right"><font color="red"><strong>Total Débito</strong></font></td>
+            <td align="right"><font color="blue"><strong>Total Crédito</strong></font></td>
+            <td colspan="3">&nbsp;</td>
+            </tr>
         </tbody>
     </table>
     <p>{{ $lancamentos->links() }}</p>   

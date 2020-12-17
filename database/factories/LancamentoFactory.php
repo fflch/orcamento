@@ -26,17 +26,15 @@ class LancamentoFactory extends Factory
      */
     public function definition()
     {
-        //$boleanos = ['1','0'];
-        $valores = [1.00, 999.99];
+        $valores = [0.00, 999.99];
         return [
                 'grupo'              => '0' . $this->faker->numberBetween($min = 80, $max = 89),
-                //'receita'            => $boleanos[array_rand($boleanos)],
                 'receita'            => $this->faker->boolean,
                 'data'               => $this->faker->date,
                 'empenho'            => $this->faker->numberBetween($min = 1111111, $max = 9999999),
                 'descricao'          => $this->faker->sentence,
-                'debito'             => $this->faker->numberBetween($min = 1.00, $max = 999.99),
-                'credito'            => $this->faker->numberBetween($min = 1.00, $max = 999.99),
+                'debito'             => $valores[array_rand($valores)],
+                'credito'            => $valores[array_rand($valores)],
                 'saldo'              => '0.00',
                 'observacao'         => $this->faker->sentence,
                 'movimento_id'       => Movimento::factory()->create()->id,

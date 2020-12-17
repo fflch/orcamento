@@ -25,7 +25,7 @@ $administracao = [
         'url'  => '/notas',
     ],
     [
-        'text' => 'ContasxUsuários',
+        'text' => 'Contas x Usuários',
         'url'  => '/contausuarios',
     ],
     [
@@ -49,7 +49,7 @@ return [
             'url'  => '/lancamentos',
         ],
         [
-            'text' => 'Ficha Orçamentária',
+            'text' => 'Fichas Orçamentárias',
             'url'  => '/ficorcamentarias',
         ],
     ]

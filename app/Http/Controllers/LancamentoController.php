@@ -36,8 +36,8 @@ class LancamentoController extends Controller
      */
     public function create()
     {
-        $lista_contas = Conta::lista_contas();
-        $lista_descricoes = Nota::lista_descricoes();
+        $lista_contas      = Conta::lista_contas();
+        $lista_descricoes  = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
 
         return view('lancamentos.create', compact('lista_contas','lista_descricoes','lista_observacoes'));
@@ -56,6 +56,7 @@ class LancamentoController extends Controller
         $validated['user_id'] = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
         $validated['conta_id'] = $request->conta_id;
+
         Lancamento::create($validated);
 
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');

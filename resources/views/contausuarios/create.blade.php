@@ -1,21 +1,19 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Conta x Usuário</h1>
-@stop
+@section('title')
+  Adicionar Conta x Usuário
+@endsection
 
 @section('content')
-
-<div class="row">
+<div class="border rounded bg-light">
+  <h3 class="ml-2 mt-2">Adicionar Conta x Usuário</h3>
+  <div class="p-4">
     @include('messages.flash')
     @include('messages.errors')
-
-        <div class="col-md-6">
-            <form method="post" action="{{ url('contausuarios') }}">
-                {{ csrf_field() }}
-                @include('contausuarios.form')
-            </form>
-        </div>
-    </div>
-
+    <form method="post" action="{{ url('contausuarios') }}">
+      @csrf
+      @include('contausuarios.form')
+    </form>
+  </div>
+</div>
 @stop

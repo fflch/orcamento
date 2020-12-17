@@ -1,23 +1,20 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Editar Conta x Usuário</h1>
-@stop
-
+@section('title')
+  Editar Conta x Usuário
+@endsection
 
 @section('content')
-
-<div class="row">
+<div class="border rounded bg-light">
+  <h3 class="ml-2 mt-2">Editar Conta x Usuário</h3>
+  <div class="p-4">
     @include('messages.flash')
     @include('messages.errors')
-
-    <div class="col-md-6">
-        <form method="post" action="/contausuarios/{{$contausuario->id}}">
-            @csrf
-            @method('patch')
-            @include('contausuarios.form')
-        </form>
-    </div>
+    <form method="post" action="/contausuarios/{{$contausuario->id}}">
+      @csrf
+      @method('patch')
+      @include('contausuarios.form')
+    </form>
+  </div>
 </div>
-
 @stop

@@ -1,7 +1,7 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Cadastrar Dotação Orçamentária</h1>
+@section('title')
+    Dotações Orçamentárias
 @stop
 
 @section('content')
@@ -10,16 +10,14 @@
 
 <div class="form-group">
 <label>
-<p><a href="{{ route('dotorcamentarias.create') }}" class="btn btn-success">
-    Adicionar Dotação Orçamentária
-</a></p>
+<p><a href="{{ route('dotorcamentarias.create') }}" class="btn btn-success">Adicionar Dotação Orçamentária</a></p>
 </label>
 
 <label>
 <form method="get" action="/dotorcamentarias">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="80%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="Busca por Dotação">
+      <input size="80%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Dotação Orçamentária ]">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-success"> Buscar </button>
       </span>
@@ -35,13 +33,13 @@
         <thead>
             <tr align="center">
                 <th width="5%" align="center">#</th>
-                <th width="10%" align="left">Dotação</th>
-                <th width="10%" align="center">Grupo</th>
-                <th width="20%" align="center">Descrição do Grupo</th>
+                <th width="5%" align="left">Dotação</th>
+                <th width="5%" align="center">Grupo</th>
+                <th width="30%" align="center">Descrição do Grupo</th>
                 <th width="10%" align="center">Item</th>
-                <th width="25%" align="left">Descrição do Item</th>  
+                <th width="30%" align="left">Descrição do Item</th>  
                 <th width="5%" align="center">Receita</th>                              
-                <th width="15%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="2">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -53,13 +51,8 @@
                 <td align="left">{{ $dotorcamentaria->descricaogrupo }}</td>
                 <td align="left">{{ $dotorcamentaria->item }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaoitem }}</td>
-                <td align="center" valign="middle">
-                    @if ($dotorcamentaria->receita == 1)
-                      X
-                    @endif</td>
-                <td align="center">
-                    <a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a>
-                </td>
+                <td align="center" valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center"><a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('dotorcamentarias.destroy', $dotorcamentaria) }}" >
                             @csrf

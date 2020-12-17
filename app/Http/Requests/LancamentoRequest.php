@@ -30,9 +30,11 @@ class LancamentoRequest extends FormRequest
             'data'       => 'required',
             'empenho'    => 'required',
             'descricao'  => 'required',
-            'debito'     => 'required',
-            'credito'    => 'required',
+            //'debito'     => 'required',
+            //'credito'    => 'required',
             'observacao' => 'required',
+            'debito' => 'required_without:credito',
+            'credito' => 'required_without:debito',
         ];
     }
 
@@ -44,6 +46,8 @@ class LancamentoRequest extends FormRequest
             'data.required'       => 'Informe a Data',
             'empenho.required'    => 'Informe o Empenho',
             'descricao.required'  => 'Informe a Descrição',
+            'debito.required_without'        => 'O Débito ou o Crédito deve ser informado',
+            'credito.required_without'       => 'O Débito ou o Crédito deve ser informado',
             'debito.float'        => 'O Débito deve ser um valor monetário',
             'credito.float'       => 'O Crédtio deve ser um valor monetário',
             'observacao.required' => 'Informe a Observação',

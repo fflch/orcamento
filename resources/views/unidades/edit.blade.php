@@ -1,23 +1,20 @@
 @extends('master')
 
-@section('content_header')
-    <h1>Editar Unidade</h1>
-@stop
-
+@section('title')
+  Editar Unidade
+@endsection
 
 @section('content')
-
-<div class="row">
+<div class="border rounded bg-light">
+  <h3 class="ml-2 mt-2">Editar Unidade</h3>
+  <div class="p-4">
     @include('messages.flash')
     @include('messages.errors')
-
-    <div class="col-md-6">
-        <form method="post" action="/unidades/{{$unidade->id}}">
-            @csrf
-            @method('patch')
-            @include('unidades.form')
-        </form>
-    </div>
+    <form method="post" action="/unidades/{{$unidade->id}}">
+      @csrf
+      @method('patch')
+      @include('unidades.form')
+    </form>
+  </div>
 </div>
-
 @stop
