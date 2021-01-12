@@ -1,13 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-use Illuminate\Validation\Rule;
-use App\Models\User;
-
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AreaRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +13,7 @@ class AreaRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -27,14 +24,7 @@ class AreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'user_id' => ['required', Rule::in(User::users,id)],
-        ];
-    }
-
-    public function messages(){
-        return [
-            'nome.required' => 'Digite o Nome da Área.',
+            //
         ];
     }
 }

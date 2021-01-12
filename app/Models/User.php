@@ -42,4 +42,14 @@ class User extends Authenticatable
         $lista_usuarios = User::all()->sortBy('name');
         return $lista_usuarios;
     }
+
+    public function contas_usuarios()
+    {
+        return $this->belongsToMany(Conta::class,'contas_usuarios')
+                ->using(ContaUsuario::class)
+                ->withTimestamps()
+                ->withPivot([
+                    'created_at'
+                ]);
+    }
 }

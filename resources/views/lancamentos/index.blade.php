@@ -57,7 +57,7 @@
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
-                <td align="right">{{ $lancamento->saldo }}</td>
+                <td align="right">{{ number_format(floatval($lancamento->credito) - floatval($lancamento->debito), 2, ',', ' ') }}</td>
                 <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >

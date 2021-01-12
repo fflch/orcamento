@@ -44,4 +44,6 @@ Route::resource('ficorcamentarias', FicOrcamentariaController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
 Route::resource('unidades', UnidadeController::class);
 
+Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
+
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
