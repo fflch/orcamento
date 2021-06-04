@@ -15,9 +15,8 @@ class TipoContaController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->busca);
+        $this->authorize('all');
         if($request->busca != null){
-            //$tipocontas = TipoConta::all()->sortBy('descricao');
             $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(10);
         }
         else{
@@ -34,6 +33,7 @@ class TipoContaController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         return view('tipocontas.create');
     }
 
@@ -45,21 +45,7 @@ class TipoContaController extends Controller
      */
     public function store(TipoContaRequest $request)
     {
-        /*SEM TipoContaRequest
-        if($request->cpfo != 1)
-            $request->cpfo = 0;
-
-        if($request->relatoriobalancete != 1)
-            $request->relatoriobalancete = 0;
-
-        $tipoconta = new TipoConta;
-        $tipoconta->descricao = $request->descricao;
-        $tipoconta->cpfo = $request->cpfo;
-        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
-        $tipoconta->user_id = \Auth::user()->id;
-        $tipoconta->save();*/
-                
-        /*COM TipoContaRequest*/
+        $this->authorize('all');
         $validated = $request->validated();
         $validated['cpfo'] = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
@@ -78,6 +64,7 @@ class TipoContaController extends Controller
      */
     public function show(TipoConta $tipoconta)
     {
+        $this->authorize('all');
         return view('tipocontas.show', compact('tipoconta'));
     }
 
@@ -89,6 +76,7 @@ class TipoContaController extends Controller
      */
     public function edit(TipoConta $tipoconta)
     {
+        $this->authorize('admin');
         return view('tipocontas.edit', compact('tipoconta'));
     }
 
@@ -101,21 +89,7 @@ class TipoContaController extends Controller
      */
     public function update(TipoContaRequest $request, TipoConta $tipoconta)
     {
-        /*SEM TipoContaRequest
-        if($request->cpfo != 1)
-            $request->cpfo = 0;
-
-        if($request->relatoriobalancete != 1)
-            $request->relatoriobalancete = 0;
-
-        $tipoconta->descricao = $request->descricao;
-        $tipoconta->cpfo = $request->cpfo;
-        $tipoconta->relatoriobalancete = $request->relatoriobalancete;
-        $tipoconta->user_id = \Auth::user()->id;
-        $tipoconta->save();*/
-
-
-        /*COM TipoContaRequest*/
+        $this->authorize('admin');
         $validated = $request->validated();
         $validated['cpfo'] = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
@@ -134,6 +108,7 @@ class TipoContaController extends Controller
      */
     public function destroy(TipoConta $tipoconta)
     {
+        $this->authorize('admin');
         $tipoconta->delete();
         return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
     }

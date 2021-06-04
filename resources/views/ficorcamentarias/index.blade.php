@@ -41,7 +41,9 @@
                 <th width="10%" align="center">Débito</th>
                 <th width="10%" align="center">Crédito</th>
                 <th width="10%" align="center">Saldo</th>
+                @can('admin')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -61,6 +63,7 @@
                     <td align="right">&nbsp;</td>
                 @endif
                 <td align="right">{{ $ficorcamentaria->saldo }}</td>
+                @can('admin')
                 <td align="center"><a class="btn btn-warning" href="/ficorcamentarias/{{$ficorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('ficorcamentarias.destroy', $ficorcamentaria) }}" >
@@ -69,6 +72,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Ficha Orçamentária?');">Deletar</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
             <tr>

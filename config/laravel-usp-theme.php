@@ -43,14 +43,17 @@ return [
         [
             'text'    => 'Administração',
             'submenu' => $administracao,
+            'can' => 'all',
         ],
         [
             'text' => 'Lançamentos',
             'url'  => '/lancamentos',
+            'can' => 'all',
         ],
         [
             'text' => 'Fichas Orçamentárias',
             'url'  => '/ficorcamentarias',
+            'can' => 'all',
         ],
     ]
 ];

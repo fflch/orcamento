@@ -33,10 +33,12 @@
 <p>{{ $areas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
-                <th width="5%" align="center">#</th>
+            <tr>
+                <th width="5%" align="center">&nbsp;</th>
                 <th width="85%" align="left">Nome</th>
+                @can('admin')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -44,6 +46,7 @@
             <tr>
                 <td align="center">{{ $area->id }}</td>
                 <td align="left"><a href="/areas/{{ $area->id }}">{{ $area->nome }}</a></td>
+                @can('admin')
                 <td align="center"><a class="btn btn-warning" href="/areas/{{$area->id}}/edit">Editar</a></td>
                 <td align="center">
                 <form method="post" role="form" action="{{ route('areas.destroy', $area) }}" >
@@ -52,6 +55,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Área?');">Deletar</button>
                 </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
         </tbody>

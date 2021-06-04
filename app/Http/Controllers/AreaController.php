@@ -15,9 +15,8 @@ class AreaController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->busca);
+        $this->authorize('all');
         if($request->busca != null){
-            //$areas = Area::all()->sortBy('nome');
             $areas = Area::where('nome','LIKE',"%{$request->busca}%")->paginate(10);
         }
         else{
@@ -36,6 +35,7 @@ class AreaController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         return view('areas.create');
     }
 
@@ -47,11 +47,9 @@ class AreaController extends Controller
      */
     public function store(AreaRequest $request)
     {
-        //dd(\Auth::user()->id);
-        //$user_id = \Auth::user()->id;
+        $this->authorize('all');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
-        //dd($validated);
         Area::create($validated);
         
         $request->session()->flash('alert-success', 'Área cadastrada com sucesso!');
@@ -66,6 +64,7 @@ class AreaController extends Controller
      */
     public function show(Area $area)
     {
+        $this->authorize('all');
         return view('areas.show', compact('area'));
     }
 
@@ -77,6 +76,7 @@ class AreaController extends Controller
      */
     public function edit(Area $area)
     {
+        $this->authorize('admin');
         return view('areas.edit', compact('area'));
     }
 
@@ -89,8 +89,9 @@ class AreaController extends Controller
      */
     public function update(AreaRequest $request, Area $area)
     {
+        $this->authorize('admin');
         $validated = $request->validated();
-        $area->user_id = \Auth::user()->id;
+        $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
               
         $request->session()->flash('alert-success', 'Área alterada com sucesso!');
@@ -105,6 +106,7 @@ class AreaController extends Controller
      */
     public function destroy(Area $area)
     {
+        $this->authorize('admin');
         $area->delete();
         return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
     }

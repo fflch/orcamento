@@ -27,4 +27,13 @@ class Conta extends Model
         return $lista_contas;
     }
 
+    public function contas_usuarios()
+    {
+        return $this->belongsToMany(User::class,'contas_usuarios')
+                ->using(ContaUsuario::class)
+                ->withTimestamps()
+                ->withPivot([
+                    'created_at'
+                ]);
+    }
 }

@@ -16,8 +16,8 @@ class NotaController extends Controller
      */
     public function index(Request $request)
     {
-       if($request->busca != null){
-        //$notas = Nota::paginate(5)->sortByDesc('texto');
+        $this->authorize('all');
+        if($request->busca != null){
         $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->paginate(10);
     }
         else{
@@ -34,9 +34,9 @@ class NotaController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
-        //dd($lista_tipos);
         return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
     }
 
@@ -48,13 +48,13 @@ class NotaController extends Controller
      */
     public function store(NotaRequest $request)
     {
+        $this->authorize('all');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
 
         //$nota->tipoconta_id = $request->tipoconta_id;
         $validated['tipoconta_id'] = $request->tipoconta_id;
         //$nota->area_id = $request->area_id;
-        //dd($validated);
 
         Nota::create($validated);
 
@@ -70,6 +70,7 @@ class NotaController extends Controller
      */
     public function show(Nota $nota)
     {
+        $this->authorize('all');
         return view('notas.show', compact('nota'));
     }
 
@@ -81,6 +82,7 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota)
     {
+        $this->authorize('admin');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
 
@@ -96,10 +98,9 @@ class NotaController extends Controller
      */
     public function update(NotaRequest $request, Nota $nota)
     {
+        $this->authorize('admin');
         $validated = $request->validated();
-        //dd(auth()->user()->id);
         $validated['user_id'] = auth()->user()->id;
-        //dd($validated);
 
         $nota->tipoconta_id = $request->tipoconta_id;
 
@@ -117,6 +118,7 @@ class NotaController extends Controller
      */
     public function destroy(Nota $nota)
     {
+        $this->authorize('admin');
         $nota->delete();
         return redirect()->route('notas.index')->with('alert-success', 'Nota deletada com sucesso!!');
     }
