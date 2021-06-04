@@ -18,8 +18,8 @@ class LancamentoController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('all');
         if($request->busca != null){
-            //$lancamentos = Lancamento::paginate(5)->sortByDesc('nome');
             $lancamentos = Lancamento::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
         }
         else{
@@ -36,6 +36,7 @@ class LancamentoController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         $lista_contas      = Conta::lista_contas();
         $lista_descricoes  = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -51,6 +52,7 @@ class LancamentoController extends Controller
      */
     public function store(LancamentoRequest $request)
     {
+        $this->authorize('all');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -71,6 +73,7 @@ class LancamentoController extends Controller
      */
     public function show(Lancamento $lancamento)
     {
+        $this->authorize('all');
         return view('lancamentos.show', compact('lancamento'));
     }
 
@@ -82,6 +85,7 @@ class LancamentoController extends Controller
      */
     public function edit(Lancamento $lancamento)
     {
+        $this->authorize('admin');
         $lista_contas = Conta::lista_contas();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -98,6 +102,7 @@ class LancamentoController extends Controller
      */
     public function update(LancamentoRequest $request, Lancamento $lancamento)
     {
+        $this->authorize('admin');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $lancamento->movimento_id = $movimento_ativo->id;
@@ -117,6 +122,7 @@ class LancamentoController extends Controller
      */
     public function destroy(Lancamento $lancamento)
     {
+        $this->authorize('admin');
         $lancamento->delete();
         return redirect()->route('lancamentos.index')->with('alert-success', 'Lançamento deletado com sucesso!');
     }

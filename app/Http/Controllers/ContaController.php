@@ -19,8 +19,8 @@ class ContaController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('all');
         if($request->busca != null){
-            //$contas = Conta::paginate(5)->sortByDesc('nome');
             $contas = Conta::where('nome','=',$request->busca)->paginate(10);
         }
         else{
@@ -37,6 +37,7 @@ class ContaController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_areas = Area::lista_areas();
 
@@ -53,6 +54,7 @@ class ContaController extends Controller
     {
         //$movimento_ativo = Movimento::movimento_ativo();
 
+        $this->authorize('all');
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
         $validated['area_id']= $request->area_id;
@@ -78,6 +80,7 @@ class ContaController extends Controller
      */
     public function show(Conta $conta)
     {
+        $this->authorize('all');
         return view('contas.show', compact('conta'));
     }
 
@@ -89,6 +92,7 @@ class ContaController extends Controller
      */
     public function edit(Conta $conta)
     {
+        $this->authorize('admin');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_areas = Area::lista_areas();
 
@@ -104,6 +108,7 @@ class ContaController extends Controller
      */
     public function update(ContaRequest $request, Conta $conta)
     {
+        $this->authorize('admin');
         //$movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
@@ -129,6 +134,7 @@ class ContaController extends Controller
      */
     public function destroy(Conta $conta, Request $request)
     {
+        $this->authorize('admin');
         $conta->delete();
         return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!');
     }

@@ -20,8 +20,8 @@ class FicOrcamentariaController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('all');
         if($request->busca != null){
-            //$ficorcamentarias = FicOrcamentaria::paginate(5)->sortByDesc('nome');
             $ficorcamentarias = FicOrcamentaria::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
         }
         else{
@@ -38,6 +38,7 @@ class FicOrcamentariaController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -52,7 +53,7 @@ class FicOrcamentariaController extends Controller
      */
     public function store(FicOrcamentariaRequest $request)
     {
-        //dd($request->observacao);
+        $this->authorize('all');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -60,7 +61,6 @@ class FicOrcamentariaController extends Controller
 
         //$ficorocamentaria->dotacao_id = $request->dotacao_id;
         $validated['dotacao_id'] = $request->dotacao_id;
-        //dd($validated);
 
         FicOrcamentaria::create($validated);
 
@@ -76,6 +76,7 @@ class FicOrcamentariaController extends Controller
      */
     public function show(FicOrcamentaria $ficorcamentaria)
     {
+        $this->authorize('all');
         return view('ficorcamentarias.show', compact('ficorcamentaria'));
     }
 
@@ -87,6 +88,7 @@ class FicOrcamentariaController extends Controller
      */
     public function edit(FicOrcamentaria $ficorcamentaria)
     {
+        $this->authorize('admin');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -103,11 +105,10 @@ class FicOrcamentariaController extends Controller
      */
     public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria)
     {
+        $this->authorize('admin');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
-        //dd(auth()->user()->name);
         $validated['user_id'] = auth()->user()->id;
-        //dd($validated);
 
         $ficorcamentaria->user_id = auth()->user()->id;
         $ficorcamentaria->movimento_id = $movimento_ativo->id;
@@ -127,6 +128,7 @@ class FicOrcamentariaController extends Controller
      */
     public function destroy(FicOrcamentaria $ficorcamentaria)
     {
+        $this->authorize('admin');
         $ficorcamentaria->delete();
         return redirect()->route('ficorcamentarias.index')->with('alert-success', 'Ficha Orçamentária deletada com sucesso!');
     }

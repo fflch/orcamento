@@ -31,12 +31,14 @@
 <p>{{ $notas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
-                <th width="5%" align="center">#</th>
+            <tr>
+                <th width="5%" align="center">&nbsp;</th>
                 <th width="40%" align="left">Tipo de Conta</th>
                 <th width="40%" align="left">Texto</th>
                 <th width="5%" align="center">Tipo</th>
+                @can('admin')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -46,6 +48,7 @@
                 <td align="left">{{ $nota->tipoconta->descricao ?? '' }}</td>
                 <td align="left"><a href="/notas/{{ $nota->id }}">{{ $nota->texto }}</a></td>
                 <td align="left">{{ $nota->tipo }}</td>
+                @can('admin')
                 <td align="center"><a class="btn btn-warning" href="/notas/{{$nota->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('notas.destroy', $nota) }}" >
@@ -54,6 +57,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Nota?');">Deletar</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
         </tbody>

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('codpes')->unique();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('perfil')->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

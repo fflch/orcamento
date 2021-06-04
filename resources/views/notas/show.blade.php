@@ -8,6 +8,22 @@
     @include('messages.flash')
     @include('messages.errors')
 
+<h2></strong>Nota: {{ $nota->texto }}</strong></h2>
+<br>
+
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><b>ID:</b> {{ $nota->id }}</li>
+        <li class="list-group-item"><b>Tipo de Conta:</b> {{ $nota->tipoconta->descricao ?? '' }}</li>
+        <li class="list-group-item"><b>Texto:</b> {{ $nota->texto }}</li>
+        <li class="list-group-item"><b>Tipo:</b> {{ $nota->tipo }}</li>
+        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $nota->user->name ?? '' }}</li>
+        <li class="list-group-item"><b>Data/Hora da Criação:</b> {{ $nota->created_at ?? '' }}</li>
+        <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $nota->updated_at ?? '' }}</li>
+    </ul>
+</div>
+@can('admin')
+<br>
 <div class="form-row">
     <div class="form-group col-md-1">
         <a href="{{ route('notas.edit',$nota->id) }}" class="btn btn-warning">Editar</a>
@@ -20,13 +36,5 @@
         </form>
     </div>
 </div>
-<div class="card">
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>ID:</b> {{ $nota->id }}</li>
-        <li class="list-group-item"><b>Tipo de Conta:</b> {{ $nota->tipoconta->descricao ?? '' }}</li>
-        <li class="list-group-item"><b>Texto:</b> {{ $nota->texto }}</li>
-        <li class="list-group-item"><b>Tipo:</b> {{ $nota->tipo }}</li>
-        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $nota->user->name ?? '' }}</li>
-    </ul>
-</div>
+@endcan
 @stop

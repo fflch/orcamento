@@ -37,7 +37,9 @@
                 <th width="10%" align="left">Débito</th>
                 <th width="10%" align="center">Crédito</th>
                 <th width="10%" align="center">Saldo</th>
+                @can('admin')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -58,6 +60,7 @@
                     <td align="right">&nbsp;</td>
                 @endif
                 <td align="right">{{ number_format(floatval($lancamento->credito) - floatval($lancamento->debito), 2, ',', ' ') }}</td>
+                @can('admin')
                 <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
@@ -66,6 +69,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Deletar</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
             <tr>

@@ -36,7 +36,9 @@
                 <th width="25%" align="left">Área</th>
                 <th width="30%" align="left">Nome</th>
                 <th width="5%" align="center">Ativo</th>
+                @can('admin')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -46,7 +48,8 @@
                 <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
                 <td align="left">{{ $conta->area->nome ?? '' }}</td>
                 <td align="left"><a href="/contas/{{ $conta->id }}">{{ $conta->nome }}</a></td>
-                <td align="center">@if ($conta->ativo == 1) [x] @else [ ] @endif</td>
+                <td align="center">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                @can('admin')
                 <td align="center"><a class="btn btn-warning" href="/contas/{{$conta->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}">
@@ -55,6 +58,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
         </tbody>

@@ -15,9 +15,8 @@ class MovimentoController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->busca);
+        $this->authorize('all');
         if($request->busca != null){
-            //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
             $movimentos = Movimento::where('ano','=',$request->busca)->paginate(10);
         }
         else{
@@ -34,6 +33,7 @@ class MovimentoController extends Controller
      */
     public function create()
     {
+        $this->authorize('all');
         return view('movimentos.create');
     }
 
@@ -45,21 +45,7 @@ class MovimentoController extends Controller
      */
     public function store(MovimentoRequest $request)
     {
-        /*SEM MovimentoRequest
-        if($request->concluido != 1)
-            $request->concluido = 0;
-
-        if($request->ativo != 1)
-            $request->ativo = 0;
-
-        $movimento = new Movimento;
-        $movimento->ano = $request->ano;
-        $movimento->concluido = $request->concluido;
-        $movimento->ativo = $request->ativo;
-        $movimento->user_id = \Auth::user()->id;
-        $movimento->save();*/
-        
-        /*COM MovimentoRequest*/
+        $this->authorize('all');
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;
@@ -78,6 +64,7 @@ class MovimentoController extends Controller
      */
     public function show(Movimento $movimento)
     {
+        $this->authorize('all');
         return view('movimentos.show', compact('movimento'));
     }
 
@@ -89,6 +76,7 @@ class MovimentoController extends Controller
      */
     public function edit(Movimento $movimento)
     {
+        $this->authorize('admin');
         return view('movimentos.edit', compact('movimento'));
     }
 
@@ -101,20 +89,7 @@ class MovimentoController extends Controller
      */
     public function update(MovimentoRequest $request, Movimento $movimento)
     {
-        /*SEM MovimentoRequest
-        if($request->concluido != 1)
-            $request->concluido = 0;
-
-        if($request->ativo != 1)
-            $request->ativo = 0;
-
-        $movimento->ano = $request->ano;
-        $movimento->concluido = $request->concluido;
-        $movimento->ativo = $request->ativo;
-        $movimento->user_id = \Auth::user()->id;
-        $movimento->save();*/
-
-        /*COM MovimentoRequest*/
+        $this->authorize('admin');
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;
@@ -133,6 +108,7 @@ class MovimentoController extends Controller
      */
     public function destroy(Movimento $movimento, Request $request)
     {
+        $this->authorize('admin');
         $movimento->delete();
         return redirect()->route('movimentos.index')->with('alert-success', 'Movimento deletado com sucesso!!');
     }
