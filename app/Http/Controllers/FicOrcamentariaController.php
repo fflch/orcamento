@@ -26,9 +26,19 @@ class FicOrcamentariaController extends Controller
         }
         else{
             //$ficorcamentarias = FicOrcamentaria::paginate(5)->sortByDesc('nome');
-            $ficorcamentarias = FicOrcamentaria::paginate(10);
+            //$ficorcamentarias = FicOrcamentaria::paginate(10);
+            $ficorcamentarias = FicOrcamentaria::All();
         }
-        return view('ficorcamentarias.index')->with('ficorcamentarias', $ficorcamentarias);
+
+        $total_debito  = 0.00;
+        $total_credito = 0.00;
+        foreach($ficorcamentarias as $ficorcamentaria){
+            $total_debito  = $total_debito + $ficorcamentaria->debito;
+            $total_credito = $total_credito + $ficorcamentaria->credito;
+        }
+
+        return view('ficorcamentarias.index', compact('ficorcamentarias','total_debito','total_credito'));
+
     }
 
     /**
