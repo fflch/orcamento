@@ -42,6 +42,6 @@ class ContaSeeder extends Seeder
         Conta::create($conta1);
         Conta::create($conta2);
 
-        Conta::factory(5)->create();
+        Conta::factory(3)->create();
     }
 }

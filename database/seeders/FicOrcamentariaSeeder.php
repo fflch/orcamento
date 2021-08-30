@@ -46,6 +46,6 @@ class FicOrcamentariaSeeder extends Seeder
         FicOrcamentaria::create($ficorcamentaria1);
         FicOrcamentaria::create($ficorcamentaria2);
 
-        FicOrcamentaria::factory(5)->create();
+        FicOrcamentaria::factory(3)->create();
     }
 }

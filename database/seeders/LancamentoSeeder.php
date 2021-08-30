@@ -53,6 +53,6 @@ class LancamentoSeeder extends Seeder
         Lancamento::create($lancamento1);
         Lancamento::create($lancamento2);
 
-        Lancamento::factory(5)->create();
+        Lancamento::factory(3)->create();
     }
 }

@@ -30,6 +30,6 @@ class ContaUsuarioSeeder extends Seeder
         ContaUsuario::create($contausuario1);
         ContaUsuario::create($contausuario2);
 
-        ContaUsuario::factory(5)->create();
+        ContaUsuario::factory(3)->create();
     }
 }

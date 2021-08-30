@@ -26,9 +26,9 @@ class CreateLancamentosTable extends Migration
             $table->date('data');
             $table->integer('empenho');
             $table->string('descricao', 150);
-            $table->float('debito', 15, 2);
-            $table->float('credito', 15, 2);
-            $table->float('saldo', 15, 2);
+            $table->float('debito', 15, 2)->nullable()->default(0.00);
+            $table->float('credito', 15, 2)->nullable()->default(0.00);
+            $table->float('saldo', 15, 2)->nullable()->nullable();
             $table->boolean('estornado')->nullable()->default(FALSE);
             $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
