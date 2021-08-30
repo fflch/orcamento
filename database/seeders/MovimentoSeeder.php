@@ -32,6 +32,6 @@ class MovimentoSeeder extends Seeder
         Movimento::create($movimento1);
         Movimento::create($movimento2);
 
-        Movimento::factory(5)->create();
+        Movimento::factory(3)->create();
     }
 }

@@ -28,6 +28,6 @@ class AreaSeeder extends Seeder
         Area::create($area1);
         Area::create($area2);
 
-        Area::factory(5)->create();
+        Area::factory(3)->create();
     }
 }

@@ -32,6 +32,6 @@ class TipoContaSeeder extends Seeder
         TipoConta::create($tipoconta1);
         TipoConta::create($tipoconta2);
 
-        TipoConta::factory(5)->create();
+        TipoConta::factory(3)->create();
     }
 }

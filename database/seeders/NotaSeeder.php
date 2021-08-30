@@ -33,6 +33,6 @@ class NotaSeeder extends Seeder
         Nota::create($nota1);
         Nota::create($nota2);
 
-        Nota::factory(5)->create();
+        Nota::factory(3)->create();
     }
 }

@@ -24,7 +24,7 @@ class CreateFicOrcamentariasTable extends Migration
             $table->string('descricao', 150);
             $table->float('debito', 15, 2);
             $table->float('credito', 15, 2);
-            $table->float('saldo', 15, 2);
+            $table->float('saldo', 15, 2)->nullable();
             $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
