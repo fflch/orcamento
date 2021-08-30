@@ -49,13 +49,13 @@
                 <td align="left"><a href="/lancamentos/{{ $lancamento->id }}">{{ $lancamento->conta->nome ?? '' }}</a></td>
                 <td align="left">{{ $lancamento->descricao }}</td>
                 @if($lancamento->debito != 0.00)
-                    <td align="right">{{ $lancamento->debito }}</td>
+                    <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 
                 @if($lancamento->credito != 0.00)
-                    <td align="right">{{ $lancamento->credito }}</td>
+                    <td align="right">{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
@@ -74,9 +74,9 @@
             @endforeach
             <tr>
             <td colspan="3">&nbsp;</td>
-            <td align="right"><font color="red"><strong>Total Débito</strong></font></td>
-            <td align="right"><font color="blue"><strong>Total Crédito</strong></font></td>
-            <td colspan="3">&nbsp;</td>
+            <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
+            <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
+            <td colspan="3" align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
             </tr>
         </tbody>
     </table>

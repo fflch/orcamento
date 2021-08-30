@@ -31,7 +31,6 @@
 </div>
 
 <div class="table-responsive">
-<p>{{ $ficorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
@@ -53,12 +52,12 @@
                 <td align="left"><a href="/ficorcamentarias/{{ $ficorcamentaria->id }}">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</a></td>
                 <td align="left">{{ $ficorcamentaria->descricao }}</td>
                 @if($ficorcamentaria->debito != 0.00)
-                    <td align="right">{{ $ficorcamentaria->debito }}</td>
+                    <td align="right">{{ number_format($ficorcamentaria->debito, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 @if($ficorcamentaria->credito != 0.00)
-                    <td align="right">{{ $ficorcamentaria->credito }}</td>
+                    <td align="right">{{ number_format($ficorcamentaria->credito, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
@@ -77,12 +76,11 @@
             @endforeach
             <tr>
                 <td colspan="3">&nbsp;</td>
-                <td align="right"><font color="red"><strong>Total Débito</strong></font></td>
-                <td align="right"><font color="blue"><strong>Total Crédito</strong></font></td>
-                <td colspan="3">&nbsp;</td>
+                <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
+                <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
+                <td colspan="3" align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
             </tr>
         </tbody>
     </table>
-    <p>{{ $ficorcamentarias->links() }}</p>   
 </div>
 @stop
