@@ -12,7 +12,7 @@
 
 <div class="form-group col-md-4">
     <label for="data">Data</label>
-    <input type="text" class="form-control" name="data" value="{{ $ficorcamentaria->data ?? old('data') }}" placeholder="[ Ex: 01/01/2020 ]">
+    <input type="text" class="form-control datepicker data" name="data" value="{{ $ficorcamentaria->data ?? old('data') }}" placeholder="[ Ex: 01/01/2020 ]">
 </div>
 <div class="form-group col-md-4">
     <label for="empenho">Empenho</label>

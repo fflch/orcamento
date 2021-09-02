@@ -27,7 +27,6 @@
 </div>
 
 <div class="table-responsive">
-<p>{{ $lancamentos->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
@@ -49,13 +48,13 @@
                 <td align="left"><a href="/lancamentos/{{ $lancamento->id }}">{{ $lancamento->conta->nome ?? '' }}</a></td>
                 <td align="left">{{ $lancamento->descricao }}</td>
                 @if($lancamento->debito != 0.00)
-                    <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
+                    <td align="right">{{ $lancamento->debito }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 
                 @if($lancamento->credito != 0.00)
-                    <td align="right">{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
+                    <td align="right">{{ $lancamento->credito }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
@@ -80,6 +79,5 @@
             </tr>
         </tbody>
     </table>
-    <p>{{ $lancamentos->links() }}</p>   
 </div>
 @stop
