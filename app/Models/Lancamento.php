@@ -22,17 +22,17 @@ class Lancamento extends Model
         return $this->belongsTo(Conta::class);
     }
 
-    //public function getDebitoAttribute($debito){
-        //return number_format($debito, 2, ',', '.');
-    //}
+    public function getDebitoAttribute($debito){
+        return number_format($debito, 2, ',', '.');
+    }
 
     public function setDebitoAttribute($debito){
         $this->attributes['debito'] = str_replace(',', '.', $debito);
     }
 
-   // public function getCreditoAttribute($credito){
-        //return number_format($credito, 2, ',', '.');
-    //}
+    public function getCreditoAttribute($credito){
+        return number_format($credito, 2, ',', '.');
+    }
 
     public function setCreditoAttribute($credito){
         $this->attributes['credito'] = str_replace(',', '.', $credito);
@@ -44,5 +44,13 @@ class Lancamento extends Model
 
     public function setSaldoAttribute($saldo){
         $this->attributes['saldo'] = str_replace(',', '.', $saldo);
+    }
+
+    public function getDataAttribute($data) {
+        return implode('/',array_reverse(explode('-',$data)));
+    }
+    
+    public function setDataAttribute($data) {
+        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
 }

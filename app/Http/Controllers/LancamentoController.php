@@ -24,14 +24,17 @@ class LancamentoController extends Controller
         }
         else{
             //$lancamentos = Lancamento::paginate(5)->sortByDesc('nome');
-            $lancamentos = Lancamento::paginate(10);
+            //$lancamentos = Lancamento::paginate(10);
+            $lancamentos = Lancamento::All();
         }
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($lancamentos as $lancamento){
-            $total_debito  = $total_debito + $lancamento->debito;
-            $total_credito = $total_credito + $lancamento->credito;
+            //dd(number_format($lancamento->debito, 2, ',', '.'));
+            //dd(str_replace(',', '.', $lancamento->debito));
+            $total_debito  += str_replace(',', '.', $lancamento->debito);
+            $total_credito += str_replace(',', '.', $lancamento->credito);
         }
 
         return view('lancamentos.index', compact('lancamentos','total_debito','total_credito'));
