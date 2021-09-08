@@ -48,4 +48,7 @@ Route::resource('unidades', UnidadeController::class);
 
 Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:Administrador');
+
+
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
