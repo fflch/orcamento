@@ -18,6 +18,7 @@ class ContaUsuarioController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('Todos');
         if($request->busca != null){
             //$contausuarios = ContaUsuario::paginate(5)->sortByDesc('nome');
             $contausuarios = ContaUsuario::where('id_usuario','=',$request->busca)->paginate(10);
@@ -36,6 +37,7 @@ class ContaUsuarioController extends Controller
      */
     public function create()
     {
+        $this->authorize('Todos');
         $lista_contas = Conta::lista_contas();
         $lista_usuarios = User::lista_usuarios();
 
@@ -50,6 +52,7 @@ class ContaUsuarioController extends Controller
      */
     public function store(ContaUsuarioRequest $request)
     {
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['id_conta'] = $request->id_conta;
         $validated['id_usuario'] = $request->id_usuario;
@@ -68,7 +71,7 @@ class ContaUsuarioController extends Controller
      */
     public function show(ContaUsuario $contausuario)
     {
-        //dd($contausuario);
+        $this->authorize('Todos');
         return view('contausuarios.show', compact('contausuario'));
     }
 
@@ -80,6 +83,7 @@ class ContaUsuarioController extends Controller
      */
     public function edit(ContaUsuario $contausuario)
     {
+        $this->authorize('Administrador');
         $lista_contas = Conta::lista_contas();
         $lista_usuarios = User::lista_usuarios();
 
@@ -95,6 +99,7 @@ class ContaUsuarioController extends Controller
      */
     public function update(ContaUsuarioRequest $request, ContaUsuario $contausuario)
     {
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $contausuario->id_conta = $request->id_conta;
         $contausuario->id_usuario = $request->id_usuario;
@@ -113,6 +118,7 @@ class ContaUsuarioController extends Controller
      */
     public function destroy(ContaUsuario $contausuario)
     {
+        $this->authorize('Administrador');
         $contausuario->delete();
         return redirect()->route('contausuarios.index')->with('alert-success', 'Conta x Usuário deletada com sucesso!');
 

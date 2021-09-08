@@ -16,7 +16,7 @@ class NotaController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
         $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->paginate(10);
     }
@@ -34,7 +34,7 @@ class NotaController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
         return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
@@ -48,7 +48,7 @@ class NotaController extends Controller
      */
     public function store(NotaRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
 
@@ -70,7 +70,7 @@ class NotaController extends Controller
      */
     public function show(Nota $nota)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('notas.show', compact('nota'));
     }
 
@@ -82,7 +82,7 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
 
@@ -98,7 +98,7 @@ class NotaController extends Controller
      */
     public function update(NotaRequest $request, Nota $nota)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
 
@@ -118,7 +118,7 @@ class NotaController extends Controller
      */
     public function destroy(Nota $nota)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $nota->delete();
         return redirect()->route('notas.index')->with('alert-success', 'Nota deletada com sucesso!!');
     }

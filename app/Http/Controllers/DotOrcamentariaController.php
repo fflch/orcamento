@@ -15,7 +15,7 @@ class DotOrcamentariaController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->paginate(10);
         }
@@ -33,7 +33,7 @@ class DotOrcamentariaController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('dotorcamentarias.create');
     }
 
@@ -45,7 +45,7 @@ class DotOrcamentariaController extends Controller
      */
     public function store(DotOrcamentariaRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
         $validated['user_id'] = \Auth::user()->id;
@@ -63,7 +63,7 @@ class DotOrcamentariaController extends Controller
      */
     public function show(DotOrcamentaria $dotorcamentaria)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('dotorcamentarias.show', compact('dotorcamentaria'));
     }
 
@@ -75,7 +75,7 @@ class DotOrcamentariaController extends Controller
      */
     public function edit(DotOrcamentaria $dotorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         return view('dotorcamentarias.edit', compact('dotorcamentaria'));
     }
 
@@ -88,7 +88,7 @@ class DotOrcamentariaController extends Controller
      */
     public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
         $validated['user_id'] = \Auth::user()->id;
@@ -106,7 +106,7 @@ class DotOrcamentariaController extends Controller
      */
     public function destroy(DotOrcamentaria $dotorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $dotorcamentaria->delete();
         return redirect()->route('dotorcamentarias.index')->with('alert-success', 'Dotação Orçamentária deletada com sucesso!');
     }

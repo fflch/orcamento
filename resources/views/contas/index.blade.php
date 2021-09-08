@@ -36,7 +36,7 @@
                 <th width="25%" align="left">Área</th>
                 <th width="30%" align="left">Nome</th>
                 <th width="5%" align="center">Ativo</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -49,7 +49,7 @@
                 <td align="left">{{ $conta->area->nome ?? '' }}</td>
                 <td align="left"><a href="/contas/{{ $conta->id }}">{{ $conta->nome }}</a></td>
                 <td align="center">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/contas/{{$conta->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}">

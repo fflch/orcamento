@@ -46,7 +46,6 @@
                 <td align="left"><a href="/usuarios/{{ $usuario->id }}">{{ $usuario->name }}</a></td>
                 <td align="left">{{ $usuario->email }}</td>
                 <td align="left">{{ $usuario->perfil }}</td>
-
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/usuarios/{{$usuario->id}}/edit">Editar</a></td>
                 @endcan

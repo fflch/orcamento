@@ -16,7 +16,7 @@
                 <th width="5%" align="left">Número</th>
                 <th width="45%" align="left">Nome</th>
                 <th width="35%" align="left">Departamento</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center">Ações</th>
                 @endcan
             </tr>
@@ -28,7 +28,7 @@
                 <td align="center">{{ $unidade->numero }}</td>
                 <td align="left"><a href="/unidades/{{ $unidade->id }}">{{ $unidade->nome }}</a></td>
                 <td align="left">{{ $unidade->departamento }}</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/unidades/{{$unidade->id}}/edit">Editar</a></td>
                 @endcan
             </tr>

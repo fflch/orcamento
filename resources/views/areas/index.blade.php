@@ -36,7 +36,7 @@
             <tr>
                 <th width="5%" align="center">&nbsp;</th>
                 <th width="85%" align="left">Nome</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -46,7 +46,7 @@
             <tr>
                 <td align="center">{{ $area->id }}</td>
                 <td align="left"><a href="/areas/{{ $area->id }}">{{ $area->nome }}</a></td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/areas/{{$area->id}}/edit">Editar</a></td>
                 <td align="center">
                 <form method="post" role="form" action="{{ route('areas.destroy', $area) }}" >

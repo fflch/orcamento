@@ -15,7 +15,7 @@ class AreaController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $areas = Area::where('nome','LIKE',"%{$request->busca}%")->paginate(10);
         }
@@ -35,7 +35,7 @@ class AreaController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('areas.create');
     }
 
@@ -47,7 +47,7 @@ class AreaController extends Controller
      */
     public function store(AreaRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         Area::create($validated);
@@ -64,7 +64,7 @@ class AreaController extends Controller
      */
     public function show(Area $area)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('areas.show', compact('area'));
     }
 
@@ -76,7 +76,7 @@ class AreaController extends Controller
      */
     public function edit(Area $area)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         return view('areas.edit', compact('area'));
     }
 
@@ -89,7 +89,7 @@ class AreaController extends Controller
      */
     public function update(AreaRequest $request, Area $area)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
@@ -106,7 +106,7 @@ class AreaController extends Controller
      */
     public function destroy(Area $area)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $area->delete();
         return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
     }

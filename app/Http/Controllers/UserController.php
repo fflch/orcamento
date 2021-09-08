@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $usuarios = User::where('name','LIKE','%'.$request->busca.'%')->paginate(10);
         }
@@ -25,7 +25,6 @@ class UserController extends Controller
                 $usuarios = User::paginate(10);
             }
 
-        //$usuarios = User::all();
         return view('usuarios.index')->with('usuarios', $usuarios);
     }
 
@@ -37,7 +36,7 @@ class UserController extends Controller
      */
     public function show(User $usuario)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('usuarios.show', compact('usuario'));
     }
 
@@ -49,7 +48,7 @@ class UserController extends Controller
      */
     public function edit(User $usuario)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $lista_perfis = User::lista_perfis();
         return view('usuarios.edit', compact('usuario','lista_perfis'));
     }

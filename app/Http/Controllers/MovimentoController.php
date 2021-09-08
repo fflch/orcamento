@@ -15,7 +15,7 @@ class MovimentoController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $movimentos = Movimento::where('ano','=',$request->busca)->paginate(10);
         }
@@ -33,7 +33,7 @@ class MovimentoController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('movimentos.create');
     }
 
@@ -45,7 +45,7 @@ class MovimentoController extends Controller
      */
     public function store(MovimentoRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;
@@ -64,7 +64,7 @@ class MovimentoController extends Controller
      */
     public function show(Movimento $movimento)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('movimentos.show', compact('movimento'));
     }
 
@@ -76,7 +76,7 @@ class MovimentoController extends Controller
      */
     public function edit(Movimento $movimento)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         return view('movimentos.edit', compact('movimento'));
     }
 
@@ -89,7 +89,7 @@ class MovimentoController extends Controller
      */
     public function update(MovimentoRequest $request, Movimento $movimento)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;
@@ -108,7 +108,7 @@ class MovimentoController extends Controller
      */
     public function destroy(Movimento $movimento, Request $request)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $movimento->delete();
         return redirect()->route('movimentos.index')->with('alert-success', 'Movimento deletado com sucesso!!');
     }
