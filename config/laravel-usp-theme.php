@@ -25,6 +25,10 @@ $administracao = [
         'url'  => '/notas',
     ],
     [
+        'text' => 'Usuários',
+        'url'  => '/usuarios',
+    ],
+    [
         'text' => 'Contas x Usuários',
         'url'  => '/contausuarios',
     ],

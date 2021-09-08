@@ -22,7 +22,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $perfis = ['admin', 'user', 'none'];
+        $perfis = User::lista_perfis();
         return [
             'codpes'            => $this->faker->numberBetween($min = 1111111, $max = 9999999),
             'name'              => $this->faker->name,
