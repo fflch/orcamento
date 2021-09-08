@@ -1,4 +1,14 @@
 <?php
+$right_menu = [
+    [
+        'text'   => '<i class="fas fa-cog"></i>',
+        'title'  => 'logs',
+        'target' => '_blank',
+        'url'    => config('app.url') . '/logs',
+        'align'  => 'right',
+        'can'    => 'Administrador',
+    ],
+];
 $administracao = [
     [
         'text' => 'Movimentos',
@@ -52,6 +62,7 @@ return [
     'logout_method' => 'POST',
     'logout_url' => '/logout',
     'login_url' => '/login',
+    'right_menu' => $right_menu,
     'menu' => [
         [
             'text'    => 'Administração',
