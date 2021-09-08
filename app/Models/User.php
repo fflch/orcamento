@@ -52,4 +52,12 @@ class User extends Authenticatable
                     'created_at'
                 ]);
     }
+
+    public static function lista_perfis(){
+        return[
+            'Administrador',
+            'Usuário',
+            'Nenhum'
+        ];
+    }
 }

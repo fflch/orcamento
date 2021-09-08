@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'codpes' => '1111111',
             'name'   => 'Ciclano da Silva',
             'email'  => 'abc@usp.br',
-            'perfil' => 'admin',
+            'perfil' => 'Administrador',
         ];
 
         $user2 = [
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'codpes' => '2222222',
             'name'   => 'José da Silva',
             'email'  => 'def@usp.br',
-            'perfil' => 'user',
+            'perfil' => 'Usuário',
         ];
         User::create($user1);
         User::create($user2);

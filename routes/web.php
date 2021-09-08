@@ -10,6 +10,7 @@ use App\Http\Controllers\ContaController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\LancamentoController;
 use App\Http\Controllers\FicOrcamentariaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContaUsuarioController;
 use App\Http\Controllers\UnidadeController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,7 @@ Route::resource('contas', ContaController::class);
 Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
+Route::resource('usuarios', UserController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
 Route::resource('unidades', UnidadeController::class);
 
