@@ -3,38 +3,47 @@ $administracao = [
     [
         'text' => 'Movimentos',
         'url'  => '/movimentos',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Áreas',
         'url'  => '/areas',
+        'can'  => 'Todos',
     ],
     [
         'text' => 'Tipos de Contas',
         'url'  => '/tipocontas',
+        'can'  => 'Admiistrador',
     ],
     [
         'text' => 'Contas',
         'url'  => '/contas',
+        'can'  => 'Todos',
     ],
     [
         'text' => 'Dotações Orçamentárias',
         'url'  => '/dotorcamentarias',
+        'can'  => 'Todos',
     ],
     [
         'text' => 'Notas',
         'url'  => '/notas',
+        'can'  => 'Todos',
     ],
     [
         'text' => 'Usuários',
         'url'  => '/usuarios',
+        'can'  => 'Todos',
     ],
     [
         'text' => 'Contas x Usuários',
         'url'  => '/contausuarios',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Unidade',
         'url'  => '/unidades',
+        'can'  => 'Todos',
     ],
 ];
 return [
@@ -47,17 +56,17 @@ return [
         [
             'text'    => 'Administração',
             'submenu' => $administracao,
-            'can' => 'all',
+            'can'     => 'Todos',
         ],
         [
             'text' => 'Lançamentos',
             'url'  => '/lancamentos',
-            'can' => 'all',
+            'can'  => 'Todos',
         ],
         [
             'text' => 'Fichas Orçamentárias',
             'url'  => '/ficorcamentarias',
-            'can' => 'all',
+            'can'  => 'Todos',
         ],
     ]
 ];

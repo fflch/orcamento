@@ -40,7 +40,7 @@
                 <th width="10%" align="center">Débito</th>
                 <th width="10%" align="center">Crédito</th>
                 <th width="10%" align="center">Saldo</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -62,7 +62,7 @@
                     <td align="right">&nbsp;</td>
                 @endif
                 <td align="right">{{ $ficorcamentaria->saldo }}</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/ficorcamentarias/{{$ficorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('ficorcamentarias.destroy', $ficorcamentaria) }}" >

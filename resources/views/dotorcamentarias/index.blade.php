@@ -39,7 +39,7 @@
                 <th width="10%" align="center">Item</th>
                 <th width="30%" align="left">Descrição do Item</th>  
                 <th width="5%" align="center">Receita</th>   
-                @can('admin')                           
+                @can('Administrador')                           
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -54,7 +54,7 @@
                 <td align="left">{{ $dotorcamentaria->item }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaoitem }}</td>
                 <td align="center" valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('dotorcamentarias.destroy', $dotorcamentaria) }}" >

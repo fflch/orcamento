@@ -35,7 +35,7 @@
                 <th width="75%" align="left">Ano</th>
                 <th width="5%" align="center">Concluído</th>
                 <th width="5%" align="center">Ativo</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -47,7 +47,7 @@
                 <td align="left"><a href="/movimentos/{{ $movimento->id }}">{{ $movimento->ano }}</a></td>
                 <td align="center">@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 <td align="center">@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/movimentos/{{$movimento->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('movimentos.destroy', $movimento) }}" >

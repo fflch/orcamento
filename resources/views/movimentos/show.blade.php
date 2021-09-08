@@ -22,7 +22,7 @@
         <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $movimento->updated_at ?? '' }}</li>
     </ul>
 </div>
-@can('admin')
+@can('Administrador')
 <br>
 <div class="form-row">
     <div class="form-group col-md-1">

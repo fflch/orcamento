@@ -15,7 +15,7 @@ class TipoContaController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(10);
         }
@@ -33,7 +33,7 @@ class TipoContaController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('tipocontas.create');
     }
 
@@ -45,7 +45,7 @@ class TipoContaController extends Controller
      */
     public function store(TipoContaRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $validated = $request->validated();
         $validated['cpfo'] = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
@@ -64,7 +64,7 @@ class TipoContaController extends Controller
      */
     public function show(TipoConta $tipoconta)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('tipocontas.show', compact('tipoconta'));
     }
 
@@ -76,7 +76,7 @@ class TipoContaController extends Controller
      */
     public function edit(TipoConta $tipoconta)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         return view('tipocontas.edit', compact('tipoconta'));
     }
 
@@ -89,7 +89,7 @@ class TipoContaController extends Controller
      */
     public function update(TipoContaRequest $request, TipoConta $tipoconta)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['cpfo'] = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
@@ -108,7 +108,7 @@ class TipoContaController extends Controller
      */
     public function destroy(TipoConta $tipoconta)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $tipoconta->delete();
         return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
     }

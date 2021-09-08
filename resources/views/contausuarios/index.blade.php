@@ -34,7 +34,9 @@
                 <th width="5%" align="center">#</th>
                 <th width="40%" align="left">Conta</th>
                 <th width="45%" align="left">Usuário</th>
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
@@ -43,6 +45,7 @@
                 <td align="center"><a href="/contausuarios/{{ $contausuario->id }}">{{ $contausuario->id }}</a></td>
                 <td align="left">{{ $contausuario->conta->nome ?? '' }}</td>
                 <td align="left">{{ $contausuario->usuario->name ?? '' }}</td>
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/contausuarios/{{$contausuario->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('contausuarios.destroy', $contausuario) }}" >
@@ -51,6 +54,7 @@
                         <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta x Usuário?');">Deletar</button>
                     </form>
                 </td>
+                @endcan
             </tr>
             @endforeach
         </tbody>

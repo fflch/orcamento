@@ -36,7 +36,7 @@
                 <th width="40%" align="left">Tipo de Conta</th>
                 <th width="40%" align="left">Texto</th>
                 <th width="5%" align="center">Tipo</th>
-                @can('admin')
+                @can('Administrador')
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
             </tr>
@@ -48,7 +48,7 @@
                 <td align="left">{{ $nota->tipoconta->descricao ?? '' }}</td>
                 <td align="left"><a href="/notas/{{ $nota->id }}">{{ $nota->texto }}</a></td>
                 <td align="left">{{ $nota->tipo }}</td>
-                @can('admin')
+                @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/notas/{{$nota->id}}/edit">Editar</a></td>
                 <td align="center">
                     <form method="post" role="form" action="{{ route('notas.destroy', $nota) }}" >

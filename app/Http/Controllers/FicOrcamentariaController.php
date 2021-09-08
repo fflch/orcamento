@@ -20,7 +20,7 @@ class FicOrcamentariaController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         if($request->busca != null){
             $ficorcamentarias = FicOrcamentaria::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
         }
@@ -48,7 +48,7 @@ class FicOrcamentariaController extends Controller
      */
     public function create()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -63,7 +63,7 @@ class FicOrcamentariaController extends Controller
      */
     public function store(FicOrcamentariaRequest $request)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -86,7 +86,7 @@ class FicOrcamentariaController extends Controller
      */
     public function show(FicOrcamentaria $ficorcamentaria)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('ficorcamentarias.show', compact('ficorcamentaria'));
     }
 
@@ -98,7 +98,7 @@ class FicOrcamentariaController extends Controller
      */
     public function edit(FicOrcamentaria $ficorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
@@ -115,7 +115,7 @@ class FicOrcamentariaController extends Controller
      */
     public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -138,7 +138,7 @@ class FicOrcamentariaController extends Controller
      */
     public function destroy(FicOrcamentaria $ficorcamentaria)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $ficorcamentaria->delete();
         return redirect()->route('ficorcamentarias.index')->with('alert-success', 'Ficha Orçamentária deletada com sucesso!');
     }

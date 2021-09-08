@@ -15,7 +15,7 @@ class UnidadeController extends Controller
      */
     public function index()
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         $unidades = Unidade::all();
         return view('unidades.index')->with('unidades', $unidades);
     }
@@ -49,7 +49,7 @@ class UnidadeController extends Controller
      */
     public function show(Unidade $unidade)
     {
-        $this->authorize('all');
+        $this->authorize('Todos');
         return view('unidades.show', compact('unidade'));
     }
 
@@ -61,7 +61,7 @@ class UnidadeController extends Controller
      */
     public function edit(Unidade $unidade)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         return view('unidades.edit', compact('unidade'));
     }
 
@@ -74,7 +74,7 @@ class UnidadeController extends Controller
      */
     public function update(UnidadeRequest $request, Unidade $unidade)
     {
-        $this->authorize('admin');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         $unidade->update($validated);
