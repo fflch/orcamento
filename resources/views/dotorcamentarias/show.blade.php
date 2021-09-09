@@ -20,6 +20,7 @@
         <li class="list-group-item"><b>Item:</b> {{ $dotorcamentaria->item }}</li>
         <li class="list-group-item"><b>Descrição do Item:</b> {{ $dotorcamentaria->descricaoitem }}</li>
         <li class="list-group-item"><b>Receita:</b>@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif </li>
+        <li class="list-group-item"><b>Ativo:</b>@if ($dotorcamentaria->ativo == 1) [ x ] @else [ &nbsp; ] @endif </li>
         <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $dotorcamentaria->user->name ?? '' }}</li>
         <li class="list-group-item"><b>Data/Hora da Criação:</b> {{ $dotorcamentaria->created_at ?? '' }}</li>
         <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $dotorcamentaria->updated_at ?? '' }}</li>

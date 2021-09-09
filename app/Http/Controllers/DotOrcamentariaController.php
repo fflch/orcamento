@@ -48,6 +48,7 @@ class DotOrcamentariaController extends Controller
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
+        $validated['ativo']   = $request->ativo;
         $validated['user_id'] = \Auth::user()->id;
         DotOrcamentaria::create($validated);
   
@@ -91,6 +92,7 @@ class DotOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
+        $validated['ativo']   = $request->ativo;
         $validated['user_id'] = \Auth::user()->id;
         $dotorcamentaria->update($validated);
         

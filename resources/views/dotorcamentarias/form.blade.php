@@ -1,7 +1,7 @@
 <div class="form-row">
 <div class="form-group col-md-4">
     <label for="dotacao">Dotação</label>
-    <input type="text" class="form-control" name="dotacao" value="{{ $dotorcamentaria->dotacao ?? old('dotacao') }}" placeholder="[ Ex: 1220988 ]">
+    <input type="text" class="form-control" name="dotacao" value="{{ $dotorcamentaria->dotacao ?? old('dotacao') }}" placeholder="[ Ex: 1220988 ]" maxlength="9">
 </div>
 </div>
 
@@ -20,7 +20,7 @@
 <div class="form-row">
 <div class="form-group col-md-4">
     <label for="item">Item</label>
-    <input type="text" class="form-control" name="item" value="{{ $dotorcamentaria->item ?? old('item') }}" placeholder="[ Ex: 1220988 ]">
+    <input type="text" class="form-control" name="item" value="{{ $dotorcamentaria->item ?? old('item') }}" placeholder="[ Ex: 1220988 ]" maxlength="9">
 </div>
 
 <div class="form-group col-md-8">
@@ -35,6 +35,14 @@
     <input type="checkbox" id="receita" name="receita" value="1"
         @if (isset($dotorcamentaria->id) and ($dotorcamentaria->receita === 1))
                 checked
+        @endif >
+        </label>
+</div>
+<div class="form-group col-md-1">
+    <label class="checkbox-inline" for="ativo">Ativo<br>
+    <input type="checkbox" id="ativo" name="ativo" value="1" 
+        @if (isset($dotorcamentaria->id) and ($dotorcamentaria->ativo === 1))
+             checked
         @endif >
         </label>
 </div>

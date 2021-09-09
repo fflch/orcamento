@@ -52,20 +52,13 @@ class ContaController extends Controller
      */
     public function store(ContaRequest $request)
     {
-        //$movimento_ativo = Movimento::movimento_ativo();
-
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
-        $validated['area_id']= $request->area_id;
-        $validated['ativo'] = $request->ativo;
-        $validated['user_id'] = \Auth::user()->id;
-
-        //$validated['movimento_id'] = $movimento_ativo->id;
-
-        //$conta->tipoconta_id = $request->tipoconta_id;
-        //$conta->area_id = $request->area_id;
-
+        $validated['area_id']      = $request->area_id;
+        $validated['ativo']        = $request->ativo;
+        $validated['user_id']      = \Auth::user()->id;
+ 
         Conta::create($validated);
 
         $request->session()->flash('alert-success', 'Conta cadastrada com sucesso!');
@@ -109,16 +102,11 @@ class ContaController extends Controller
     public function update(ContaRequest $request, Conta $conta)
     {
         $this->authorize('Administrador');
-        //$movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
-        $validated['area_id']= $request->area_id;
-        $validated['ativo'] = $request->ativo;
-        $validated['user_id'] = \Auth::user()->id;
-
-        //$conta->movimento_id = $movimento_ativo->id;
-        //$conta->tipoconta_id = $request->tipoconta_id;
-        //$conta->area_id = $request->area_id;
+        $validated['area_id']      = $request->area_id;
+        $validated['ativo']        = $request->ativo;
+        $validated['user_id']      = \Auth::user()->id;
 
         $conta->update($validated);
         
