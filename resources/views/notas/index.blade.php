@@ -8,23 +8,26 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<div class="form-group">
-<label>
-<p><a href="{{ route('notas.create') }}" class="btn btn-success">Adicionar Nota</a></p>
-</label>
-
+<div class="form-row">
+<div class="form-group col-md-10">
 <label>
 <form method="get" action="/notas">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Texto ]">
+      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Texto ]">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-success">Buscar</button>
+        <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
       </span>
     </div>
   </div>
 </form>
 </label>
+</div>
+<div class="form-group col-md-2" align="right">
+<label>
+<p><a href="{{ route('notas.create') }}" class="btn btn-success"><strong>Adicionar Nota</strong></a></p>
+</label>
+</div>
 </div>
 
 <div class="table-responsive">

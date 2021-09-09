@@ -8,23 +8,26 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<div class="form-group">
-<label>
-<p><a href="{{ route('tipocontas.create') }}" class="btn btn-success">Adicionar Tipo de Conta</a></p>
-</label>
-
+<div class="form-row">
+<div class="form-group col-md-10">
 <label>
 <form method="get" action="/tipocontas">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="87%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
+      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
       <span class="input-group-btn">
-        <button type="submit" class="btn btn-success">Buscar</button>
+        <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
       </span>
     </div>
   </div>
 </form>
 </label>
+</div>
+<div class="form-group col-md-2" align="right">
+<label>
+<p><a href="{{ route('tipocontas.create') }}" class="btn btn-success"><strong>Adicionar Tipo de Conta</strong></a></p>
+</label>
+</div>
 </div>
 
 <div class="table-responsive">
