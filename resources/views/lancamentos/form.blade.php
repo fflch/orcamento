@@ -13,26 +13,27 @@
 </div>
 
 <div class="form-row">
-<div class="form-group col-md-3">
-    <label for="grupo">Grupo</label>
-    <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]">
+    <div class="form-group col-md-3">
+        <label for="grupo">Grupo</label>
+        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]">
+    </div>
+    <div class="form-group col-md-1">
+        <label for="receita" class="checkbox-inline">Receita</label>
+        <input type="checkbox" name="receita" value="1" 
+            @if (isset($lancamento->id) and ($lancamento->receita === 1))
+                checked
+            @endif >
+    </div>
+    <div class="form-group col-md-4">
+        <label fo col-md-2r="data">Data</label>
+        <input type="text" class="form-control datepicker data" name="data" value="{{ $lancamento->data ?? old('data') }}" placeholder="[ Ex: 01/01/2020 ]">
+    </div>
+    <div class="form-group col-md-4">
+        <label for="empenho">Empenho</label>
+        <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') }}" placeholder="[ Ex: 1234567 ]">
+    </div>
 </div>
-<div class="form-group col-md-1">
-    <label for="receita" class="checkbox-inline">Receita</label>
-    <input type="checkbox" name="receita" value="1" 
-        @if (isset($lancamento->id) and ($lancamento->receita === 1))
-             checked
-        @endif >
-        </div>
-<div class="form-group col-md-4">
-    <label fo col-md-2r="data">Data</label>
-    <input type="text" class="form-control datepicker data" name="data" value="{{ $lancamento->data ?? old('data') }}" placeholder="[ Ex: 01/01/2020 ]">
-</div>
-<div class="form-group col-md-4">
-    <label for="empenho">Empenho</label>
-    <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') }}" placeholder="[ Ex: 1234567 ]">
-</div>
-</div>
+
 <div class="form-group">
     <label for="descricao">Descrição</label>
 <input class="form-control" list="descricao" name="descricao">

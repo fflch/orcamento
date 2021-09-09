@@ -8,22 +8,24 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<div class="form-group">
-<label>
-<p><a href="{{ route('lancamentos.create') }}" class="btn btn-success">Adicionar Lançamento</a></p>
-</label>
-<label>
-<form method="get" action="/lancamentos">
-  <div class="row">
-    <div class=" col-sm input-group">
-      <input size="88%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success"> Buscar </button>
-      </span>
+<div class="form-row">
+    <div class="form-group col-md-10">
+        <label>
+            <form method="get" action="/lancamentos">
+                    <div class="col-sm input-group">
+                        <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+                        </span>
+                    </div>
+            </form>
+        </label>
     </div>
-  </div>
-</form>
-</label>
+    <div class="form-group col-md-2" align="right">
+        <label>
+            <p><a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a></p>
+        </label>
+    </div>
 </div>
 
 <div class="table-responsive">

@@ -9,23 +9,21 @@
     @include('messages.errors')
 
 <div class="form-row">
-    <div class="form-group col-md-2">
-        <label>
-            <p><a href="{{ route('ficorcamentarias.create') }}" class="btn btn-success">Adicionar Ficha Orçamentária</a></p>
-        </label>
-    </div>
     <div class="form-group col-md-10">
         <label>
             <form method="get" action="/ficorcamentarias">
-                <!--div class="row"-->
                     <div class="col-sm input-group">
-                        <input size="82%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
+                        <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-success"> Buscar </button>
+                            <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         </span>
                     </div>
-                <!--/div-->
             </form>
+        </label>
+    </div>
+    <div class="form-group col-md-2" align="right">
+        <label>
+            <p><a href="{{ route('ficorcamentarias.create') }}" class="btn btn-success"><strong>Adicionar Ficha Orçamentária</strong></a></p>
         </label>
     </div>
 </div>

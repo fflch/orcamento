@@ -23,7 +23,7 @@ $administracao = [
     [
         'text' => 'Tipos de Contas',
         'url'  => '/tipocontas',
-        'can'  => 'Admiistrador',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Contas',
