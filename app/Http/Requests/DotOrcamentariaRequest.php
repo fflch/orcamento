@@ -29,6 +29,8 @@ class DotOrcamentariaRequest extends FormRequest
             'descricaogrupo' => 'required',
             'item'           => 'required',
             'descricaoitem'  => 'required',
+            'receita'        => 'boolean',
+            'ativo'          => 'boolean',
         ];
     }
 
@@ -40,6 +42,8 @@ class DotOrcamentariaRequest extends FormRequest
             'descricaogrupo.required' => 'Digite a Descrição do Grupo.',
             'item.required'           => 'Digite o Item.',
             'descricaoitem.required'  => 'Digite a Descrição do Item.',
+            'receita.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
+            'ativo.boolean'           => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }
 }

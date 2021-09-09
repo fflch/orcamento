@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DotOrcamentaria extends Model
 {
     use HasFactory;
-    protected $fillable = ['dotacao','grupo','descricaogrupo','item','descricaoitem','receita','user_id'];
+    protected $fillable = ['dotacao','grupo','descricaogrupo','item','descricaoitem','receita','ativo','user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);

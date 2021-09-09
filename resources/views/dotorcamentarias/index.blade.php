@@ -40,8 +40,9 @@
                 <th width="5%" align="center">Grupo</th>
                 <th width="30%" align="center">Descrição do Grupo</th>
                 <th width="10%" align="center">Item</th>
-                <th width="30%" align="left">Descrição do Item</th>  
+                <th width="25%" align="left">Descrição do Item</th>  
                 <th width="5%" align="center">Receita</th>   
+                <th width="5%" align="center">Ativo</th>
                 @can('Administrador')                           
                 <th width="10%" align="center" colspan="2">Ações</th>
                 @endcan
@@ -57,6 +58,7 @@
                 <td align="left">{{ $dotorcamentaria->item }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaoitem }}</td>
                 <td align="center" valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center" valign="middle">@if ($dotorcamentaria->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">

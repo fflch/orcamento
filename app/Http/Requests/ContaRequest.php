@@ -41,7 +41,7 @@ class ContaRequest extends FormRequest
             'email.required'        => 'Digite o E-mail da Conta.',
             'email.email'           => 'Informe um endereço de E-mail válido.',
             'numero.required'       => 'Digite o Número da Conta.',
-            'numero.integer'       => 'O Número deve ser um número inteiro.',
+            'numero.integer'        => 'O Número deve ser um número inteiro.',
             'ativo.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }
