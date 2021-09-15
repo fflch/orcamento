@@ -1,7 +1,7 @@
 <?php
 $right_menu = [
     [
-        'text'   => '<i class="fas fa-cog"></i>',
+        'text'   => '<i class="fas fa-hard-hat"></i>',
         'title'  => 'logs',
         'target' => '_blank',
         'url'    => config('app.url') . '/logs',
@@ -58,26 +58,26 @@ $administracao = [
 ];
 return [
     'title'=> env('APP_NAME'),
-    'dashboard_url' => config('app.url'),
-    'logout_method' => 'POST',
-    'logout_url' => '/logout',
-    'login_url' => '/login',
-    'right_menu' => $right_menu,
-    'menu' => [
+    'dashboard_url'   => config('app.url'),
+    'logout_method'   => 'POST',
+    'logout_url'      => '/logout',
+    'login_url'       => '/login',
+    'right_menu'      => $right_menu,
+    'menu'            => [
         [
             'text'    => 'Administração',
             'submenu' => $administracao,
             'can'     => 'Todos',
         ],
         [
-            'text' => 'Lançamentos',
-            'url'  => '/lancamentos',
-            'can'  => 'Todos',
+            'text'    => 'Lançamentos',
+            'url'     => '/lancamentos',
+            'can'     => 'Todos',
         ],
         [
-            'text' => 'Fichas Orçamentárias',
-            'url'  => '/ficorcamentarias',
-            'can'  => 'Todos',
+            'text'    => 'Fichas Orçamentárias',
+            'url'     => '/ficorcamentarias',
+            'can'     => 'Todos',
         ],
     ]
 ];

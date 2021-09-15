@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class FicOrcamentaria extends Model
 {
     use HasFactory;
-    protected $fillable = ['descricao','observacao','data', 'empenho','debito','credito'];
+    protected $fillable = [
+        'descricao',
+        'observacao',
+        'data',
+        'empenho',
+        'debito',
+        'credito'];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -44,5 +50,13 @@ class FicOrcamentaria extends Model
 
     public function setSaldoAttribute($saldo){
         $this->attributes['saldo'] = str_replace(',', '.', $saldo);
+    }
+
+    public function getDataAttribute($data) {
+        return implode('/',array_reverse(explode('-',$data)));
+    }
+    
+    public function setDataAttribute($data) {
+        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
 }

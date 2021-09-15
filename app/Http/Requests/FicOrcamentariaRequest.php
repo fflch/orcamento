@@ -27,21 +27,23 @@ class FicOrcamentariaRequest extends FormRequest
             'data'       => 'required',
             'empenho'    => 'required',
             'descricao'  => 'required',
-            'debito'     => 'required',
-            'credito'    => 'required',
+            'debito'     => 'required_without:credito',
+            'credito'    => 'required_without:debito',
             'observacao' => 'required',
         ];
     }
 
     public function messages(){
         return [
-            'dotacao_id.required' => 'Escolha uma Conta',
-            'data.required'       => 'Informe a Data',
-            'empenho.required'    => 'Informe o Empenho',
-            'descricao.required'  => 'Informe a Descrição',
-            'debito.float'        => 'O Débito deve ser um valor monetário',
-            'credito.float'       => 'O Crédtio deve ser um valor monetário',
-            'observacao.required' => 'Informe a Observação',
+            'dotacao_id.required'      => 'Escolha uma Conta',
+            'data.required'            => 'Informe a Data',
+            'empenho.required'         => 'Informe o Empenho',
+            'descricao.required'       => 'Informe a Descrição',
+            'debito.float'             => 'O Débito deve ser um valor monetário',
+            'credito.float'            => 'O Crédtio deve ser um valor monetário',
+            'debito.required_without'  => 'O Débito ou o Crédito deve ser informado.',
+            'credito.required_without' => 'O Débito ou o Crédito deve ser informado.',
+            'observacao.required'      => 'Informe a Observação',
         ];
     }
 }
