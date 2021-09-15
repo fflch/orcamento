@@ -8,40 +8,67 @@
     @include('messages.flash')
     @include('messages.errors')
 
+<div class="card p-3">
 <h2><strong>Lançamento: {{ $lancamento->conta->nome }}</strong></h2>
+</div>
 <br>
+<div class="card p-4">
+    <div class="form-row">
+        <div class="form-group col-md-1"><b>ID:</b> {{ $lancamento->id }}</div>
+        <div class="form-group col-md-1"><b>Movimento:</b> {{ $lancamento->movimento->ano ?? ''}}</div>
+        <div class="form-group col-md-6"><b>Conta:</b> {{ $lancamento->conta->nome ?? '' }}</div>
+        <div class="form-group col-md-1"><b>Grupo:</b> {{ $lancamento->grupo }}</div>
+        <div class="form-group col-md-1"><b>Receita:</b>@if ($lancamento->receita == 1) [ x ] @else [ &nbsp; ] @endif</div>
+        <div class="form-group col-md-2"><b>Empenho:</b> {{ $lancamento->empenho }}</div>
+    </div>
+        
+    <div class="form-row">
+        <div class="form-group col-md-3"><b>Data:</b> {{ $lancamento->data }}</div>
+        <div class="form-group col-md-9"><b>Descrição:</b> {{ $lancamento->descricao }}</div>
+    </div>
 
-<div class="card">
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>ID:</b> {{ $lancamento->id }}</li>
-        <li class="list-group-item"><b>Movimento:</b> {{ $lancamento->movimento->ano ?? ''}}</li>
-        <li class="list-group-item"><b>Conta:</b> {{ $lancamento->conta->nome ?? '' }}</li>
-        <li class="list-group-item"><b>Grupo:</b> {{ $lancamento->grupo }}</li>
-        <li class="list-group-item"><b>Receita:</b>@if ($lancamento->receita == 1) [ x ] @else [ &nbsp; ] @endif</li>
-        <li class="list-group-item"><b>Empenho:</b> {{ $lancamento->empenho }}</li>
-        <li class="list-group-item"><b>Descrição:</b> {{ $lancamento->descricao }}</li>
-        <li class="list-group-item"><b>Débito:</b> @if($lancamento->debito != 0.00) {{ $lancamento->debito }} @endif</li>
-        <li class="list-group-item"><b>Crédito:</b> @if($lancamento->credito != 0.00) {{ $lancamento->credito }} @endif</li>
-        <li class="list-group-item"><b>Saldo:</b> {{ $lancamento->saldo }}</li>
-        <li class="list-group-item"><b>Observação:</b> {{ $lancamento->observacao }}</li>
-        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $lancamento->user->name ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Criação:</b> {{ $lancamento->created_at ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $lancamento->updated_at ?? '' }}</li>
-    </ul>
+    <div class="form-row">
+        <div class="form-group col-md-4"><b>Débito:</b> @if($lancamento->debito != 0.00) {{ $lancamento->debito }} @endif</div>
+        <div class="form-group col-md-4"><b>Crédito:</b> @if($lancamento->credito != 0.00) {{ $lancamento->credito }} @endif</div>
+        <div class="form-group col-md-4"><b>Saldo:</b> {{ $lancamento->saldo }}</div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-2"><b>Estornado:</b>@if ($lancamento->estornado == 1) [ x ] @else [ &nbsp; ] @endif</div>
+        <div class="form-group col-md-10"><b>Observação:</b> {{ $lancamento->observacao }}</div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-3"><b>Percentual #1:</b> {{ $lancamento->percentual1 }}</div>
+        <div class="form-group col-md-3"><b>Percentual #2:</b> {{ $lancamento->percentual2 }}</div>
+        <div class="form-group col-md-3"><b>Percentual #3:</b> {{ $lancamento->percentual3 }}</div>
+        <div class="form-group col-md-3"><b>Percentual #4:</b> {{ $lancamento->percentual4 }}</div>
+    </div>
+
+    <div class="form-row">        
+        <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $lancamento->user->name ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($lancamento->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($lancamento->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+    </div>
 </div>
 @can('Administrador')
 <br>
+<div class="card p-3">
 <div class="form-row">
     <div class="form-group col-md-1">
         <a href="{{ route('lancamentos.edit',$lancamento->id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
+
     </div>
-    <div class="form-group col-md-1">
+    <div class="form-group col-md-11" align="right">
         <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
             @csrf
             <input name="_method" type="hidden" value="DELETE">
             <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Deletar</button>
         </form>
+
     </div>
+</div>    
 </div>
 @endcan
 @stop

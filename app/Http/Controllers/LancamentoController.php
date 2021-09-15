@@ -20,25 +20,22 @@ class LancamentoController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $lancamentos = Lancamento::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
+            $lancamentos = Lancamento::where('conta_id','=',$request->busca)->orderBy('data')->paginate(10);
         }
         else{
-            //$lancamentos = Lancamento::paginate(5)->sortByDesc('nome');
-            //$lancamentos = Lancamento::paginate(10);
-            $lancamentos = Lancamento::All();
+            $lancamentos = Lancamento::orderBy('data')->paginate(10);
         }
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($lancamentos as $lancamento){
-            //dd(number_format($lancamento->debito, 2, ',', '.'));
-            //dd(str_replace(',', '.', $lancamento->debito));
             $total_debito  += str_replace(',', '.', $lancamento->debito);
             $total_credito += str_replace(',', '.', $lancamento->credito);
         }
 
-        return view('lancamentos.index', compact('lancamentos','total_debito','total_credito'));
+        $lista_contas      = Conta::lista_contas();
 
+        return view('lancamentos.index', compact('lancamentos','total_debito','total_credito','lista_contas'));
     }
 
     /**
@@ -65,13 +62,27 @@ class LancamentoController extends Controller
     public function store(LancamentoRequest $request)
     {
         $this->authorize('Todos');
+        //dd($request->conta_id);
+        
+        $request->data = implode("-", array_reverse(explode("/", $request->data)));
+        //dd($request->data);
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
+        $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
-        $validated['conta_id'] = $request->conta_id;
+        $validated['conta_id']     = $request->conta_id;
 
         Lancamento::create($validated);
+
+        $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');
+        //dd($lancamentos);
+        $saldo  = 0.00;
+        foreach($lancamentos as $lancamento){
+            $saldo = $saldo + ($lancamento->credito - $lancamento->debito);
+            $lancamento->saldo = $saldo;
+            $lancamento->update();
+            //dd($saldo);
+        }
 
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect()->route('lancamentos.index');
@@ -115,12 +126,24 @@ class LancamentoController extends Controller
     public function update(LancamentoRequest $request, Lancamento $lancamento)
     {
         $this->authorize('Administrador');
-        $movimento_ativo = Movimento::movimento_ativo();
+        $movimento_ativo          = Movimento::movimento_ativo();
         $validated = $request->validated();
         $lancamento->movimento_id = $movimento_ativo->id;
-        $lancamento->conta_id = $request->conta_id;
-        $validated['user_id'] = auth()->user()->id;
+        $lancamento->conta_id     = $request->conta_id;
+        $validated['user_id']     = auth()->user()->id;
         $lancamento->update($validated);
+
+        $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->get()->sortBy('data');
+        //dd($lancamentos_conta);
+        $saldo  = 0.00;
+        foreach($lancamentos_conta as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            //$calcula_saldo->saldo = 0.00;
+
+            $calcula_saldo->update();
+            //dd($saldo);
+        }
         
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
         return redirect()->route('lancamentos.index');
@@ -136,6 +159,17 @@ class LancamentoController extends Controller
     {
         $this->authorize('Administrador');
         $lancamento->delete();
+
+        $lancamentos = Lancamento::where('conta_id','=',$lancamento->conta_id)->get()->sortBy('data');
+        //dd($lancamentos);
+        $saldo  = 0.00;
+        foreach($lancamentos as $lancamento){
+            $saldo = $saldo + ($lancamento->credito - $lancamento->debito);
+            $lancamento->saldo = $saldo;
+            $lancamento->update();
+            //dd($saldo);
+        }
+
         return redirect()->route('lancamentos.index')->with('alert-success', 'Lançamento deletado com sucesso!');
     }
 }
