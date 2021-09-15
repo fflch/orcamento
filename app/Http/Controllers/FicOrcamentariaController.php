@@ -64,13 +64,13 @@ class FicOrcamentariaController extends Controller
     public function store(FicOrcamentariaRequest $request)
     {
         $this->authorize('Todos');
+        //$request->data = implode("-", array_reverse(explode("/", $request->data)));
+        //dd($request->data);
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
+        $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
-
-        //$ficorocamentaria->dotacao_id = $request->dotacao_id;
-        $validated['dotacao_id'] = $request->dotacao_id;
+        $validated['dotacao_id']   = $request->dotacao_id;
 
         FicOrcamentaria::create($validated);
 
