@@ -72,12 +72,36 @@
 </datalist>
 </div>
 
+<div class="border rounded bg-light">
+<div class="p-4">    
+<div class="form-row">
+    <div class="form-group col-md-3">
+        <label for="percentual1">Percentual #1</label>
+        <input type="text" class="form-control" name="percentual1" value="100" placeholder="[ Ex: 100% ]">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="percentual2">Percentual #2</label>
+        <input type="text" class="form-control" name="percentual2" value="0" placeholder="[ Ex: 100% ]">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="percentual3">Percentual #3</label>
+        <input type="text" class="form-control" name="percentual3" value="0" placeholder="[ Ex: 100% ]">
+    </div>
+    <div class="form-group col-md-3">
+        <label for="percentual4">Percentual #4</label>
+        <input type="text" class="form-control" name="percentual4" value="0" placeholder="[ Ex: 100% ]">
+    </div>
+</div>
+</div>
+</div>
+<br>
 <div class="form-row">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group col-md-12">
                 <input type="submit" class="btn btn-primary" value="Salvar">
                 <input type="reset" class="btn btn-warning" value="Desfazer">
+                <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
             </div>
         </div>
     </div>
