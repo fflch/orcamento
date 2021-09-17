@@ -35,20 +35,18 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
-                <th width="5%" align="center">#</th>
-                <th width="25%" align="left">Tipo de Conta</th>
+                <th width="30%" align="left">Tipo de Conta</th>
                 <th width="25%" align="left">Área</th>
                 <th width="30%" align="left">Nome</th>
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($contas as $conta)
             <tr>
-                <td align="center">{{ $conta->id }}</td>
                 <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
                 <td align="left">{{ $conta->area->nome ?? '' }}</td>
                 <td align="left"><a href="/contas/{{ $conta->id }}">{{ $conta->nome }}</a></td>

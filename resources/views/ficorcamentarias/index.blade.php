@@ -13,7 +13,14 @@
         <label>
             <form method="get" action="/ficorcamentarias">
                     <div class="col-sm input-group">
-                        <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
+
+                    <input size="100%" list="dotacoes" name="dotacao_id" id="dotacao_id" class="form-control" value="{{ Request()->dotacao_id}}" placeholder="[ Busca por Dotação ]">
+                    <datalist id="dotacoes">
+                        @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
+                            <option value="{{ $lista_dotorcamentaria->id }}">{{ $lista_dotorcamentaria->dotacao }}
+                        @endforeach
+                    </datalist>
+
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         </span>
@@ -29,25 +36,26 @@
 </div>
 
 <div class="table-responsive">
+<p>{{ $ficorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
-                <th width="5%" align="center">#</th>
                 <th width="5%" align="left">Dotação</th>
-                <th width="50%" align="left">Descrição</th>
-                <th width="10%" align="center">Débito</th>
-                <th width="10%" align="center">Crédito</th>
-                <th width="10%" align="center">Saldo</th>
+                <th width="10%" align="left">Data</th>
+                <th width="54%" align="left">Descrição</th>
+                <th width="7%" align="center">Débito</th>
+                <th width="7%" align="center">Crédito</th>
+                <th width="7%" align="center">Saldo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($ficorcamentarias as $ficorcamentaria)
             <tr>
-                <td align="center">{{ $ficorcamentaria->id }}</td>
                 <td align="left"><a href="/ficorcamentarias/{{ $ficorcamentaria->id }}">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</a></td>
+                <td align="left">{{ $ficorcamentaria->data }}</td>
                 <td align="left">{{ $ficorcamentaria->descricao }}</td>
                 @if($ficorcamentaria->debito != 0.00)
                     <td align="right">{{ number_format($ficorcamentaria->debito, 2, ',', '.') }}</td>
@@ -76,9 +84,13 @@
                 <td colspan="3">&nbsp;</td>
                 <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                <td colspan="3" align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
+                <td align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
+                @can('Administrador')
+                <td colspan="2">&nbsp;</td>
+                @endcan
             </tr>
         </tbody>
     </table>
+<p>{{ $ficorcamentarias->links() }}</p>
 </div>
 @stop

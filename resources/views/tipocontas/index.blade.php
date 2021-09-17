@@ -14,7 +14,7 @@
 <form method="get" action="/tipocontas">
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
+      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Descrição ]">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
       </span>
@@ -34,20 +34,18 @@
 <p>{{ $tipocontas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
-                <th width="5%" align="center">#</th>
-                <th width="75%" align="left">Descrição</th>
-                <th width="5%" align="center">C.P.F.O.</th>
-                <th width="5%" align="center">Balancete</th>
+            <tr>
+                <th width="80%">Descrição</th>
+                <th width="5%">C.P.F.O.</th>
+                <th width="5%">Balancete</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($tipocontas as $tipoconta)
             <tr>
-                <td align="center">{{ $tipoconta->id }}</td>
                 <td align="left"><a href="/tipocontas/{{ $tipoconta->id }}">{{ $tipoconta->descricao }}</a></td>
                 <td align="center">@if ($tipoconta->cpfo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 <td align="center">@if ($tipoconta->relatoriobalancete == 1) [ x ] @else [ &nbsp; ] @endif</td>

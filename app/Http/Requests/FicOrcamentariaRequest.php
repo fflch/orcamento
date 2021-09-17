@@ -35,14 +35,14 @@ class FicOrcamentariaRequest extends FormRequest
 
     public function messages(){
         return [
-            'dotacao_id.required'      => 'Escolha uma Conta',
+            'dotacao_id.required'      => 'Escolha uma Dotação',
             'data.required'            => 'Informe a Data',
             'empenho.required'         => 'Informe o Empenho',
             'descricao.required'       => 'Informe a Descrição',
             'debito.float'             => 'O Débito deve ser um valor monetário',
             'credito.float'            => 'O Crédtio deve ser um valor monetário',
             'debito.required_without'  => 'O Débito ou o Crédito deve ser informado.',
-            'credito.required_without' => 'O Débito ou o Crédito deve ser informado.',
+            'credito.required_without' => 'O Crédito ou o Débito deve ser informado.',
             'observacao.required'      => 'Informe a Observação',
         ];
     }

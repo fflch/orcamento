@@ -37,6 +37,7 @@ class LancamentoRequest extends FormRequest
             'percentual2' => 'required|integer',
             'percentual3' => 'required|integer',
             'percentual4' => 'required|integer',
+            'percentual'  => 'size:100',
         ];
     }
 

@@ -19,8 +19,8 @@ class LancamentoController extends Controller
     public function index(Request $request)
     {
         $this->authorize('Todos');
-        if($request->busca != null){
-            $lancamentos = Lancamento::where('conta_id','=',$request->busca)->orderBy('data')->paginate(10);
+        if($request->conta_id != null){
+            $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data')->paginate(10);
         }
         else{
             $lancamentos = Lancamento::orderBy('data')->paginate(10);
@@ -34,7 +34,6 @@ class LancamentoController extends Controller
         }
 
         $lista_contas      = Conta::lista_contas();
-
         return view('lancamentos.index', compact('lancamentos','total_debito','total_credito','lista_contas'));
     }
 
@@ -62,11 +61,15 @@ class LancamentoController extends Controller
     public function store(LancamentoRequest $request)
     {
         $this->authorize('Todos');
-        //dd($request->conta_id);
-        
+        $percentual = $request->percentual1 + $request->percentual2 + $request->percentual3 + $request->percentual4;
+
         $request->data = implode("-", array_reverse(explode("/", $request->data)));
-        //dd($request->data);
         $movimento_ativo = Movimento::movimento_ativo();
+        //array_push($request, $percentual);
+        //$request->validate([
+            //'percentual' => 'size:100',
+        //]);
+
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
@@ -74,14 +77,12 @@ class LancamentoController extends Controller
 
         Lancamento::create($validated);
 
-        $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');
-        //dd($lancamentos);
+        $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');
         $saldo  = 0.00;
-        foreach($lancamentos as $lancamento){
-            $saldo = $saldo + ($lancamento->credito - $lancamento->debito);
-            $lancamento->saldo = $saldo;
-            $lancamento->update();
-            //dd($saldo);
+        foreach($lancamentos_conta as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
         }
 
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
@@ -133,16 +134,12 @@ class LancamentoController extends Controller
         $validated['user_id']     = auth()->user()->id;
         $lancamento->update($validated);
 
-        $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->get()->sortBy('data');
-        //dd($lancamentos_conta);
+        $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
             $calcula_saldo->saldo = $saldo;
-            //$calcula_saldo->saldo = 0.00;
-
             $calcula_saldo->update();
-            //dd($saldo);
         }
         
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
@@ -160,14 +157,12 @@ class LancamentoController extends Controller
         $this->authorize('Administrador');
         $lancamento->delete();
 
-        $lancamentos = Lancamento::where('conta_id','=',$lancamento->conta_id)->get()->sortBy('data');
-        //dd($lancamentos);
+        $lancamentos_conta = Lancamento::where('conta_id','=',$lancamento->conta_id)->orderBy('data');
         $saldo  = 0.00;
-        foreach($lancamentos as $lancamento){
-            $saldo = $saldo + ($lancamento->credito - $lancamento->debito);
-            $lancamento->saldo = $saldo;
-            $lancamento->update();
-            //dd($saldo);
+        foreach($lancamentos_conta as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
         }
 
         return redirect()->route('lancamentos.index')->with('alert-success', 'Lançamento deletado com sucesso!');
