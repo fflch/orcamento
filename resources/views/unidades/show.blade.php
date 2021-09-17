@@ -8,26 +8,32 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<h2></strong>Unidade: {{ $unidade->nome }}</strong></h2>
+    <div class="card p-3">
+<h2><strong>Unidade: {{ $unidade->nome }}</strong></h2>
+</div>
 <br>
 
-<div class="card">
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>ID:</b> {{ $unidade->id }}</li>
-        <li class="list-group-item"><b>Número:</b> {{ $unidade->numero }}</li>
-        <li class="list-group-item"><b>Nome:</b> {{ $unidade->nome }}</li>
-        <li class="list-group-item"><b>Departamento:</b> {{ $unidade->departamento }}</li>
-        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $unidade->user->name ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Criação:</b> {{ $unidade->created_at ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $unidade->updated_at ?? '' }}</li>
-    </ul>
+<div class="card p-4">
+    <div class="form-row">
+        <div class="form-group col-md-2"><b>Número:</b> {{ $unidade->numero }}</div>
+        <div class="form-group col-md-5"><b>Nome:</b> {{ $unidade->nome }}</div>
+        <div class="form-group col-md-5"><b>Departamento:</b> {{ $unidade->departamento }}</div>
+</div>        
+        <div class="form-row">        
+        <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $unidade->user->name ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($unidade->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($unidade->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+    </div>
 </div>
 @can('Administrador')
 <br>
+<div class="card p-3">
 <div class="form-row">
     <div class="form-group col-md-1">
         <a href="{{ route('unidades.edit',$unidade->id) }}" class="btn btn-warning">Editar</a>
-    </div>
+        <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
+</div>
+</div>
 </div>
 @endcan
 @stop

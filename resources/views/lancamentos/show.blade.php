@@ -14,9 +14,8 @@
 <br>
 <div class="card p-4">
     <div class="form-row">
-        <div class="form-group col-md-1"><b>ID:</b> {{ $lancamento->id }}</div>
         <div class="form-group col-md-1"><b>Movimento:</b> {{ $lancamento->movimento->ano ?? ''}}</div>
-        <div class="form-group col-md-6"><b>Conta:</b> {{ $lancamento->conta->nome ?? '' }}</div>
+        <div class="form-group col-md-7"><b>Conta:</b> {{ $lancamento->conta->nome ?? '' }}</div>
         <div class="form-group col-md-1"><b>Grupo:</b> {{ $lancamento->grupo }}</div>
         <div class="form-group col-md-1"><b>Receita:</b>@if ($lancamento->receita == 1) [ x ] @else [ &nbsp; ] @endif</div>
         <div class="form-group col-md-2"><b>Empenho:</b> {{ $lancamento->empenho }}</div>
@@ -58,7 +57,6 @@
     <div class="form-group col-md-1">
         <a href="{{ route('lancamentos.edit',$lancamento->id) }}" class="btn btn-warning">Editar</a>
         <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
-
     </div>
     <div class="form-group col-md-11" align="right">
         <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
@@ -66,7 +64,6 @@
             <input name="_method" type="hidden" value="DELETE">
             <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Deletar</button>
         </form>
-
     </div>
 </div>    
 </div>

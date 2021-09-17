@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<div class="p-1">    
+<div class="card p-3">    
     <div class="form-row">
         <div class="form-group col-md-3">
             <label for="percentual1">Percentual #1</label>

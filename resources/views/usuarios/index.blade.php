@@ -8,6 +8,11 @@
     @include('messages.flash')
     @include('messages.errors')
 
+    <div class="card p-3">
+<h2><strong>Usuários</strong></h2>
+</div>
+<br>    
+
 <label>
 <form method="get" action="/usuarios">
   <div class="row">
