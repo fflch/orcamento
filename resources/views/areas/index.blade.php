@@ -37,17 +37,15 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
-                <th width="5%" align="center">&nbsp;</th>
-                <th width="85%" align="left">Nome</th>
+                <th width="90%" align="left">Nome</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($areas as $area)
             <tr>
-                <td align="center">{{ $area->id }}</td>
                 <td align="left"><a href="/areas/{{ $area->id }}">{{ $area->nome }}</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/areas/{{$area->id}}/edit">Editar</a></td>

@@ -1,7 +1,7 @@
 <div class="form-row">
 <div class="form-group col-md-7">
     <label for="descricao">Descrição</label>
-    <input type="text" class="form-control" name="descricao" value="{{ $tipoconta->descricao ?? old('descricao') }}" placeholder="Ex: Orçamento">
+    <input type="text" class="form-control" name="descricao" value="{{ $tipoconta->descricao ?? old('descricao') }}" placeholder="[ Ex: Orçamento ]">
 </div>
 
 <div class="form-group col-md-3">

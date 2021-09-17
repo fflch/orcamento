@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Nota extends Model
 {
     use HasFactory;
-    protected $fillable = ['texto','tipo'];
+    protected $fillable = ['tipoconta_id','texto','tipo'];
 
     public function user(){
         return $this->belongsTo(User::class);

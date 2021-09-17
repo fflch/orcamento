@@ -24,7 +24,7 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="texto">Texto</label>
-        <input type="text" class="form-control" name="texto" value="{{ $nota->texto ?? old('texto') }}" placeholder="Ex: Suplementação">
+        <input type="text" class="form-control" name="texto" value="{{ $nota->texto ?? old('texto') }}" placeholder="[ Ex: Suplementação de Cursos ]">
     </div>
 </div>
 

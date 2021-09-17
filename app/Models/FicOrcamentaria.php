@@ -9,6 +9,7 @@ class FicOrcamentaria extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'dotacao_id',   
         'descricao',
         'observacao',
         'data',

@@ -38,19 +38,17 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
-                <th width="5%" align="center">#</th>
-                <th width="75%" align="left">Ano</th>
+                <th width="80%" align="left">Ano</th>
                 <th width="5%" align="center">Concluído</th>
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($movimentos as $movimento)
             <tr>
-                <td align="center">{{ $movimento->id }}</td>
                 <td align="left"><a href="/movimentos/{{ $movimento->id }}">{{ $movimento->ano }}</a></td>
                 <td align="center">@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 <td align="center">@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>

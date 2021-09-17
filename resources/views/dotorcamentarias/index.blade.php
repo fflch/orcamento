@@ -35,10 +35,9 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr align="center">
-                <th width="5%" align="center">#</th>
                 <th width="5%" align="left">Dotação</th>
                 <th width="5%" align="center">Grupo</th>
-                <th width="30%" align="center">Descrição do Grupo</th>
+                <th width="35%" align="center">Descrição do Grupo</th>
                 <th width="10%" align="center">Item</th>
                 <th width="25%" align="left">Descrição do Item</th>  
                 <th width="5%" align="center">Receita</th>   
@@ -51,7 +50,6 @@
         <tbody>
             @foreach($dotorcamentarias as $dotorcamentaria)
             <tr>
-                <td align="center" valign="middle">{{ $dotorcamentaria->id }}</td>
                 <td align="left"><a href="/dotorcamentarias/{{ $dotorcamentaria->id }}">{{ $dotorcamentaria->dotacao }}</a></td>
                 <td align="center">{{ $dotorcamentaria->grupo }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaogrupo }}</td>

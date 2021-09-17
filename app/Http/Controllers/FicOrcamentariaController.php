@@ -21,13 +21,11 @@ class FicOrcamentariaController extends Controller
     public function index(Request $request)
     {
         $this->authorize('Todos');
-        if($request->busca != null){
-            $ficorcamentarias = FicOrcamentaria::where('descricao','LIKE','%'.$request->busca.'%')->paginate(10);
+        if($request->dotacao_id != null){
+            $ficorcamentarias = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data')->paginate(10);
         }
         else{
-            //$ficorcamentarias = FicOrcamentaria::paginate(5)->sortByDesc('nome');
-            //$ficorcamentarias = FicOrcamentaria::paginate(10);
-            $ficorcamentarias = FicOrcamentaria::All();
+            $ficorcamentarias = FicOrcamentaria::orderBy('data')->paginate(10);
         }
 
         $total_debito  = 0.00;
@@ -37,8 +35,8 @@ class FicOrcamentariaController extends Controller
             $total_credito += $ficorcamentaria->credito;
         }
 
-        return view('ficorcamentarias.index', compact('ficorcamentarias','total_debito','total_credito'));
-
+        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
+        return view('ficorcamentarias.index', compact('ficorcamentarias','total_debito','total_credito','lista_dotorcamentarias'));
     }
 
     /**
@@ -125,6 +123,14 @@ class FicOrcamentariaController extends Controller
         $ficorcamentaria->dotacao_id = $request->dotacao_id;
 
         $ficorcamentaria->update($validated);
+
+        $ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data');
+        $saldo  = 0.00;
+        foreach($ficorcamentarias_dotacao as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
+        }
         
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');

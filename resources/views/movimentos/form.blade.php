@@ -1,7 +1,7 @@
 <div class="form-row">
 <div class="form-group col-md-10">
     <label for="ano">Ano</label>
-    <input type="text" class="form-control" name="ano" value="{{ $movimento->ano ?? old('ano') }}" placeholder="Ex: 2099">
+    <input type="text" class="form-control" name="ano" value="{{ $movimento->ano ?? old('ano') }}" placeholder="[ Ex: 2099 ]">
 </div>
 
 <div class="form-group col-md-1">
