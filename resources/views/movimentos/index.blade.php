@@ -8,7 +8,12 @@
     @include('messages.flash')
     @include('messages.errors')
 
-<div class="form-row">
+    <div class="card p-3">
+<h2><strong>Movimentos</strong></h2>
+</div>
+<br>
+
+    <div class="form-row">
 
 <div class="form-group col-md-10">
 <label>

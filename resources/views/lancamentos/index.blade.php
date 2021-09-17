@@ -8,28 +8,32 @@
     @include('messages.flash')
     @include('messages.errors')
 
+<div class="card p-3">
+<h2><strong>Lançamentos</strong></h2>
+</div>    
+<br>
+
 <div class="form-row">
     <div class="form-group col-md-10">
         <label>
             <form method="get" action="/lancamentos">
-                    <div class="col-sm input-group">
-                        <input size="100%" list="contas" name="conta_id" id="conta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Conta ]">
-                        <datalist id="contas">
-                            @foreach($lista_contas as $lista_conta)
+                <div class="col-sm input-group">
+                    <input size="100%" list="contas" name="conta_id" id="conta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Conta ]">
+                    <datalist id="contas">
+                        @foreach($lista_contas as $lista_conta)
                             <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}
-                            @endforeach
-                        </datalist>
-
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
-                        </span>
-                    </div>
+                        @endforeach
+                    </datalist>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+                    </span>
+                </div>
             </form>
         </label>
     </div>
     <div class="form-group col-md-2" align="right">
         <label>
-            <p><a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a></p>
+            <a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a>
         </label>
     </div>
 </div>

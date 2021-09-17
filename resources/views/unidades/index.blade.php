@@ -8,6 +8,11 @@
     @include('messages.flash')
     @include('messages.errors')
 
+    <div class="card p-3">
+<h2><strong>Unidade</strong></h2>
+</div>
+<br>    
+
 <div class="table-responsive">
     <table class="table table-striped" border="0">
         <thead>

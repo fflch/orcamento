@@ -8,36 +8,44 @@
     @include('messages.flash')
     @include('messages.errors')
 
+<div class="card p-3">
 <h2><strong>Conta: {{ $conta->nome }}</strong></h2>
+</div>
 <br>
 
-<div class="card">
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item"><b>ID</b>: {{ $conta->id }}</li>
-        <li class="list-group-item"><b>Tipo de Conta:</b> {{ $conta->tipoconta->descricao ?? '' }}</li>
-        <li class="list-group-item"><b>Área:</b> {{ $conta->area->nome ?? '' }}</li>
-        <li class="list-group-item"><b>Nome:</b> {{ $conta->nome }}</li>
-        <li class="list-group-item"><b>E-mail:</b> {{ $conta->email }}</li>
-        <li class="list-group-item"><b>Número:</b> {{ $conta->numero }}</li>
-        <li class="list-group-item"><b>Ativo:</b>@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif </li>
-        <li class="list-group-item"><b>Cadastrado/Alterado por:</b> {{ $conta->user->name ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Criação:</b> {{ $conta->created_at ?? '' }}</li>
-        <li class="list-group-item"><b>Data/Hora da Última Modificação:</b> {{ $conta->updated_at ?? '' }}</li>
-    </ul>
+<div class="card p-4">
+<div class="form-row">        
+<div class="form-group col-md-6"><b>Tipo de Conta:</b> {{ $conta->tipoconta->descricao ?? '' }}</div>
+<div class="form-group col-md-6"><b>Área:</b> {{ $conta->area->nome ?? '' }}</div>
 </div>
+<div class="form-row">        
+<div class="form-group col-md-6"><b>Nome:</b> {{ $conta->nome }}</div>
+<div class="form-group col-md-3"><b>E-mail:</b> {{ $conta->email }}</div>
+<div class="form-group col-md-2"><b>Número:</b> {{ $conta->numero }}</div>
+<div class="form-group col-md-1"><b>Ativo:</b>@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif </div>
+</div>        
+    <div class="form-row">        
+        <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $conta->user->name ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($conta->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($conta->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+    </div>
+    </div>
 @can('Administrador')
 <br>
+<div class="card p-3">
 <div class="form-row">
     <div class="form-group col-md-1">
         <a href="{{ route('contas.edit',$conta->id) }}" class="btn btn-warning">Editar</a>
+        <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
     </div>
-    <div class="form-group col-md-1">
+    <div class="form-group col-md-11" align="right">
         <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}" >
             @csrf
             <input name="_method" type="hidden" value="DELETE">
-            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
+            <button class="delete-item btn btn-danger" type="submit" oncdivck="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
         </form>
     </div>
+</div>
 </div>
 @endcan
 @stop
