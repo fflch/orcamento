@@ -19,14 +19,12 @@ class Nota extends Model
     }
 
     public static function lista_descricoes(){
-        //$lista_descricoes = Nota::where('tipo','LIKE','%Descri%')->orderBy('texto');
-        $lista_descricoes = Nota::all()->sortBy('texto');
+        $lista_descricoes = Nota::where('tipo','LIKE','Descri%')->orderBy('texto')->get();
         return $lista_descricoes;
     }
 
     public static function lista_observacoes(){
-        //$lista_observacoes = Nota::where('tipo','LIKE','%Observa%')->orderBy('texto');
-        $lista_observacoes = Nota::all()->sortBy('texto');
+        $lista_observacoes = Nota::where('tipo','LIKE','Observa%')->orderBy('texto')->get();
         return $lista_observacoes;
     }
 

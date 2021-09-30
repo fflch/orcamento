@@ -6,6 +6,8 @@ use App\Models\FicOrcamentaria;
 use App\Models\DotOrcamentaria;
 use App\Models\Nota;
 use App\Models\Movimento;
+use App\Models\TipoConta;
+use App\Models\Conta;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FicOrcamentariaRequest;
@@ -50,7 +52,13 @@ class FicOrcamentariaController extends Controller
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
-        return view('ficorcamentarias.create', compact('lista_dotorcamentarias','lista_descricoes','lista_observacoes'));
+        $lista_tipos_contas = TipoConta::lista_tipos_contas();
+
+        return view('ficorcamentarias.create', 
+                    compact('lista_dotorcamentarias',
+                            'lista_descricoes',
+                            'lista_observacoes',
+                            'lista_tipos_contas'));
     }
 
     /**
@@ -59,11 +67,43 @@ class FicOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FicOrcamentariaRequest $request)
+    public function cpfo(FicOrcamentariaRequest $request)
+    {
+        //dd('Cheguei aqui.');
+        $this->authorize('Todos');
+        $tipocontaid_quantidades = $request->tipocontaid_quantidades;
+        $chaves  = array_keys($tipocontaid_quantidades);
+        $valores = array_values($tipocontaid_quantidades);
+        $novos_valores = [];
+        foreach($chaves as $chave){
+            $descricao_conta = TipoConta::descricao_tipo_conta($chave);
+            $valor = $descricao_conta;
+            array_push($novos_valores, $valor);
+        }
+        $tipocontaid_descricaoconta = array_combine($chaves,$novos_valores);
+        $request_FO = $request;
+        $lista_contas = Conta::lista_contas();
+
+        return view('ficorcamentarias.contrapartida', 
+                    compact('request_FO',
+                            'tipocontaid_quantidades',
+                            'tipocontaid_descricaoconta',
+                            'lista_contas'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $this->authorize('Todos');
         //$request->data = implode("-", array_reverse(explode("/", $request->data)));
-        //dd($request->data);
+        //dd('Cheguei aqui MESMO.');
+        dd($request);
+
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;

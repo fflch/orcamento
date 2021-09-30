@@ -17,11 +17,11 @@ class DotOrcamentariaController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->paginate(10);
+            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->orderBy('dotacao')->paginate(10);
         }
         else{
             //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
-            $dotorcamentarias = DotOrcamentaria::paginate(10);
+            $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')->paginate(10);
         }       
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }

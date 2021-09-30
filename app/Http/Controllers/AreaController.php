@@ -17,11 +17,11 @@ class AreaController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $areas = Area::where('nome','LIKE',"%{$request->busca}%")->paginate(10);
+            $areas = Area::where('nome','LIKE',"%{$request->busca}%")->orderBy('nome')->paginate(10);
         }
         else{
             //$areas = Area::all()->sortBy('nome');
-            $areas = Area::paginate(10);
+            $areas = Area::orderBy('nome')->paginate(10);
         }        
 
         return view('areas.index')->with('areas', $areas);

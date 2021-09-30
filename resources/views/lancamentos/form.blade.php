@@ -57,7 +57,6 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="observacao">Observação</label>
-        <!--input class="form-control" list="observacao" name="observacao"-->
         <input list="observacoes" name="observacao" id="observacao" class="form-control" value="{{ $lancamento->observacao ?? old('observacao') }}">
         <datalist id="observacoes">
             @foreach($lista_observacoes as $lista_observacao)

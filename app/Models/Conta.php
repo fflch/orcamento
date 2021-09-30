@@ -14,7 +14,7 @@ class Conta extends Model
         return $this->belongsTo(User::class);
     }
 
-        public function area(){
+    public function area(){
         return $this->belongsTo(Area::class);
     }
 
@@ -23,7 +23,7 @@ class Conta extends Model
     }
 
     public static function lista_contas(){
-        $lista_contas = Conta::all()->sortBy('nome');
+        $lista_contas = Conta::where('ativo','=','1')->orderBy('nome')->get();
         return $lista_contas;
     }
 

@@ -21,7 +21,6 @@ class NotaController extends Controller
         $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->orderBy('tipo',)->orderBy('texto')->paginate(10);
     }
         else{
-            //$notas = Nota::paginate(5)->sortByDesc('texto');
             $notas = Nota::orderBy('tipo',)->orderBy('texto')->paginate(10);
         }
         return view('notas.index')->with('notas', $notas);
