@@ -24,7 +24,7 @@ class AreaFactory extends Factory
     {
         return [
             'nome'    => $this->faker->name,
-            'user_id' => User::factory()->create()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

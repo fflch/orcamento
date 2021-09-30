@@ -19,19 +19,19 @@ class TipoContaSeeder extends Seeder
             'descricao'          => 'Orçamento',
             'cpfo'               => TRUE, 
             'relatoriobalancete' => FALSE,
-            'user_id'            => User::factory()->create()->id,
+            'user_id'            => User::inRandomOrder()->first()->id,
         ];
 
         $tipoconta2 = [
             'descricao'          => 'Renda Industrial',
             'cpfo'               => FALSE, 
             'relatoriobalancete' => TRUE,
-            'user_id'            => User::factory()->create()->id,
+            'user_id'            => User::inRandomOrder()->first()->id,
         ];
 
         TipoConta::create($tipoconta1);
         TipoConta::create($tipoconta2);
 
-        TipoConta::factory(3)->create();
+        TipoConta::factory(10)->create();
     }
 }

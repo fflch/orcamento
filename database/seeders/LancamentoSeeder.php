@@ -32,10 +32,10 @@ class LancamentoSeeder extends Seeder
             'percentual2'        => 0,
             'percentual3'        => 0,
             'percentual4'        => 0,
-            'movimento_id'       => Movimento::factory()->create()->id,
-            'conta_id'           => Conta::factory()->create()->id,
-            'ficorcamentaria_id' => FicOrcamentaria::factory()->create()->id,
-            'user_id'            => User::factory()->create()->id,
+            'movimento_id'       => Movimento::inRandomOrder()->first()->id,
+            'conta_id'           => Conta::inRandomOrder()->first()->id,
+            'ficorcamentaria_id' => FicOrcamentaria::inRandomOrder()->first()->id,
+            'user_id'            => User::inRandomOrder()->first()->id,
         ];
 
         $lancamento2 = [
@@ -52,15 +52,15 @@ class LancamentoSeeder extends Seeder
             'percentual2'        => 10,
             'percentual3'        => 10,
             'percentual4'        => 10,
-            'movimento_id'       => Movimento::factory()->create()->id,
-            'conta_id'           => Conta::factory()->create()->id,
-            'ficorcamentaria_id' => FicOrcamentaria::factory()->create()->id,
-            'user_id'            => User::factory()->create()->id,
+            'movimento_id'       => Movimento::inRandomOrder()->first()->id,
+            'conta_id'           => Conta::inRandomOrder()->first()->id,
+            'ficorcamentaria_id' => FicOrcamentaria::inRandomOrder()->first()->id,
+            'user_id'            => User::inRandomOrder()->first()->id,
         ];
 
         Lancamento::create($lancamento1);
         Lancamento::create($lancamento2);
 
-        Lancamento::factory(3)->create();
+        Lancamento::factory(10)->create();
     }
 }

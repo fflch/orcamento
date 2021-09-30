@@ -19,19 +19,19 @@ class MovimentoSeeder extends Seeder
             'ano'       => '2020',
             'concluido' => TRUE, 
             'ativo'     => FALSE,
-            'user_id'   => User::factory()->create()->id,
+            'user_id'   => User::inRandomOrder()->first()->id,
         ];
 
         $movimento2 = [
             'ano'       => '2021',
             'concluido' => FALSE,
             'ativo'     => TRUE,
-            'user_id'   => User::factory()->create()->id,
+            'user_id'   => User::inRandomOrder()->first()->id,
         ];
 
         Movimento::create($movimento1);
         Movimento::create($movimento2);
 
-        Movimento::factory(3)->create();
+        Movimento::factory(10)->create();
     }
 }

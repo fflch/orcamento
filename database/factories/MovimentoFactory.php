@@ -22,14 +22,11 @@ class MovimentoFactory extends Factory
      */
     public function definition()
     {
-        //$boleanos = ['1','0'];	
         return [
             'ano'       => $this->faker->numberBetween($min = 2030, $max = 2099),
-            //'concluido' => $boleanos[array_rand($boleanos)], 
             'concluido' => $this->faker->boolean,
-            //'ativo'     => $boleanos[array_rand($boleanos)],
             'ativo'     => $this->faker->boolean,
-            'user_id'   => User::factory()->create()->id,
+            'user_id'   => User::inRandomOrder()->first()->id,
         ];
     }
 }

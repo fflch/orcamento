@@ -26,25 +26,25 @@ class LancamentoFactory extends Factory
      */
     public function definition()
     {
-        $valores = [0.00, 999.99];
+        //$valores = [0.00, 999.99];
         return [
                 'grupo'              => '0' . $this->faker->numberBetween($min = 80, $max = 89),
                 'receita'            => $this->faker->boolean,
                 'data'               => $this->faker->date,
                 'empenho'            => $this->faker->numberBetween($min = 1111111, $max = 9999999),
                 'descricao'          => $this->faker->sentence,
-                'debito'             => $valores[array_rand($valores)],
-                'credito'            => $valores[array_rand($valores)],
+                'debito'             => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
+                'credito'            => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
                 'saldo'              => '0.00',
                 'observacao'         => $this->faker->sentence,
                 'percentual1'        => 50,
                 'percentual2'        => 25,
                 'percentual3'        => 15,
                 'percentual4'        => 10,
-                'movimento_id'       => Movimento::factory()->create()->id,
-                'conta_id'           => Conta::factory()->create()->id,
-                'ficorcamentaria_id' => FicOrcamentaria::factory()->create()->id,
-                'user_id'            => User::factory()->create()->id,
-        ];
+                'movimento_id'       => Movimento::inRandomOrder()->first()->id,
+                'conta_id'           => Conta::inRandomOrder()->first()->id,
+                'ficorcamentaria_id' => FicOrcamentaria::inRandomOrder()->first()->id,
+                'user_id'            => User::inRandomOrder()->first()->id,
+            ];
     }
 }

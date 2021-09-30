@@ -30,7 +30,7 @@ class DotOrcamentariaFactory extends Factory
             'descricaoitem'  => $this->faker->sentence,
             'receita'        => $this->faker->boolean,
             'ativo'          => $this->faker->boolean,
-            'user_id'        => User::factory()->create()->id,
+            'user_id'        => User::inRandomOrder()->first()->id,
         ];
     }
 }

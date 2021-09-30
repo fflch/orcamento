@@ -24,9 +24,9 @@ class ContaUsuarioFactory extends Factory
     public function definition()
     {
         return [
-            'id_conta'   => Conta::factory()->create()->id,
-            'id_usuario' => User::factory()->create()->id,
-            'user_id'    => User::factory()->create()->id,
+            'id_conta'   => Conta::inRandomOrder()->first()->id,
+            'id_usuario' => User::inRandomOrder()->first()->id,
+            'user_id'    => User::inRandomOrder()->first()->id,
         ];
     }
 }
