@@ -17,11 +17,10 @@ class TipoContaController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->paginate(10);
+            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->orderBy('descricao')->paginate(10);
         }
         else{
-            //$tipocontas = TipoConta::all()->sortBy('descricao');
-            $tipocontas = TipoConta::paginate(10);
+            $tipocontas = TipoConta::orderBy('descricao')->paginate(10);
         }        
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }

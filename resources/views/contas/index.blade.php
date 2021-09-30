@@ -17,12 +17,20 @@
 <div class="form-group col-md-10">
 <label>
 <form method="get" action="/contas">
+@csrf
   <div class="row">
     <div class=" col-sm input-group">
-      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
-      <span class="input-group-btn">
+        <input size="100%" list="tiposcontas" name="tipoconta_id" id="tipoconta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Tipo de Conta ]">
+        <datalist id="tiposcontas">
+            @foreach($lista_tipos_contas as $lista_tipos_conta)
+                <option value="{{ $lista_tipos_conta->id }}">{{ $lista_tipos_conta->descricao }}
+            @endforeach
+        </datalist>        
+        <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
+        <span class="input-group-btn">
         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
-      </span>
+        <a class="btn btn-danger" href="/contas" title="Limpar a Busca"><strong>X</strong></a>
+        </span>
     </div>
   </div>
 </form>

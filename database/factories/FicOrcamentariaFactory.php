@@ -29,13 +29,13 @@ class FicOrcamentariaFactory extends Factory
             'data'         => $this->faker->date,
             'empenho'      => $this->faker->numberBetween($min = 1111111, $max = 9999999),
             'descricao'    => $this->faker->sentence,
-            'debito'       => $valores[array_rand($valores)],
-            'credito'      => $valores[array_rand($valores)],
+            'debito'       => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
+            'credito'      => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
             'saldo'        => '0.00',
             'observacao'   => $this->faker->sentence,
-            'movimento_id' => Movimento::factory()->create()->id,
-            'dotacao_id'   => DotOrcamentaria::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'movimento_id' => Movimento::inRandomOrder()->first()->id,
+            'dotacao_id'   => DotOrcamentaria::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
     }
 }

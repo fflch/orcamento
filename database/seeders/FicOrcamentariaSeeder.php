@@ -25,9 +25,9 @@ class FicOrcamentariaSeeder extends Seeder
             'credito'      => '0.00',
             'saldo'        => '0.00',
             'observacao'   => 'Processo no. ',
-            'movimento_id' => Movimento::factory()->create()->id,
-            'dotacao_id'   => DotOrcamentaria::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'movimento_id' => Movimento::inRandomOrder()->first()->id,
+            'dotacao_id'   => DotOrcamentaria::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
 
         $ficorcamentaria2 = [
@@ -38,14 +38,14 @@ class FicOrcamentariaSeeder extends Seeder
             'credito'      => '100.01',
             'saldo'        => '0.00',
             'observacao'   => 'Processo no. ',
-            'movimento_id' => Movimento::factory()->create()->id,
-            'dotacao_id'   => DotOrcamentaria::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'movimento_id' => Movimento::inRandomOrder()->first()->id,
+            'dotacao_id'   => DotOrcamentaria::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
 
         FicOrcamentaria::create($ficorcamentaria1);
         FicOrcamentaria::create($ficorcamentaria2);
 
-        FicOrcamentaria::factory(3)->create();
+        FicOrcamentaria::factory(10)->create();
     }
 }

@@ -23,7 +23,7 @@ class DotOrcamentariaSeeder extends Seeder
             'descricaoitem'  => 'Teste 123 456 ...',
             'receita'        => TRUE,
             'ativo'          => TRUE,
-            'user_id'        => User::factory()->create()->id,
+            'user_id'        => User::inRandomOrder()->first()->id,
         ];
 
         $dotorcamentaria2 = [
@@ -34,12 +34,12 @@ class DotOrcamentariaSeeder extends Seeder
             'descricaoitem'  => 'Teste 654 321 ...',
             'receita'        => FALSE,
             'ativo'          => FALSE,
-            'user_id'        => User::factory()->create()->id,
+            'user_id'        => User::inRandomOrder()->first()->id,
         ];
 
         DotOrcamentaria::create($dotorcamentaria1);
         DotOrcamentaria::create($dotorcamentaria2);
 
-        DotOrcamentaria::factory(3)->create();
+        DotOrcamentaria::factory(10)->create();
     }
 }

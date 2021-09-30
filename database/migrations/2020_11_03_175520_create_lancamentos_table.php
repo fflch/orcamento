@@ -16,11 +16,11 @@ class CreateLancamentosTable extends Migration
         Schema::create('lancamentos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('movimento_id')->nullable();
-            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('set null');
+            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('cascade');
             $table->unsignedBigInteger('ficorcamentaria_id')->nullable();
-            $table->foreign('ficorcamentaria_id')->references('id')->on('fic_orcamentarias')->onDelete('set null');
+            $table->foreign('ficorcamentaria_id')->references('id')->on('fic_orcamentarias')->onDelete('cascade');
             $table->unsignedBigInteger('conta_id')->nullable();
-            $table->foreign('conta_id')->references('id')->on('contas')->onDelete('set null');
+            $table->foreign('conta_id')->references('id')->on('contas')->onDelete('cascade');
             $table->string('grupo', 4);
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->date('data');
@@ -36,7 +36,7 @@ class CreateLancamentosTable extends Migration
             $table->integer('percentual3');
             $table->integer('percentual4');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

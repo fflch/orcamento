@@ -20,19 +20,19 @@ class NotaSeeder extends Seeder
         $nota1 = [
             'texto'        => 'Suplementação de Cursos',
             'tipo'         => $tipos[array_rand($tipos)],
-            'tipoconta_id' => TipoConta::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
         $nota2 = [
             'texto'        => 'Referente JAN/',
             'tipo'         => $tipos[array_rand($tipos)],
-            'tipoconta_id' => TipoConta::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
 
         Nota::create($nota1);
         Nota::create($nota2);
 
-        Nota::factory(3)->create();
+        Nota::factory(10)->create();
     }
 }

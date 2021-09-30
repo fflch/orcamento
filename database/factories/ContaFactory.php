@@ -30,9 +30,9 @@ class ContaFactory extends Factory
             'email'        => $this->faker->email,
             'numero'       => $this->faker->numberBetween($min = 2030, $max = 2999),
             'ativo'        => $this->faker->boolean,
-            'tipoconta_id' => TipoConta::factory()->create()->id,
-            'area_id'      => Area::factory()->create()->id,
-            'user_id'      => User::factory()->create()->id,
+            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
+            'area_id'      => Area::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
     }
 }

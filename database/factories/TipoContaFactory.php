@@ -22,14 +22,12 @@ class TipoContaFactory extends Factory
      */
     public function definition()
     {
-        $boleanos = [TRUE,FALSE];	
+        //$boleanos = [TRUE,FALSE];	
         return [
             'descricao'          => $this->faker->name,
-            //'cpfo'               => $boleanos[array_rand($boleanos)], 
             'cpfo'               => $this->faker->boolean,
-            //'relatoriobalancete' => $boleanos[array_rand($boleanos)],
             'relatoriobalancete' => $this->faker->boolean,
-            'user_id'            => User::factory()->create()->id,
+            'user_id'            => User::inRandomOrder()->first()->id,
         ];
     }
 }

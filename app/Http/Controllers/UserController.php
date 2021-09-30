@@ -18,11 +18,11 @@ class UserController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $usuarios = User::where('name','LIKE','%'.$request->busca.'%')->paginate(10);
+            $usuarios = User::where('name','LIKE','%'.$request->busca.'%')->orderBy('name')->paginate(10);
         }
             else{
                 //$usuarios = User::paginate(5)->sortByDesc('name');
-                $usuarios = User::paginate(10);
+                $usuarios = User::orderBy('name')->paginate(10);
             }
 
         return view('usuarios.index')->with('usuarios', $usuarios);

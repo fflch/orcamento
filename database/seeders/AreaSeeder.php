@@ -17,17 +17,17 @@ class AreaSeeder extends Seeder
     {
         $area1 = [
             'nome'    => 'Orçamento',
-            'user_id' => User::factory()->create()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
 
         $area2 = [
             'nome'    => 'Renda Industrial',
-            'user_id' => User::factory()->create()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
 
         Area::create($area1);
         Area::create($area2);
 
-        Area::factory(3)->create();
+        Area::factory(10)->create();
     }
 }

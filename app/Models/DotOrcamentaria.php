@@ -15,7 +15,7 @@ class DotOrcamentaria extends Model
     }
 
     public static function lista_dotorcamentarias(){
-        $lista_dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
+        $lista_dotorcamentarias = DotOrcamentaria::where('ativo','=','1')->orderBy('dotacao')->get();
         return $lista_dotorcamentarias;
     }
 

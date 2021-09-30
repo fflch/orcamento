@@ -19,7 +19,7 @@ class CreateTipoContasTable extends Migration
             $table->boolean('cpfo')->nullable()->default(FALSE);
             $table->boolean('relatoriobalancete')->nullable()->default(FALSE);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -21,12 +21,30 @@ class ContaController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $contas = Conta::where('nome','=',$request->busca)->paginate(10);
+            $contas = Conta::where('nome','=',$request->busca)->orderBy('nome')->paginate(10);
         }
         else{
-            //$contas = Conta::paginate(5)->sortByDesc('nome');
-            $contas = Conta::paginate(10);
+            $contas = Conta::orderBy('nome')->paginate(10);
         }
+
+        $lista_tipos_contas = TipoConta::lista_tipos_contas();
+
+        return view('contas.index', compact('contas','lista_tipos_contas'));
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */    
+    public function contas_por_tipo_de_conta($tipoconta_id)
+    {
+        $this->authorize('Todos');
+        //if($request->busca != null){
+            $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
+        //}
+        
         return view('contas.index')->with('contas', $contas);
     }
 

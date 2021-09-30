@@ -16,13 +16,13 @@ class DatabaseSeeder extends Seeder
 	    $this->call([
             UserSeeder::class,
             MovimentoSeeder::class,
-            NotaSeeder::class,
             AreaSeeder::class,
             TipoContaSeeder::class,
             DotOrcamentariaSeeder::class,
             ContaSeeder::class,
-            LancamentoSeeder::class,
+            NotaSeeder::class,
             FicOrcamentariaSeeder::class,
+            LancamentoSeeder::class,
             ContaUsuarioSeeder::class,
             UnidadeSeeder::class,
 	    ]);

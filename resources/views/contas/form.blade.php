@@ -45,7 +45,7 @@
         @if (isset($conta->id) and ($conta->ativo === 1))
              checked
         @endif >
-        </label>
+        </label>    
 </div>
 </div>
 

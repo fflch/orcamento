@@ -2,7 +2,7 @@
 $right_menu = [
     [
         'text'   => '<i class="fas fa-hard-hat"></i>',
-        'title'  => 'logs',
+        'title'  => 'Logs',
         'target' => '_blank',
         'url'    => config('app.url') . '/logs',
         'align'  => 'right',

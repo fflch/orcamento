@@ -16,9 +16,9 @@ class CreateFicOrcamentariasTable extends Migration
         Schema::create('fic_orcamentarias', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('movimento_id')->nullable();
-            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('set null');
+            $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('cascade');
             $table->unsignedBigInteger('dotacao_id')->nullable();
-            $table->foreign('dotacao_id')->references('id')->on('dot_orcamentarias')->onDelete('set null');
+            $table->foreign('dotacao_id')->references('id')->on('dot_orcamentarias')->onDelete('cascade');
             $table->date('data');
             $table->integer('empenho');
             $table->string('descricao', 150);
@@ -27,7 +27,7 @@ class CreateFicOrcamentariasTable extends Migration
             $table->float('saldo', 15, 2)->nullable();
             $table->string('observacao', 150);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

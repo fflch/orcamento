@@ -19,7 +19,7 @@ class CreateUnidadesTable extends Migration
             $table->string('nome', 150);
             $table->string('departamento', 150);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

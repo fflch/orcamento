@@ -20,7 +20,7 @@ class UnidadeSeeder extends Seeder
             'numero'       => '08',
             'nome'         => 'Faculdade de Filosofia, Letras e Ciências Humanas',
             'departamento' => 'Serviço de Contabilidade',
-            'user_id'      => User::factory()->create()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
         ];
         Unidade::create($unidade);
     }

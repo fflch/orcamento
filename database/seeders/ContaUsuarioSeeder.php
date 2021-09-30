@@ -17,19 +17,19 @@ class ContaUsuarioSeeder extends Seeder
     public function run()
     {
         $contausuario1 = [
-            'id_usuario' => User::factory()->create()->id,
-            'id_conta'   => Conta::factory()->create()->id,
-            'user_id'    => User::factory()->create()->id,
+            'id_usuario' => User::inRandomOrder()->first()->id,
+            'id_conta'   => Conta::inRandomOrder()->first()->id,
+            'user_id'    => User::inRandomOrder()->first()->id,
         ];
         $contausuario2 = [
-            'id_usuario' => User::factory()->create()->id,
-            'id_conta'   => Conta::factory()->create()->id,
-            'user_id'    => User::factory()->create()->id,
+            'id_usuario' => User::inRandomOrder()->first()->id,
+            'id_conta'   => Conta::inRandomOrder()->first()->id,
+            'user_id'    => User::inRandomOrder()->first()->id,
         ];
 
         ContaUsuario::create($contausuario1);
         ContaUsuario::create($contausuario2);
 
-        ContaUsuario::factory(3)->create();
+        ContaUsuario::factory(10)->create();
     }
 }
