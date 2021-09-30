@@ -19,8 +19,7 @@ class CreateMovimentosTable extends Migration
             $table->boolean('concluido')->nullable()->default(FALSE);
             $table->boolean('ativo')->nullable()->default(FALSE);
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            //$table->foreignId('user_id')->constrained('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
