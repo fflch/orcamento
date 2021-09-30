@@ -17,6 +17,8 @@
     <div class="form-group col-md-10">
         <label>
             <form method="get" action="/lancamentos">
+            @csrf
+            <div class="row">
                 <div class="col-sm input-group">
                     <input size="100%" list="contas" name="conta_id" id="conta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Conta ]">
                     <datalist id="contas">
@@ -26,8 +28,10 @@
                     </datalist>
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+                        <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
                     </span>
                 </div>
+            </div>
             </form>
         </label>
     </div>

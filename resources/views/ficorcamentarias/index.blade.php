@@ -17,7 +17,9 @@
     <div class="form-group col-md-10">
         <label>
             <form method="get" action="/ficorcamentarias">
-                    <div class="col-sm input-group">
+            @csrf
+            <div class="row">
+                <div class="col-sm input-group">
 
                     <input size="100%" list="dotacoes" name="dotacao_id" id="dotacao_id" class="form-control" value="{{ Request()->dotacao_id}}" placeholder="[ Busca por Dotação ]">
                     <datalist id="dotacoes">
@@ -28,8 +30,10 @@
 
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+                            <a class="btn btn-danger" href="/ficorcamentarias" title="Limpar a Busca"><strong>X</strong></a>
                         </span>
-                    </div>
+                </div>
+            </div>
             </form>
         </label>
     </div>

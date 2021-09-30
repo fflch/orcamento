@@ -18,12 +18,12 @@
     <label>
       <form method="get" action="/areas">
         @csrf
-        @method('patch')
         <div class="row">
           <div class=" col-sm input-group">
             <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
             <span class="input-group-btn">
               <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+              <a class="btn btn-danger" href="/areas" title="Limpar a Busca"><strong>X</strong></a>
             </span>
           </div>
         </div>
