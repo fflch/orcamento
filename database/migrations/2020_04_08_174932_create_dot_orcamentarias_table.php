@@ -22,7 +22,7 @@ class CreateDotOrcamentariasTable extends Migration
             $table->string('descricaoitem', 100);
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->boolean('ativo')->nullable()->default(FALSE);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
 
