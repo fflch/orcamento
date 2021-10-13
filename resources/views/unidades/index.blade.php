@@ -21,7 +21,7 @@
                 <th width="50%" align="left">Nome</th>
                 <th width="35%" align="left">Departamento</th>
                 @can('Administrador')
-                <th width="10%" align="center">&nbsp;</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
@@ -29,8 +29,9 @@
             @foreach($unidades as $unidade)
             <tr>
                 <td align="center">{{ $unidade->numero }}</td>
-                <td align="left"><a href="/unidades/{{ $unidade->id }}">{{ $unidade->nome }}</a></td>
+                <td align="left">{{ $unidade->nome }}</td>
                 <td align="left">{{ $unidade->departamento }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/unidades/{{$unidade->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/unidades/{{$unidade->id}}/edit">Editar</a></td>
                 @endcan

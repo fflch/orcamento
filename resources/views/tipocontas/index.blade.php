@@ -45,19 +45,20 @@
                 <th width="75%">Descrição</th>
                 <th width="5%">C.P.F.O.</th>
                 <th width="5%">Balancete</th>
-                <th width="5%">Contas</th>
+                <th width="5%">&nbsp;</th>
                 @can('Administrador')
-                <th width="10%" colspan="2">&nbsp;</th>
+                <th width="10%" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($tipocontas as $tipoconta)
             <tr>
-                <td align="left"><a href="/tipocontas/{{ $tipoconta->id }}">{{ $tipoconta->descricao }}</a></td>
+                <td align="left">{{ $tipoconta->descricao }}</td>
                 <td align="center">@if ($tipoconta->cpfo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 <td align="center">@if ($tipoconta->relatoriobalancete == 1) [ x ] @else [ &nbsp; ] @endif</td>
-                <td align="left"><a class="btn btn-warning" href="/contas_por_tipo_de_conta/{{$tipoconta->id}}">Contas</a></a></td>
+                <td align="left"><a class="btn btn-dark" href="/contas_por_tipo_de_conta/{{$tipoconta->id}}">Contas</a></a></td>
+                <td align="center"><a class="btn btn-secondary" href="/tipocontas/{{$tipoconta->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/tipocontas/{{$tipoconta->id}}/edit">Editar</a></td>
                 <td align="center">

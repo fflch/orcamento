@@ -46,7 +46,7 @@
 <p>{{ $lancamentos->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="left">
+            <tr>
                 <th width="25%" align="left">Conta</th>
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
@@ -55,14 +55,14 @@
                 <th width="7%" align="center">Crédito</th>
                 <th width="7%" align="center">Saldo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">&nbsp;</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($lancamentos as $lancamento)
             <tr>
-                <td align="left"><a href="/lancamentos/{{ $lancamento->id }}">{{ $lancamento->conta->nome ?? '' }}</a></td>
+                <td align="left">{{ $lancamento->conta->nome ?? '' }}</td>
                 <td align="left">{{ $lancamento->data }}</td>
                 <td align="left">{{ $lancamento->descricao }}</td>
                 <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
@@ -78,6 +78,7 @@
                     <td align="right">&nbsp;</td>
                 @endif
                 <td align="right">{{ $lancamento->saldo }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                 <td align="center">
