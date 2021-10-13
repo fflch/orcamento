@@ -41,7 +41,7 @@
 <p>{{ $dotorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
+            <tr>
                 <th width="5%" align="left">Dotação</th>
                 <th width="5%" align="center">Grupo</th>
                 <th width="35%" align="center">Descrição do Grupo</th>
@@ -50,20 +50,21 @@
                 <th width="5%" align="center">Receita</th>   
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')                           
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($dotorcamentarias as $dotorcamentaria)
             <tr>
-                <td align="left"><a href="/dotorcamentarias/{{ $dotorcamentaria->id }}">{{ $dotorcamentaria->dotacao }}</a></td>
+                <td align="left">{{ $dotorcamentaria->dotacao }}</td>
                 <td align="center">{{ $dotorcamentaria->grupo }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaogrupo }}</td>
                 <td align="left">{{ $dotorcamentaria->item }}</td>
                 <td align="left">{{ $dotorcamentaria->descricaoitem }}</td>
-                <td align="center" valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
-                <td align="center" valign="middle">@if ($dotorcamentaria->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td valign="middle">@if ($dotorcamentaria->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center"><a class="btn btn-secondary" href="/dotorcamentarias/{{$dotorcamentaria->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">

@@ -39,7 +39,7 @@
                 <th width="25%" align="left">E-mail</th>
                 <th width="10%" align="left">Perfil</th>
                 @can('Administrador')
-                <th width="10%" align="center">&nbsp;</th>
+                <th width="10%" align="center" colspan="2">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
@@ -47,9 +47,10 @@
             @foreach($usuarios as $usuario)
             <tr>
                 <td align="left">{{ $usuario->codpes }}</td>
-                <td align="left"><a href="/usuarios/{{ $usuario->id }}">{{ $usuario->name }}</a></td>
+                <td align="left">{{ $usuario->name }}</td>
                 <td align="left">{{ $usuario->email }}</td>
                 <td align="left">{{ $usuario->perfil }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/usuarios/{{$usuario->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/usuarios/{{$usuario->id}}/edit">Editar</a></td>
                 @endcan

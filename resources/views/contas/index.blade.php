@@ -25,7 +25,7 @@
             @foreach($lista_tipos_contas as $lista_tipos_conta)
                 <option value="{{ $lista_tipos_conta->id }}">{{ $lista_tipos_conta->descricao }}
             @endforeach
-        </datalist>        
+        </datalist> &nbsp;       
         <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
         <span class="input-group-btn">
         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
@@ -47,13 +47,13 @@
 <p>{{ $contas->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
+            <tr>
                 <th width="30%" align="left">Tipo de Conta</th>
                 <th width="25%" align="left">Área</th>
                 <th width="30%" align="left">Nome</th>
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">&nbsp;</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
@@ -62,8 +62,9 @@
             <tr>
                 <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
                 <td align="left">{{ $conta->area->nome ?? '' }}</td>
-                <td align="left"><a href="/contas/{{ $conta->id }}">{{ $conta->nome }}</a></td>
-                <td align="center">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="left">{{ $conta->nome }}</td>
+                <td align="left">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                <td align="center"><a class="btn btn-secondary" href="/contas/{{$conta->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/contas/{{$conta->id}}/edit">Editar</a></td>
                 <td align="center">

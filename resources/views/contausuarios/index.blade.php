@@ -41,21 +41,20 @@
 <p>{{ $contausuarios->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
-                <th width="5%" align="center">#</th>
+            <tr>
                 <th width="45%" align="left">Usuário</th>
-                <th width="40%" align="left">Conta</th>
+                <th width="45%" align="left">Conta</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">Ações</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($contausuarios as $contausuario)
             <tr>
-                <td align="center"><a href="/contausuarios/{{ $contausuario->id }}">{{ $contausuario->id }}</a></td>
                 <td align="left">{{ $contausuario->usuario->name ?? '' }}</td>
                 <td align="left">{{ $contausuario->conta->nome ?? '' }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/contausuarios/{{$contausuario->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/contausuarios/{{$contausuario->id}}/edit">Editar</a></td>
                 <td align="center">

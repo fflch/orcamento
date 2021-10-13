@@ -48,7 +48,7 @@
 <p>{{ $ficorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
-            <tr align="center">
+            <tr>
                 <th width="5%" align="left">Dotação</th>
                 <th width="10%" align="left">Data</th>
                 <th width="47%" align="left">Descrição</th>
@@ -57,14 +57,14 @@
                 <th width="7%" align="center">Crédito</th>
                 <th width="7%" align="center">Saldo</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">&nbsp;</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($ficorcamentarias as $ficorcamentaria)
             <tr>
-                <td align="left"><a href="/ficorcamentarias/{{ $ficorcamentaria->id }}">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</a></td>
+                <td align="left">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</td>
                 <td align="left">{{ $ficorcamentaria->data }}</td>
                 <td align="left">{{ $ficorcamentaria->descricao }}</td>
                 <td align="left">{{ $ficorcamentaria->ficorcamentaria_id }}</td>
@@ -79,6 +79,7 @@
                     <td align="right">&nbsp;</td>
                 @endif
                 <td align="right">{{ $ficorcamentaria->saldo }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/ficorcamentarias/{{$ficorcamentaria->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/ficorcamentarias/{{$ficorcamentaria->id}}/edit">Editar</a></td>
                 <td align="center">

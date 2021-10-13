@@ -44,14 +44,15 @@
             <tr>
                 <th width="90%" align="left">Nome</th>
                 @can('Administrador')
-                <th width="10%" align="center" colspan="2">&nbsp;</th>
+                <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($areas as $area)
             <tr>
-                <td align="left"><a href="/areas/{{ $area->id }}">{{ $area->nome }}</a></td>
+                <td align="left">{{ $area->nome }}</td>
+                <td align="center"><a class="btn btn-secondary" href="/areas/{{$area->id}}">Ver</a></td>
                 @can('Administrador')
                 <td align="center"><a class="btn btn-warning" href="/areas/{{$area->id}}/edit">Editar</a></td>
                 <td align="center">
