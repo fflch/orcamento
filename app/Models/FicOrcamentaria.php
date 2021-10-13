@@ -9,13 +9,15 @@ class FicOrcamentaria extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'movimento_id',
         'dotacao_id',   
         'descricao',
         'observacao',
         'data',
         'empenho',
         'debito',
-        'credito'];
+        'credito',
+        'user_id'];
 
     public function user(){
         return $this->belongsTo(User::class);

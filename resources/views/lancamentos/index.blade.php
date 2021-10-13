@@ -50,6 +50,7 @@
                 <th width="25%" align="left">Conta</th>
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
+                <th width="7%" align="left">CP</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
                 <th width="7%" align="center">Saldo</th>
@@ -64,6 +65,7 @@
                 <td align="left"><a href="/lancamentos/{{ $lancamento->id }}">{{ $lancamento->conta->nome ?? '' }}</a></td>
                 <td align="left">{{ $lancamento->data }}</td>
                 <td align="left">{{ $lancamento->descricao }}</td>
+                <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                 @if($lancamento->debito != 0.00)
                     <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
                 @else
@@ -89,7 +91,7 @@
             </tr>
             @endforeach
             <tr>
-                <td colspan="3">&nbsp;</td>
+                <td colspan="4">&nbsp;</td>
                 <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
