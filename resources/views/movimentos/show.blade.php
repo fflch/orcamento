@@ -15,14 +15,14 @@
 
 <div class="card p-4">
     <div class="form-row">
-        <div class="form-group col-md-10"><b>Ano:</b> {{ $movimento->ano }}</div>
-        <div class="form-group col-md-1"><b>Concluído:</b>@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif </div>
-        <div class="form-group col-md-1"><b> Ativo:</b>@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</div>
+        <div class="form-group col-md-8"><b>Ano:</b> {{ $movimento->ano }}</div>
+        <div class="form-group col-md-2"><b>Concluído:</b>@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif </div>
+        <div class="form-group col-md-2"><b> Ativo:</b>@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</div>
 </div>        
 <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $movimento->user->name ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($movimento->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($movimento->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($movimento->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($movimento->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
     </div>
 @can('Administrador')
