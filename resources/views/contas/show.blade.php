@@ -26,8 +26,8 @@
 </div>        
     <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $conta->user->name ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($conta->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($conta->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($conta->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($conta->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
     </div>
 @can('Administrador')
@@ -42,7 +42,7 @@
         <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}" >
             @csrf
             <input name="_method" type="hidden" value="DELETE">
-            <button class="delete-item btn btn-danger" type="submit" oncdivck="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
+            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
         </form>
     </div>
 </div>

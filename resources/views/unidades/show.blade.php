@@ -15,14 +15,14 @@
 
 <div class="card p-4">
     <div class="form-row">
-        <div class="form-group col-md-2"><b>Número:</b> {{ $unidade->numero }}</div>
-        <div class="form-group col-md-5"><b>Nome:</b> {{ $unidade->nome }}</div>
-        <div class="form-group col-md-5"><b>Departamento:</b> {{ $unidade->departamento }}</div>
+        <div class="form-group col-md-1"><b>Número:</b> {{ $unidade->numero }}</div>
+        <div class="form-group col-md-7"><b>Nome:</b> {{ $unidade->nome }}</div>
+        <div class="form-group col-md-4"><b>Departamento:</b> {{ $unidade->departamento }}</div>
 </div>        
         <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $unidade->user->name ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($unidade->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($unidade->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($unidade->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($unidade->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
 </div>
 @can('Administrador')

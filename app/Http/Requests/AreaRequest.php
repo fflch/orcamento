@@ -27,8 +27,7 @@ class AreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required',
-            'user_id' => ['required', Rule::in(User::users,id)],
+            'nome'    => 'required',
         ];
     }
 

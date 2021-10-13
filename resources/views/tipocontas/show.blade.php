@@ -20,8 +20,8 @@
 </div>        
         <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $tipoconta->user->name ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($tipoconta->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($tipoconta->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($tipoconta->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($tipoconta->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div></div>
 @can('Administrador')
 <br>
@@ -35,7 +35,7 @@
         <form method="post" role="form" action="{{ route('tipocontas.destroy', $tipoconta) }}" >
             @csrf
             <input name="_method" type="hidden" value="DELETE">
-            <button class="delete-item btn btn-danger" type="submit" oncdivck="return confirm('Deseja realmente excluir o Tipo de Conta?');">Deletar</button>
+            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Tipo de Conta?');">Deletar</button>
         </form>
     </div>
 </div>

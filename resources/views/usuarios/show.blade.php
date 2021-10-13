@@ -23,8 +23,8 @@
 
         <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $usuario->user->name ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Criação:</b> {{ date_format($usuario->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
-        <div class="form-group col-md-4"><b>Data/Hora da Última Modificação:</b> {{ date_format($usuario->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($usuario->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($usuario->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
 </div>
 @can('Administrador')
