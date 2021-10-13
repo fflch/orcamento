@@ -8,10 +8,10 @@ use App\Models\Nota;
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Conta;
-
+use App\Models\Lancamento;
 use Illuminate\Http\Request;
 use App\Http\Requests\FicOrcamentariaRequest;
-
+use App\Http\Requests\FicOrcamentariaCPRequest;
 
 class FicOrcamentariaController extends Controller
 {
@@ -69,7 +69,6 @@ class FicOrcamentariaController extends Controller
      */
     public function cpfo(FicOrcamentariaRequest $request)
     {
-        //dd('Cheguei aqui.');
         $this->authorize('Todos');
         $tipocontaid_quantidades = $request->tipocontaid_quantidades;
         $chaves  = array_keys($tipocontaid_quantidades);
@@ -84,11 +83,17 @@ class FicOrcamentariaController extends Controller
         $request_FO = $request;
         $lista_contas = Conta::lista_contas();
 
-        return view('ficorcamentarias.contrapartida', 
+        return redirect()->route('ficorcamentarias.contrapartida', 
+        compact('request_FO',
+                'tipocontaid_quantidades',
+                'tipocontaid_descricaoconta',
+                'lista_contas'));
+
+        /*return view('ficorcamentarias.contrapartida', 
                     compact('request_FO',
                             'tipocontaid_quantidades',
                             'tipocontaid_descricaoconta',
-                            'lista_contas'));
+                            'lista_contas'));*/
     }
 
     /**
@@ -97,22 +102,56 @@ class FicOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FicOrcamentariaCPRequest $request)
     {
         $this->authorize('Todos');
-        //$request->data = implode("-", array_reverse(explode("/", $request->data)));
-        //dd('Cheguei aqui MESMO.');
-        dd($request);
+        //dd($request);
+        /*$data = $request->validate([
+            "grupo"    => "required|array",
+            "grupo.*"  => "required|distinct",
+        ]);*/
 
         $movimento_ativo = Movimento::movimento_ativo();
-        $validated = $request->validated();
-        $validated['user_id']      = auth()->user()->id;
-        $validated['movimento_id'] = $movimento_ativo->id;
-        $validated['dotacao_id']   = $request->dotacao_id;
+        $fichaorcamentaria['dotacao_id']   = $request->dotacao_id_fo;
+        $fichaorcamentaria['data']         = $request->data_fo;
+        $fichaorcamentaria['empenho']      = $request->empenho_fo;
+        $fichaorcamentaria['descricao']    = $request->descricao_fo;
+        if($request->debito_fo)
+            $fichaorcamentaria['debito']   = $request->debito_fo;
+        else
+            $fichaorcamentaria['credito']  = $request->credito_fo;
+        $fichaorcamentaria['observacao']   = $request->observacao_fo;
+        $fichaorcamentaria['user_id']      = auth()->user()->id;
+        $fichaorcamentaria['movimento_id'] = $movimento_ativo->id;
+        FicOrcamentaria::create($fichaorcamentaria);
 
-        FicOrcamentaria::create($validated);
+        $last_fichaorcamentaria_id = FicOrcamentaria::latest()->first()->id;
+        if(isset($request->conta_id)){
+            for($i=0; $i < count($request->conta_id); $i++){
+                $lancamento['conta_id']           = $request->conta_id[$i];
+                $lancamento['ficorcamentaria_id'] = $last_fichaorcamentaria_id;
+                $lancamento['grupo']              = $request->grupo[$i];
 
-        $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
+                $lancamento['receita']            = $request->receita[$i];
+
+                $lancamento['data']               = $request->data_fo;
+                $lancamento['empenho']            = $request->empenho_fo;
+                $lancamento['descricao']          = $request->descricao_fo;
+                if($request->debito_fo)
+                    $lancamento['debito']         = $request->debito[$i];
+                else
+                    $lancamento['credito']        = $request->credito[$i];
+                $lancamento['observacao']         = $request->observacao_fo;
+                $lancamento['user_id']            = auth()->user()->id;
+                $lancamento['movimento_id']       = $movimento_ativo->id;        
+                Lancamento::create($lancamento);
+            }
+        }
+
+        if(!$request->conta_id)
+            $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
+        else
+            $request->session()->flash('alert-success', 'Ficha Orçamentária e Contra-Partida(s) cadastrada(s) com sucesso!');
         return redirect()->route('ficorcamentarias.index');
     }
 

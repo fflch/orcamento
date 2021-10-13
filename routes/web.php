@@ -42,15 +42,12 @@ Route::resource('contas', ContaController::class);
 Route::get('/contas_por_tipo_de_conta/{tipoconta_id}', [ContaController::class,'contas_por_tipo_de_conta']);
 Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
-//Route::post('/ficorcamentarias', [FicOrcamentariaController::class,'store']);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
-Route::post('/ficorcamentarias/cpfo', [FicOrcamentariaController::class,'cpfo']);
+Route::post('/ficorcamentarias/cpfo', [FicOrcamentariaController::class,'cpfo'])->name('ficorcamentarias.cpfo');
 Route::resource('usuarios', UserController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
 Route::resource('unidades', UnidadeController::class);
 
 Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
-
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:Administrador');
-
 Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
