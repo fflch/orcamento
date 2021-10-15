@@ -13,6 +13,7 @@ use App\Http\Controllers\FicOrcamentariaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContaUsuarioController;
 use App\Http\Controllers\UnidadeController;
+use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\selTipoContaController;
 
@@ -50,4 +51,7 @@ Route::resource('unidades', UnidadeController::class);
 
 Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:Administrador');
-Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
+//Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
+
+Route::get('/relatorios', [RelatorioController::class, 'relatorios'])->name('relatorios.index');
+Route::get('/relatorios/balancete', [RelatorioController::class, 'balancete'])->name('relatorios.balancete');

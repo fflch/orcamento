@@ -18,7 +18,7 @@ class CreateContasTable extends Migration
             $table->unsignedBigInteger('tipoconta_id');
             $table->foreign('tipoconta_id')->references('id')->on('tipo_contas')->onDelete('cascade');
             $table->unsignedBigInteger('area_id');
-            $table->foreign('area_id')->references('id')->on('areas')->onDelete('set null');
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->string('nome', 150);
             $table->string('email');
             $table->integer('numero');

@@ -22,13 +22,13 @@
             <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($area->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
 </div>
-@can('Administrador')
 <br>
 <div class="card p-3">
 <div class="form-row">
     <div class="form-group col-md-1">
-        <a href="{{ route('areas.edit',$area->id) }}" class="btn btn-warning">Editar</a>
         <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
+        @can('Administrador')
+        <a href="{{ route('areas.edit',$area->id) }}" class="btn btn-warning">Editar</a>
     </div>
     <div class="form-group col-md-11" align="right">
         <form method="post" role="form" action="{{ route('areas.destroy', $area) }}" >
@@ -36,8 +36,9 @@
             <input name="_method" type="hidden" value="DELETE">
             <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Área?');">Deletar</button>
         </form>
+        @endcan
+
     </div>
 </div>
 </div>
-@endcan
 @stop

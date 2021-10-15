@@ -79,5 +79,10 @@ return [
             'url'     => '/ficorcamentarias',
             'can'     => 'Todos',
         ],
+        [
+            'text'    => 'Relatórios',
+            'url'     => '/relatorios',
+            'can'     => 'Todos',
+        ],
     ]
 ];
