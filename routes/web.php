@@ -51,7 +51,13 @@ Route::resource('unidades', UnidadeController::class);
 
 Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:Administrador');
-//Route::get('seltipoconta', [selTipoContaController::class, 'seltipoconta']);
 
 Route::get('/relatorios', [RelatorioController::class, 'relatorios'])->name('relatorios.index');
 Route::get('/relatorios/balancete', [RelatorioController::class, 'balancete'])->name('relatorios.balancete');
+Route::get('/relatorios/acompanhamento', [RelatorioController::class, 'acompanhamento'])->name('relatorios.acompanhamento');
+Route::get('/relatorios/saldo_contas', [RelatorioController::class, 'saldo_contas'])->name('relatorios.saldo_contas');
+Route::get('/relatorios/saldo_dotacoes', [RelatorioController::class, 'saldo_dotacoes'])->name('relatorios.saldo_dotacoes');
+Route::get('/relatorios/lancamentos', [RelatorioController::class, 'lancamentos'])->name('relatorios.lancamentos');
+Route::get('/relatorios/ficha_orcamentaria', [RelatorioController::class, 'ficha_orcamentaria'])->name('relatorios.ficha_orcamentaria');
+Route::get('/relatorios/despesas', [RelatorioController::class, 'despesas'])->name('relatorios.despesas');
+Route::get('/relatorios/despesas_miudas', [RelatorioController::class, 'despesas_miudas'])->name('relatorios.despesas_miudas');

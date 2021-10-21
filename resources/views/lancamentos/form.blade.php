@@ -16,7 +16,7 @@
     </div>
     <div class="form-group col-md-1">
         <label for="receita" class="checkbox-inline">Receita</label><br>
-        <input type="checkbox" name="receita" value="1" 
+        <input type="checkbox" name="receita" id="receita" value="1" 
             @if (isset($lancamento->id) and ($lancamento->receita === 1))
                 checked
             @endif >

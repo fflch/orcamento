@@ -2,27 +2,25 @@
 <div class="form-group col-md-6">
     <label for="tipoconta">Tipo De Conta</label>
 
-    <select class="form-control" name="tipoconta_id" >
-        <option value="{{ $conta->tipoconta_id ?? old('tipoconta_id') }}">{{ $conta->tipoconta->descricao ?? old('tipoconta_descricao') }}</option>
-        <option value=null>----------</option>
-        @foreach($lista_tipos_contas as $lista_tipo_conta)
-            <option value="{{ $lista_tipo_conta->id }}">{{ $lista_tipo_conta->descricao }}</option>
-        @endforeach
+    <input list="tipocontas" name="tipoconta_id" id="tipoconta_id" class="form-control" value="{{ $conta->tipoconta_id ?? old('tipoconta_id') }}">
+        <datalist id="tipocontas">
+            @foreach($lista_tipos_contas as $lista_tipo_conta)
+                <option value="{{ $lista_tipo_conta->id }}">{{ $lista_tipo_conta->descricao }}
+            @endforeach
+        </datalist>
 
-</select>
 </div>
 
 <div class="form-group col-md-6">
     <label for="area">Área</label>
 
-    <select class="form-control" name="area_id" >
-        <option value="{{ $conta->area_id ?? old('area_id') }}">{{ $conta->area->nome ?? old('area_nome') }}</option>
-        <option value=null>----------</option>
-        @foreach($lista_areas as $lista_area)
-            <option value="{{ $lista_area->id }}">{{ $lista_area->nome }}</option>
-        @endforeach
+    <input list="areas" name="area_id" id="area_id" class="form-control" value="{{ $conta->area_id ?? old('area_id') }}">
+        <datalist id="areas">
+            @foreach($lista_areas as $lista_area)
+                <option value="{{ $lista_area->id }}">{{ $lista_area->nome }}
+            @endforeach
+        </datalist>
 
-</select>
 </div>
 </div>
 
