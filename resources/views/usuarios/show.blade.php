@@ -32,8 +32,8 @@
 <div class="card p-3">
 <div class="form-row">
     <div class="form-group col-md-1">
-        <a href="{{ route('usuarios.edit',$usuario->id) }}" class="btn btn-warning">Editar</a>
         <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
+        <a href="{{ route('usuarios.edit',$usuario->id) }}" class="btn btn-warning">Editar</a>
     </div>
 </div>
 </div>
