@@ -27,7 +27,7 @@ class NotaRequest extends FormRequest
     {
         return [
             'tipoconta_id' => 'required',
-            'texto'        => 'required',
+            'texto'        => 'required|unique:notas',
             'tipo'         => ['required', Rule::in(Nota::lista_tipos())],
         ];
     }
@@ -36,6 +36,7 @@ class NotaRequest extends FormRequest
         return [
             'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
             'texto.required'        => 'Digite o Texto da Nota.',
+            'texto.unique'          => 'Já existe uma nota com esse texto.',
             'tipo.required'         => 'Escolha o tipo da Nota.',
             'tipo.in'               => 'Escolha uma das opções diponíveis.',
         ];
