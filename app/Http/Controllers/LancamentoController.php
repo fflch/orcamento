@@ -76,8 +76,8 @@ class LancamentoController extends Controller
             return Redirect::back()->with('message','Operation Successful !');
         }*/
 
-        //dd($request);
-        //$request->data = implode("-", array_reverse(explode("/", $request->data)));
+        //dd($request->data);
+        //$data_convertida = implode("-", array_reverse(explode("/", $request->data)));
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
@@ -86,23 +86,25 @@ class LancamentoController extends Controller
 
         Lancamento::create($validated);
 
-        for($i=2; $i<5; $i++){
-            $contas = Conta::where('numero','=',$i)->get();
-            $lancamento = new Lancamento;
-            $lancamento->movimento_id = $movimento_ativo->id;
-            $lancamento->conta_id     = $contas[0]->id;
-            $lancamento->grupo        = $request->grupo;
-            $lancamento->receita      = $request->receita;
-            $lancamento->data         = $request->data;
-            $lancamento->empenho      = $request->empenho;
-            $lancamento->descricao    = $request->descricao;
+        if($request->percentual1 != 100){
+            for($i=2; $i<5; $i++){
+                $contas = Conta::where('numero','=',$i)->get();
+                $lancamento = new Lancamento;
+                $lancamento->movimento_id = $movimento_ativo->id;
+                $lancamento->conta_id     = $contas[0]->id;
+                $lancamento->grupo        = $request->grupo;
+                $lancamento->receita      = $request->receita;
+                $lancamento->data         = $request->data;
+                $lancamento->empenho      = $request->empenho;
+                $lancamento->descricao    = $request->descricao;
 
-            $lancamento->debito       = $request->debito * $percentuais[$i-1] / 100;
-            $lancamento->credito      = $request->credito * $percentuais[$i-1] / 100;
+                $lancamento->debito       = $request->debito * $percentuais[$i-1] / 100;
+                $lancamento->credito      = $request->credito * $percentuais[$i-1] / 100;
 
-            $lancamento->observacao   = $request->observacao;
-            $lancamento->user_id      = auth()->user()->id;
-            $lancamento->save();
+                $lancamento->observacao   = $request->observacao;
+                $lancamento->user_id      = auth()->user()->id;
+                $lancamento->save();
+            }
         }
 
         $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');

@@ -7,6 +7,7 @@ use App\Models\Lancamento;
 use App\Models\Movimento;
 use App\Models\Conta;
 use App\Models\FicOrcamentaria;
+use App\Models\Nota;
 use App\Models\User;
 
 class LancamentoFactory extends Factory
@@ -30,13 +31,13 @@ class LancamentoFactory extends Factory
         return [
                 'grupo'              => '0' . $this->faker->numberBetween($min = 80, $max = 89),
                 'receita'            => $this->faker->boolean,
-                'data'               => $this->faker->date,
+                'data'               => $this->faker->dateTimeBetween('+0 days', '+1 weeks'),
                 'empenho'            => $this->faker->numberBetween($min = 1111111, $max = 9999999),
-                'descricao'          => $this->faker->sentence,
+                'descricao'          => Nota::inRandomOrder()->first()->texto,
                 'debito'             => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
                 'credito'            => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
                 'saldo'              => '0.00',
-                'observacao'         => $this->faker->sentence,
+                'observacao'         => Nota::inRandomOrder()->first()->texto,
                 'percentual1'        => 50,
                 'percentual2'        => 25,
                 'percentual3'        => 15,

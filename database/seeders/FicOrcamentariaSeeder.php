@@ -19,6 +19,7 @@ class FicOrcamentariaSeeder extends Seeder
     {
         $ficorcamentaria1 = [
             'data'         => '2020-01-01',
+            //'data'         => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'empenho'      => 1234567,
             'descricao'    => 'Adiantamento 323435 - ',
             'debito'       => '100.01',

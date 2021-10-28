@@ -63,10 +63,10 @@
     @csrf
     <div class="row">
       <div class="col-sm input-group">
-        <input list="contas" name="conta_id" id="conta_id" class="form-control" value="{{ old('conta_id') }}" placeholder="[ Informe a Conta ]">
-        <datalist id="contas">
-          @foreach($lista_contas as $lista_conta)
-            <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}
+        <input list="tipocontas" name="tipoconta_id" id="tipoconta_id" class="form-control" value="" placeholder="[ Informe o Tipo de Conta ]">
+        <datalist id="tipocontas">
+          @foreach($lista_tipos_contas as $lista_tipo_conta)
+            <option value="{{ $lista_tipo_conta->id }}">{{ $lista_tipo_conta->descricao }}
           @endforeach
         </datalist>
         <span class="input-group-btn">
@@ -117,8 +117,8 @@
       <input type="text" class="form-control" name="grupo" value="{{ old('grupo') }}" placeholder="[ Informe o Grupo ]">
       <label for="receita" class="checkbox-inline">Receita</label><br>
       <input type="checkbox" name="receita" id="receita" value="1" @if (isset($lancamento->id) and ($lancamento->receita === 1)) checked @endif >
-      <input type="text" class="form-control datepicker data" name="data_inicial" value="{{ Request()->data_inicial ?? old('data_inicial') ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: 01/01/2020 ]">&nbsp;
-      <input type="text" class="form-control datepicker data" name="data_final" value="{{ Request()->data_final ?? old('data_final') ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: 01/01/2020 ]">
+      <input type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ $movimento_ativo->ano }}" placeholder="[ Ex: 01/01/2020 ]">&nbsp;
+      <input type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ $movimento_ativo->ano }}" placeholder="[ Ex: 01/01/2020 ]">
       <input list="descricoes" name="descricao" id="descricao" class="form-control" value="{{ $lancamento->descricao ?? old('descricao') }}" placeholder="[ Informe a Descrição ]">
       <datalist id="descricoes">
         @foreach($lista_descricoes as $lista_descricao)
@@ -154,8 +154,8 @@
             <option value="{{ $lista_dotorcamentaria->id }}">{{ $lista_dotorcamentaria->dotacao }}
           @endforeach
         </datalist>
-        <input type="text" class="form-control datepicker data" name="data_inicial" value="{{ Request()->data_inicial ?? old('data_inicial') ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: 01/01/2020 ]">&nbsp;
-        <input type="text" class="form-control datepicker data" name="data_final" value="{{ Request()->data_final ?? old('data_final') ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: 01/01/2020 ]">
+        <input type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ $movimento_ativo->ano }}" placeholder="[ Ex: 01/01/2020 ]">&nbsp;
+        <input type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ $movimento_ativo->ano }}" placeholder="[ Ex: 01/01/2020 ]">
         <input list="descricoes" name="descricao" id="descricao" class="form-control" value="{{ $lancamento->descricao ?? old('descricao') }}" placeholder="[ Informe a Descrição ]">
         <datalist id="descricoes">
           @foreach($lista_descricoes as $lista_descricao)
@@ -218,8 +218,8 @@
     @csrf
     <div class="row">
       <div class="col-sm input-group">
-        <input type="text" class="form-control datepicker data" name="data_inicial" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}">&nbsp;-&nbsp;
-        <input type="text" class="form-control datepicker data" name="data_final" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}">
+        <input type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ $movimento_ativo->ano }}">&nbsp;
+        <input type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ $movimento_ativo->ano }}">
         <span class="input-group-btn">
           <button type="submit" class="btn btn-success"><strong>OK</strong></button>
         </span>

@@ -24,7 +24,7 @@
     
   </style>
 
-  <h1><center>[ Aqui vai a dotação ]</center></h1>
+  <h1><center>[ {{ $dotacao }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>

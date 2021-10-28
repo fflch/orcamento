@@ -26,9 +26,9 @@ class ContaRequest extends FormRequest
         return [
             'tipoconta_id' => 'required',
             'area_id'      => 'required',
-            'nome'         => 'required|unique:contas',
+            'nome'         => 'required',
             'email'        => 'email',
-            'numero'       => 'required|integer|unique:contas',
+            'numero'       => 'required|integer',
             'ativo'        => 'boolean',
         ];
     }
@@ -38,11 +38,11 @@ class ContaRequest extends FormRequest
             'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
             'area_id.required'      => 'Escolha o Nome da Área.',
             'nome.required'         => 'Digite o Nome da Conta.',
-            'nome.unique'           => 'Já existe uma conta com esse nome.',
+            //'nome.unique'           => 'Já existe uma conta com esse nome.',
             'email.email'           => 'Informe um endereço de E-mail válido.',
             'numero.required'       => 'Digite o Número da Conta.',
             'numero.integer'        => 'O Número deve ser um número inteiro.',
-            'numero.unique'         => 'Já existe uma conta com esse número.',
+            //'numero.unique'         => 'Já existe uma conta com esse número.',
             'ativo.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }
