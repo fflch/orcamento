@@ -27,6 +27,15 @@ class Conta extends Model
         return $lista_contas;
     }
 
+    public static function nome_conta($conta_id){
+        $nome_conta = Conta::where('id','=',$conta_id)->get();
+        return $nome_conta;
+    }
+
+    public function lancamento(){
+        return $this->hasMany(Lancamento::class);
+    }
+
     public function contas_usuarios()
     {
         return $this->belongsToMany(User::class,'contas_usuarios')

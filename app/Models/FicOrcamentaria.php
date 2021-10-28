@@ -59,7 +59,7 @@ class FicOrcamentaria extends Model
         return implode('/',array_reverse(explode('-',$data)));
     }
     
-    public function setDataAttribute($data) {
-        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
-    }
+    //public function setDataAttribute($data) {
+    //    $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
+    //}
 }

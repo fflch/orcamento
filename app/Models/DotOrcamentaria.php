@@ -19,4 +19,9 @@ class DotOrcamentaria extends Model
         return $lista_dotorcamentarias;
     }
 
+    public static function dotacao($dotacao_id){
+        $dotacao = DotOrcamentaria::where('id','=',$dotacao_id)->get();
+        return $dotacao;
+    }
+
 }

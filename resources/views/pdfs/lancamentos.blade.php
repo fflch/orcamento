@@ -24,7 +24,7 @@
     
   </style>
 
-  <h1><center>[ Aqui vai o tipo de conta e a conta ]</center></h1>
+  <h1><center>[ {{ $nome_conta }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>

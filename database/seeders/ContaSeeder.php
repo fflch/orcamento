@@ -21,7 +21,7 @@ class ContaSeeder extends Seeder
             'id'           => 1001,
             'nome'         => 'Orçamento',
             'email'        => 'aaa@usp.br',
-            'numero'       => 1,
+            'numero'       => 2,
             'ativo'        => TRUE,
             'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
             'area_id'      => Area::inRandomOrder()->first()->id,
@@ -30,9 +30,20 @@ class ContaSeeder extends Seeder
 
         $conta2 = [
             'id'           => 1002,
-            'nome'         => 'Renda Industrial',
+            'nome'         => 'Projeto Acadêmico',
             'email'        => 'bbb@usp.br',
-            'numero'       => 2,
+            'numero'       => 3,
+            'ativo'        => FALSE,
+            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
+            'area_id'      => Area::inRandomOrder()->first()->id,
+            'user_id'      => User::inRandomOrder()->first()->id,
+        ];
+
+        $conta3 = [
+            'id'           => 1003,
+            'nome'         => 'Renda Industrial',
+            'email'        => 'ccc@usp.br',
+            'numero'       => 4,
             'ativo'        => FALSE,
             'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
             'area_id'      => Area::inRandomOrder()->first()->id,
@@ -41,6 +52,7 @@ class ContaSeeder extends Seeder
 
         Conta::create($conta1);
         Conta::create($conta2);
+        Conta::create($conta3);
 
         Conta::factory(10)->create();
     }

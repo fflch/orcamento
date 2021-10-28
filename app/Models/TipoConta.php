@@ -23,6 +23,11 @@ class TipoConta extends Model
         return $lista_tipos_contas;
     }
 
+    public static function lista_contas_por_tipo($tipoconta_id){
+        $lista_contas_por_tipo = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->get();
+        return $lista_contas_por_tipo;
+    }
+
     public static function descricao_tipo_conta($conta_id){
         $descricao_tipo_conta = TipoConta::where('id','=',$conta_id)->value('descricao');
         return $descricao_tipo_conta;
