@@ -14,6 +14,14 @@ class Movimento extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function lancamento(){
+        return $this->hasMany('App\Models\Lancamento');
+    }
+
+    public function ficha_orcamentaria(){
+        return $this->hasMany('App\Models\FicOrcamentaria');
+    }
+
     public static function movimento_ativo(){
         $movimento_ativo = Movimento::where('ativo','=','1')->first();
         return $movimento_ativo;

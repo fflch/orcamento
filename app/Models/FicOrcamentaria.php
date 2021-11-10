@@ -31,17 +31,17 @@ class FicOrcamentaria extends Model
         return $this->belongsTo(DotOrcamentaria::class);
     }
 
-    //public function getDebitoAttribute($debito){
-    //    return number_format($debito, 2, ',', '.');
-    //}
+    public function getDebitoAttribute($debito){
+        return number_format($debito, 2, ',', '.');
+    }
 
     public function setDebitoAttribute($debito){
         $this->attributes['debito'] = str_replace(',', '.', $debito);
     }
 
-    //public function getCreditoAttribute($credito){
-    //    return number_format($credito, 2, ',', '.');
-    //}
+    public function getCreditoAttribute($credito){
+        return number_format($credito, 2, ',', '.');
+    }
 
     public function setCreditoAttribute($credito){
         $this->attributes['credito'] = str_replace(',', '.', $credito);
@@ -59,7 +59,7 @@ class FicOrcamentaria extends Model
         return implode('/',array_reverse(explode('-',$data)));
     }
     
-    //public function setDataAttribute($data) {
-    //    $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
-    //}
+    public function setDataAttribute($data) {
+        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
+    }
 }

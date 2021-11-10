@@ -58,5 +58,6 @@
             @endforeach
         </tbody>
     </table>
+    <p>{{ $usuarios->links() }}</p>
 </div>
 @stop

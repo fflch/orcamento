@@ -24,7 +24,7 @@
     
   </style>
 
-  <h1><center>[ Aqui vai o tipo de conta e a conta ]</center></h1>
+  <h1><center>[ Grupo {{ $grupo }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
@@ -38,7 +38,7 @@
           <tr>
             <td align="left">{{ $saldo_dotacao->dotacao }}</td>
             <td align="right">{{ $saldo_dotacao->item }}</td>
-            <td align="right">{{ $saldo_dotacao->ativo }}</td>
+            <td align="right">{{ $saldo_dotacao->total_credito - $saldo_dotacao->total_debito }}</td>
 
           </tr>
       </tbody>

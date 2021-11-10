@@ -17,11 +17,10 @@ class MovimentoController extends Controller
     {
         $this->authorize('Todos');
         if($request->busca != null){
-            $movimentos = Movimento::where('ano','=',$request->busca)->paginate(10);
+            $movimentos = Movimento::where('ano','=',$request->busca)->orderBy('ano')->paginate(10);
         }
         else{
-            //$movimentos = Movimento::paginate(5)->sortByDesc('ano');
-            $movimentos = Movimento::paginate(10);
+            $movimentos = Movimento::orderBy('ano')->paginate(10);
         }
         return view('movimentos.index')->with('movimentos', $movimentos);
     }
@@ -109,6 +108,18 @@ class MovimentoController extends Controller
     public function destroy(Movimento $movimento, Request $request)
     {
         $this->authorize('Administrador');
+        if($movimento->lancamento->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Movimento não pode ser excluído, 
+            pois existem Lançamentos cadastrados nele.");
+            return redirect("/movimentos");    
+        }
+
+        if($movimento->ficha_orcamentaria->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Movimento não pode ser excluído, 
+            pois existem lançamentos da Ficha Orçamentária cadastrados nele.");
+            return redirect("/movimentos");    
+        }
+
         $movimento->delete();
         return redirect()->route('movimentos.index')->with('alert-success', 'Movimento deletado com sucesso!!');
     }

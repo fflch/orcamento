@@ -24,7 +24,7 @@ class DotOrcamentariaRequest extends FormRequest
     public function rules()
     {
         return [
-            'dotacao'        => 'required|integer|unique:dot_orcamentarias',
+            'dotacao'        => 'required|integer',
             'grupo'          => 'required',
             'descricaogrupo' => 'required',
             'item'           => 'required',
@@ -38,7 +38,7 @@ class DotOrcamentariaRequest extends FormRequest
         return [
             'dotacao.required'        => 'Digite a Dotação.',
             'dotacao.integer'         => 'A Dotação deve ser um número inteiro.',
-            'dotacao.unique'          => 'Já existe uma Dotação com esse número.',
+            //'dotacao.unique'          => 'Já existe uma Dotação com esse número.',
             'grupo.required'          => 'Digite o Grupo.',
             'descricaogrupo.required' => 'Digite a Descrição do Grupo.',
             'item.required'           => 'Digite o Item.',

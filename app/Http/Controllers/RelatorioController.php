@@ -39,8 +39,21 @@ class RelatorioController extends Controller
 
     public function balancete(Request $request){
         if($request->data != null){
-            $balancete = Conta::All();
             $periodo = $request->data;
+            $data_convertida = implode("-", array_reverse(explode("/", $request->data)));
+
+            $balancete = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->where('tipo_contas.relatoriobalancete','=',1)
+            ->where('lancamentos.receita','=',1)
+            ->where('lancamentos.data','<=',$data_convertida)
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->get();
+
+            //dd($balancete);
+
         }
         else{
             request()->session()->flash('alert-info','Informe a Data.');
@@ -48,8 +61,8 @@ class RelatorioController extends Controller
         }
 
         $pdf = PDF::loadView('pdfs.balancete', [
-            'balancete'    => $balancete,
-            'periodo'    => $periodo,
+            'balancete' => $balancete,
+            'periodo'   => $periodo,
 
         ])->setPaper('a4', 'landscape');
         return $pdf->download("balancete.pdf");
@@ -76,18 +89,14 @@ class RelatorioController extends Controller
 
     public function saldo_contas(Request $request){
         if($request->tipoconta_id != null){
+            $descricao_tipoconta = TipoConta::descricao_tipo_conta($request->tipoconta_id);
             $saldo_contas = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
-            ->select('contas.*', 'tipo_contas.descricao', 'lancamentos.debito','lancamentos.credito')
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
             ->where('contas.tipoconta_id','=',$request->tipoconta_id)
-            //->sum('lancamentos.debito');
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
-
-
-
-            //$saldo_contas = TipoConta::lista_contas_por_tipo($request->tipoconta_id);
-            dd($saldo_contas);
         }
         else{
             request()->session()->flash('alert-info','Informe o Tipo de Conta.');
@@ -95,14 +104,22 @@ class RelatorioController extends Controller
         }
 
         $pdf = PDF::loadView('pdfs.saldo_contas', [
-            'saldo_contas'    => $saldo_contas,
+            'saldo_contas'        => $saldo_contas,
+            'descricao_tipoconta' => $descricao_tipoconta,
         ])->setPaper('a4', 'portrait');
         return $pdf->download("saldo_contas.pdf");
     }
 
     public function saldo_dotacoes(Request $request){
         if($request->grupo != null){
-            $saldo_dotacoes = DotOrcamentaria::All();
+            $saldo_dotacoes = DB::table('fic_orcamentarias')
+            ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
+            ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item', 
+                    DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
+                    DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
+            ->where('dot_orcamentarias.grupo','=',$request->grupo)
+            ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
+            ->get();
         }
         else{
             request()->session()->flash('alert-info','Informe o Grupo.');
@@ -110,7 +127,9 @@ class RelatorioController extends Controller
         }
 
         $pdf = PDF::loadView('pdfs.saldo_dotacoes', [
-            'saldo_dotacoes'    => $saldo_dotacoes,
+            'saldo_dotacoes' => $saldo_dotacoes,
+            'grupo'          => $request->grupo,
+
         ])->setPaper('a4', 'portrait');
         return $pdf->download("saldo_dotacoes.pdf");
     }
@@ -137,7 +156,7 @@ class RelatorioController extends Controller
             $lancamentos = $lancamentos->where('observacao','=',$request->observacao);
         }
         $lancamentos = $lancamentos->orderBy('data')->get();
-        $nome_conta      = Conta::nome_conta($request->conta_id);
+        $nome_conta  = Conta::nome_conta($request->conta_id);
 
         $pdf = PDF::loadView('pdfs.lancamentos', [
             'lancamentos'    => $lancamentos,

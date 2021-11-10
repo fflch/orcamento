@@ -20,8 +20,8 @@ class CreateContasTable extends Migration
             $table->unsignedBigInteger('area_id');
             $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->string('nome', 150);
-            $table->string('email');
-            $table->integer('numero');
+            $table->string('email')->nullable();
+            $table->integer('numero')->nullable();
             $table->boolean('ativo')->nullable()->default(FALSE);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -24,7 +24,7 @@ class MovimentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'ano'       => 'required|integer|unique:movimentos',
+            'ano'       => 'required|integer',
             'concluido' => 'boolean',
             'ativo'     => 'boolean',
         ];
@@ -34,7 +34,7 @@ class MovimentoRequest extends FormRequest
         return [
             'ano.required'      => 'Digite o Ano do Movimento.',
             'ano.integer'       => 'O Ano deve ser um número inteiro.',
-            'ano.unique'        => 'Já existe um movimento com esse ano.',
+            //'ano.unique'        => 'Já existe um movimento com esse ano.',
             'concluido.boolean' => 'O campo Concluído deve estar marcado ou desmarcado.',
             'ativo.boolean'     => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];

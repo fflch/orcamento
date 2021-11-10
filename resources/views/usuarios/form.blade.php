@@ -1,15 +1,15 @@
 <div class="form-row">
     <div class="form-group col-md-1">
         <label for="numero">Número USP</label>
-        <input type="text" class="form-control" name="codpes" value="{{ $usuario->codpes ?? old('codpes') }}" placeholder="[ Ex: 08 ]">
+        <input type="text" class="form-control" name="codpes" value="{{ $usuario->codpes ?? old('codpes') }}" placeholder="[ Ex: 08 ]" disabled>
     </div>
     <div class="form-group col-md-6">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" name="name" value="{{ $usuario->name ?? old('name') }}" placeholder="[ Ex: Faculdade de Filosofia, Letras e Ciências Humanas ]">
+        <input type="text" class="form-control" name="name" value="{{ $usuario->name ?? old('name') }}" placeholder="[ Ex: Faculdade de Filosofia, Letras e Ciências Humanas ]" disabled>
     </div>
     <div class="form-group col-md-3">
         <label for="departamento">E-mail</label>
-        <input type="text" class="form-control" name="email" value="{{ $usuario->email ?? old('email') }}" placeholder="[ Ex: Serviço de Contabilidade ]">
+        <input type="text" class="form-control" name="email" value="{{ $usuario->email ?? old('email') }}" placeholder="[ Ex: seu_nome@usp.br ]" disabled>
     </div>
     <div class="form-group col-md-2">
         <label for="Perfil">Perfil</label>

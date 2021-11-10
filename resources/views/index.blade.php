@@ -5,12 +5,24 @@
 @section('content')
     @parent
         @auth            
-            Você fez login com sucesso no <strong>Sistema de Controle Orçamentário</strong>. 
-            Utilize o menu acima para usar os recursos do sistema. 
-            O movimento atualmente ativo é o <strong>{{ $movimento_ativo->ano }}</strong>.
-            Para sair, clique em <strong>Sair</strong> logo acima à direita.
+        <div class="card p-3">    
+            <p>
+                <strong>Bem-vindo.</strong><br>
+                Você fez login com sucesso no <strong>Sistema de Controle Orçamentário (SisConOrc)</strong>. 
+                Utilize o menu acima para usar os recursos do sistema. Caso o menu não esteja aparecendo, significa que você não tem um <strong>perfil</strong>.<br>
+                Seu perfil atual é: <strong>{{ $perfil_logado }}</strong>.
+                As opções do menu podem variar de acordo com o seu perfil.
+                O movimento atualmente ativo é o <strong>{{ $movimento_ativo->ano }}</strong>.
+                Para sair, clique em <strong>Sair</strong> logo acima à direita, ao lado do seu nome e e-mail.
+            </p>
+        </div>
         @else
-            Você ainda não fez login. Faça-o utilizando número USP e senha única. 
-            Clique <a href="/login">aqui</a> ou em <strong>Entrar</strong> logo acima à direita.
+        <div class="card p-3">    
+            <p>
+                <strong>Bem-vindo.</strong><br>    
+                Você ainda não fez login no <strong>Sistema de Controle Orçamentário (SisConOrc)</strong>. Faça-o utilizando <strong>número USP</strong> e <strong>senha única</strong>. 
+                Clique <a href="/login">aqui</a> ou em <strong>Entrar</strong> logo acima à direita.
+            </p>
+        </div>
         @endauth
 @stop

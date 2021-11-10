@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UserRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,14 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'perfil' => ['required', Rule::in(User::lista_perfis())],
+        ];
+    }
+
+    public function messages(){
+        return [
+            'perfil.required' => 'Escolha o perfil do Usuário.',
+            'perfil.in'       => 'Escolha um dos perfis diponíveis.',
         ];
     }
 }
