@@ -1,7 +1,7 @@
 <div class="form-row">
 <div class="form-group col-md-6">
     <label for="tipoconta">Tipo De Conta</label>
-    <select class="form-control" name="tipoconta_id" >
+    <select class="form-control" name="tipoconta_id" tabindex="1">
         <option value="{{ $nota->tipoconta_id ?? old('tipoconta_id') }}">{{ $nota->tipoconta->descricao ?? old('tipoconta_descricao') }}</option>
         <option value=null>----------</option>
         @foreach($lista_tipos_contas as $lista_tipo_conta)
@@ -11,7 +11,7 @@
 </div>
 <div class="form-group col-md-6">
     <label for="Tipo">Tipo</label>
-    <select class="form-control" name="tipo">
+    <select class="form-control" name="tipo" tabindex="2">
         <option value="{{ $nota->tipo ?? old('tipo') }}">{{ $nota->tipo ?? old('tipo') }}</option>
         <option value=null>----------</option>
     @foreach($lista_tipos as $lista_tipo)
@@ -24,7 +24,7 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="texto">Texto</label>
-        <input type="text" class="form-control" name="texto" value="{{ $nota->texto ?? old('texto') }}" placeholder="[ Ex: Suplementação de Cursos ]">
+        <input type="text" class="form-control" name="texto" value="{{ $nota->texto ?? old('texto') }}" placeholder="[ Ex: Suplementação de Cursos ]" tabindex="3">
     </div>
 </div>
 
@@ -32,8 +32,8 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group col-md-12">
-                <input type="submit" class="btn btn-primary" value="Salvar">
-                <input type="reset" class="btn btn-warning" value="Desfazer">
+                <input type="submit" class="btn btn-primary" value="Salvar" tabindex="4">
+                <input type="reset" class="btn btn-warning" value="Desfazer" tabindex="5">
             </div>
         </div>
     </div>

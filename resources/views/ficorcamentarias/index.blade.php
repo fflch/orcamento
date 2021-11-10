@@ -67,14 +67,14 @@
                 <td align="left">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</td>
                 <td align="left">{{ $ficorcamentaria->data }}</td>
                 <td align="left">{{ $ficorcamentaria->descricao }}</td>
-                <td align="left">{{ $ficorcamentaria->ficorcamentaria_id }}</td>
+                <td align="right">{{ $ficorcamentaria->ficorcamentaria_id }}</td>
                 @if($ficorcamentaria->debito != 0.00)
-                    <td align="right">{{ number_format($ficorcamentaria->debito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($ficorcamentaria->debito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 @if($ficorcamentaria->credito != 0.00)
-                    <td align="right">{{ number_format($ficorcamentaria->credito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($ficorcamentaria->credito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif

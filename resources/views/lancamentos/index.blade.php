@@ -67,13 +67,13 @@
                 <td align="left">{{ $lancamento->descricao }}</td>
                 <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                 @if($lancamento->debito != 0.00)
-                    <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 
                 @if($lancamento->credito != 0.00)
-                    <td align="right">{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
