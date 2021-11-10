@@ -33,8 +33,8 @@ class FicOrcamentariaController extends Controller
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($ficorcamentarias as $ficorcamentaria){
-            $total_debito  += $ficorcamentaria->debito;
-            $total_credito += $ficorcamentaria->credito;
+            $total_debito  += $ficorcamentaria->debito_raw;
+            $total_credito += $ficorcamentaria->credito_raw;
         }
 
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();

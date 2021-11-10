@@ -30,8 +30,8 @@ class LancamentoController extends Controller
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($lancamentos as $lancamento){
-            $total_debito  += str_replace(',', '.', $lancamento->debito);
-            $total_credito += str_replace(',', '.', $lancamento->credito);
+            $total_debito  += $lancamento->debito_raw;
+            $total_credito += $lancamento->credito_raw;
         }
 
         $lista_contas      = Conta::lista_contas();
