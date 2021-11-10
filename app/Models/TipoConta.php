@@ -14,8 +14,8 @@ class TipoConta extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tipo_contas(){
-        return $this->hasMany(Conta::class,'tipoconta_id','id');
+    public function conta(){
+        return $this->hasMany('App\Models\Conta');
     }
 
     public static function lista_tipos_contas(){
@@ -28,8 +28,8 @@ class TipoConta extends Model
         return $lista_contas_por_tipo;
     }
 
-    public static function descricao_tipo_conta($conta_id){
-        $descricao_tipo_conta = TipoConta::where('id','=',$conta_id)->value('descricao');
+    public static function descricao_tipo_conta($tipoconta_id){
+        $descricao_tipo_conta = TipoConta::where('id','=',$tipoconta_id)->value('descricao');
         return $descricao_tipo_conta;
     }
     

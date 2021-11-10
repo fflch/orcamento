@@ -11,7 +11,7 @@
 </div>
 <div class="form-group col-md-6">
     <label for="Tipo">Tipo</label>
-    <select class="form-control" name="tipo" >
+    <select class="form-control" name="tipo">
         <option value="{{ $nota->tipo ?? old('tipo') }}">{{ $nota->tipo ?? old('tipo') }}</option>
         <option value=null>----------</option>
     @foreach($lista_tipos as $lista_tipo)

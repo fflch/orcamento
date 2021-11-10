@@ -28,7 +28,7 @@ class ContaRequest extends FormRequest
             'area_id'      => 'required',
             'nome'         => 'required',
             'email'        => 'email',
-            'numero'       => 'required|integer',
+            'numero'       => 'integer|nullable',
             'ativo'        => 'boolean',
         ];
     }
@@ -40,7 +40,7 @@ class ContaRequest extends FormRequest
             'nome.required'         => 'Digite o Nome da Conta.',
             //'nome.unique'           => 'Já existe uma conta com esse nome.',
             'email.email'           => 'Informe um endereço de E-mail válido.',
-            'numero.required'       => 'Digite o Número da Conta.',
+            //'numero.required'       => 'Digite o Número da Conta.',
             'numero.integer'        => 'O Número deve ser um número inteiro.',
             //'numero.unique'         => 'Já existe uma conta com esse número.',
             'ativo.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',

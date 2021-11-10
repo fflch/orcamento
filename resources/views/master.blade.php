@@ -24,5 +24,5 @@ Sistema de Controle Orçamentário
 
 @section('footer')
 <hr>
-FFLCH-USP
+<strong>FFLCH-USP</strong>
 @stop

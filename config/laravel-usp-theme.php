@@ -51,6 +51,16 @@ $administracao = [
         'can'  => 'Administrador',
     ],
     [
+        'type' => 'divider',
+        'can'  => 'Todos',
+    ],
+    [
+        'type' => 'header',
+        'text' => '<b><i class="fas fa-id-badge"></i>  Configurações</b>',
+        'can' => 'Todos',
+    ],
+
+    [
         'text' => 'Unidade',
         'url'  => '/unidades',
         'can'  => 'Todos',

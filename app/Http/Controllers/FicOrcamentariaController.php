@@ -83,17 +83,17 @@ class FicOrcamentariaController extends Controller
         $request_FO = $request;
         $lista_contas = Conta::lista_contas();
 
-        return redirect()->route('ficorcamentarias.contrapartida', 
+        /*return redirect()->route('ficorcamentarias.contrapartida', 
         compact('request_FO',
                 'tipocontaid_quantidades',
                 'tipocontaid_descricaoconta',
-                'lista_contas'));
+                'lista_contas'));*/
 
-        /*return view('ficorcamentarias.contrapartida', 
+        return view('ficorcamentarias.contrapartida', 
                     compact('request_FO',
                             'tipocontaid_quantidades',
                             'tipocontaid_descricaoconta',
-                            'lista_contas'));*/
+                            'lista_contas'));
     }
 
     /**
@@ -102,7 +102,9 @@ class FicOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FicOrcamentariaCPRequest $request)
+    //public function store(FicOrcamentariaCPRequest $request)
+    public function store(Request $request)
+
     {
         $this->authorize('Todos');
         //dd($request);

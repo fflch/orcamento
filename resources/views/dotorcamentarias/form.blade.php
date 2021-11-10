@@ -42,7 +42,7 @@
     <label class="checkbox-inline" for="ativo">Ativo<br>
     <input type="checkbox" id="ativo" name="ativo" value="1" 
         @if (isset($dotorcamentaria->id) and ($dotorcamentaria->ativo === 1))
-             checked
+        checked
         @endif >
         </label>
 </div>

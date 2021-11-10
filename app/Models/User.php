@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'perfil',
     ];
 
     /**
@@ -43,8 +43,7 @@ class User extends Authenticatable
         return $lista_usuarios;
     }
 
-    public function contas_usuarios()
-    {
+    public function contas_usuarios(){
         return $this->belongsToMany(Conta::class,'contas_usuarios')
                 ->using(ContaUsuario::class)
                 ->withTimestamps()
@@ -59,5 +58,10 @@ class User extends Authenticatable
             'Usuário',
             'Nenhum'
         ];
+    }
+
+    public static function perfil_logado(){
+        $perfil_logado = User::where('id','=',auth()->user()->id);
+        return $perfil_logado;    
     }
 }

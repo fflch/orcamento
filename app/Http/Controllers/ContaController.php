@@ -28,9 +28,7 @@ class ContaController extends Controller
         }
 
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
-
         return view('contas.index', compact('contas','lista_tipos_contas'));
-
     }
 
     /**
@@ -45,7 +43,10 @@ class ContaController extends Controller
             $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
         //}
         
-        return view('contas.index')->with('contas', $contas);
+        //return view('contas.index')->with('contas', $contas);
+        $lista_tipos_contas = TipoConta::lista_tipos_contas();
+        return view('contas.index', compact('contas','lista_tipos_contas'));
+
     }
 
     /**

@@ -20,7 +20,6 @@
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
     
   </style>
 
@@ -34,13 +33,18 @@
         <th width="13%">Total Geral</th>
       </tr>
     </thead>
+    {{ $total_geral_debito = 0 }}
+    {{ $total_geral_credito = 0 }}
     @foreach ($balancete as $valor)
       <tbody>
           <tr>
-            <td align="left"> {{ $valor->descricao }}</td>
-            <td align="right"> {{ $valor->debito }}</td>
-            <td align="right">R$ {{ $valor->credito }}</td>
-            <td align="right"> {{ $valor->observacao }} de {{ $valor->grupo }}</td>
+            <td align="left"> {{ $valor->nome }}</td>
+            <td align="right"> {{ $valor->total_debito }}</td>
+            <td align="right">R$ {{ $valor->total_credito }}</td>
+            <td align="right"> {{ $valor->total_credito - $valor->total_debito }} </td>
+            
+            {{ $total_geral_debito += $valor->total_debito }}
+            {{ $total_geral_credito += $valor->total_credito }}
           </tr>
       </tbody>
     @endforeach
@@ -49,9 +53,9 @@
     <tbody>
         <tr>
           <td width="61%" align="right">Totais Gerais</td>
-          <td width="13%" align="right">{{ $valor->debito }}</td>
-          <td width="13%" align="right">{{ $valor->credito }}</td>
-          <td width="13%" align="right">{{ $valor->debito }} - {{ $valor->credito }}</td>
+          <td width="13%" align="right">{{ $total_geral_debito }}</td>
+          <td width="13%" align="right">{{ $total_geral_credito }}</td>
+          <td width="13%" align="right">{{ $total_geral_credito - $total_geral_debito }}</td>
         </tr>
      <tbody>
   </table>
