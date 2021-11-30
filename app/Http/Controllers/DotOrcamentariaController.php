@@ -109,6 +109,13 @@ class DotOrcamentariaController extends Controller
     public function destroy(DotOrcamentaria $dotorcamentaria)
     {
         $this->authorize('Administrador');
+
+        if($dotorcamentaria->ficha_orcamentaria->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Dotação Orçamentária não pode ser excluída, 
+            pois existem lançamentos da Ficha Orçamentária cadastrados nela.");
+            return redirect("/dotorcamentarias");    
+        }
+
         $dotorcamentaria->delete();
         return redirect()->route('dotorcamentarias.index')->with('alert-success', 'Dotação Orçamentária deletada com sucesso!');
     }

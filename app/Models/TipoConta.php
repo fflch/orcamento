@@ -15,7 +15,7 @@ class TipoConta extends Model
     }
 
     public function conta(){
-        return $this->hasMany('App\Models\Conta');
+        return $this->hasMany(Conta::class,'tipoconta_id','id');
     }
 
     public static function lista_tipos_contas(){

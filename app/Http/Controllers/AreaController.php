@@ -107,6 +107,13 @@ class AreaController extends Controller
     public function destroy(Area $area)
     {
         $this->authorize('Administrador');
+
+        if($area->conta->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Área não pode ser excluída, 
+            pois existem Contas cadastradas nela.");
+            return redirect("/areas");    
+        }
+
         $area->delete();
         return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
     }

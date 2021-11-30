@@ -38,10 +38,15 @@ class ContaUsuarioController extends Controller
     public function create()
     {
         $this->authorize('Todos');
-        $lista_contas = Conta::lista_contas();
+        $lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_usuarios = User::lista_usuarios();
 
-        return view('contausuarios.create', compact('lista_contas','lista_usuarios'));
+        //return view('contausuarios.create', compact('lista_contas_ativas','lista_usuarios'));
+        return view('contausuarios.edit', [
+            'contausuario'        => new ContaUsuario,
+            'lista_contas_ativas' => $lista_contas_ativas,
+            'lista_usuarios'      => $lista_usuarios,
+        ]);
     }
 
     /**
@@ -53,11 +58,16 @@ class ContaUsuarioController extends Controller
     public function store(ContaUsuarioRequest $request)
     {
         $this->authorize('Todos');
-        $validated = $request->validated();
-        $validated['id_conta'] = $request->id_conta;
-        $validated['id_usuario'] = $request->id_usuario;
-        $validated['user_id'] = \Auth::user()->id;
-        ContaUsuario::create($validated);
+        //dd($request->contaid);
+        
+        foreach($request->contaid as $id){
+            //dd($id);
+            $validated = $request->validated();
+            $validated['id_conta']   = $id;
+            $validated['id_usuario'] = $request->id_usuario;
+            $validated['user_id']    = \Auth::user()->id;
+            ContaUsuario::create($validated);
+        }
 
         $request->session()->flash('alert-success', 'Conta x Usuário cadastrada com sucesso!');
         return redirect()->route('contausuarios.index');
@@ -84,10 +94,15 @@ class ContaUsuarioController extends Controller
     public function edit(ContaUsuario $contausuario)
     {
         $this->authorize('Administrador');
-        $lista_contas = Conta::lista_contas();
-        $lista_usuarios = User::lista_usuarios();
+        $lista_contas_ativas = Conta::lista_contas_ativas();
+        $lista_usuarios      = User::lista_usuarios();
 
-        return view('contausuarios.edit', compact('contausuario','lista_contas','lista_usuarios'));
+        return view('contausuarios.edit', [
+            'contausuario'        => $contausuario,
+            'lista_contas_ativas' => $lista_contas_ativas,
+            'lista_usuarios'      => $lista_usuarios,
+        ]);
+
     }
 
     /**

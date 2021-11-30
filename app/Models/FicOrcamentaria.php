@@ -17,7 +17,8 @@ class FicOrcamentaria extends Model
         'empenho',
         'debito',
         'credito',
-        'user_id'];
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -31,12 +32,24 @@ class FicOrcamentaria extends Model
         return $this->belongsTo(DotOrcamentaria::class);
     }
 
+    public function getDebitoRawAttribute(){
+        if($this->debito){
+            return (float)str_replace(',','.',$this->debito);
+        }
+    }
+
     public function getDebitoAttribute($debito){
         return number_format($debito, 2, ',', '.');
     }
 
     public function setDebitoAttribute($debito){
         $this->attributes['debito'] = str_replace(',', '.', $debito);
+    }
+
+    public function getCreditoRawAttribute(){
+        if($this->credito){
+            return (float)str_replace(',','.',$this->credito);
+        }
     }
 
     public function getCreditoAttribute($credito){

@@ -18,7 +18,7 @@ class CreateNotasTable extends Migration
             $table->unsignedBigInteger('tipoconta_id');
             $table->foreign('tipoconta_id')->references('id')->on('tipo_contas')->onDelete('cascade');
             $table->string('tipo');
-            $table->string('texto',150);
+            $table->string('texto');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

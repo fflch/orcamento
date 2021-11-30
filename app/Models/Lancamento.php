@@ -38,12 +38,24 @@ class Lancamento extends Model
         return $this->belongsTo(Conta::class);
     }
 
+    public function getDebitoRawAttribute(){
+        if($this->debito){
+            return (float)str_replace(',','.',$this->debito);
+        }
+    }
+    
     public function getDebitoAttribute($debito){
         return number_format($debito, 2, ',', '.');
     }
 
     public function setDebitoAttribute($debito){
         $this->attributes['debito'] = str_replace(',', '.', $debito);
+    }
+
+    public function getCreditoRawAttribute(){
+        if($this->credito){
+            return (float)str_replace(',','.',$this->credito);
+        }
     }
 
     public function getCreditoAttribute($credito){

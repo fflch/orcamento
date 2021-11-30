@@ -80,7 +80,7 @@ return [
             'can'     => 'Todos',
         ],
         [
-            'text'    => 'Lançamentos',
+            'text'    => '<i class="far fa-list-alt"></i> Lançamentos',
             'url'     => '/lancamentos',
             'can'     => 'Todos',
         ],

@@ -20,12 +20,16 @@
             @csrf
             <div class="row">
                 <div class="col-sm input-group">
-                    <input size="100%" list="contas" name="conta_id" id="conta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Conta ]">
-                    <datalist id="contas">
-                        @foreach($lista_contas as $lista_conta)
-                            <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}
+                    <select class="contas_select form-control" name="conta_id" tabindex="1" placeholder="[ Busca por Conta ]">
+                        <option value=" ">&nbsp;</option>
+                        @foreach($lista_contas_ativas as $lista_conta_ativa)
+                            <option value="{{ $lista_conta_ativa->id }}" @if(old('conta_id') == $lista_conta_ativa->id) {{'selected'}}
+                         @endif>
+                            {{ $lista_conta_ativa->nome }}
+                            </option>
                         @endforeach
-                    </datalist>
+                    </select>
+
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
@@ -67,13 +71,13 @@
                 <td align="left">{{ $lancamento->descricao }}</td>
                 <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                 @if($lancamento->debito != 0.00)
-                    <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
                 
                 @if($lancamento->credito != 0.00)
-                    <td align="right">{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
+                    <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
@@ -104,4 +108,14 @@
     </table>
 <p>{{ $lancamentos->links() }}</p>
 </div>
+
+@endsection
+
+@section('javascripts_bottom')
+    <script>
+        $(document).ready(function() {
+            $('.contas_select').select2();
+        });
+    </script>
+
 @stop

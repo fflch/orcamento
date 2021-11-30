@@ -33,17 +33,17 @@ class LancamentoRequest extends FormRequest
             'debito'      => 'required_without:credito',
             'credito'     => 'required_without:debito',
             'observacao'  => 'required',
-            'percentual1' => 'required|integer',
-            'percentual2' => 'required|integer',
-            'percentual3' => 'required|integer',
-            'percentual4' => 'required|integer',
-            'total_precentuais'  => 'size:100',
+            'percentual1' => 'required|integer|between:1,100',
+            'percentual2' => 'required|integer|between:1,100',
+            'percentual3' => 'required|integer|between:1,100',
+            'percentual4' => 'required|integer|between:1,100',
+            //'total_precentuais'  => 'size:100',
         ];
     }
 
     public function messages(){
         return [
-            'conta_id.required'        => 'Escolha uma Conta.',
+            'conta_id.required'        => 'Informe a Conta.',
             'grupo.required'           => 'Informe o Grupo.',
             'receita.required'         => 'O campo Receita deve estar marcado ou desmarcado.',
             'data.required'            => 'Informe a Data.',
@@ -62,6 +62,10 @@ class LancamentoRequest extends FormRequest
             'percentual2.integer'      => 'O Percentual #2 deve ser um inteiro.',
             'percentual3.integer'      => 'O Percentual #3 deve ser um inteiro.',
             'percentual4.integer'      => 'O Percentual #4 deve ser um inteiro.',
+            'percentual1.between'      => 'O Percentual #1 deve ter, no máximo, três dígitos.',
+            'percentual2.between'      => 'O Percentual #2 deve ter, no máximo, três dígitos.',
+            'percentual3.between'      => 'O Percentual #3 deve ter, no máximo, três dígitos.',
+            'percentual4.between'      => 'O Percentual #4 deve ter, no máximo, três dígitos.',
         ];
     }
 }

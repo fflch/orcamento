@@ -33,8 +33,8 @@ class FicOrcamentariaController extends Controller
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($ficorcamentarias as $ficorcamentaria){
-            $total_debito  += $ficorcamentaria->debito;
-            $total_credito += $ficorcamentaria->credito;
+            $total_debito  += $ficorcamentaria->debito_raw;
+            $total_credito += $ficorcamentaria->credito_raw;
         }
 
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
@@ -54,11 +54,13 @@ class FicOrcamentariaController extends Controller
         $lista_observacoes = Nota::lista_observacoes();
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
 
-        return view('ficorcamentarias.create', 
-                    compact('lista_dotorcamentarias',
-                            'lista_descricoes',
-                            'lista_observacoes',
-                            'lista_tipos_contas'));
+        return view('ficorcamentarias.create',[ 
+                    'ficorcamentaria'        => new FicOrcamentaria,
+                    'lista_dotorcamentarias' => $lista_dotorcamentarias,
+                    'lista_descricoes'       => $lista_descricoes,
+                    'lista_observacoes'      => $lista_observacoes,
+                    'lista_tipos_contas'     => $lista_tipos_contas,
+        ]);
     }
 
     /**

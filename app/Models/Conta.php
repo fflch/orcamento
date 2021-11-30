@@ -22,14 +22,24 @@ class Conta extends Model
         return $this->belongsTo(TipoConta::class);
     }
 
-    public static function lista_contas(){
-        $lista_contas = Conta::where('ativo','=','1')->orderBy('nome')->get();
-        return $lista_contas;
+    public static function lista_contas_ativas(){
+        $lista_contas_ativas = Conta::where('ativo','=','1')->orderBy('nome')->get();
+        return $lista_contas_ativas;
+    }
+
+    public static function lista_contas_todas(){
+        $lista_contas_todas = Conta::All()->orderBy('nome')->get();
+        return $lista_contas_todas;
     }
 
     public static function nome_conta($conta_id){
         $nome_conta = Conta::where('id','=',$conta_id)->get();
         return $nome_conta;
+    }
+
+    public static function nome_conta_numero($numero){
+        $nome_conta_numero = Conta::where('numero','=',$numero)->get();
+        return $nome_conta_numero;
     }
 
     public function lancamento(){

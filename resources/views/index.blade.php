@@ -9,7 +9,7 @@
             <p>
                 <strong>Bem-vindo.</strong><br>
                 Você fez login com sucesso no <strong>Sistema de Controle Orçamentário (SisConOrc)</strong>. 
-                Utilize o menu acima para usar os recursos do sistema. Caso o menu não esteja aparecendo, significa que você não tem um <strong>perfil</strong>.<br>
+                Utilize o menu acima para usar os recursos do sistema. Caso o menu não esteja aparecendo, significa que você não tem um <strong>perfil</strong>. 
                 Seu perfil atual é: <strong>{{ $perfil_logado }}</strong>.
                 As opções do menu podem variar de acordo com o seu perfil.
                 O movimento atualmente ativo é o <strong>{{ $movimento_ativo->ano }}</strong>.
@@ -25,4 +25,5 @@
             </p>
         </div>
         @endauth
+
 @stop

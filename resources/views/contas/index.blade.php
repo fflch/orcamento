@@ -20,12 +20,17 @@
 @csrf
   <div class="row">
     <div class=" col-sm input-group">
-        <input size="100%" list="tiposcontas" name="tipoconta_id" id="tipoconta_id" class="form-control" value="{{ Request()->conta_id}}" placeholder="[ Busca por Tipo de Conta ]">
-        <datalist id="tiposcontas">
-            @foreach($lista_tipos_contas as $lista_tipos_conta)
-                <option value="{{ $lista_tipos_conta->id }}">{{ $lista_tipos_conta->descricao }}
+        <select class="tipocontas_select form-control" name="tipoconta_id" tabindex="1">
+            <option value=" ">&nbsp;</option>
+            @foreach($lista_tipos_contas as $lista_tipo_conta)
+                <option value="{{ $lista_tipo_conta->id }}" @if(old('conta_id') == $lista_tipo_conta->id) {{'selected'}}
+                     @endif>
+                    {{ $lista_tipo_conta->descricao }}
+                </option>
             @endforeach
-        </datalist> &nbsp;       
+        </select>
+        
+        &nbsp;       
         <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Nome ]">
         <span class="input-group-btn">
         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
@@ -48,9 +53,9 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
+                <th width="30%" align="left">Nome</th>
                 <th width="30%" align="left">Tipo de Conta</th>
                 <th width="25%" align="left">Área</th>
-                <th width="30%" align="left">Nome</th>
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')
                 <th width="10%" align="center" colspan="3">&nbsp;</th>
@@ -60,9 +65,9 @@
         <tbody>
             @foreach($contas as $conta)
             <tr>
+                <td align="left">{{ $conta->nome }}</td>
                 <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
                 <td align="left">{{ $conta->area->nome ?? '' }}</td>
-                <td align="left">{{ $conta->nome }}</td>
                 <td align="left">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                 <td align="center"><a class="btn btn-secondary" href="/contas/{{$conta->id}}">Ver</a></td>
                 @can('Administrador')
@@ -81,4 +86,13 @@
     </table>
     <p>{{ $contas->links() }}</p>   
 </div>
+@endsection
+
+@section('javascripts_bottom')
+    <script>
+        $(document).ready(function() {
+            $('.tipocontas_select').select2();
+        });
+    </script>
+
 @stop

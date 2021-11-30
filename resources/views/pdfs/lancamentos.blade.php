@@ -44,8 +44,8 @@
             <td align="center">{{ $lancamento->data }}</td>
             <td align="right">{{ $lancamento->empenho }}</td>
             <td align="left">{{ $lancamento->descricao }}</td>
-            <td align="right">{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
-            <td align="right">{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
+            <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+            <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
             <td align="right">{{ $lancamento->saldo }}</td>
             <td align="left">{{ $lancamento->observacao }}</td>
 

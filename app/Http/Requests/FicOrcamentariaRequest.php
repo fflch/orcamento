@@ -35,7 +35,7 @@ class FicOrcamentariaRequest extends FormRequest
 
     public function messages(){
         return [
-            'dotacao_id.required'      => 'Escolha uma Dotação',
+            'dotacao_id.required'      => 'Informe a Dotação',
             'data.required'            => 'Informe a Data',
             'empenho.required'         => 'Informe o Empenho',
             'descricao.required'       => 'Informe a Descrição',

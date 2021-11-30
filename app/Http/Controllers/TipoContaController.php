@@ -105,9 +105,16 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoConta $tipoconta)
+    public function destroy(TipoConta $tipoconta, Request $request)
     {
         $this->authorize('Administrador');
+
+        if($tipoconta->conta->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Tipo de Conta não pode ser excluída, 
+            pois existem Contas cadastradas nela.");
+            return redirect("/tipocontas");    
+        }
+
         $tipoconta->delete();
         return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
     }

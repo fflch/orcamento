@@ -32,9 +32,9 @@ class UnidadeRequest extends FormRequest
 
     public function messages(){
         return [
-            'numero.required'       => 'Digite o Número da Unidade.',
-            'nome.required'         => 'Digite o Nome da Unidade.',
-            'departamento.required' => 'Digite o Departamento da Unidade.',
+            'numero.required'       => 'Informe o Número.',
+            'nome.required'         => 'Informe o Nome.',
+            'departamento.required' => 'Informe o Departamento.',
         ];
     }
 }
