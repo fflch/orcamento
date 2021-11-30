@@ -1,7 +1,7 @@
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" name="nome" value="{{ $area->nome ?? old('nome') }}" placeholder="[ Ex: Administrativa ]" tabindex="1">
+        <input type="text" class="form-control" name="nome" value="{{ $area->nome ?? old('nome') }}" placeholder="[ Ex: Administrativa ]" maxlength="150" tabindex="1">
     </div>
 </div>
 

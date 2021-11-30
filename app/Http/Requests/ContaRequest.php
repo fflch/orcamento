@@ -27,7 +27,7 @@ class ContaRequest extends FormRequest
             'tipoconta_id' => 'required',
             'area_id'      => 'required',
             'nome'         => 'required',
-            'email'        => 'email',
+            'email'        => 'email|nullable',
             'numero'       => 'integer|nullable',
             'ativo'        => 'boolean',
         ];
@@ -35,9 +35,9 @@ class ContaRequest extends FormRequest
 
     public function messages(){
         return [
-            'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
-            'area_id.required'      => 'Escolha o Nome da Área.',
-            'nome.required'         => 'Digite o Nome da Conta.',
+            'tipoconta_id.required' => 'Informe o Tipo de Conta.',
+            'area_id.required'      => 'Informe o Nome da Área.',
+            'nome.required'         => 'Informe o Nome da Conta.',
             //'nome.unique'           => 'Já existe uma conta com esse nome.',
             'email.email'           => 'Informe um endereço de E-mail válido.',
             //'numero.required'       => 'Digite o Número da Conta.',

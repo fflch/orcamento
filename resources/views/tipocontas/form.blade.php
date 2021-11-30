@@ -1,7 +1,7 @@
 <div class="form-row">
 <div class="form-group col-md-7">
     <label for="descricao">Descrição</label>
-    <input type="text" class="form-control" name="descricao" value="{{ $tipoconta->descricao ?? old('descricao') }}" placeholder="[ Ex: Orçamento ]" tabindex="1">
+    <input type="text" class="form-control" name="descricao" value="{{ $tipoconta->descricao ?? old('descricao') }}" placeholder="[ Ex: Orçamento ]" maxlength="150" tabindex="1">
 </div>
 
 <div class="form-group col-md-3">

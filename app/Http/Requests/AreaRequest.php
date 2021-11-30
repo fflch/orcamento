@@ -33,7 +33,7 @@ class AreaRequest extends FormRequest
 
     public function messages(){
         return [
-            'nome.required' => 'Digite o Nome da Área.',
+            'nome.required' => 'Informe o Nome.',
             //'nome.unique'   => 'Já existe uma área com esse nome.',
         ];
     }

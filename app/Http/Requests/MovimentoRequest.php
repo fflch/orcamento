@@ -24,7 +24,7 @@ class MovimentoRequest extends FormRequest
     public function rules()
     {
         return [
-            'ano'       => 'required|integer',
+            'ano'       => 'required|integer|between:1,9999',
             'concluido' => 'boolean',
             'ativo'     => 'boolean',
         ];
@@ -32,8 +32,9 @@ class MovimentoRequest extends FormRequest
 
     public function messages(){
         return [
-            'ano.required'      => 'Digite o Ano do Movimento.',
+            'ano.required'      => 'Informe o Ano.',
             'ano.integer'       => 'O Ano deve ser um número inteiro.',
+            'ano.between'       => 'O Ano deve ter, no máximo, quatro dígitos.',
             //'ano.unique'        => 'Já existe um movimento com esse ano.',
             'concluido.boolean' => 'O campo Concluído deve estar marcado ou desmarcado.',
             'ativo.boolean'     => 'O campo Ativo deve estar marcado ou desmarcado.',

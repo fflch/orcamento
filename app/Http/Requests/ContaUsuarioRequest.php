@@ -24,15 +24,15 @@ class ContaUsuarioRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_conta'   => 'required',
+            //'id_conta'   => 'required',
             'id_usuario' => 'required',
         ];
     }
 
     public function messages(){
         return [
-            'id_conta.required'   => 'Escolha uma Conta',
-            'id_usuario.required' => 'Escolha um Usuário',
+            //'id_conta.required'   => 'Informe a Conta',
+            'id_usuario.required' => 'Informe o Usuário',
         ];
     }
 }

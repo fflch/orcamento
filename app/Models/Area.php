@@ -14,6 +14,10 @@ class Area extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function conta(){
+        return $this->hasMany('App\Models\Conta');
+    }
+
     public static function lista_areas(){
         $lista_areas = Area::all()->sortBy('nome');
         return $lista_areas;

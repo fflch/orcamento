@@ -36,7 +36,13 @@ class NotaController extends Controller
         $this->authorize('Todos');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
-        return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
+        //return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
+        return view('notas.create', [
+            'nota'         => new Nota,
+            'lista_tipos_contas' => $lista_tipos_contas,
+            'lista_tipos' => $lista_tipos ,
+        ]);
+
     }
 
     /**

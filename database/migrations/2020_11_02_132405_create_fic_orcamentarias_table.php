@@ -21,11 +21,11 @@ class CreateFicOrcamentariasTable extends Migration
             $table->foreign('dotacao_id')->references('id')->on('dot_orcamentarias')->onDelete('cascade');
             $table->date('data');
             $table->integer('empenho');
-            $table->string('descricao', 150);
+            $table->string('descricao');
             $table->float('debito', 15, 2)->nullable()->default(0.00);
             $table->float('credito', 15, 2)->nullable()->default(0.00);
             $table->float('saldo', 15, 2)->nullable()->default(0.00);
-            $table->string('observacao', 150);
+            $table->string('observacao');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

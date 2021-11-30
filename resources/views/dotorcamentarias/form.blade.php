@@ -34,13 +34,13 @@
     <label class="checkbox-inline" for="receita">Receita<br>
     <input type="checkbox" id="receita" name="receita" value="1" tabindex="6"
         @if (isset($dotorcamentaria->id) and ($dotorcamentaria->receita === 1))
-                checked
+            checked
         @endif >
         </label>
 </div>
 <div class="form-group col-md-1">
     <label class="checkbox-inline" for="ativo">Ativo<br>
-    <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="7" 
+    <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="7"
         @if (isset($dotorcamentaria->id) and ($dotorcamentaria->ativo === 1))
         checked
         @endif >

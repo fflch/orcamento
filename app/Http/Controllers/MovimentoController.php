@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movimento;
 use Illuminate\Http\Request;
 use App\Http\Requests\MovimentoRequest;
+use DB;
 
 class MovimentoController extends Controller
 {
@@ -45,6 +46,11 @@ class MovimentoController extends Controller
     public function store(MovimentoRequest $request)
     {
         $this->authorize('Todos');
+        if($request->ativo = 1){
+            $affected = DB::table('movimentos')
+              ->update(['ativo' => 0]);
+        }
+
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;
@@ -89,6 +95,11 @@ class MovimentoController extends Controller
     public function update(MovimentoRequest $request, Movimento $movimento)
     {
         $this->authorize('Administrador');
+        if($request->ativo = 1){
+            $affected = DB::table('movimentos')
+              ->update(['ativo' => 0]);
+        }
+
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo'] = $request->ativo;

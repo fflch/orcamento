@@ -1,22 +1,30 @@
 <div class="form-row">
 <div class="form-group col-md-6">
     <label for="tipoconta">Tipo De Conta</label>
-    <input list="tipocontas" name="tipoconta_id" id="tipoconta_id" class="form-control" value="{{ $conta->tipoconta_id ?? old('tipoconta_id') }}" tabindex="1">
-        <datalist id="tipocontas">
+        <select class="tipocontas_select form-control" name="tipoconta_id" tabindex="1">
+            <option value=" ">&nbsp;</option>
             @foreach($lista_tipos_contas as $lista_tipo_conta)
-                <option value="{{ $lista_tipo_conta->id }}">{{ $lista_tipo_conta->descricao }}
+                <option value="{{ $lista_tipo_conta->id }}" @if(old('conta_id') == $lista_tipo_conta->id) {{'selected'}}
+                    @else {{($conta->tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}} @endif>
+                    {{ $lista_tipo_conta->descricao }}
+                </option>
             @endforeach
-        </datalist>
+        </select>
+        
 </div>
 
 <div class="form-group col-md-6">
     <label for="area">Área</label>
-    <input list="areas" name="area_id" id="area_id" class="form-control" value="{{ $conta->area_id ?? old('area_id') }}" tabindex="2">
-        <datalist id="areas">
+        <select class="areas_select form-control" name="area_id" tabindex="1">
+            <option value=" ">&nbsp;</option>
             @foreach($lista_areas as $lista_area)
-                <option value="{{ $lista_area->id }}">{{ $lista_area->nome }}
+                <option value="{{ $lista_tipo_conta->id }}" @if(old('conta_id') == $lista_area->id) {{'selected'}}
+                    @else {{($conta->area_id === $lista_area->id ) ? 'selected' : ''}} @endif>
+                    {{ $lista_area->nome }}
+                </option>
             @endforeach
-        </datalist>
+        </select>
+
 </div>
 </div>
 

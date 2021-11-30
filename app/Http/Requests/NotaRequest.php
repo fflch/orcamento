@@ -34,11 +34,11 @@ class NotaRequest extends FormRequest
 
     public function messages(){
         return [
-            'tipoconta_id.required' => 'Escolha o Tipo de Conta.',
-            'texto.required'        => 'Digite o Texto da Nota.',
+            'tipoconta_id.required' => 'Informe o Tipo de Conta.',
+            'texto.required'        => 'Informe o Texto.',
             //'texto.unique'          => 'Já existe uma nota com esse texto.',
-            'tipo.required'         => 'Escolha o tipo da Nota.',
-            'tipo.in'               => 'Escolha uma das opções diponíveis.',
+            'tipo.required'         => 'Informe o Tipo.',
+            'tipo.in'               => 'Informe uma das opções diponíveis.',
         ];
     }
 }

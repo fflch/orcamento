@@ -36,14 +36,14 @@ class DotOrcamentariaRequest extends FormRequest
 
     public function messages(){
         return [
-            'dotacao.required'        => 'Digite a Dotação.',
+            'dotacao.required'        => 'Informe a Dotação.',
             'dotacao.integer'         => 'A Dotação deve ser um número inteiro.',
             //'dotacao.unique'          => 'Já existe uma Dotação com esse número.',
-            'grupo.required'          => 'Digite o Grupo.',
-            'descricaogrupo.required' => 'Digite a Descrição do Grupo.',
-            'item.required'           => 'Digite o Item.',
-            'descricaoitem.required'  => 'Digite a Descrição do Item.',
-            'receita.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
+            'grupo.required'          => 'Informe o Grupo.',
+            'descricaogrupo.required' => 'Informe a Descrição do Grupo.',
+            'item.required'           => 'Informe o Item.',
+            'descricaoitem.required'  => 'Informe a Descrição do Item.',
+            'receita.boolean'         => 'O campo Receita deve estar marcado ou desmarcado.',
             'ativo.boolean'           => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }

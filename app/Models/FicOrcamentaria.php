@@ -17,7 +17,8 @@ class FicOrcamentaria extends Model
         'empenho',
         'debito',
         'credito',
-        'user_id'];
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -74,6 +75,4 @@ class FicOrcamentaria extends Model
     public function setDataAttribute($data) {
         $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
-
-
 }

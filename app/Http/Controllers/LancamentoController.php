@@ -8,6 +8,7 @@ use App\Models\Conta;
 use App\Models\Nota;
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
+use App\Http\Controllers\DB;
 //use Illuminate\Support\Facades\Redirect;
 
 class LancamentoController extends Controller
@@ -34,8 +35,9 @@ class LancamentoController extends Controller
             $total_credito += $lancamento->credito_raw;
         }
 
-        $lista_contas      = Conta::lista_contas();
-        return view('lancamentos.index', compact('lancamentos','total_debito','total_credito','lista_contas'));
+        $lista_contas_ativas      = Conta::lista_contas_ativas();
+        return view('lancamentos.index', compact('lancamentos','total_debito','total_credito','lista_contas_ativas'));
+        
     }
 
     /**
@@ -46,11 +48,22 @@ class LancamentoController extends Controller
     public function create()
     {
         $this->authorize('Todos');
-        $lista_contas      = Conta::lista_contas();
-        $lista_descricoes  = Nota::lista_descricoes();
-        $lista_observacoes = Nota::lista_observacoes();
+        $lista_contas_ativas = Conta::lista_contas_ativas();
+        $lista_descricoes    = Nota::lista_descricoes();
+        $lista_observacoes   = Nota::lista_observacoes();
+        $nome_conta_numero2  = Conta::nome_conta_numero(2);
+        $nome_conta_numero3  = Conta::nome_conta_numero(3);
+        $nome_conta_numero4  = Conta::nome_conta_numero(4);
 
-        return view('lancamentos.create', compact('lista_contas','lista_descricoes','lista_observacoes'));
+        return view('lancamentos.create', [
+            'lancamento'          => new Lancamento,
+            'lista_contas_ativas' => $lista_contas_ativas,
+            'lista_descricoes'    => $lista_descricoes,
+            'lista_observacoes'   => $lista_observacoes,
+            'nome_conta_numero2'  => $nome_conta_numero2,
+            'nome_conta_numero3'  => $nome_conta_numero3,
+            'nome_conta_numero4'  => $nome_conta_numero4,
+        ]);
     }
 
     /**
@@ -140,11 +153,24 @@ class LancamentoController extends Controller
     public function edit(Lancamento $lancamento)
     {
         $this->authorize('Administrador');
-        $lista_contas = Conta::lista_contas();
+        $lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_descricoes = Nota::lista_descricoes();
         $lista_observacoes = Nota::lista_observacoes();
+        $nome_conta_numero2  = Conta::nome_conta_numero(2);
+        $nome_conta_numero3  = Conta::nome_conta_numero(3);
+        $nome_conta_numero4  = Conta::nome_conta_numero(4);
 
-        return view('lancamentos.edit', compact('lancamento','lista_contas','lista_descricoes','lista_observacoes'));
+        //return view('lancamentos.edit', compact('lancamento','lista_contas_ativas','lista_descricoes','lista_observacoes'));
+        return view('lancamentos.edit', [
+            //'lancamento'          => new Lancamento,
+            'lancamento'          => $lancamento,
+            'lista_contas_ativas' => $lista_contas_ativas,
+            'lista_descricoes'    => $lista_descricoes,
+            'lista_observacoes'   => $lista_observacoes,
+            'nome_conta_numero2'  => $nome_conta_numero2,
+            'nome_conta_numero3'  => $nome_conta_numero3,
+            'nome_conta_numero4'  => $nome_conta_numero4,
+        ]);
     }
 
     /**

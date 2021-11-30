@@ -16,10 +16,10 @@ class CreateDotOrcamentariasTable extends Migration
         Schema::create('dot_orcamentarias', function (Blueprint $table) {
             $table->id();
             $table->integer('dotacao');
-            $table->string('grupo', 4);
-            $table->string('descricaogrupo', 100);
+            $table->string('grupo');
+            $table->string('descricaogrupo');
             $table->integer('item');
-            $table->string('descricaoitem', 100);
+            $table->string('descricaoitem');
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->boolean('ativo')->nullable()->default(FALSE);
             $table->unsignedBigInteger('user_id');

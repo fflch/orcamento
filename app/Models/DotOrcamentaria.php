@@ -14,6 +14,11 @@ class DotOrcamentaria extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function ficha_orcamentaria(){
+        //return $this->hasMany('App\Models\FicOrcamentaria');
+        return $this->hasMany(FicOrcamentaria::class,'dotacao_id','id');
+    }
+
     public static function lista_dotorcamentarias(){
         $lista_dotorcamentarias = DotOrcamentaria::where('ativo','=','1')->orderBy('dotacao')->get();
         return $lista_dotorcamentarias;

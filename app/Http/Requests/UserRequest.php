@@ -32,8 +32,8 @@ class UserRequest extends FormRequest
 
     public function messages(){
         return [
-            'perfil.required' => 'Escolha o perfil do Usuário.',
-            'perfil.in'       => 'Escolha um dos perfis diponíveis.',
+            'perfil.required' => 'Informe o Perfil.',
+            'perfil.in'       => 'Informe uma das opções diponíveis.',
         ];
     }
 }

@@ -54,11 +54,13 @@ class FicOrcamentariaController extends Controller
         $lista_observacoes = Nota::lista_observacoes();
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
 
-        return view('ficorcamentarias.create', 
-                    compact('lista_dotorcamentarias',
-                            'lista_descricoes',
-                            'lista_observacoes',
-                            'lista_tipos_contas'));
+        return view('ficorcamentarias.create',[ 
+                    'ficorcamentaria'        => new FicOrcamentaria,
+                    'lista_dotorcamentarias' => $lista_dotorcamentarias,
+                    'lista_descricoes'       => $lista_descricoes,
+                    'lista_observacoes'      => $lista_observacoes,
+                    'lista_tipos_contas'     => $lista_tipos_contas,
+        ]);
     }
 
     /**

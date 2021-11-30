@@ -60,7 +60,12 @@ class ContaController extends Controller
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_areas = Area::lista_areas();
 
-        return view('contas.create', compact('lista_tipos_contas','lista_areas'));
+        //return view('contas.create', compact('lista_tipos_contas','lista_areas'));
+        return view('contas.create',[
+                    'conta'         => new Conta,
+                    'lista_tipos_contas' => $lista_tipos_contas,
+                    'lista_areas' => $lista_areas,
+                ]);
     }
 
     /**
@@ -142,6 +147,13 @@ class ContaController extends Controller
     public function destroy(Conta $conta, Request $request)
     {
         $this->authorize('Administrador');
+
+        if($conta->lancamento->isNotEmpty()){
+            request()->session()->flash('alert-danger',"Conta não pode ser excluída, 
+            pois existem Lançamentos cadastrados nela.");
+            return redirect("/contas");    
+        }
+
         $conta->delete();
         return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!');
     }

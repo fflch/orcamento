@@ -16,8 +16,8 @@ class CreateUnidadesTable extends Migration
         Schema::create('unidades', function (Blueprint $table) {
             $table->id();
             $table->string('numero');
-            $table->string('nome', 150);
-            $table->string('departamento', 150);
+            $table->string('nome');
+            $table->string('departamento');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
