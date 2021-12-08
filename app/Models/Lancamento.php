@@ -24,7 +24,8 @@ class Lancamento extends Model
         'percentual1',
         'percentual2',
         'percentual3',
-        'percentual4'];
+        'percentual4'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);

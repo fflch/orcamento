@@ -4,11 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Conta extends Model
 {
     use HasFactory;
-    protected $fillable = ['tipoconta_id','area_id','nome','email','numero','ativo','user_id'];
+    protected $fillable = [
+        'tipoconta_id',
+        'area_id',
+        'nome',
+        'email',
+        'numero',
+        'ativo',
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -23,12 +32,23 @@ class Conta extends Model
     }
 
     public static function lista_contas_ativas(){
-        $lista_contas_ativas = Conta::where('ativo','=','1')->orderBy('nome')->get();
+        $lista_contas_ativas = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->select('contas.id', 'contas.nome', 'tipo_contas.descricao')
+            ->where('ativo','=','1') 
+            ->groupBy('contas.id', 'contas.nome', 'tipo_contas.descricao')
+            ->orderBy('nome')
+            ->get();
         return $lista_contas_ativas;
     }
 
     public static function lista_contas_todas(){
-        $lista_contas_todas = Conta::All()->orderBy('nome')->get();
+        $lista_contas_todas = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->select('contas.nome', 'tipo_contas.descricao') 
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->orderBy('nome')
+            ->get();
         return $lista_contas_todas;
     }
 

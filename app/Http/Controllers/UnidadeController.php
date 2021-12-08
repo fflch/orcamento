@@ -13,8 +13,7 @@ class UnidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         $this->authorize('Todos');
         $unidades = Unidade::all();
         return view('unidades.index')->with('unidades', $unidades);
@@ -25,8 +24,7 @@ class UnidadeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         //
     }
 
@@ -36,8 +34,7 @@ class UnidadeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         //
     }
 
@@ -47,8 +44,7 @@ class UnidadeController extends Controller
      * @param  \App\Models\Unidade  $unidade
      * @return \Illuminate\Http\Response
      */
-    public function show(Unidade $unidade)
-    {
+    public function show(Unidade $unidade){
         $this->authorize('Todos');
         return view('unidades.show', compact('unidade'));
     }
@@ -59,8 +55,7 @@ class UnidadeController extends Controller
      * @param  \App\Models\Unidade  $unidade
      * @return \Illuminate\Http\Response
      */
-    public function edit(Unidade $unidade)
-    {
+    public function edit(Unidade $unidade){
         $this->authorize('Administrador');
         return view('unidades.edit', compact('unidade'));
     }
@@ -72,13 +67,11 @@ class UnidadeController extends Controller
      * @param  \App\Models\Unidade  $unidade
      * @return \Illuminate\Http\Response
      */
-    public function update(UnidadeRequest $request, Unidade $unidade)
-    {
+    public function update(UnidadeRequest $request, Unidade $unidade){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         $unidade->update($validated);
-        
         $request->session()->flash('alert-success', 'Unidade alterada com sucesso!');
         return redirect()->route('unidades.index');
     }
@@ -89,8 +82,7 @@ class UnidadeController extends Controller
      * @param  \App\Models\Unidade  $unidade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Unidade $unidade)
-    {
+    public function destroy(Unidade $unidade){
         //
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Conta;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContaRequest;
-
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Area;
@@ -17,16 +16,17 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $contas = Conta::where('nome','=',$request->busca)->orderBy('nome')->paginate(10);
+        if($request->busca_nome != null){
+            $contas = Conta::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
+        }
+        elseif($request->busca_tipoconta_id != null){
+            $contas = Conta::where('tipoconta_id','=',$request->busca_tipoconta_id)->orderBy('nome')->paginate(10);
         }
         else{
             $contas = Conta::orderBy('nome')->paginate(10);
         }
-
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         return view('contas.index', compact('contas','lista_tipos_contas'));
     }
@@ -36,17 +36,11 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */    
-    public function contas_por_tipo_de_conta($tipoconta_id)
-    {
+    public function contas_por_tipo_de_conta($tipoconta_id){
         $this->authorize('Todos');
-        //if($request->busca != null){
-            $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
-        //}
-        
-        //return view('contas.index')->with('contas', $contas);
+        $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         return view('contas.index', compact('contas','lista_tipos_contas'));
-
     }
 
     /**
@@ -54,18 +48,15 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_areas = Area::lista_areas();
-
-        //return view('contas.create', compact('lista_tipos_contas','lista_areas'));
         return view('contas.create',[
-                    'conta'         => new Conta,
+                    'conta'              => new Conta,
                     'lista_tipos_contas' => $lista_tipos_contas,
-                    'lista_areas' => $lista_areas,
-                ]);
+                    'lista_areas'        => $lista_areas,
+        ]);
     }
 
     /**
@@ -74,17 +65,14 @@ class ContaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ContaRequest $request)
-    {
+    public function store(ContaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
         $validated['area_id']      = $request->area_id;
         $validated['ativo']        = $request->ativo;
         $validated['user_id']      = \Auth::user()->id;
- 
         Conta::create($validated);
-
         $request->session()->flash('alert-success', 'Conta cadastrada com sucesso!');
         return redirect()->route('contas.index');
     }
@@ -95,8 +83,7 @@ class ContaController extends Controller
      * @param  \App\Models\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function show(Conta $conta)
-    {
+    public function show(Conta $conta){
         $this->authorize('Todos');
         return view('contas.show', compact('conta'));
     }
@@ -107,13 +94,15 @@ class ContaController extends Controller
      * @param  \App\Models\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function edit(Conta $conta)
-    {
+    public function edit(Conta $conta){
         $this->authorize('Administrador');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
-        $lista_areas = Area::lista_areas();
-
-        return view('contas.edit', compact('conta','lista_tipos_contas','lista_areas'));
+        $lista_areas        = Area::lista_areas();
+        return view('contas.edit',[
+            'conta'              => $conta,
+            'lista_tipos_contas' => $lista_tipos_contas,
+            'lista_areas'        => $lista_areas,
+        ]);
     }
 
     /**
@@ -123,17 +112,14 @@ class ContaController extends Controller
      * @param  \App\Models\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function update(ContaRequest $request, Conta $conta)
-    {
+    public function update(ContaRequest $request, Conta $conta){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['tipoconta_id'] = $request->tipoconta_id;
         $validated['area_id']      = $request->area_id;
         $validated['ativo']        = $request->ativo;
         $validated['user_id']      = \Auth::user()->id;
-
         $conta->update($validated);
-        
         $request->session()->flash('alert-success', 'Conta alterada com sucesso!');
         return redirect()->route('contas.index');
     }
@@ -144,16 +130,13 @@ class ContaController extends Controller
      * @param  \App\Models\Conta  $conta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Conta $conta, Request $request)
-    {
+    public function destroy(Conta $conta, Request $request){
         $this->authorize('Administrador');
-
         if($conta->lancamento->isNotEmpty()){
             request()->session()->flash('alert-danger',"Conta não pode ser excluída, 
             pois existem Lançamentos cadastrados nela.");
             return redirect("/contas");    
         }
-
         $conta->delete();
         return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!');
     }

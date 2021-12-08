@@ -120,7 +120,14 @@ class LancamentoController extends Controller
             }
         }
 
-        $lancamentos_conta = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data');
+        calculaSaldo($request->conta_id);
+
+        $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
+        return redirect()->route('lancamentos.index');
+    }
+
+    private function calculaSaldo($conta_id){
+        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data');
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
@@ -128,8 +135,6 @@ class LancamentoController extends Controller
             $calcula_saldo->update();
         }
 
-        $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
-        return redirect()->route('lancamentos.index');
     }
 
     /**
@@ -154,8 +159,9 @@ class LancamentoController extends Controller
     {
         $this->authorize('Administrador');
         $lista_contas_ativas = Conta::lista_contas_ativas();
-        $lista_descricoes = Nota::lista_descricoes();
-        $lista_observacoes = Nota::lista_observacoes();
+        
+        $lista_descricoes    = Nota::lista_descricoes();
+        $lista_observacoes   = Nota::lista_observacoes();
         $nome_conta_numero2  = Conta::nome_conta_numero(2);
         $nome_conta_numero3  = Conta::nome_conta_numero(3);
         $nome_conta_numero4  = Conta::nome_conta_numero(4);

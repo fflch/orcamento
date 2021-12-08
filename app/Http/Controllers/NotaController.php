@@ -14,12 +14,11 @@ class NotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-        $notas = Nota::where('texto','LIKE','%'.$request->busca.'%')->orderBy('tipo',)->orderBy('texto')->paginate(10);
-    }
+        if($request->busca_texto != null){
+            $notas = Nota::where('texto','LIKE','%'.$request->busca_texto.'%')->orderBy('tipo',)->orderBy('texto')->paginate(10);
+        }
         else{
             $notas = Nota::orderBy('tipo',)->orderBy('texto')->paginate(10);
         }
@@ -31,8 +30,7 @@ class NotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
@@ -51,8 +49,7 @@ class NotaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NotaRequest $request)
-    {
+    public function store(NotaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -73,8 +70,7 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function show(Nota $nota)
-    {
+    public function show(Nota $nota){
         $this->authorize('Todos');
         return view('notas.show', compact('nota'));
     }
@@ -85,8 +81,7 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Nota $nota)
-    {
+    public function edit(Nota $nota){
         $this->authorize('Administrador');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         $lista_tipos = Nota::lista_tipos();
@@ -101,8 +96,7 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function update(NotaRequest $request, Nota $nota)
-    {
+    public function update(NotaRequest $request, Nota $nota){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
@@ -121,8 +115,7 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Nota $nota)
-    {
+    public function destroy(Nota $nota){
         $this->authorize('Administrador');
         $nota->delete();
         return redirect()->route('notas.index')->with('alert-success', 'Nota deletada com sucesso!!');

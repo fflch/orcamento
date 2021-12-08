@@ -8,36 +8,29 @@
     @include('messages.flash')
     @include('messages.errors')
 
-    <div class="card p-3">
-<h2><strong>Movimentos</strong></h2>
+<div class="card p-3">
+    <h2><strong>Movimentos</strong></h2>
 </div>
 <br>
 
-    <div class="form-row">
-
-<div class="form-group col-md-10">
-<label>
-<form method="get" action="/movimentos">
-@csrf
-  <div class="row">
-    <div class=" col-sm input-group">
-      <input size="100%" type="text" class="form-control" name="busca" value="{{ Request()->busca}}" placeholder="[ Busca por Ano ]">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
-        <a class="btn btn-danger" href="/movimentos" title="Limpar a Busca"><strong>X</strong></a>
-      </span>
+<div class="form-row">
+    <div class="form-group col-md-10">
+        <form method="get" action="/movimentos">
+            @csrf
+            <div class="row">
+                <div class=" col-sm input-group">
+                    <input size="100%" type="text" class="form-control" name="busca_ano" value="{{ request()->busca_ano }}" placeholder="[ Busca por Ano ]">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
+                        <a class="btn btn-danger" href="/movimentos" title="Limpar a Busca"><strong>X</strong></a>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-</form>
-</label>
-</div>
-
-<div class="form-group col-md-2" align="right">
-<label>
-<p><a href="{{ route('movimentos.create') }}" class="btn btn-success"><strong>Adicionar Movimento</strong></a></p>
-</label>
-</div>
-
+    <div class="form-group col-md-2" align="right">
+        <p><a href="{{ route('movimentos.create') }}" class="btn btn-success"><strong>Adicionar Movimento</strong></a></p>
+    </div>
 </div>
 
 <div class="table-responsive">

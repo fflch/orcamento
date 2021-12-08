@@ -17,7 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'perfil',
+        'name',
+        'email',
+        'password',
+        'perfil'
     ];
 
     /**
@@ -45,11 +48,11 @@ class User extends Authenticatable
 
     public function contas_usuarios(){
         return $this->belongsToMany(Conta::class,'contas_usuarios')
-                ->using(ContaUsuario::class)
-                ->withTimestamps()
-                ->withPivot([
-                    'created_at'
-                ]);
+            ->using(ContaUsuario::class)
+            ->withTimestamps()
+            ->withPivot([
+                'created_at'
+            ]);
     }
 
     public static function lista_perfis(){

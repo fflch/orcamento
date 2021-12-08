@@ -16,8 +16,7 @@ class ContaUsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
         if($request->busca != null){
             //$contausuarios = ContaUsuario::paginate(5)->sortByDesc('nome');
@@ -35,8 +34,7 @@ class ContaUsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         $lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_usuarios = User::lista_usuarios();
@@ -55,8 +53,7 @@ class ContaUsuarioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ContaUsuarioRequest $request)
-    {
+    public function store(ContaUsuarioRequest $request){
         $this->authorize('Todos');
         //dd($request->contaid);
         
@@ -79,8 +76,7 @@ class ContaUsuarioController extends Controller
      * @param  \App\Models\ContaUsuario  $contausuario
      * @return \Illuminate\Http\Response
      */
-    public function show(ContaUsuario $contausuario)
-    {
+    public function show(ContaUsuario $contausuario){
         $this->authorize('Todos');
         return view('contausuarios.show', compact('contausuario'));
     }
@@ -91,8 +87,7 @@ class ContaUsuarioController extends Controller
      * @param  \App\Models\ContaUsuario  $contausuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(ContaUsuario $contausuario)
-    {
+    public function edit(ContaUsuario $contausuario){
         $this->authorize('Administrador');
         $lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_usuarios      = User::lista_usuarios();
@@ -112,8 +107,7 @@ class ContaUsuarioController extends Controller
      * @param  \App\Models\ContaUsuario  $contausuario
      * @return \Illuminate\Http\Response
      */
-    public function update(ContaUsuarioRequest $request, ContaUsuario $contausuario)
-    {
+    public function update(ContaUsuarioRequest $request, ContaUsuario $contausuario){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $contausuario->id_conta = $request->id_conta;
@@ -131,8 +125,7 @@ class ContaUsuarioController extends Controller
      * @param  \App\Models\ContaUsuario  $contausuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ContaUsuario $contausuario)
-    {
+    public function destroy(ContaUsuario $contausuario){
         $this->authorize('Administrador');
         $contausuario->delete();
         return redirect()->route('contausuarios.index')->with('alert-success', 'Conta x Usuário deletada com sucesso!');
