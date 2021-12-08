@@ -19,18 +19,17 @@ class RelatorioController extends Controller
 {
     public function relatorios(){
         $this->authorize('Todos');
-        $movimento_ativo = Movimento::movimento_ativo();
-        $lista_contas      = Conta::lista_contas();
-        $lista_tipos_contas      = TipoConta::lista_tipos_contas();
-
+        $movimento_ativo        = Movimento::movimento_ativo();
+        $lista_contas_ativas    = Conta::lista_contas_ativas();
+        $lista_tipos_contas     = TipoConta::lista_tipos_contas();
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
-        $lista_descricoes  = Nota::lista_descricoes();
-        $lista_observacoes = Nota::lista_observacoes();
-        $lista_areas = Area::lista_areas();
+        $lista_descricoes       = Nota::lista_descricoes();
+        $lista_observacoes      = Nota::lista_observacoes();
+        $lista_areas            = Area::lista_areas();
 
         return view('relatorios.index', compact('movimento_ativo',
                                                 'lista_tipos_contas',
-                                                'lista_contas',
+                                                'lista_contas_ativas',
                                                 'lista_dotorcamentarias',
                                                 'lista_descricoes',
                                                 'lista_observacoes',

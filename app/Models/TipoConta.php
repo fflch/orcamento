@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class TipoConta extends Model
 {
     use HasFactory;
-    protected $fillable = ['descricao','cpfo','relatoriobalancete','user_id'];
+    protected $fillable = [
+        'descricao',
+        'cpfo',
+        'relatoriobalancete',
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
@@ -32,5 +37,4 @@ class TipoConta extends Model
         $descricao_tipo_conta = TipoConta::where('id','=',$tipoconta_id)->value('descricao');
         return $descricao_tipo_conta;
     }
-    
 }

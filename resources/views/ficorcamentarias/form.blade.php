@@ -56,7 +56,7 @@
     <div class="form-row">
         @foreach($lista_tipos_contas as $lista_tipo_conta)
             @if ($lista_tipo_conta->cpfo)
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-3">
                     <p>
                         {{ $lista_tipo_conta->descricao }}
                         <input type="number" class="form-control" name="tipocontaid_quantidades[{{ $lista_tipo_conta->id }}]" value="0" placeholder="[ Ex: 1 ]" maxlength="1" tabindex="8">

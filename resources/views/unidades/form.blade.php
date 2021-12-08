@@ -12,14 +12,11 @@
         <input type="text" class="form-control" name="departamento" value="{{ $unidade->departamento ?? old('departamento') }}" placeholder="[ Ex: Serviço de Contabilidade ]" tabindex="3">
     </div>
 </div>
-
 <div class="form-row">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="form-group col-md-12">
-                <input type="submit" class="btn btn-primary" value="Salvar" tabindex="4">
-                <input type="reset" class="btn btn-warning" value="Desfazer" tabindex="5">
-            </div>
+    <div class="panel panel-body panel-default">
+        <div class="form-group col-md-12">
+            <input type="submit" class="btn btn-primary" value="Salvar" tabindex="4">
+            <input type="reset" class="btn btn-warning" value="Desfazer" tabindex="5">
         </div>
     </div>
 </div>

@@ -16,8 +16,8 @@ class UserController extends Controller
 
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $usuarios = User::where('name','LIKE','%'.$request->busca.'%')->orderBy('name')->paginate(10);
+        if($request->busca_nome != null){
+            $usuarios = User::where('name','LIKE','%'.$request->busca_nome.'%')->orderBy('name')->paginate(10);
         }
         else{
             $usuarios = User::orderBy('name')->paginate(10);
@@ -57,13 +57,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $usuario){
         $this->authorize('Administrador');
-        //dd($request);
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         $usuario->update($validated);
-        
         $request->session()->flash('alert-success', 'Usuário alterado com sucesso!');
         return redirect()->route('usuarios.index');
     }
-
 }

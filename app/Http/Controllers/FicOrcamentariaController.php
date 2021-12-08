@@ -20,8 +20,7 @@ class FicOrcamentariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
         if($request->dotacao_id != null){
             $ficorcamentarias = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data')->paginate(10);
@@ -46,8 +45,7 @@ class FicOrcamentariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
         $lista_descricoes = Nota::lista_descricoes();
@@ -69,8 +67,7 @@ class FicOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cpfo(FicOrcamentariaRequest $request)
-    {
+    public function cpfo(FicOrcamentariaRequest $request){
         $this->authorize('Todos');
         $tipocontaid_quantidades = $request->tipocontaid_quantidades;
         $chaves  = array_keys($tipocontaid_quantidades);
@@ -83,7 +80,7 @@ class FicOrcamentariaController extends Controller
         }
         $tipocontaid_descricaoconta = array_combine($chaves,$novos_valores);
         $request_FO = $request;
-        $lista_contas = Conta::lista_contas();
+        $lista_contas_ativas = Conta::lista_contas_ativas();
 
         /*return redirect()->route('ficorcamentarias.contrapartida', 
         compact('request_FO',
@@ -95,7 +92,7 @@ class FicOrcamentariaController extends Controller
                     compact('request_FO',
                             'tipocontaid_quantidades',
                             'tipocontaid_descricaoconta',
-                            'lista_contas'));
+                            'lista_contas_ativas'));
     }
 
     /**
@@ -105,9 +102,7 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     //public function store(FicOrcamentariaCPRequest $request)
-    public function store(Request $request)
-
-    {
+    public function store(Request $request){
         $this->authorize('Todos');
         //dd($request);
         /*$data = $request->validate([
@@ -165,8 +160,7 @@ class FicOrcamentariaController extends Controller
      * @param  \App\Models\FicOrcamentaria  $ficorcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function show(FicOrcamentaria $ficorcamentaria)
-    {
+    public function show(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Todos');
         return view('ficorcamentarias.show', compact('ficorcamentaria'));
     }
@@ -177,14 +171,14 @@ class FicOrcamentariaController extends Controller
      * @param  \App\Models\FicOrcamentaria  $ficorcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function edit(FicOrcamentaria $ficorcamentaria)
-    {
+    public function edit(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
-        $lista_descricoes = Nota::lista_descricoes();
-        $lista_observacoes = Nota::lista_observacoes();
+        $lista_descricoes       = Nota::lista_descricoes();
+        $lista_observacoes      = Nota::lista_observacoes();
+        $lista_tipos_contas     = TipoConta::lista_tipos_contas();
 
-        return view('ficorcamentarias.edit', compact('ficorcamentaria','lista_dotorcamentarias','lista_descricoes','lista_observacoes'));
+        return view('ficorcamentarias.edit', compact('ficorcamentaria','lista_dotorcamentarias','lista_descricoes','lista_observacoes','lista_tipos_contas'));
     }
 
     /**
@@ -194,8 +188,7 @@ class FicOrcamentariaController extends Controller
      * @param  \App\Models\FicOrcamentaria  $ficorcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria)
-    {
+    public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $movimento_ativo = Movimento::movimento_ativo();
         $validated = $request->validated();
@@ -225,8 +218,7 @@ class FicOrcamentariaController extends Controller
      * @param  \App\Models\FicOrcamentaria  $ficorcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FicOrcamentaria $ficorcamentaria)
-    {
+    public function destroy(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $ficorcamentaria->delete();
         return redirect()->route('ficorcamentarias.index')->with('alert-success', 'Ficha Orçamentária deletada com sucesso!');

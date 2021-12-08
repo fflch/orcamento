@@ -8,14 +8,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DotOrcamentaria extends Model
 {
     use HasFactory;
-    protected $fillable = ['dotacao','grupo','descricaogrupo','item','descricaoitem','receita','ativo','user_id'];
+    protected $fillable = [
+        'dotacao',
+        'grupo',
+        'descricaogrupo',
+        'item',
+        'descricaoitem',
+        'receita',
+        'ativo',
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function ficha_orcamentaria(){
-        //return $this->hasMany('App\Models\FicOrcamentaria');
         return $this->hasMany(FicOrcamentaria::class,'dotacao_id','id');
     }
 
@@ -28,5 +36,4 @@ class DotOrcamentaria extends Model
         $dotacao = DotOrcamentaria::where('id','=',$dotacao_id)->get();
         return $dotacao;
     }
-
 }

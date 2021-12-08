@@ -33,11 +33,10 @@ class LancamentoRequest extends FormRequest
             'debito'      => 'required_without:credito',
             'credito'     => 'required_without:debito',
             'observacao'  => 'required',
-            'percentual1' => 'required|integer|between:1,100',
-            'percentual2' => 'required|integer|between:1,100',
-            'percentual3' => 'required|integer|between:1,100',
-            'percentual4' => 'required|integer|between:1,100',
-            //'total_precentuais'  => 'size:100',
+            'percentual1' => 'required|integer|between:0,100',
+            'percentual2' => 'required|integer|between:0,100',
+            'percentual3' => 'required|integer|between:0,100',
+            'percentual4' => 'required|integer|between:0,100',
         ];
     }
 

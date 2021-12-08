@@ -13,18 +13,15 @@ class AreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $areas = Area::where('nome','LIKE',"%{$request->busca}%")->orderBy('nome','desc')->paginate(10);
+        if($request->busca_nome != null){
+            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome','desc')->paginate(10);
         }
         else{
-            //$areas = Area::all()->sortBy('nome');
             $areas = Area::orderBy('nome')->paginate(10);
         }        
-
-        return view('areas.index')->with('areas', $areas);
+        return view('areas.index', compact('areas'));
     }
 
     /**
@@ -33,8 +30,7 @@ class AreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         return view('areas.create');
     }
@@ -45,13 +41,11 @@ class AreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AreaRequest $request)
-    {
+    public function store(AreaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         Area::create($validated);
-        
         $request->session()->flash('alert-success', 'Área cadastrada com sucesso!');
         return redirect()->route('areas.index');
     }
@@ -62,8 +56,7 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function show(Area $area)
-    {
+    public function show(Area $area){
         $this->authorize('Todos');
         return view('areas.show', compact('area'));
     }
@@ -74,8 +67,7 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function edit(Area $area)
-    {
+    public function edit(Area $area){
         $this->authorize('Administrador');
         return view('areas.edit', compact('area'));
     }
@@ -87,13 +79,11 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function update(AreaRequest $request, Area $area)
-    {
+    public function update(AreaRequest $request, Area $area){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
-              
         $request->session()->flash('alert-success', 'Área alterada com sucesso!');
         return redirect()->route('areas.index');
     }
@@ -104,16 +94,13 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Area $area)
-    {
+    public function destroy(Area $area){
         $this->authorize('Administrador');
-
         if($area->conta->isNotEmpty()){
             request()->session()->flash('alert-danger',"Área não pode ser excluída, 
             pois existem Contas cadastradas nela.");
             return redirect("/areas");    
         }
-
         $area->delete();
         return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
     }

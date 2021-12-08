@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ContaUsuario extends Model
 {
     use HasFactory;
-    protected $fillable = ['id_conta','id_usuario','user_id'];
+    protected $fillable = [
+        'id_conta',
+        'id_usuario',
+        'user_id'
+    ];
 
     public function user(){
         return $this->belongsTo(User::class);

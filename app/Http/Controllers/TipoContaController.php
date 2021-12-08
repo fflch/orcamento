@@ -13,11 +13,10 @@ class TipoContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $tipocontas = TipoConta::where('descricao','LIKE',"%{$request->busca}%")->orderBy('descricao')->paginate(10);
+        if($request->busca_descricao != null){
+            $tipocontas = TipoConta::where('descricao','LIKE','%'.$request->busca_descricao.'%')->orderBy('descricao')->paginate(10);
         }
         else{
             $tipocontas = TipoConta::orderBy('descricao')->paginate(10);
@@ -30,8 +29,7 @@ class TipoContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         return view('tipocontas.create');
     }
@@ -42,15 +40,13 @@ class TipoContaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TipoContaRequest $request)
-    {
+    public function store(TipoContaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
-        $validated['cpfo'] = $request->cpfo;
+        $validated['cpfo']               = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
-        $validated['user_id'] = \Auth::user()->id;
+        $validated['user_id']            = \Auth::user()->id;
         TipoConta::create($validated);
-       
         $request->session()->flash('alert-success', 'Tipo de Conta cadastrado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
@@ -61,8 +57,7 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function show(TipoConta $tipoconta)
-    {
+    public function show(TipoConta $tipoconta){
         $this->authorize('Todos');
         return view('tipocontas.show', compact('tipoconta'));
     }
@@ -73,8 +68,7 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function edit(TipoConta $tipoconta)
-    {
+    public function edit(TipoConta $tipoconta){
         $this->authorize('Administrador');
         return view('tipocontas.edit', compact('tipoconta'));
     }
@@ -86,15 +80,13 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function update(TipoContaRequest $request, TipoConta $tipoconta)
-    {
+    public function update(TipoContaRequest $request, TipoConta $tipoconta){
         $this->authorize('Administrador');
         $validated = $request->validated();
-        $validated['cpfo'] = $request->cpfo;
+        $validated['cpfo']               = $request->cpfo;
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
-        $validated['user_id'] = \Auth::user()->id;
+        $validated['user_id']            = \Auth::user()->id;
         $tipoconta->update($validated);
-        
         $request->session()->flash('alert-success', 'Tipo de Conta alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
@@ -105,16 +97,13 @@ class TipoContaController extends Controller
      * @param  \App\TipoConta  $tipoConta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoConta $tipoconta, Request $request)
-    {
+    public function destroy(TipoConta $tipoconta, Request $request){
         $this->authorize('Administrador');
-
         if($tipoconta->conta->isNotEmpty()){
             request()->session()->flash('alert-danger',"Tipo de Conta não pode ser excluída, 
             pois existem Contas cadastradas nela.");
             return redirect("/tipocontas");    
         }
-
         $tipoconta->delete();
         return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
     }

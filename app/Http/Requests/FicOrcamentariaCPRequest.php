@@ -22,9 +22,8 @@ class FicOrcamentariaCPRequest extends FormRequest
      * @return array
      */
     public function rules()    {
-        //dd($this->request); 
         return [
-            "conta_id" => ['required','array'],
+            "conta_id"   => ['required','array'],
             "conta_id.*" => ['required']
         ];
     }

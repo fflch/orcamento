@@ -14,11 +14,10 @@ class MovimentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $movimentos = Movimento::where('ano','=',$request->busca)->orderBy('ano')->paginate(10);
+        if($request->busca_ano != null){
+            $movimentos = Movimento::where('ano','=',$request->busca_ano)->orderBy('ano')->paginate(10);
         }
         else{
             $movimentos = Movimento::orderBy('ano')->paginate(10);
@@ -31,8 +30,7 @@ class MovimentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         return view('movimentos.create');
     }
@@ -43,20 +41,16 @@ class MovimentoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MovimentoRequest $request)
-    {
+    public function store(MovimentoRequest $request){
         $this->authorize('Todos');
         if($request->ativo = 1){
-            $affected = DB::table('movimentos')
-              ->update(['ativo' => 0]);
+            $affected = DB::table('movimentos')->update(['ativo' => 0]);
         }
-
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
-        $validated['ativo'] = $request->ativo;
-        $validated['user_id'] = \Auth::user()->id;
+        $validated['ativo']     = $request->ativo;
+        $validated['user_id']   = \Auth::user()->id;
         Movimento::create($validated);
-
         $request->session()->flash('alert-success', 'Movimento cadastrado com sucesso!');
         return redirect()->route('movimentos.index');
     }
@@ -67,8 +61,7 @@ class MovimentoController extends Controller
      * @param  \App\Movimento  $movimento
      * @return \Illuminate\Http\Response
      */
-    public function show(Movimento $movimento)
-    {
+    public function show(Movimento $movimento){
         $this->authorize('Todos');
         return view('movimentos.show', compact('movimento'));
     }
@@ -79,8 +72,7 @@ class MovimentoController extends Controller
      * @param  \App\Movimento  $movimento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Movimento $movimento)
-    {
+    public function edit(Movimento $movimento){
         $this->authorize('Administrador');
         return view('movimentos.edit', compact('movimento'));
     }
@@ -92,20 +84,16 @@ class MovimentoController extends Controller
      * @param  \App\Movimento  $movimento
      * @return \Illuminate\Http\Response
      */
-    public function update(MovimentoRequest $request, Movimento $movimento)
-    {
+    public function update(MovimentoRequest $request, Movimento $movimento){
         $this->authorize('Administrador');
         if($request->ativo = 1){
-            $affected = DB::table('movimentos')
-              ->update(['ativo' => 0]);
+            $affected = DB::table('movimentos')->update(['ativo' => 0]);
         }
-
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
-        $validated['ativo'] = $request->ativo;
-        $movimento->user_id = \Auth::user()->id;
+        $validated['ativo']     = $request->ativo;
+        $movimento->user_id     = \Auth::user()->id;
         $movimento->update($validated);
-
         $request->session()->flash('alert-success', 'Movimento alterado com sucesso!');
         return redirect()->route('movimentos.index');
     }
@@ -116,21 +104,18 @@ class MovimentoController extends Controller
      * @param  \App\Movimento  $movimento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movimento $movimento, Request $request)
-    {
+    public function destroy(Movimento $movimento, Request $request){
         $this->authorize('Administrador');
         if($movimento->lancamento->isNotEmpty()){
             request()->session()->flash('alert-danger',"Movimento não pode ser excluído, 
             pois existem Lançamentos cadastrados nele.");
             return redirect("/movimentos");    
         }
-
         if($movimento->ficha_orcamentaria->isNotEmpty()){
             request()->session()->flash('alert-danger',"Movimento não pode ser excluído, 
             pois existem lançamentos da Ficha Orçamentária cadastrados nele.");
             return redirect("/movimentos");    
         }
-
         $movimento->delete();
         return redirect()->route('movimentos.index')->with('alert-success', 'Movimento deletado com sucesso!!');
     }

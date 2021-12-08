@@ -13,14 +13,12 @@ class DotOrcamentariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null){
-            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca)->orderBy('dotacao')->paginate(10);
+        if($request->busca_dotacao != null){
+            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca_dotacao)->orderBy('dotacao')->paginate(10);
         }
         else{
-            //$dotorcamentarias = DotOrcamentaria::all()->sortBy('dotacao');
             $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')->paginate(10);
         }       
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
@@ -31,8 +29,7 @@ class DotOrcamentariaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         $this->authorize('Todos');
         return view('dotorcamentarias.create');
     }
@@ -43,8 +40,7 @@ class DotOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DotOrcamentariaRequest $request)
-    {
+    public function store(DotOrcamentariaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
@@ -62,8 +58,7 @@ class DotOrcamentariaController extends Controller
      * @param  \App\DotOrcamentaria  $dotOrcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function show(DotOrcamentaria $dotorcamentaria)
-    {
+    public function show(DotOrcamentaria $dotorcamentaria){
         $this->authorize('Todos');
         return view('dotorcamentarias.show', compact('dotorcamentaria'));
     }
@@ -74,8 +69,7 @@ class DotOrcamentariaController extends Controller
      * @param  \App\DotOrcamentaria  $dotOrcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function edit(DotOrcamentaria $dotorcamentaria)
-    {
+    public function edit(DotOrcamentaria $dotorcamentaria){
         $this->authorize('Administrador');
         return view('dotorcamentarias.edit', compact('dotorcamentaria'));
     }
@@ -87,8 +81,7 @@ class DotOrcamentariaController extends Controller
      * @param  \App\DotOrcamentaria  $dotOrcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria)
-    {
+    public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria){
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['receita'] = $request->receita;
@@ -106,8 +99,7 @@ class DotOrcamentariaController extends Controller
      * @param  \App\DotOrcamentaria  $dotOrcamentaria
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DotOrcamentaria $dotorcamentaria)
-    {
+    public function destroy(DotOrcamentaria $dotorcamentaria){
         $this->authorize('Administrador');
 
         if($dotorcamentaria->ficha_orcamentaria->isNotEmpty()){
