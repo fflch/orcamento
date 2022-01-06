@@ -56,7 +56,7 @@ $administracao = [
     ],
     [
         'type' => 'header',
-        'text' => '<b><i class="fas fa-id-badge"></i>  Configurações</b>',
+        'text' => '<b><i class="fas fa-id-badge"></i> Configurações</b>',
         'can' => 'Todos',
     ],
 
@@ -80,7 +80,7 @@ return [
             'can'     => 'Todos',
         ],
         [
-            'text'    => '<i class="far fa-list-alt"></i> Lançamentos',
+            'text'    => 'Lançamentos',
             'url'     => '/lancamentos',
             'can'     => 'Todos',
         ],
@@ -90,7 +90,7 @@ return [
             'can'     => 'Todos',
         ],
         [
-            'text'    => 'Relatórios',
+            'text'    => '<i class="far fa-list-alt"></i> Relatórios',
             'url'     => '/relatorios',
             'can'     => 'Todos',
         ],
