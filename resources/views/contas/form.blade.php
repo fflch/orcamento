@@ -16,7 +16,7 @@
         <select class="areas_select form-control" name="area_id" tabindex="2">
             <option value=" ">&nbsp;</option>
             @foreach($lista_areas as $lista_area)
-                <option value="{{ $lista_tipo_conta->id }}" @if(old('conta_id') == $lista_area->id) {{'selected'}}
+                <option value="{{ $lista_area->id }}" @if(old('conta_id') == $lista_area->id) {{'selected'}}
             @else {{($conta->area_id === $lista_area->id ) ? 'selected' : ''}} @endif>
                 {{ $lista_area->nome }}
                 </option>
