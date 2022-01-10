@@ -27,6 +27,7 @@ class AreaRequest extends FormRequest
     public function rules()
     {
         return [
+            //'nome' => 'required|unique:areas',
             'nome' => 'required',
         ];
     }
@@ -34,7 +35,7 @@ class AreaRequest extends FormRequest
     public function messages(){
         return [
             'nome.required' => 'Informe o Nome.',
-            //'nome.unique'   => 'Já existe uma área com esse nome.',
+            //'nome.unique'   => 'Já existe uma Área com esse nome.',
         ];
     }
 }

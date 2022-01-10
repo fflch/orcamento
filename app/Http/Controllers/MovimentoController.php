@@ -43,7 +43,8 @@ class MovimentoController extends Controller
      */
     public function store(MovimentoRequest $request){
         $this->authorize('Todos');
-        if($request->ativo = 1){
+        //dd($request->ativo);
+        if($request->ativo == 1){
             $affected = DB::table('movimentos')->update(['ativo' => 0]);
         }
         $validated = $request->validated();
@@ -86,7 +87,7 @@ class MovimentoController extends Controller
      */
     public function update(MovimentoRequest $request, Movimento $movimento){
         $this->authorize('Administrador');
-        if($request->ativo = 1){
+        if($request->ativo == 1){
             $affected = DB::table('movimentos')->update(['ativo' => 0]);
         }
         $validated = $request->validated();

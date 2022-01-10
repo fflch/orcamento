@@ -15,7 +15,6 @@
 
 <div class="form-row">
     <div class="form-group col-md-10">
-        <label>
             <form method="get" action="/lancamentos">
             @csrf
             <div class="row">
@@ -37,12 +36,9 @@
                 </div>
             </div>
             </form>
-        </label>
     </div>
     <div class="form-group col-md-2" align="right">
-        <label>
             <a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a>
-        </label>
     </div>
 </div>
 

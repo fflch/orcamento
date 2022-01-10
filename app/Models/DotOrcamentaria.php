@@ -27,8 +27,13 @@ class DotOrcamentaria extends Model
         return $this->hasMany(FicOrcamentaria::class,'dotacao_id','id');
     }
 
-    public static function lista_dotorcamentarias(){
+    public static function lista_dotorcamentarias_ativas(){
         $lista_dotorcamentarias = DotOrcamentaria::where('ativo','=','1')->orderBy('dotacao')->get();
+        return $lista_dotorcamentarias;
+    }
+
+    public static function lista_dotorcamentarias_todas(){
+        $lista_dotorcamentarias = DotOrcamentaria::orderBy('dotacao')->get();
         return $lista_dotorcamentarias;
     }
 

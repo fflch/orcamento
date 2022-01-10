@@ -15,32 +15,31 @@
 
 <div class="form-row">
     <div class="form-group col-md-10">
-        <label>
             <form method="get" action="/ficorcamentarias">
             @csrf
             <div class="row">
-                <div class="col-sm input-group">
+                <div class=" col-sm input-group">
 
-                    <input size="100%" list="dotacoes" name="dotacao_id" id="dotacao_id" class="form-control" value="{{ Request()->dotacao_id}}" placeholder="[ Busca por Dotação ]">
-                    <datalist id="dotacoes">
+                    <select class="dotacoes_select form-control" name="dotacao_id" tabindex="1">
+                        <option value=" ">&nbsp;</option>
                         @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
-                            <option value="{{ $lista_dotorcamentaria->id }}">{{ $lista_dotorcamentaria->dotacao }}
+                            <option value="{{ $lista_dotorcamentaria->id }}" @if(old('dotacao_id') == $lista_dotorcamentaria->id) {{ 'selected' }} @endif>
+                            {{ $lista_dotorcamentaria->dotacao }}
+                            </option>
                         @endforeach
-                    </datalist>
+                    </select>
 
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                             <a class="btn btn-danger" href="/ficorcamentarias" title="Limpar a Busca"><strong>X</strong></a>
                         </span>
-                </div>
-            </div>
+</div>
+</div>
+
             </form>
-        </label>
     </div>
     <div class="form-group col-md-2" align="right">
-        <label>
             <p><a href="{{ route('ficorcamentarias.create') }}" class="btn btn-success"><strong>Adicionar Ficha Orçamentária</strong></a></p>
-        </label>
     </div>
 </div>
 
@@ -105,4 +104,12 @@
     </table>
 <p>{{ $ficorcamentarias->links() }}</p>
 </div>
+@endsection
+
+@section('javascripts_bottom')
+    <script>
+        $(document).ready(function() {
+            $('.dotacoes_select').select2();
+        });
+    </script>
 @stop

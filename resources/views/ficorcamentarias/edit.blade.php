@@ -20,4 +20,13 @@
     </form>
   </div>
 </div>
+@endsection
+
+@section('javascripts_bottom')
+    <script>
+        $(document).ready(function() {
+            $('.dotacoes_select').select2();
+        });
+    </script>
+
 @stop

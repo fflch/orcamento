@@ -16,7 +16,7 @@ class AreaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
         if($request->busca_nome != null){
-            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome','desc')->paginate(10);
+            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
         }
         else{
             $areas = Area::orderBy('nome')->paginate(10);
