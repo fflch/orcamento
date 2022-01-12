@@ -82,4 +82,15 @@ class Lancamento extends Model
     public function setDataAttribute($data) {
         $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
+
+    static function calculaSaldo($conta_id){
+        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data');
+        $saldo  = 0.00;
+        foreach($lancamentos_conta as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
+        }
+        return $saldo;
+    }
 }

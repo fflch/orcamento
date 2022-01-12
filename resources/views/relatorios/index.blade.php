@@ -50,6 +50,14 @@
         $(document).ready(function() {
             $('.areas_select').select2();
         });
+
+        $(document).ready(function() {
+            $('.contas_select').select2();
+        });
+
+        $(document).ready(function() {
+            $('.dotacoes_select').select2();
+        });
     </script>
 
 @stop

@@ -66,6 +66,8 @@ class LancamentoController extends Controller
         ]);
     }
 
+    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -120,22 +122,15 @@ class LancamentoController extends Controller
             }
         }
 
-        calculaSaldo($request->conta_id);
+        //$calculaSaldoLancamento = calculaSaldo($request->conta_id);
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo($request->conta_id);
+
 
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect()->route('lancamentos.index');
     }
 
-    private function calculaSaldo($conta_id){
-        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data');
-        $saldo  = 0.00;
-        foreach($lancamentos_conta as $calcula_saldo){
-            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
-            $calcula_saldo->saldo = $saldo;
-            $calcula_saldo->update();
-        }
 
-    }
 
     /**
      * Display the specified resource.
@@ -214,18 +209,20 @@ class LancamentoController extends Controller
      * @param  \App\Models\Lancamento  $lancamento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lancamento $lancamento)
+    public function destroy(Lancamento $lancamento, Request $request)
     {
         $this->authorize('Administrador');
         $lancamento->delete();
 
-        $lancamentos_conta = Lancamento::where('conta_id','=',$lancamento->conta_id)->orderBy('data');
+        /*$lancamentos_conta = Lancamento::where('conta_id','=',$lancamento->conta_id)->orderBy('data');
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
             $calcula_saldo->saldo = $saldo;
             $calcula_saldo->update();
-        }
+        }*/
+dd($request->conta_id);
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo($request->conta_id);
 
         return redirect()->route('lancamentos.index')->with('alert-success', 'Lançamento deletado com sucesso!');
     }

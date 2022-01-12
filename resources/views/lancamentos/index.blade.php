@@ -24,7 +24,7 @@
                         @foreach($lista_contas_ativas as $lista_conta_ativa)
                             <option value="{{ $lista_conta_ativa->id }}" @if(old('conta_id') == $lista_conta_ativa->id) {{'selected'}}
                          @endif>
-                            {{ $lista_conta_ativa->nome }}
+                            {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
                             </option>
                         @endforeach
                     </select>
