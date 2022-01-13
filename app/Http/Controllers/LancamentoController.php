@@ -21,23 +21,28 @@ class LancamentoController extends Controller
     public function index(Request $request)
     {
         $this->authorize('Todos');
-        if($request->conta_id != null){
+        if($request->conta_id != null)
             $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data')->paginate(10);
-        }
-        else{
+        else
             $lancamentos = Lancamento::orderBy('data')->paginate(10);
-        }
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
+        $concatena_debito = '';
         foreach($lancamentos as $lancamento){
             $total_debito  += $lancamento->debito_raw;
+            $concatena_debito .= $lancamento->debito_raw . ' -  ';
             $total_credito += $lancamento->credito_raw;
         }
+        //dd($concatena_debito);
+        $lista_contas_ativas = Conta::lista_contas_ativas();
 
-        $lista_contas_ativas      = Conta::lista_contas_ativas();
-        return view('lancamentos.index', compact('lancamentos','total_debito','total_credito','lista_contas_ativas'));
-        
+        return view('lancamentos.index', [
+                    'lancamentos'         => $lancamentos,
+                    'total_debito'        => $total_debito,
+                    'total_credito'       => $total_credito,
+                    'lista_contas_ativas' => $lista_contas_ativas,
+        ]);
     }
 
     /**
@@ -48,6 +53,7 @@ class LancamentoController extends Controller
     public function create()
     {
         $this->authorize('Todos');
+        $movimento_ativo     = Movimento::movimento_ativo();
         $lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_descricoes    = Nota::lista_descricoes();
         $lista_observacoes   = Nota::lista_observacoes();
@@ -56,17 +62,16 @@ class LancamentoController extends Controller
         $nome_conta_numero4  = Conta::nome_conta_numero(4);
 
         return view('lancamentos.create', [
-            'lancamento'          => new Lancamento,
-            'lista_contas_ativas' => $lista_contas_ativas,
-            'lista_descricoes'    => $lista_descricoes,
-            'lista_observacoes'   => $lista_observacoes,
-            'nome_conta_numero2'  => $nome_conta_numero2,
-            'nome_conta_numero3'  => $nome_conta_numero3,
-            'nome_conta_numero4'  => $nome_conta_numero4,
+                    'lancamento'          => new Lancamento,
+                    'movimento_ativo'     => $movimento_ativo,
+                    'lista_contas_ativas' => $lista_contas_ativas,
+                    'lista_descricoes'    => $lista_descricoes,
+                    'lista_observacoes'   => $lista_observacoes,
+                    'nome_conta_numero2'  => $nome_conta_numero2,
+                    'nome_conta_numero3'  => $nome_conta_numero3,
+                    'nome_conta_numero4'  => $nome_conta_numero4,
         ]);
     }
-
-    
 
     /**
      * Store a newly created resource in storage.
@@ -77,19 +82,13 @@ class LancamentoController extends Controller
     public function store(LancamentoRequest $request)
     {
         $this->authorize('Todos');
+        dd($request);
         $percentuais = [];
         array_push($percentuais, $request->percentual1);
         array_push($percentuais, $request->percentual2);
         array_push($percentuais, $request->percentual3);
         array_push($percentuais, $request->percentual4);
         $total_percentuais = array_sum($percentuais);
-
-        /*if($total_percentuais != 100){
-            request()->session()->flash('alert-info','O total dos percentuais deve ser 100.');
-            //return redirect("/lancamentos/create");
-            //Redirect::back()->withMessage('Profile saved!');
-            return Redirect::back()->with('message','Operation Successful !');
-        }*/
 
         //dd($request->data);
         //$data_convertida = implode("-", array_reverse(explode("/", $request->data)));
@@ -98,6 +97,11 @@ class LancamentoController extends Controller
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = $movimento_ativo->id;
         $validated['conta_id']     = $request->conta_id;
+
+        /*if($request->debito)
+            $lancamento['debito']   = $request->debito;
+        else
+            $lancamento['credito']  = $request->credito;*/
 
         Lancamento::create($validated);
 
@@ -113,7 +117,7 @@ class LancamentoController extends Controller
                 $lancamento->empenho      = $request->empenho;
                 $lancamento->descricao    = $request->descricao;
 
-                $lancamento->debito       = $request->debito * $percentuais[$i-1] / 100;
+                $lancamento->debito       = $request->debito  * $percentuais[$i-1] / 100;
                 $lancamento->credito      = $request->credito * $percentuais[$i-1] / 100;
 
                 $lancamento->observacao   = $request->observacao;
@@ -129,8 +133,6 @@ class LancamentoController extends Controller
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect()->route('lancamentos.index');
     }
-
-
 
     /**
      * Display the specified resource.
@@ -184,6 +186,8 @@ class LancamentoController extends Controller
     public function update(LancamentoRequest $request, Lancamento $lancamento)
     {
         $this->authorize('Administrador');
+        //dd($request);
+
         $movimento_ativo          = Movimento::movimento_ativo();
         $validated = $request->validated();
         $lancamento->movimento_id = $movimento_ativo->id;
@@ -195,6 +199,7 @@ class LancamentoController extends Controller
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            dd($saldo);
             $calcula_saldo->saldo = $saldo;
             $calcula_saldo->update();
         }
@@ -209,7 +214,7 @@ class LancamentoController extends Controller
      * @param  \App\Models\Lancamento  $lancamento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lancamento $lancamento, Request $request)
+    public function destroy(Lancamento $lancamento)
     {
         $this->authorize('Administrador');
         $lancamento->delete();
@@ -221,9 +226,18 @@ class LancamentoController extends Controller
             $calcula_saldo->saldo = $saldo;
             $calcula_saldo->update();
         }*/
-dd($request->conta_id);
-        $calculaSaldoLancamento  = Lancamento::calculaSaldo($request->conta_id);
+        //dd($lancamento->conta_id);
+        //$calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento->conta_id);
+
+        $lancamentos_conta = Lancamento::where('conta_id','=',$lancamento->conta_id)->orderBy('data');
+        $saldo  = 0.00;
+        foreach($lancamentos_conta as $calcula_saldo){
+            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
+        }
 
         return redirect()->route('lancamentos.index')->with('alert-success', 'Lançamento deletado com sucesso!');
+        //return redirect("/contas")->with('alert-success', 'Lançamento deletado com sucesso!');;
     }
 }

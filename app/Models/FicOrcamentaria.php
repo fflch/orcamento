@@ -17,7 +17,7 @@ class FicOrcamentaria extends Model
         'empenho',
         'debito',
         'credito',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){

@@ -19,7 +19,7 @@
             @csrf
             <div class="row">
                 <div class="col-sm input-group">
-                    <select class="contas_select form-control" name="conta_id" tabindex="1" placeholder="[ Busca por Conta ]">
+                    <select class="contas_select form-control" name="conta_id" tabindex="1" placeholder="[ Busca por Conta ]" onchange="this.form.submit()">
                         <option value=" ">&nbsp;</option>
                         @foreach($lista_contas_ativas as $lista_conta_ativa)
                             <option value="{{ $lista_conta_ativa->id }}" @if(old('conta_id') == $lista_conta_ativa->id) {{'selected'}}
@@ -67,7 +67,9 @@
                 <td align="left">{{ $lancamento->descricao }}</td>
                 <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                 @if($lancamento->debito != 0.00)
-                    <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+                    <!--td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td-->
+                    <td align="right">{{ $lancamento->debito }}</td>
+
                 @else
                     <td align="right">&nbsp;</td>
                 @endif
@@ -91,16 +93,18 @@
                 @endcan
             </tr>
             @endforeach
+            </tbody>
+            <tfoot>
             <tr>
                 <td colspan="4">&nbsp;</td>
                 <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
                 @can('Administrador')
-                <td colspan="2">&nbsp;</td>
+                    <td colspan="3">&nbsp;</td>
                 @endcan
             </tr>
-        </tbody>
+</tfoot>
     </table>
 <p>{{ $lancamentos->links() }}</p>
 </div>

@@ -59,5 +59,4 @@
             $('.dotacoes_select').select2();
         });
     </script>
-
 @stop

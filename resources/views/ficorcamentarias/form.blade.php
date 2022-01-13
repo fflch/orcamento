@@ -34,11 +34,11 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="debito">Débito</label>
-        <input type="number" class="form-control" name="debito" value="{{ $ficorcamentaria->debito ?? old('debito') }}" placeholder="[ Ex: 100,00 ]" tabindex="5">
+        <input type="text" class="form-control" name="debito" value="{{ $ficorcamentaria->debito ?? old('debito') }}" placeholder="[ Ex: 100,00 ]" tabindex="5">
     </div>
     <div class="form-group col-md-6">
         <label for="credito">Crédito</label>
-        <input type="number" class="form-control" name="credito" value="{{ $ficorcamentaria->credito ?? old('credito') }}" placeholder="[ Ex: 100,00 ]" tabindex="6">
+        <input type="text" class="form-control" name="credito" value="{{ $ficorcamentaria->credito ?? old('credito') }}" placeholder="[ Ex: 100,00 ]" tabindex="6">
     </div>
 </div>
 <div class="form-row">

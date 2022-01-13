@@ -24,7 +24,7 @@ class Lancamento extends Model
         'percentual1',
         'percentual2',
         'percentual3',
-        'percentual4'
+        'percentual4',
     ];
 
     public function user(){
@@ -41,16 +41,11 @@ class Lancamento extends Model
 
     public function getDebitoRawAttribute(){
         if($this->debito){
+            //dd($this->debito);
             return (float)str_replace(',','.',$this->debito);
-        }
-    }
-    
-    public function getDebitoAttribute($debito){
-        return number_format($debito, 2, ',', '.');
-    }
 
-    public function setDebitoAttribute($debito){
-        $this->attributes['debito'] = str_replace(',', '.', $debito);
+            //return number_format((float)$this->debito, 2, '.', ',');
+        }
     }
 
     public function getCreditoRawAttribute(){
@@ -58,17 +53,27 @@ class Lancamento extends Model
             return (float)str_replace(',','.',$this->credito);
         }
     }
+    
+    public function getDebitoAttribute($debito){
+        //dd($debito);
+
+        return number_format($debito, 2, ',', '.');
+    }
 
     public function getCreditoAttribute($credito){
         return number_format($credito, 2, ',', '.');
     }
 
-    public function setCreditoAttribute($credito){
-        $this->attributes['credito'] = str_replace(',', '.', $credito);
-    }
-
     public function getSaldoAttribute($saldo){
         return number_format($saldo, 2, ',', '.');
+    }
+
+    public function setDebitoAttribute($debito){
+        $this->attributes['debito'] = str_replace(',', '.', $debito);
+    }
+
+    public function setCreditoAttribute($credito){
+        $this->attributes['credito'] = str_replace(',', '.', $credito);
     }
 
     public function setSaldoAttribute($saldo){
@@ -84,7 +89,9 @@ class Lancamento extends Model
     }
 
     static function calculaSaldo($conta_id){
+        //dd($conta_id);
         $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data');
+        
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
