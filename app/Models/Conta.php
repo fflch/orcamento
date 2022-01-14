@@ -16,7 +16,7 @@ class Conta extends Model
         'email',
         'numero',
         'ativo',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){

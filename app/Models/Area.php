@@ -10,7 +10,7 @@ class Area extends Model
     use HasFactory;
     protected $fillable = [
         'nome',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){

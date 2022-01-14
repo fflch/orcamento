@@ -80,8 +80,10 @@ class AreaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(AreaRequest $request, Area $area){
+        //dd($request->_method);
         $this->authorize('Administrador');
         $validated = $request->validated();
+        //dd($validated);
         $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
         $request->session()->flash('alert-success', 'Área alterada com sucesso!');
