@@ -24,7 +24,7 @@ class TipoConta extends Model
     }
 
     public static function lista_tipos_contas(){
-        $lista_tipos_contas = TipoConta::all()->sortBy('descricao');
+        $lista_tipos_contas = TipoConta::orderBy('descricao')->get();
         return $lista_tipos_contas;
     }
 

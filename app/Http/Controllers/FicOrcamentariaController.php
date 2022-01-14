@@ -36,7 +36,7 @@ class FicOrcamentariaController extends Controller
             $total_credito += $ficorcamentaria->credito_raw;
         }
 
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
+        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
         return view('ficorcamentarias.index', compact('ficorcamentarias','total_debito','total_credito','lista_dotorcamentarias'));
     }
 
@@ -47,10 +47,10 @@ class FicOrcamentariaController extends Controller
      */
     public function create(){
         $this->authorize('Todos');
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
-        $lista_descricoes = Nota::lista_descricoes();
-        $lista_observacoes = Nota::lista_observacoes();
-        $lista_tipos_contas = TipoConta::lista_tipos_contas();
+        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
+        $lista_descricoes       = Nota::lista_descricoes();
+        $lista_observacoes      = Nota::lista_observacoes();
+        $lista_tipos_contas     = TipoConta::lista_tipos_contas();
 
         return view('ficorcamentarias.create',[ 
                     'ficorcamentaria'        => new FicOrcamentaria,
@@ -173,7 +173,7 @@ class FicOrcamentariaController extends Controller
      */
     public function edit(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
+        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
         $lista_descricoes       = Nota::lista_descricoes();
         $lista_observacoes      = Nota::lista_observacoes();
         $lista_tipos_contas     = TipoConta::lista_tipos_contas();

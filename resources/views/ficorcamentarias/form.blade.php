@@ -1,12 +1,15 @@
 <div class="form-row">
     <div class="form-group col-md-4">
         <label for="dotacao">Dotação</label>
-        <input list="dotacoes" name="dotacao_id" id="dotacao_id" class="form-control" value="{{ $ficorcamentaria->dotacao ?? old('dotacao') }}" tabindex="1">
-        <datalist id="dotacoes">
-            @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
-                <option value="{{ $lista_dotorcamentaria->id }}">{{ $lista_dotorcamentaria->dotacao }}
-            @endforeach
-        </datalist>
+        <select class="dotacoes_select form-control" name="dotacao_id" tabindex="1">
+                        <option value=" ">&nbsp;</option>
+                        @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
+                            <option value="{{ $lista_dotorcamentaria->id }}" @if(old('dotacao_id') == $lista_dotorcamentaria->id) {{ 'selected' }} @endif>
+                            {{ $lista_dotorcamentaria->dotacao }}
+                            </option>
+                        @endforeach
+        </select>
+
     </div>
     <div class="form-group col-md-4">
         <label for="data">Data</label>
@@ -31,11 +34,11 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="debito">Débito</label>
-        <input type="number" class="form-control" name="debito" value="{{ $ficorcamentaria->debito ?? old('debito') }}" placeholder="[ Ex: 100,00 ]" tabindex="5">
+        <input type="text" class="form-control" name="debito" value="{{ $ficorcamentaria->debito ?? old('debito') }}" placeholder="[ Ex: 100,00 ]" tabindex="5">
     </div>
     <div class="form-group col-md-6">
         <label for="credito">Crédito</label>
-        <input type="number" class="form-control" name="credito" value="{{ $ficorcamentaria->credito ?? old('credito') }}" placeholder="[ Ex: 100,00 ]" tabindex="6">
+        <input type="text" class="form-control" name="credito" value="{{ $ficorcamentaria->credito ?? old('credito') }}" placeholder="[ Ex: 100,00 ]" tabindex="6">
     </div>
 </div>
 <div class="form-row">

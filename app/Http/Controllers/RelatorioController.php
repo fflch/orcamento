@@ -22,7 +22,7 @@ class RelatorioController extends Controller
         $movimento_ativo        = Movimento::movimento_ativo();
         $lista_contas_ativas    = Conta::lista_contas_ativas();
         $lista_tipos_contas     = TipoConta::lista_tipos_contas();
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias();
+        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
         $lista_descricoes       = Nota::lista_descricoes();
         $lista_observacoes      = Nota::lista_observacoes();
         $lista_areas            = Area::lista_areas();

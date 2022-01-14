@@ -10,7 +10,7 @@ class Area extends Model
     use HasFactory;
     protected $fillable = [
         'nome',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){
@@ -22,7 +22,7 @@ class Area extends Model
     }
 
     public static function lista_areas(){
-        $lista_areas = Area::all()->sortBy('nome');
+        $lista_areas = Area::orderBy('nome')->get();
         return $lista_areas;
     }
 }

@@ -26,15 +26,18 @@ class AreaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'nome' => 'required',
         ];
+        if ($this->method() == 'POST')
+            $rules['nome'] .= "|unique:areas";
+        return $rules;
     }
 
     public function messages(){
         return [
             'nome.required' => 'Informe o Nome.',
-            //'nome.unique'   => 'Já existe uma área com esse nome.',
+            'nome.unique'   => 'Já existe uma Área com o nome ' . $this->nome . '.',
         ];
     }
 }

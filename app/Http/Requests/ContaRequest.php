@@ -23,7 +23,7 @@ class ContaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'tipoconta_id' => 'required',
             'area_id'      => 'required',
             'nome'         => 'required',
@@ -31,6 +31,12 @@ class ContaRequest extends FormRequest
             'numero'       => 'integer|nullable',
             'ativo'        => 'boolean',
         ];
+        if ($this->method() == 'POST'){
+            $rules['nome']   .= "|unique:contas,tipoconta_id,area_id";
+            $rules['numero'] .= "|unique:contas";
+        }
+        dd($rules);
+        return $rules;
     }
 
     public function messages(){
@@ -38,11 +44,10 @@ class ContaRequest extends FormRequest
             'tipoconta_id.required' => 'Informe o Tipo de Conta.',
             'area_id.required'      => 'Informe o Nome da Área.',
             'nome.required'         => 'Informe o Nome da Conta.',
-            //'nome.unique'           => 'Já existe uma conta com esse nome.',
+            'nome.unique'           => 'Já existe uma conta com o nome ' . $this->nome . '.',
             'email.email'           => 'Informe um endereço de E-mail válido.',
-            //'numero.required'       => 'Digite o Número da Conta.',
             'numero.integer'        => 'O Número deve ser um número inteiro.',
-            //'numero.unique'         => 'Já existe uma conta com esse número.',
+            'numero.unique'         => 'Já existe uma conta com o número ' . $this->numero . '.',
             'ativo.boolean'         => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }

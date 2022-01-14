@@ -27,7 +27,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" name="nome" value="{{ $conta->nome ?? old('nome') }}" placeholder="[ Ex: Orçamento ]" tabindex="3">
+        <input type="text" class="form-control" name="nome" value="{{ $conta->nome ?? old('nome') }}" placeholder="[ Ex: Orçamento ]" maxlength="150" tabindex="3">
     </div>
     <div class="form-group col-md-4">
         <label for="email">E-mail</label>

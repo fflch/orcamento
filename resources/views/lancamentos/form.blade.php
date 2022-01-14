@@ -25,7 +25,7 @@
     </div>
     <div class="form-group col-md-1">
         <label fo col-md-2r="data">Data</label>
-        <input type="text" class="form-control datepicker data" name="data" value="{{ $lancamento->data ?? old('data') ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
+        <input type="text" class="form-control datepicker data" name="data" value="{{ $lancamento->data ?? old('data') ?? Carbon\Carbon::now()->format('d/m/') . $movimento_ativo->ano  }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
     </div>
     <div class="form-group col-md-1">
         <label for="empenho">Empenho</label>
@@ -71,7 +71,7 @@
 <div class="card p-3">    
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label for="percentual1">Percentual #1</label>
+            <label for="percentual1">Percentual #1 (A própria conta escolhida acima)</label>
             <input type="number" class="form-control" name="percentual1" value="{{ $lancamento->percentual1 ?? old('percentual1') ?? 100 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="9">
         </div>
         <div class="form-group col-md-3">
@@ -84,7 +84,7 @@
         </div>
         <div class="form-group col-md-3">
             <label for="percentual4">Percentual #4 ({{ $nome_conta_numero4[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual4" value="{{ $lancamento->percentual4 ?? old('percentual4') ?? 0 }} " maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
+            <input type="number" class="form-control" name="percentual4" value="{{ $lancamento->percentual4 ?? old('percentual4') ?? 0 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
         </div>
 
     </div>

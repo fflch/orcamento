@@ -6,7 +6,7 @@
     <form method="get" action="/relatorios/saldo_contas">
         @csrf
         <div class="form-row">
-            <div class="form-group col-md-9">
+            <div class="form-group col-md-10">
                 <select class="tipocontas_select form-control" name="tipoconta_id">
                     <option value=" ">[ Informe o Tipo de Conta ]</option>
                     @foreach($lista_tipos_contas as $lista_tipo_conta)
@@ -16,7 +16,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-3" align="right">
+            <div class="form-group col-md-2" align="right">
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-success"><strong>OK</strong></button>
                 </span>

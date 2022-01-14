@@ -16,7 +16,7 @@ class AreaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
         if($request->busca_nome != null){
-            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome','desc')->paginate(10);
+            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
         }
         else{
             $areas = Area::orderBy('nome')->paginate(10);
@@ -80,8 +80,10 @@ class AreaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(AreaRequest $request, Area $area){
+        //dd($request->_method);
         $this->authorize('Administrador');
         $validated = $request->validated();
+        //dd($validated);
         $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
         $request->session()->flash('alert-success', 'Área alterada com sucesso!');
