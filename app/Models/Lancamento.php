@@ -41,10 +41,7 @@ class Lancamento extends Model
 
     public function getDebitoRawAttribute(){
         if($this->debito){
-            //dd($this->debito);
             return (float)str_replace(',','.',$this->debito);
-
-            //return number_format((float)$this->debito, 2, '.', ',');
         }
     }
 
@@ -55,8 +52,6 @@ class Lancamento extends Model
     }
     
     public function getDebitoAttribute($debito){
-        //dd($debito);
-
         return number_format($debito, 2, ',', '.');
     }
 
@@ -84,17 +79,15 @@ class Lancamento extends Model
         return implode('/',array_reverse(explode('-',$data)));
     }
     
-    //public function setDataAttribute($data) {
-        //$this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
-    //}
+    public function setDataAttribute($data) {
+        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
+    }
 
     static function calculaSaldo($conta_id){
-        //dd($conta_id);
-        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data');
-        
+        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data')->get();
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
-            $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
+            $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
             $calcula_saldo->saldo = $saldo;
             $calcula_saldo->update();
         }

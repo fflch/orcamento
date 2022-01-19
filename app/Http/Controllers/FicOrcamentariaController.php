@@ -147,6 +147,8 @@ class FicOrcamentariaController extends Controller
             }
         }
 
+        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+
         if(!$request->conta_id)
             $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
         else
@@ -200,13 +202,16 @@ class FicOrcamentariaController extends Controller
 
         $ficorcamentaria->update($validated);
 
-        $ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data');
+        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+
+
+        /*$ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data');
         $saldo  = 0.00;
         foreach($ficorcamentarias_dotacao as $calcula_saldo){
             $saldo += $calcula_saldo->credito - $calcula_saldo->debito;
             $calcula_saldo->saldo = $saldo;
             $calcula_saldo->update();
-        }
+        }*/
         
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');
@@ -221,6 +226,17 @@ class FicOrcamentariaController extends Controller
     public function destroy(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $ficorcamentaria->delete();
+        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+
+
+        /*$ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$ficorcamentaria->dotacao_id)->orderBy('data')->get();
+        $saldo  = 0.00;
+        foreach($ficorcamentarias_dotacao as $calcula_saldo){
+            $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
+        }*/
+
         return redirect()->route('ficorcamentarias.index')->with('alert-success', 'Ficha Orçamentária deletada com sucesso!');
     }
 }

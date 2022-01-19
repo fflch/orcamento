@@ -99,7 +99,15 @@
                 <td colspan="4">&nbsp;</td>
                 <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
                 <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                <td align="right"><font color="black"><strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
+                <td align="right">
+                @if(($total_credito - $total_debito) == 0.00)
+                    <font color="black">
+                @elseif(($total_credito - $total_debito) > 0.00)
+                    <font color="green">
+                @else
+                    <font color="red">
+                @endif
+                <strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
                 @can('Administrador')
                     <td colspan="3">&nbsp;</td>
                 @endcan
