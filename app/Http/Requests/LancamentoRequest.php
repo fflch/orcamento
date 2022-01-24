@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
+use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
+use MyValidator;
 
 class LancamentoRequest extends FormRequest
 {
@@ -23,21 +25,26 @@ class LancamentoRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        dd($this->total_percentuais);
+        $rules = [
             'conta_id'    => 'required',
             'grupo'       => 'required',
             'receita'     => 'boolean',
             'data'        => 'required',
             'empenho'     => 'required',
             'descricao'   => 'required',
-            'debito'      => 'required_without:credito',
-            'credito'     => 'required_without:debito',
+            'debito'      => 'required_without:credito|nullable',
+            'credito'     => 'required_without:debito|nullable',
+            //'debito' => 'empty_with:credito',
             'observacao'  => 'required',
+            'total_percentuais' => 'between:0,100',
             'percentual1' => 'required|integer|between:0,100',
             'percentual2' => 'required|integer|between:0,100',
             'percentual3' => 'required|integer|between:0,100',
             'percentual4' => 'required|integer|between:0,100',
         ];
+        return $rules;
+
     }
 
     public function messages(){

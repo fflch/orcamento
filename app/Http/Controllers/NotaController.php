@@ -16,12 +16,15 @@ class NotaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_texto != null){
-            $notas = Nota::where('texto','LIKE','%'.$request->busca_texto.'%')->orderBy('tipo',)->orderBy('texto')->paginate(10);
-        }
-        else{
-            $notas = Nota::orderBy('tipo',)->orderBy('texto')->paginate(10);
-        }
+        if($request->busca_texto != null)
+            $notas = Nota::where('texto','LIKE','%'.$request->busca_texto.'%')
+                         ->orderBy('tipo',)
+                         ->orderBy('texto')
+                         ->paginate(10);
+        else
+            $notas = Nota::orderBy('tipo',)
+                         ->orderBy('texto')
+                         ->paginate(10);
         return view('notas.index')->with('notas', $notas);
     }
 
@@ -32,15 +35,11 @@ class NotaController extends Controller
      */
     public function create(){
         $this->authorize('Todos');
-        $lista_tipos_contas = TipoConta::lista_tipos_contas();
-        $lista_tipos = Nota::lista_tipos();
-        //return view('notas.create', compact('lista_tipos_contas','lista_tipos'));
         return view('notas.create', [
-            'nota'         => new Nota,
-            'lista_tipos_contas' => $lista_tipos_contas,
-            'lista_tipos' => $lista_tipos ,
+            'nota'               => new Nota,
+            'lista_tipos_contas' => TipoConta::lista_tipos_contas(),
+            'lista_tipos'        => Nota::lista_tipos(),
         ]);
-
     }
 
     /**
@@ -52,15 +51,10 @@ class NotaController extends Controller
     public function store(NotaRequest $request){
         $this->authorize('Todos');
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
-
-        //$nota->tipoconta_id = $request->tipoconta_id;
+        $validated['user_id']      = auth()->user()->id;
         $validated['tipoconta_id'] = $request->tipoconta_id;
-        //$nota->area_id = $request->area_id;
-
         Nota::create($validated);
-
-        $request->session()->flash('alert-success', 'Nota cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Nota [ ' . $request->texto . ' ] cadastrada com sucesso!');
         return redirect()->route('notas.index');
     }
 
@@ -83,10 +77,11 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota){
         $this->authorize('Administrador');
-        $lista_tipos_contas = TipoConta::lista_tipos_contas();
-        $lista_tipos = Nota::lista_tipos();
-
-        return view('notas.edit', compact('nota','lista_tipos_contas','lista_tipos'));
+        return view('notas.edit', [
+                    'nota'               => $nota,
+                    'lista_tipos_contas' => TipoConta::lista_tipos_contas(),
+                    'lista_tipos'        => Nota::lista_tipos(),
+        ]);
     }
 
     /**
@@ -98,14 +93,11 @@ class NotaController extends Controller
      */
     public function update(NotaRequest $request, Nota $nota){
         $this->authorize('Administrador');
-        $validated = $request->validated();
+        $validated            = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-
-        $nota->tipoconta_id = $request->tipoconta_id;
-
+        $nota->tipoconta_id   = $request->tipoconta_id;
         $nota->update($validated);
-        
-        $request->session()->flash('alert-success', 'Nota alterada com sucesso!');
+        $request->session()->flash('alert-success', 'Nota [ ' . $nota->texto . ' ] alterada com sucesso!');
         return redirect()->route('notas.index');
     }
 
@@ -118,6 +110,6 @@ class NotaController extends Controller
     public function destroy(Nota $nota){
         $this->authorize('Administrador');
         $nota->delete();
-        return redirect()->route('notas.index')->with('alert-success', 'Nota deletada com sucesso!!');
+        return redirect()->route('notas.index')->with('alert-success', 'Nota [ ' . $nota->texto . ' ] excluída com sucesso!');
     }
 }

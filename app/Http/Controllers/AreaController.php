@@ -15,12 +15,10 @@ class AreaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_nome != null){
+        if($request->busca_nome != null)
             $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
-        }
-        else{
+        else
             $areas = Area::orderBy('nome')->paginate(10);
-        }        
         return view('areas.index', compact('areas'));
     }
 
@@ -46,7 +44,7 @@ class AreaController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = \Auth::user()->id;
         Area::create($validated);
-        $request->session()->flash('alert-success', 'Área cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Área [ ' . $request->nome . ' ] cadastrada com sucesso!');
         return redirect()->route('areas.index');
     }
 
@@ -80,13 +78,11 @@ class AreaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(AreaRequest $request, Area $area){
-        //dd($request->_method);
         $this->authorize('Administrador');
         $validated = $request->validated();
-        //dd($validated);
         $validated['user_id'] = \Auth::user()->id;
         $area->update($validated);
-        $request->session()->flash('alert-success', 'Área alterada com sucesso!');
+        $request->session()->flash('alert-success', 'Área [ ' . $area->nome . ' ] alterada com sucesso!');
         return redirect()->route('areas.index');
     }
 
@@ -99,11 +95,11 @@ class AreaController extends Controller
     public function destroy(Area $area){
         $this->authorize('Administrador');
         if($area->conta->isNotEmpty()){
-            request()->session()->flash('alert-danger',"Área não pode ser excluída, 
-            pois existem Contas cadastradas nela.");
+            request()->session()->flash('alert-danger','Área [ ' . $area->nome . ' ] não pode ser excluída, 
+            pois existem Contas cadastradas nela.');
             return redirect("/areas");    
         }
         $area->delete();
-        return redirect()->route('areas.index')->with('alert-success', 'Área deletada com sucesso!');
+        return redirect()->route('areas.index')->with('alert-success', 'Área [ ' . $area->nome . ' ] excluída com sucesso!');
     }
 }

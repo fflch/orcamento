@@ -69,7 +69,6 @@
                 @if($lancamento->debito != 0.00)
                     <!--td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td-->
                     <td align="right">{{ $lancamento->debito }}</td>
-
                 @else
                     <td align="right">&nbsp;</td>
                 @endif

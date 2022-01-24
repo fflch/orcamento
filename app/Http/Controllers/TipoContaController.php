@@ -15,12 +15,13 @@ class TipoContaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_descricao != null){
-            $tipocontas = TipoConta::where('descricao','LIKE','%'.$request->busca_descricao.'%')->orderBy('descricao')->paginate(10);
-        }
-        else{
-            $tipocontas = TipoConta::orderBy('descricao')->paginate(10);
-        }        
+        if($request->busca_descricao != null)
+            $tipocontas = TipoConta::where('descricao','LIKE','%'.$request->busca_descricao.'%')
+                                   ->orderBy('descricao')
+                                   ->paginate(10);
+        else
+            $tipocontas = TipoConta::orderBy('descricao')
+                                   ->paginate(10);
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }
 
@@ -47,7 +48,7 @@ class TipoContaController extends Controller
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
         $validated['user_id']            = \Auth::user()->id;
         TipoConta::create($validated);
-        $request->session()->flash('alert-success', 'Tipo de Conta cadastrado com sucesso!');
+        $request->session()->flash('alert-success', 'Tipo de Conta [ ' . $request->descricao . ' ] cadastrado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
 
@@ -87,7 +88,7 @@ class TipoContaController extends Controller
         $validated['relatoriobalancete'] = $request->relatoriobalancete;
         $validated['user_id']            = \Auth::user()->id;
         $tipoconta->update($validated);
-        $request->session()->flash('alert-success', 'Tipo de Conta alterado com sucesso!');
+        $request->session()->flash('alert-success', 'Tipo de Conta [ ' . $tipoconta->descricao . ' ] alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
 
@@ -100,11 +101,11 @@ class TipoContaController extends Controller
     public function destroy(TipoConta $tipoconta, Request $request){
         $this->authorize('Administrador');
         if($tipoconta->conta->isNotEmpty()){
-            request()->session()->flash('alert-danger',"Tipo de Conta não pode ser excluída, 
-            pois existem Contas cadastradas nela.");
+            request()->session()->flash('alert-danger','Tipo de Conta [ ' . $tipoconta->descricao . ' ] não pode ser excluído, 
+            pois existem Contas cadastradas nela.');
             return redirect("/tipocontas");    
         }
         $tipoconta->delete();
-        return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta deletado com sucesso!');
+        return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta [ ' . $tipoconta->descricao . ' ] excluído com sucesso!');
     }
 }

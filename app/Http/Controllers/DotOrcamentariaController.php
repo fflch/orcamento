@@ -15,12 +15,10 @@ class DotOrcamentariaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_dotacao != null){
+        if($request->busca_dotacao != null)
             $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca_dotacao)->orderBy('dotacao')->paginate(10);
-        }
-        else{
+        else
             $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')->paginate(10);
-        }       
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
 
@@ -47,8 +45,7 @@ class DotOrcamentariaController extends Controller
         $validated['ativo']   = $request->ativo;
         $validated['user_id'] = \Auth::user()->id;
         DotOrcamentaria::create($validated);
-  
-        $request->session()->flash('alert-success', 'Dotação Orçamentária cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Dotação Orçamentária [ ' . $request->dotacao . ' ] cadastrada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
 
@@ -88,8 +85,7 @@ class DotOrcamentariaController extends Controller
         $validated['ativo']   = $request->ativo;
         $validated['user_id'] = \Auth::user()->id;
         $dotorcamentaria->update($validated);
-        
-        $request->session()->flash('alert-success', 'Dotação Orçamentária alterada com sucesso!');
+        $request->session()->flash('alert-success', 'Dotação Orçamentária [ ' . $dotorcamentaria->dotacao . ' ] alterada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
 
@@ -103,12 +99,11 @@ class DotOrcamentariaController extends Controller
         $this->authorize('Administrador');
 
         if($dotorcamentaria->ficha_orcamentaria->isNotEmpty()){
-            request()->session()->flash('alert-danger',"Dotação Orçamentária não pode ser excluída, 
-            pois existem lançamentos da Ficha Orçamentária cadastrados nela.");
+            request()->session()->flash('alert-danger','Dotação Orçamentária [ ' . $dotorcamentaria->dotacao . ' ] não pode ser excluída, 
+            pois existem lançamentos da Ficha Orçamentária cadastrados nela.');
             return redirect("/dotorcamentarias");    
         }
-
         $dotorcamentaria->delete();
-        return redirect()->route('dotorcamentarias.index')->with('alert-success', 'Dotação Orçamentária deletada com sucesso!');
+        return redirect()->route('dotorcamentarias.index')->with('alert-success', 'Dotação Orçamentária [ ' . $dotorcamentaria->dotacao . ' ] excluída com sucesso!');
     }
 }

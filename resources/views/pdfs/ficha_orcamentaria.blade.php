@@ -44,8 +44,16 @@
             <td align="center">{{ $ficha_orcamentaria_valor->data }}</td>
             <td align="right">{{ $ficha_orcamentaria_valor->empenho }}</td>
             <td align="left">{{ $ficha_orcamentaria_valor->descricao }}</td>
-            <td align="right">{{ number_format($ficha_orcamentaria_valor->debito_raw, 2, ',', '.') }}</td>
-            <td align="right">{{ number_format($ficha_orcamentaria_valor->credito_raw, 2, ',', '.') }}</td>
+            @if($ficha_orcamentaria_valor->debito != 0.00)
+              <td align="right">{{ number_format($ficha_orcamentaria_valor->debito_raw, 2, ',', '.') }}</td>
+            @else
+              <td align="right">&nbsp;</td>
+            @endif
+            @if($ficha_orcamentaria_valor->credito != 0.00)
+              <td align="right">{{ number_format($ficha_orcamentaria_valor->credito_raw, 2, ',', '.') }}</td>
+            @else
+              <td align="right">&nbsp;</td>
+            @endif
             <td align="right">{{ $ficha_orcamentaria_valor->saldo }}</td>
             <td align="left">{{ $ficha_orcamentaria_valor->observacao }}</td>
 

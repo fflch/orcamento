@@ -13,7 +13,7 @@
 
 <div class="form-group col-md-8">
     <label for="descricaogrupo">Descrição do Grupo</label>
-    <input type="text" class="form-control" name="descricaogrupo" value="{{ $dotorcamentaria->descricaogrupo ?? old('descricaogrupo') }}" placeholder="[ Ex: Manutenção de Edifícios - Orçamento ]" tabindex="3">
+    <input type="text" class="form-control" name="descricaogrupo" value="{{ $dotorcamentaria->descricaogrupo ?? old('descricaogrupo') }}" placeholder="[ Ex: Manutenção de Edifícios - Orçamento ]" maxlength="190" tabindex="3">
 </div>
 </div>
 
@@ -25,7 +25,7 @@
 
 <div class="form-group col-md-8">
     <label for="descricaoitem">Descrição do Item</label>
-    <input type="text" class="form-control" name="descricaoitem" value="{{ $dotorcamentaria->descricaoitem ?? old('descricaoitem') }}" placeholder="[ Ex: Serviços de Limpeza, Vigilância e Outros - PJ ]" tabindex="5">
+    <input type="text" class="form-control" name="descricaoitem" value="{{ $dotorcamentaria->descricaoitem ?? old('descricaoitem') }}" placeholder="[ Ex: Serviços de Limpeza, Vigilância e Outros - PJ ]" maxlength="190" tabindex="5">
 </div>
 </div>
 

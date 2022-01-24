@@ -14,7 +14,7 @@
 
     <div class="form-group col-md-1">
         <label for="grupo">Grupo</label>
-        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]" tabindex="2">
+        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? 80 }}" placeholder="[ Ex: 080 ]" tabindex="2">
     </div>
     <div class="form-group col-md-1">
         <label for="receita" class="checkbox-inline">Receita</label><br>
@@ -29,7 +29,7 @@
     </div>
     <div class="form-group col-md-1">
         <label for="empenho">Empenho</label>
-        <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') }}" placeholder="[ Ex: 1234567 ]" tabindex="4">
+        <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') ?? 121212 }}" placeholder="[ Ex: 1234567 ]" tabindex="4">
     </div>
 </div>
 
