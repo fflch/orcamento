@@ -25,7 +25,6 @@ class LancamentoController extends Controller
             $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data')->paginate(10);
         else
             $lancamentos = Lancamento::orderBy('data')->paginate(10);
-
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';
@@ -76,37 +75,29 @@ class LancamentoController extends Controller
         array_push($percentuais, $request->percentual3);
         array_push($percentuais, $request->percentual4);
         $total_percentuais = array_sum($percentuais);
-
-        if($total_percentuais > 100){
+        /*if($total_percentuais > 100){
             //dd('maior que 100');
             $request->session()->flash('alert-success', 'Maior que 100!');
 
             //return Redirect::back()->with('msg', 'The Message');
-        }
-
-        $validated['total_percentuais']      = array_sum($percentuais);
-
+        }*/
+        //$validated['total_percentuais']      = array_sum($percentuais);
         //dd($total_percentuais);
-
         $validated = $request->validated();
         //dd($request->credito  * $request->percentual1 / 100);
         if($request->debito == null){
             $validated['debito']  = 0.00;
             $validated['credito'] = $request->credito  * $request->percentual1 / 100;
         }
-
         if($request->credito == null){
             $validated['credito'] = 0.00;
             $validated['debito']  = $request->debito   * $request->percentual1 / 100;
         }
-        $validated['total_percentuais']      = array_sum($percentuais);
-
+        //$validated['total_percentuais']      = array_sum($percentuais);
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['conta_id']     = $request->conta_id;
-
         Lancamento::create($validated);
-
         if($request->percentual1 != 100){
             for($i=2; $i<5; $i++){
                 $contas = Conta::where('numero','=',$i)->get();

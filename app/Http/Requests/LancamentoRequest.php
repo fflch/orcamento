@@ -25,7 +25,7 @@ class LancamentoRequest extends FormRequest
      */
     public function rules()
     {
-        dd($this->total_percentuais);
+        //dd($this->total_percentuais);
         $rules = [
             'conta_id'    => 'required',
             'grupo'       => 'required',
@@ -37,7 +37,7 @@ class LancamentoRequest extends FormRequest
             'credito'     => 'required_without:debito|nullable',
             //'debito' => 'empty_with:credito',
             'observacao'  => 'required',
-            'total_percentuais' => 'between:0,100',
+            //'total_percentuais' => 'between:0,100',
             'percentual1' => 'required|integer|between:0,100',
             'percentual2' => 'required|integer|between:0,100',
             'percentual3' => 'required|integer|between:0,100',

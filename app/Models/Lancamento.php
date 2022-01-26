@@ -25,7 +25,7 @@ class Lancamento extends Model
         'percentual2',
         'percentual3',
         'percentual4',
-        'total_percentuais',
+        //'total_percentuais',
     ];
 
     public function user(){

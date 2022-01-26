@@ -4,7 +4,6 @@
         <input type="text" class="form-control" name="nome" value="{{ $area->nome ?? old('nome') }}" placeholder="[ Ex: Administrativa ]" maxlength="150" tabindex="1">
     </div>
 </div>
-
 <div class="form-row">
     <div class="panel panel-body panel-default">
         <div class="form-group col-md-12">

@@ -94,5 +94,15 @@ return [
             'url'     => '/relatorios',
             'can'     => 'Todos',
         ],
+        [
+            'text'    => '<i class="far fa fa-plus"></i> Lançamentos',
+            'url'     => '/lancamentos/create',
+            'can'     => 'Todos',
+        ],
+        [
+            'text'    => '<i class="far fa fa-plus"></i> Ficha Orçamentária',
+            'url'     => '/ficorcamentarias/create',
+            'can'     => 'Todos',
+        ],
     ]
 ];
