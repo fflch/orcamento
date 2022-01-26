@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
 use Socialite;
 use App\Models\User;
 use Auth;
@@ -16,19 +15,15 @@ class LoginController extends Controller
         $this->middleware('guest');
     }*/
 
-    public function redirectToProvider()
-    {
+    public function redirectToProvider(){
         return Socialite::driver('senhaunica')->redirect();
     }
 
-    public function handleProviderCallback()
-    {
+    public function handleProviderCallback(){
         $userSenhaUnica = Socialite::driver('senhaunica')->user();
         $user = User::where('codpes',$userSenhaUnica->codpes)->first();
-
-        if (is_null($user)) $user = new User;
-
-        // bind do dados retornados
+        if (is_null($user))
+            $user = new User;
         $user->codpes = $userSenhaUnica->codpes;
         $user->email = $userSenhaUnica->email;
         $user->name = $userSenhaUnica->nompes;

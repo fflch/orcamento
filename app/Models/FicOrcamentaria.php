@@ -72,7 +72,18 @@ class FicOrcamentaria extends Model
         return implode('/',array_reverse(explode('-',$data)));
     }
     
-    //public function setDataAttribute($data) {
-        //$this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
-    //}
+    public function setDataAttribute($data) {
+        $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
+    }
+
+
+    static function calculaSaldo($dotacao_id){
+        $ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$dotacao_id)->orderBy('data')->get();
+        $saldo  = 0.00;
+        foreach($ficorcamentarias_dotacao as $calcula_saldo){
+            $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
+            $calcula_saldo->saldo = $saldo;
+            $calcula_saldo->update();
+        }
+    }
 }

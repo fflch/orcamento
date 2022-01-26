@@ -1,5 +1,4 @@
 <div class="card p-3">  
-  
     <div class="form-row p-1">
         <div class="form-group col-md-2"><strong>Dotação:</strong> {{ $request_FO->dotacao_id }}</div>
         <div class="form-group col-md-2"><strong>Data:</strong> {{ $request_FO->data }}</div>
@@ -27,7 +26,7 @@
         <input list="contas_{{ $tipocontaid_quantidades_key }}_{{ $i }}" name="conta_id[]" id="conta_id_{{ $tipocontaid_quantidades_key }}_{{ $i }}" class="form-control" value="{{ $lancamento->conta_id ?? old('conta_id') }}">
         <datalist id="contas_{{ $tipocontaid_quantidades_key }}_{{ $i }}">
                 @foreach($tipocontaid_descricaoconta as $tipocontaid_descricaoconta_key=>$tipocontaid_descricaoconta_value)
-                    @foreach($lista_contas as $lista_conta)
+                    @foreach($lista_contas_ativas as $lista_conta)
                         @if(($tipocontaid_quantidades_key == $lista_conta->tipoconta_id) and ($tipocontaid_descricaoconta_key == $lista_conta->tipoconta_id))
                             <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}</option>
                         @endif
@@ -37,7 +36,7 @@
     </div>
 
     <div class="form-group col-md-1">
-        <label for="grupo">Grupo</label>
+            <label for="grupo">Grupo</label>
         <input type="text" class="form-control" name="grupo[]" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]">
     </div>
 

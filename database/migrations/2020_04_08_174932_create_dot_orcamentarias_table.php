@@ -15,7 +15,7 @@ class CreateDotOrcamentariasTable extends Migration
     {
         Schema::create('dot_orcamentarias', function (Blueprint $table) {
             $table->id();
-            $table->integer('dotacao');
+            $table->integer('dotacao')->unique();
             $table->string('grupo');
             $table->string('descricaogrupo');
             $table->integer('item');

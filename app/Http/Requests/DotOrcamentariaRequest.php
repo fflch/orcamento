@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DotOrcamentariaRequest extends FormRequest
 {
@@ -23,22 +24,40 @@ class DotOrcamentariaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'dotacao'        => 'required|integer',
-            'grupo'          => 'required',
-            'descricaogrupo' => 'required',
-            'item'           => 'required',
-            'descricaoitem'  => 'required',
-            'receita'        => 'boolean',
-            'ativo'          => 'boolean',
-        ];
+        if ($this->method() == 'POST'){
+            $rules = [
+                'dotacao' => [
+                    'required',
+                     Rule::unique('dot_orcamentarias')->where(function ($query) {
+                         $query->where('dotacao', $this->dotacao);
+                     })
+                ],    
+            ];
+        }
+        else{
+            $rules = [
+                'dotacao' => [
+                    'required',
+                     Rule::unique('dot_orcamentarias')->where(function ($query) {
+                         $query->where('dotacao', $this->dotacao);
+                     })->ignore($this->dotorcamentaria->id)
+                ],
+            ];
+        }
+        $rules['grupo']          = 'required';
+        $rules['descricaogrupo'] = 'required';
+        $rules['item']           = 'required';
+        $rules['descricaoitem']  = 'required';
+        $rules['receita']        = 'boolean';
+        $rules['ativo']          = 'boolean';
+        return $rules;
     }
 
     public function messages(){
         return [
             'dotacao.required'        => 'Informe a Dotação.',
             'dotacao.integer'         => 'A Dotação deve ser um número inteiro.',
-            //'dotacao.unique'          => 'Já existe uma Dotação com esse número.',
+            'dotacao.unique'          => 'Já existe uma Dotação com o número [ ' . $this->dotacao . ' ].',
             'grupo.required'          => 'Informe o Grupo.',
             'descricaogrupo.required' => 'Informe a Descrição do Grupo.',
             'item.required'           => 'Informe o Item.',

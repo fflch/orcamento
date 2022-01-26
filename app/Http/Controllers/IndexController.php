@@ -14,13 +14,13 @@ class indexController extends Controller
     }
 
     public function index(){
-        $movimento_ativo = Movimento::movimento_ativo();
-        if(auth()->user()){
+        if(auth()->user())
             $perfil_logado   = auth()->user()->perfil;
-        }
-        else{
+        else
             $perfil_logado = '';
-        }
-        return view('index', compact('movimento_ativo','perfil_logado'));
+        return view('index',[
+                    'movimento_ativo' => Movimento::movimento_ativo(),
+                    'perfil_logado'   => $perfil_logado,
+        ]);
     }
 }

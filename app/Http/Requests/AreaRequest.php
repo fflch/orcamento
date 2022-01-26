@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Requests;
-use Illuminate\Validation\Rule;
-use App\Models\User;
 
+use Illuminate\Validation\Rule;
+//use App\Models\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,18 +26,33 @@ class AreaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'nome' => 'required',
-        ];
-        if ($this->method() == 'POST')
-            $rules['nome'] .= "|unique:areas";
+        if ($this->method() == 'POST'){
+            $rules = [
+                'nome' => [
+                    'required',
+                     Rule::unique('areas')->where(function ($query) {
+                         $query->where('nome', $this->nome);
+                     })
+                ],    
+            ];
+        }
+        else{
+            $rules = [
+                'nome' => [
+                    'required',
+                     Rule::unique('areas')->where(function ($query) {
+                         $query->where('nome', $this->nome);
+                     })->ignore($this->area->id)
+                ],
+            ];
+        }
         return $rules;
     }
 
     public function messages(){
         return [
             'nome.required' => 'Informe o Nome.',
-            'nome.unique'   => 'Já existe uma Área com o nome ' . $this->nome . '.',
+            'nome.unique'   => 'Já existe uma Área com o nome [ ' . $this->nome . ' ].',
         ];
     }
 }

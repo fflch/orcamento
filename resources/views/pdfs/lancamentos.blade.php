@@ -44,8 +44,16 @@
             <td align="center">{{ $lancamento->data }}</td>
             <td align="right">{{ $lancamento->empenho }}</td>
             <td align="left">{{ $lancamento->descricao }}</td>
-            <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
-            <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+            @if($lancamento->debito != 0.00)
+              <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+            @else
+              <td align="right">&nbsp;</td>
+            @endif
+            @if($lancamento->credito != 0.00)
+              <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+            @else
+              <td align="right">&nbsp;</td>
+            @endif
             <td align="right">{{ $lancamento->saldo }}</td>
             <td align="left">{{ $lancamento->observacao }}</td>
 

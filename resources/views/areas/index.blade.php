@@ -1,18 +1,14 @@
 @extends('master')
-
 @section('title')
     Áreas
 @stop
-
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
 <div class="card p-3">
     <h2><strong>Áreas</strong></h2>
 </div>
 <br>    
-
 <div class="form-row">
     <div class="form-group col-md-10">
         <form method="get" action="/areas">
@@ -32,7 +28,6 @@
         <p><a href="{{ route('areas.create') }}" class="btn btn-success"><strong>Adicionar Área</strong></a></p>
     </div>
 </div>
-
 <div class="table-responsive">
     <p>{{ $areas->links() }}</p>
     <table class="table table-striped" border="0">
@@ -55,7 +50,7 @@
                             <form method="post" role="form" action="{{ route('areas.destroy', $area) }}" >
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Área?');">Deletar</button>
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Área?');">Excluir</button>
                             </form>
                         </td>
                     @endcan

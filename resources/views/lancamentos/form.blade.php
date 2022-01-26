@@ -14,7 +14,7 @@
 
     <div class="form-group col-md-1">
         <label for="grupo">Grupo</label>
-        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]" tabindex="2">
+        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? 80 }}" placeholder="[ Ex: 080 ]" tabindex="2">
     </div>
     <div class="form-group col-md-1">
         <label for="receita" class="checkbox-inline">Receita</label><br>
@@ -29,7 +29,7 @@
     </div>
     <div class="form-group col-md-1">
         <label for="empenho">Empenho</label>
-        <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') }}" placeholder="[ Ex: 1234567 ]" tabindex="4">
+        <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') ?? 121212 }}" placeholder="[ Ex: 1234567 ]" tabindex="4">
     </div>
 </div>
 
@@ -72,19 +72,19 @@
     <div class="form-row">
         <div class="form-group col-md-3">
             <label for="percentual1">Percentual #1 (A própria conta escolhida acima)</label>
-            <input type="number" class="form-control" name="percentual1" value="{{ $lancamento->percentual1 ?? old('percentual1') ?? 100 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="9">
+            <input type="number" class="form-control" name="percentual1" value="{{ $lancamento->percentual1 ?? old('percentual1') ?? 50 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="9">
         </div>
         <div class="form-group col-md-3">
             <label for="percentual2">Percentual #2 ({{ $nome_conta_numero2[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual2" value="{{ $lancamento->percentual2 ?? old('percentual2') ?? 0 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="10">
+            <input type="number" class="form-control" name="percentual2" value="{{ $lancamento->percentual2 ?? old('percentual2') ?? 25 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="10">
         </div>
         <div class="form-group col-md-3">
             <label for="percentual3">Percentual #3 ({{ $nome_conta_numero3[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual3" value="{{ $lancamento->percentual3 ?? old('percentual3') ?? 0 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="11">
+            <input type="number" class="form-control" name="percentual3" value="{{ $lancamento->percentual3 ?? old('percentual3') ?? 15 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="11">
         </div>
         <div class="form-group col-md-3">
             <label for="percentual4">Percentual #4 ({{ $nome_conta_numero4[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual4" value="{{ $lancamento->percentual4 ?? old('percentual4') ?? 0 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
+            <input type="number" class="form-control" name="percentual4" value="{{ $lancamento->percentual4 ?? old('percentual4') ?? 10 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
         </div>
 
     </div>

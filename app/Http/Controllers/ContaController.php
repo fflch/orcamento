@@ -18,15 +18,12 @@ class ContaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_nome != null){
+        if($request->busca_nome != null)
             $contas = Conta::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
-        }
-        elseif($request->busca_tipoconta_id != null){
+        elseif($request->busca_tipoconta_id != null)
             $contas = Conta::where('tipoconta_id','=',$request->busca_tipoconta_id)->orderBy('nome')->paginate(10);
-        }
-        else{
+        else
             $contas = Conta::orderBy('nome')->paginate(10);
-        }
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         return view('contas.index', compact('contas','lista_tipos_contas'));
     }
@@ -40,7 +37,10 @@ class ContaController extends Controller
         $this->authorize('Todos');
         $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
-        return view('contas.index', compact('contas','lista_tipos_contas'));
+        return view('contas.index',[
+                    'contas'             => $contas,
+                    'lista_tipos_contas' => $lista_tipos_contas,
+]);
     }
 
     /**
@@ -73,7 +73,7 @@ class ContaController extends Controller
         $validated['ativo']        = $request->ativo;
         $validated['user_id']      = \Auth::user()->id;
         Conta::create($validated);
-        $request->session()->flash('alert-success', 'Conta cadastrada com sucesso!');
+        $request->session()->flash('alert-success', 'Conta [ ' . $request->nome . ' ] cadastrada com sucesso!');
         return redirect()->route('contas.index');
     }
 
@@ -120,7 +120,7 @@ class ContaController extends Controller
         $validated['ativo']        = $request->ativo;
         $validated['user_id']      = \Auth::user()->id;
         $conta->update($validated);
-        $request->session()->flash('alert-success', 'Conta alterada com sucesso!');
+        $request->session()->flash('alert-success', 'Conta [ ' . $conta->nome . ' ] alterada com sucesso!');
         return redirect()->route('contas.index');
     }
 
@@ -133,11 +133,11 @@ class ContaController extends Controller
     public function destroy(Conta $conta, Request $request){
         $this->authorize('Administrador');
         if($conta->lancamento->isNotEmpty()){
-            request()->session()->flash('alert-danger',"Conta não pode ser excluída, 
-            pois existem Lançamentos cadastrados nela.");
+            request()->session()->flash('alert-danger','Conta [ ' . $conta->nome . ' ] não pode ser excluída, 
+            pois existem Lançamentos cadastrados nela.');
             return redirect("/contas");    
         }
         $conta->delete();
-        return redirect()->route('contas.index')->with('alert-success', 'Conta deletada com sucesso!');
+        return redirect()->route('contas.index')->with('alert-success', 'Conta [ ' . $conta->nome . ' ] excluída com sucesso!');
     }
 }
