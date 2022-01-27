@@ -1,18 +1,14 @@
 @extends('master')
-
 @section('title')
     Dotações Orçamentárias
 @stop
-
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
 <div class="card p-3">
     <h2><strong>Dotações Orçamentárias</strong></h2>
 </div>
 <br>
-
 <div class="form-row">
     <div class="form-group col-md-10">
         <form method="get" action="/dotorcamentarias">
@@ -32,7 +28,6 @@
         <p><a href="{{ route('dotorcamentarias.create') }}" class="btn btn-success"><strong>Adicionar Dotação Orçamentária</strong></a></p>
     </div>
 </div>
-
 <div class="table-responsive">
 <p>{{ $dotorcamentarias->links() }}</p>
     <table class="table table-striped" border="0">

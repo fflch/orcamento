@@ -2,14 +2,16 @@
     <div class="form-group col-md-4">
         <label for="dotacao">Dotação</label>
         <select class="dotacoes_select form-control" name="dotacao_id" tabindex="1">
-                        <option value=" ">&nbsp;</option>
-                        @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
-                            <option value="{{ $lista_dotorcamentaria->id }}" @if(old('dotacao_id') == $lista_dotorcamentaria->id) {{ 'selected' }} @endif>
-                            {{ $lista_dotorcamentaria->dotacao }}
-                            </option>
-                        @endforeach
+            <option value=" ">&nbsp;</option>
+            @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
+                <option value="{{ $lista_dotorcamentaria->id }}"
+                    @if(old('dotacao_id') == $lista_dotorcamentaria->id)
+                        {{ 'selected' }}
+                    @endif>
+                    {{ $lista_dotorcamentaria->dotacao }}
+                </option>
+            @endforeach
         </select>
-
     </div>
     <div class="form-group col-md-4">
         <label for="data">Data</label>
@@ -47,7 +49,7 @@
         <input list="observacoes" name="observacao" id="observacao" class="form-control" value="{{ $ficorcamentaria->observacao ?? old('observacao') }}" tabindex="7">
         <datalist id="observacoes">
             @foreach($lista_observacoes as $lista_observacao)
-            <option value="{{ $lista_observacao->texto }}">{{ $lista_observacao->texto }}
+                <option value="{{ $lista_observacao->texto }}">{{ $lista_observacao->texto }}
             @endforeach
         </datalist>
     </div>
