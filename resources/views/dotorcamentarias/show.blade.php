@@ -1,15 +1,14 @@
 @extends('master')
 @section('title')
-    Dotação Orçamentária: {{ $dotorcamentaria->dotacao }}
+    Dotações Orçamentárias - {{ $dotorcamentaria->dotacao }}
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Dotação Orçamentária: {{ $dotorcamentaria->dotacao }}</strong></h2>
+    <h2><strong>Dotações Orçamentárias - {{ $dotorcamentaria->dotacao }}</strong></h2>
 </div>
 <br>
-    
 <div class="card p-4">
     <div class="form-row">
         <div class="form-group col-md-2"><b>Dotação:</b> {{ $dotorcamentaria->dotacao }}</div>
@@ -41,7 +40,7 @@
             <form method="post" role="form" action="{{ route('dotorcamentarias.destroy', $dotorcamentaria) }}" >
                 @csrf
                 <input name="_method" type="hidden" value="DELETE">
-                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Dotação Orçamentária?');">Deletar</button>
+                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Dotação Orçamentária?');">Excluir</button>
             </form>
         </div>
     </div>

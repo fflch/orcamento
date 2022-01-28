@@ -1,12 +1,12 @@
 @extends('master')
 @section('title')
-    Movimento: {{ $movimento->ano }}
+    Movimentos - {{ $movimento->ano }}
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Movimento: {{ $movimento->ano }}</strong></h2>
+    <h2><strong>Movimentos - {{ $movimento->ano }}</strong></h2>
 </div>
 <br>
 <div class="card p-4">
@@ -33,7 +33,7 @@
                 <form method="post" role="form" action="{{ route('movimentos.destroy', $movimento) }}" >
                     @csrf
                     <input name="_method" type="hidden" value="DELETE">
-                    <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Movimento?');">Deletar</button>
+                    <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Movimento?');">Excluir</button>
                 </form>
             </div>
         </div>

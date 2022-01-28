@@ -1,18 +1,14 @@
 @extends('master')
-
 @section('title')
-    Usuário: {{ $usuario->name }}
+    Usuários - {{ $usuario->name }}
 @endsection
-
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
 <div class="card p-3">
-    <h2><strong>Usuário: {{ $usuario->name }}</strong></h2>
+    <h2><strong>Usuários - {{ $usuario->name }}</strong></h2>
 </div>
 <br>
-
 <div class="card p-4">
     <div class="form-row">
         <div class="form-group col-md-2"><b>Número USP:</b> {{ $usuario->codpes }}</div>

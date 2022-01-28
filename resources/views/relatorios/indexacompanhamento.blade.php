@@ -16,7 +16,7 @@
         </div>        
         <div class="form-row">
             <div class="form-group col-md-9"> 
-                <input type="text" class="form-control" name="referencia" value=" - Outubro/2021" placeholder="[ Informe a Referência ]">
+                <input type="text" class="form-control" name="referencia" value=" - Outubro/{{ $movimento_ativo->ano }}" placeholder="[ Informe a Referência ]">
             </div>
             <div class="form-group col-md-3" align="right">
                 <span class="input-group-btn">

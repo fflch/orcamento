@@ -4,14 +4,12 @@
     #valor {
       text-align: right;
     }
-
     td {
       padding-right: 5 px;
       padding-left: 5 px;
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
     thead {
       background-color: #0F1C78;
       color: #FFFFFF;
@@ -20,10 +18,7 @@
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
-    
   </style>
-
   <h1><center>[ {{ $dotacao }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
@@ -35,7 +30,6 @@
         <th width="8%">Crédtio</th>
         <th width="8%">Saldo</th>
         <th width="30%">Observação</th>
-
       </tr>
     </thead>
     @foreach ($ficha_orcamentaria as $ficha_orcamentaria_valor)
@@ -56,10 +50,8 @@
             @endif
             <td align="right">{{ $ficha_orcamentaria_valor->saldo }}</td>
             <td align="left">{{ $ficha_orcamentaria_valor->observacao }}</td>
-
           </tr>
       </tbody>
     @endforeach
   </table>
-  
 @endsection

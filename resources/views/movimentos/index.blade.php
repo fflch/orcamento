@@ -54,7 +54,7 @@
                             <form method="post" role="form" action="{{ route('movimentos.destroy', $movimento) }}" >
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Movimento?');">Deletar</button>
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Movimento?');">Excluir</button>
                             </form>
                         </td>
                     @endcan

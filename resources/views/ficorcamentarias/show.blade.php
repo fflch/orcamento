@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-    Ficha Orçamentária: {{ $ficorcamentaria->dotacao->dotacao }}
+    Ficha Orçamentárias: {{ $ficorcamentaria->dotacao->dotacao }}
 @endsection
 @section('content')
     @include('messages.flash')

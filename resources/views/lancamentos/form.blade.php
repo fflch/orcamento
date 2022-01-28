@@ -4,14 +4,17 @@
         <select class="contas_select form-control" name="conta_id" tabindex="1">
             <option value=" ">&nbsp;</option>
             @foreach($lista_contas_ativas as $lista_conta_ativa)
-                <option value="{{ $lista_conta_ativa->id }}" @if(old('conta_id') == $lista_conta_ativa->id) {{'selected'}}
-                    @else {{($lancamento->conta_id === $lista_conta_ativa->id ) ? 'selected' : ''}} @endif>
+                <option value="{{ $lista_conta_ativa->id }}"
+                    @if(old('conta_id') == $lista_conta_ativa->id)
+                        {{'selected'}}
+                    @else
+                        {{($lancamento->conta_id === $lista_conta_ativa->id ) ? 'selected' : ''}}
+                    @endif>
                     {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
                 </option>
             @endforeach
         </select>
     </div>
-
     <div class="form-group col-md-1">
         <label for="grupo">Grupo</label>
         <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? 80 }}" placeholder="[ Ex: 080 ]" tabindex="2">
@@ -32,7 +35,6 @@
         <input type="text" class="form-control" name="empenho" value="{{ $lancamento->empenho ?? old('empenho') ?? 121212 }}" placeholder="[ Ex: 1234567 ]" tabindex="4">
     </div>
 </div>
-
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="descricao">Descrição</label>
@@ -44,7 +46,6 @@
         </datalist>
     </div>
 </div>
-
 <div class="form-row">
     <div class="form-group col-md-6">
         <label for="debito">Débito</label>
@@ -55,19 +56,17 @@
         <input type="text" class="form-control" name="credito" value="{{ $lancamento->credito ?? old('credito') }}" placeholder="[ Ex: 100,00 ]" tabindex="7">
     </div>
 </div>
-
 <div class="form-row">
     <div class="form-group col-md-12">
         <label for="observacao">Observação</label>
         <input list="observacoes" name="observacao" id="observacao" class="form-control" value="{{ $lancamento->observacao ?? old('observacao') }}" tabindex="8">
         <datalist id="observacoes">
             @foreach($lista_observacoes as $lista_observacao)
-            <option value="{{ $lista_observacao->texto }}">{{ $lista_observacao->texto }}
+                <option value="{{ $lista_observacao->texto }}">{{ $lista_observacao->texto }}
             @endforeach
         </datalist>
     </div>
 </div>
-
 <div class="card p-3">    
     <div class="form-row">
         <div class="form-group col-md-3">
@@ -86,10 +85,8 @@
             <label for="percentual4">Percentual #4 ({{ $nome_conta_numero4[0]->nome }})</label>
             <input type="number" class="form-control" name="percentual4" value="{{ $lancamento->percentual4 ?? old('percentual4') ?? 10 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
         </div>
-
     </div>
 </div>
-
 <br>
 <div class="form-row">
     <div class="panel panel-default">

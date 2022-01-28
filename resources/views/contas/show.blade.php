@@ -1,12 +1,12 @@
 @extends('master')
 @section('title')
-    Conta: {{ $conta->nome }}
+    Contas: {{ $conta->nome }}
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Conta: {{ $conta->nome }}</strong></h2>
+    <h2><strong>Contas: {{ $conta->nome }}</strong></h2>
 </div>
 <br>
 <div class="card p-4">

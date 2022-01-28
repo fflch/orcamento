@@ -1,12 +1,12 @@
 @extends('master')
 @section('title')
-    Nota: {{ $nota->texto }}
+    Notas - {{ $nota->texto }}
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Nota: {{ $nota->texto }}</strong></h2>
+    <h2><strong>Notas - {{ $nota->texto }}</strong></h2>
 </div>
 <br>
 <div class="card p-4">
@@ -25,15 +25,15 @@
     <br>
     <div class="card p-3">
         <div class="form-row">
-            <div class="form-group col-md-1">
+            <div class="form-group col-md-8">
                 <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
                 <a href="{{ route('notas.edit',$nota->id) }}" class="btn btn-warning">Editar</a>
             </div>
-            <div class="form-group col-md-11" align="right">
+            <div class="form-group col-md-4" align="right">
                 <form method="post" role="form" action="{{ route('notas.destroy', $nota) }}" >
                     @csrf
                     <input name="_method" type="hidden" value="DELETE">
-                    <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Nota?');">Deletar</button>
+                    <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Nota?');">Excluir</button>
                 </form>
             </div>
         </div>

@@ -1,12 +1,12 @@
 @extends('master')
 @section('title')
-    Área: {{ $area->nome }}
+    Áreas - {{ $area->nome }}
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Área: {{ $area->nome }}</strong></h2>
+    <h2><strong>Áreas - {{ $area->nome }}</strong></h2>
 </div>
 <br>
 <div class="card p-4">

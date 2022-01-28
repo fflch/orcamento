@@ -62,7 +62,7 @@
                             <form method="post" role="form" action="{{ route('dotorcamentarias.destroy', $dotorcamentaria) }}" >
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Dotação Orçamentária?');">Deletar</button>
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Dotação Orçamentária?');">Excluir</button>
                             </form>
                         </td>
                     @endcan

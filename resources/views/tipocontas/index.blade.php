@@ -56,7 +56,7 @@
                         <form method="post" role="form" action="{{ route('tipocontas.destroy', $tipoconta) }}" >
                             @csrf
                             <input name="_method" type="hidden" value="DELETE">
-                            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Tipo de Conta?');">Deletar</button>
+                            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Tipo de Conta?');">Excluir</button>
                         </form>
                         </td>
                     @endcan

@@ -54,7 +54,7 @@
                         <form method="post" role="form" action="{{ route('notas.destroy', $nota) }}" >
                             @csrf
                             <input name="_method" type="hidden" value="DELETE">
-                            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Nota?');">Deletar</button>
+                            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Nota?');">Excluir</button>
                         </form>
                     </td>
                 @endcan
