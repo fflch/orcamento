@@ -37,4 +37,4 @@
     </div>
 </div>
 
-<input id="features" name="feature[{{$feature->id}}]" type="checkbox" value="1"  @if (old('feature[$feature->id]') == "1") checked @endif>
+<!--input id="features" name="feature[{{$feature->id}}]" type="checkbox" value="1"  @if (old('feature[$feature->id]') == "1") checked @endif-->

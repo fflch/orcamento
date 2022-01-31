@@ -1,18 +1,14 @@
 @extends('master')
-
 @section('title')
     Contas x Usuários
 @stop
-
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
 <div class="card p-3">
 <h2><strong>Contas x Usuários</strong></h2>
 </div>
 <br> 
-
 <div class="form-row">
 <div class="form-group col-md-10">
 <label>
@@ -36,7 +32,6 @@
 </label>
 </div>
 </div>
-
 <div class="table-responsive">
 <p>{{ $contausuarios->links() }}</p>
     <table class="table table-striped" border="0">
