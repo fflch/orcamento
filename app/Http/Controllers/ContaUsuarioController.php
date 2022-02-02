@@ -7,6 +7,7 @@ use App\Models\Conta;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContaUsuarioRequest;
+use Illuminate\Support\Facades\DB;
 
 class ContaUsuarioController extends Controller
 {
@@ -20,7 +21,14 @@ class ContaUsuarioController extends Controller
         if($request->busca != null)
             $contausuarios = ContaUsuario::where('id_usuario','=',$request->busca)->paginate(10);
         else
-            $contausuarios = ContaUsuario::paginate(10);
+            //$contausuarios = ContaUsuario::paginate(10);
+            $contausuarios = DB::table('conta_usuarios')
+            ->join('users', 'conta_usuarios.id_usuario', '=', 'users.id')
+            ->join('contas', 'conta_usuarios.id_conta', '=', 'contas.id')
+            ->select('users.name', 'contas.nome')
+            ->groupBy('users.name', 'contas.nome')
+            ->get();
+            dd($contausuarios);
         return view('contausuarios.index')->with('contausuarios', $contausuarios);
     }
 
@@ -35,6 +43,7 @@ class ContaUsuarioController extends Controller
                     'contausuario'        => new ContaUsuario,
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
                     'lista_usuarios'      => User::lista_usuarios(),
+                    
         ]);
     }
 
@@ -74,7 +83,7 @@ class ContaUsuarioController extends Controller
      * @param  \App\Models\ContaUsuario  $contausuario
      * @return \Illuminate\Http\Response
      */
-    public function edit(ContaUsuario $contausuario){
+    public function edit(ContaUsuario $contausuario, ContaUsuarioRequest $request){
         $this->authorize('Administrador');
         return view('contausuarios.edit', [
                     'contausuario'        => $contausuario,

@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'perfil'
+        'perfil',
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     public static function lista_usuarios(){
-        $lista_usuarios = User::all()->sortBy('name');
+        $lista_usuarios = User::where('perfil','!=','Nenhum')->orderBy('name')->get();
         return $lista_usuarios;
     }
 
@@ -59,7 +59,7 @@ class User extends Authenticatable
         return[
             'Administrador',
             'Usuário',
-            'Nenhum'
+            'Nenhum',
         ];
     }
 
