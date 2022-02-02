@@ -5,21 +5,21 @@
     </div>
     <div class="form-group col-md-1">
         <label class="checkbox-inline" for="concluido">Concluído<br>
-        <input type="checkbox" id="concluido" name="concluido" tabindex="2" value="1"
-            @if (isset($movimento->id) and ($movimento->concluido === 1))
-                checked
-            @else
-                value="0"
-            @endif >
-            </label>
+            <input type="checkbox" id="concluido" name="concluido" tabindex="2" value="1"
+                @if (isset($movimento->id) and ($movimento->concluido === 1))
+                    checked
+                @else
+                    value="0"
+                @endif >
+        </label>
     </div>
     <div class="form-group col-md-1">
         <label class="checkbox-inline" for="ativo">Ativo<br>
-        <input type="checkbox" id="ativo" name="ativo" tabindex="3" value="1" 
-            @if (isset($movimento->id) and ($movimento->ativo === 1))
-                checked
-            @endif >
-            </label>
+            <input type="checkbox" id="ativo" name="ativo" tabindex="3" value="1" 
+                @if (isset($movimento->id) and ($movimento->ativo === 1))
+                    checked
+                @endif >
+        </label>
     </div>
 </div>
 <div class="form-row">

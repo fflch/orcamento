@@ -20,9 +20,13 @@
         @foreach($lista_contas_ativas as $lista_conta_ativa)
             <div class="form-group col-md-2 p-3">
                 <label class="checkbox-inline" for="contaid[{{ $lista_conta_ativa->id }}]">
+
                 <input type="checkbox" id="contaid[{{ $lista_conta_ativa->id }}]" name="contaid[]" value="{{ $lista_conta_ativa->id }}" tabindex="6"
+
                 @if (isset($conta->id) and ($conta->ativo === 1)) checked @endif >    
-                {{ $lista_conta_ativa->nome }}
+                {{ $lista_conta_ativa->nome }}            
+
+
                 </label>                                              
             </div>
         @endforeach
@@ -37,4 +41,3 @@
     </div>
 </div>
 
-<input id="features" name="feature[{{$feature->id}}]" type="checkbox" value="1"  @if (old('feature[$feature->id]') == "1") checked @endif>

@@ -11,7 +11,7 @@ class ContaUsuario extends Model
     protected $fillable = [
         'id_conta',
         'id_usuario',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){

@@ -4,14 +4,12 @@
     #valor {
       text-align: right;
     }
-
     td {
       padding-right: 5 px;
       padding-left: 5 px;
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
     thead {
       background-color: #0F1C78;
       color: #FFFFFF;
@@ -20,10 +18,7 @@
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
-    
   </style>
-
   <h1><center>[ Aqui vai o tipo de conta e a conta ]</center></h1>
   <table width="100%" border="0px">
     <thead>
@@ -41,5 +36,4 @@
       </tbody>
     @endforeach
   </table>
-  
 @endsection

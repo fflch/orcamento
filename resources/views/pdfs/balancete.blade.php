@@ -4,14 +4,12 @@
     #valor {
       text-align: right;
     }
-
     td {
       padding-right: 5 px;
       padding-left: 5 px;
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
     thead {
       background-color: #0F1C78;
       color: #FFFFFF;
@@ -20,9 +18,7 @@
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-    
   </style>
-
   <h1><center>Balancete até o dia {{ $periodo }}</center></h1>
   <table width="100%" border="0px">
     <thead>
@@ -42,7 +38,6 @@
             <td align="right"> {{ $valor->total_debito }}</td>
             <td align="right">R$ {{ $valor->total_credito }}</td>
             <td align="right"> {{ $valor->total_credito - $valor->total_debito }} </td>
-            
             {{ $total_geral_debito += $valor->total_debito }}
             {{ $total_geral_credito += $valor->total_credito }}
           </tr>
@@ -59,5 +54,4 @@
         </tr>
      <tbody>
   </table>
-
 @endsection

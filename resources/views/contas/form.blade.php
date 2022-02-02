@@ -39,10 +39,10 @@
     </div>
     <div class="form-group col-md-1">
         <label class="checkbox-inline" for="ativo">Ativo<br>
-        <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6"
-        @if (isset($conta->id) and ($conta->ativo === 1))
-            checked
-        @endif >
+            <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6"
+            @if (isset($conta->id) and ($conta->ativo === 1))
+                checked
+            @endif >
         </label>    
     </div>
 </div>

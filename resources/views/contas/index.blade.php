@@ -1,13 +1,10 @@
 @extends('master')
-
 @section('title')
     Contas
 @stop
-
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
 <div class="card p-3">
     <h2><strong>Contas</strong></h2>
 </div>
@@ -22,10 +19,12 @@
                         <option value=" ">[ Busca por Tipo de Conta ]</option>
                         @foreach($lista_tipos_contas as $lista_tipo_conta)
                             <option value="{{ $lista_tipo_conta->id }}"
-                            @if(old('tipoconta_id') == $lista_tipo_conta->id) {{ 'selected' }}
-                            @else {{(request()->busca_tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
-                            @endif>
-                            {{ $lista_tipo_conta->descricao }}
+                                @if(old('tipoconta_id') == $lista_tipo_conta->id)
+                                    {{ 'selected' }}
+                                @else
+                                    {{(request()->busca_tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
+                                @endif>
+                                {{ $lista_tipo_conta->descricao }}
                             </option>
                         @endforeach
                     </select>
@@ -44,7 +43,6 @@
         </div>
     </div>
 </div>
-
 <div class="table-responsive">
     <p>{{ $contas->links() }}</p>
     <table class="table table-striped" border="0">
@@ -73,7 +71,7 @@
                             <form method="post" role="form" action="{{ route('contas.destroy', $conta) }}">
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
-                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Deletar</button>
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Conta?');">Excluir</button>
                             </form>
                         </td>
                     @endcan
@@ -84,7 +82,6 @@
     <p>{{ $contas->links() }}</p>   
 </div>
 @endsection
-
 @section('javascripts_bottom')
     <script>
         $(document).ready(function() {

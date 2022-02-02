@@ -5,18 +5,18 @@
     </div>
     <div class="form-group col-md-3">
         <label class="checkbox-inline" for="cpfo">Faz Contra-Partida com a Ficha Orçamentária<br>
-        <input type="checkbox" id="cpfo" name="cpfo" value="1" tabindex="2"
-            @if (isset($tipoconta->id) and ($tipoconta->cpfo === 1))
-                    checked
-            @endif >
-            </label>
+            <input type="checkbox" id="cpfo" name="cpfo" value="1" tabindex="2"
+                @if (isset($tipoconta->id) and ($tipoconta->cpfo === 1))
+                        checked
+                @endif >
+        </label>
     </div>
     <div class="form-group col-md-2">
         <label class="checkbox-inline" for="relatoriobalancete">Deve constar no relatório Balancete<br>
-        <input type="checkbox" id="relatoriobalancete" name="relatoriobalancete" value="1" tabindex="3"
-            @if (isset($tipoconta->id) and ($tipoconta->relatoriobalancete === 1))
-                    checked
-            @endif >
+            <input type="checkbox" id="relatoriobalancete" name="relatoriobalancete" value="1" tabindex="3"
+                @if (isset($tipoconta->id) and ($tipoconta->relatoriobalancete === 1))
+                        checked
+                @endif >
         </label>
     </div>
 </div>

@@ -11,6 +11,20 @@ $right_menu = [
 ];
 $administracao = [
     [
+        'text'    => 'Lançamentos',
+        'url'     => '/lancamentos',
+        'can'     => 'Todos',
+    ],
+    [
+        'text'    => 'Fichas Orçamentárias',
+        'url'     => '/ficorcamentarias',
+        'can'     => 'Todos',
+    ],
+    [
+        'type' => 'divider',
+        'can'  => 'Todos',
+    ],
+    [
         'text' => 'Movimentos',
         'url'  => '/movimentos',
         'can'  => 'Administrador',
@@ -59,7 +73,6 @@ $administracao = [
         'text' => '<b><i class="fas fa-id-badge"></i> Configurações</b>',
         'can' => 'Todos',
     ],
-
     [
         'text' => 'Unidade',
         'url'  => '/unidades',
@@ -75,18 +88,13 @@ return [
     'right_menu'      => $right_menu,
     'menu'            => [
         [
-            'text'    => 'Administração',
-            'submenu' => $administracao,
+            'text'    => '<i class="far fa fa-plus"></i> Lançamentos',
+            'url'     => '/lancamentos/create',
             'can'     => 'Todos',
         ],
         [
-            'text'    => 'Lançamentos',
-            'url'     => '/lancamentos',
-            'can'     => 'Todos',
-        ],
-        [
-            'text'    => 'Fichas Orçamentárias',
-            'url'     => '/ficorcamentarias',
+            'text'    => '<i class="far fa fa-plus"></i> Ficha Orçamentária',
+            'url'     => '/ficorcamentarias/create',
             'can'     => 'Todos',
         ],
         [
@@ -95,13 +103,8 @@ return [
             'can'     => 'Todos',
         ],
         [
-            'text'    => '<i class="far fa fa-plus"></i> Lançamentos',
-            'url'     => '/lancamentos/create',
-            'can'     => 'Todos',
-        ],
-        [
-            'text'    => '<i class="far fa fa-plus"></i> Ficha Orçamentária',
-            'url'     => '/ficorcamentarias/create',
+            'text'    => 'Administração',
+            'submenu' => $administracao,
             'can'     => 'Todos',
         ],
     ]

@@ -4,14 +4,12 @@
     #valor {
       text-align: right;
     }
-
     td {
       padding-right: 5 px;
       padding-left: 5 px;
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
     thead {
       background-color: #0F1C78;
       color: #FFFFFF;
@@ -20,8 +18,6 @@
       padding-top: 5 px;
       padding-bottom: 5 px;
     }
-
-    
   </style>
 
   <h1><center>[ Grupo {{ $grupo }} ]</center></h1>
@@ -39,10 +35,8 @@
             <td align="left">{{ $saldo_dotacao->dotacao }}</td>
             <td align="right">{{ $saldo_dotacao->item }}</td>
             <td align="right">{{ $saldo_dotacao->total_credito - $saldo_dotacao->total_debito }}</td>
-
           </tr>
       </tbody>
     @endforeach
   </table>
-  
 @endsection
