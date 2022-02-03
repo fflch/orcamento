@@ -12,7 +12,7 @@ class Movimento extends Model
         'ano',
         'concluido',
         'ativo',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){
@@ -30,5 +30,16 @@ class Movimento extends Model
     public static function movimento_ativo(){
         $movimento_ativo = Movimento::where('ativo','=','1')->first();
         return $movimento_ativo;
+    }
+
+    public static function movimento_anos(){
+        $movimento_anos = Movimento::All()->get('ano');
+        //return $movimento_anos;
+        dd($movimento_anos);
+
+    }
+
+    public static function anos(){
+        return range(date('Y'), 2020, -1);
     }
 }
