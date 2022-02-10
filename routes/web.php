@@ -29,13 +29,11 @@ use App\Http\Controllers\selTipoContaController;
 */
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::get('{ano}', [IndexController::class, 'mudaAno']);
 Route::get('/home', [IndexController::class, 'index']);
-
-Route::get('login', [LoginController::class, 'redirectToProvider']);
+Route::get('{ano}', [IndexController::class, 'mudaAno']);
+//Route::get('login', [LoginController::class, 'redirectToProvider']);
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
-Route::post('logout', [LoginController::class, 'logout']);
-
+//Route::post('logout', [LoginController::class, 'logout']);
 Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
 Route::resource('areas', AreaController::class);
@@ -49,10 +47,8 @@ Route::post('/ficorcamentarias/cpfo', [FicOrcamentariaController::class,'cpfo'])
 Route::resource('usuarios', UserController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
 Route::resource('unidades', UnidadeController::class);
-
 Route::post('/contas_usuarios/{usuario}', [UserController::class,'contas_usuarios']);
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:Administrador');
-
 Route::get('/relatorios', [RelatorioController::class, 'relatorios'])->name('relatorios.index');
 Route::get('/relatorios/balancete', [RelatorioController::class, 'balancete'])->name('relatorios.balancete');
 Route::get('/relatorios/acompanhamento', [RelatorioController::class, 'acompanhamento'])->name('relatorios.acompanhamento');

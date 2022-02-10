@@ -1,7 +1,5 @@
 @extends('master')
-
 @section('title', 'SisConOrc - Sistema de Controle Orçamentário')
-
 @section('content')
     @parent
     @auth
