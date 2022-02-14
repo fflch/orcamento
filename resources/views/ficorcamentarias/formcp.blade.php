@@ -23,25 +23,27 @@
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="conta">Escolha uma Conta: </label>
-                    <input list="contas_{{ $tipocontaid_quantidades_key }}_{{ $i }}" name="conta_id[]" id="conta_id_{{ $tipocontaid_quantidades_key }}_{{ $i }}" class="form-control" value="{{ $lancamento->conta_id ?? old('conta_id') }}">
-                    <datalist id="contas_{{ $tipocontaid_quantidades_key }}_{{ $i }}">
+
+                    <select class="contas_select form-control" name="conta_id[]" tabindex="1">
+                        <option value=" ">&nbsp;</option>
                         @foreach($tipocontaid_descricaoconta as $tipocontaid_descricaoconta_key=>$tipocontaid_descricaoconta_value)
                             @foreach($lista_contas_ativas as $lista_conta)
-                                @if(($tipocontaid_quantidades_key == $lista_conta->tipoconta_id) and ($tipocontaid_descricaoconta_key == $lista_conta->tipoconta_id))
-                                    <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}</option>
-                                @endif
+
+                            <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}  ({{ $lista_conta->descricao}})</option>
+
                             @endforeach
                         @endforeach
-                    </datalist>
+                    </select>
+
                 </div>
                 <div class="form-group col-md-1">
                     <label for="grupo">Grupo</label>
-                    <input type="text" class="form-control" name="grupo[]" value="{{ $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]">
+                    <input type="text" class="form-control" name="grupo[]" value="{{ $dotorcamentaria[0]->grupo ?? $lancamento->grupo ?? old('grupo') }}" placeholder="[ Ex: 080 ]">
                 </div>
                 <div class="form-group col-md-1">
                     <label for="receita_{{ $tipocontaid_quantidades_key }}_{{ $i }}" class="checkbox-inline">Receita</label><br>
                     <input type="checkbox" name="receita[]" id="receita_{{ $tipocontaid_quantidades_key }}_{{ $i }}" value="1" 
-                    @if (isset($lancamento->id) and ($lancamento->receita === 1))
+                    @if ($dotorcamentaria[0]->receita === 1)
                         checked
                     @endif >
                 </div>
@@ -71,3 +73,12 @@
         </div>
     </div>
 </div>
+
+
+@section('javascripts_bottom')
+<script>
+    $(document).ready(function() {
+        $('.contas_select').select2();
+    });
+</script>
+@stop

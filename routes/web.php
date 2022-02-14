@@ -30,7 +30,7 @@ use App\Http\Controllers\selTipoContaController;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/home', [IndexController::class, 'index']);
-Route::get('{ano}', [IndexController::class, 'mudaAno']);
+Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
 //Route::get('login', [LoginController::class, 'redirectToProvider']);
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 //Route::post('logout', [LoginController::class, 'logout']);

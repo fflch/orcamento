@@ -7,7 +7,7 @@
         @csrf
         <div class="form-row">
             <div class="form-group col-md-10">
-                <input type="text" class="form-control datepicker data" name="data" value="{{ Carbon\Carbon::now()->format('d/m/')  . $movimento_ativo->ano  }}" placeholder="[ Informe a Data ]">
+                <input type="text" class="form-control datepicker data" name="data" value="{{ Carbon\Carbon::now()->format('d/m/')  . session('ano')  }}" placeholder="[ Informe a Data ]">
             </div>
             <div class="form-group col-md-2" align="right">
                 <span class="input-group-btn">

@@ -15,7 +15,7 @@ class MovimentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        dd($request);
+        //dd($request);
         $this->authorize('Todos');
         if($request->busca_ano != null)
             $movimentos = Movimento::where('ano','=',$request->busca_ano)->orderBy('ano')->paginate(10);

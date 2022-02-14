@@ -16,9 +16,12 @@ class DotOrcamentariaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
         if($request->busca_dotacao != null)
-            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca_dotacao)->orderBy('dotacao')->paginate(10);
+            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca_dotacao)
+                                               ->orderBy('dotacao')
+                                               ->paginate(10);
         else
-            $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')->paginate(10);
+            $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')
+                                               ->paginate(10);
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
 

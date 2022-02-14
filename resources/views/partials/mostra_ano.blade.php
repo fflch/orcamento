@@ -5,7 +5,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
         @foreach($movimento_anos as $ano)
-            <a class="dropdown-item" href="{{ $ano->ano }}">{{ $ano->ano }}</a>
+            <a class="dropdown-item" href="mudaano/{{ $ano->ano }}">{{ $ano->ano }}</a>
         @endforeach
         </div>
     </div>

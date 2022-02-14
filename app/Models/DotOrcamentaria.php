@@ -16,7 +16,7 @@ class DotOrcamentaria extends Model
         'descricaoitem',
         'receita',
         'ativo',
-        'user_id'
+        'user_id',
     ];
 
     public function user(){
