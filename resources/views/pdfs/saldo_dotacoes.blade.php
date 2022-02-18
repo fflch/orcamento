@@ -34,7 +34,7 @@
           <tr>
             <td align="left">{{ $saldo_dotacao->dotacao }}</td>
             <td align="right">{{ $saldo_dotacao->item }}</td>
-            <td align="right">{{ $saldo_dotacao->total_credito - $saldo_dotacao->total_debito }}</td>
+            <td align="right">{{ number_format($saldo_dotacao->total_credito - $saldo_dotacao->total_debito, 2, ',', '.') }}</td>
           </tr>
       </tbody>
     @endforeach

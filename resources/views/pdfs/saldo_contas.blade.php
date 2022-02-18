@@ -31,7 +31,7 @@
       <tbody>
           <tr>
             <td align="left">{{ $saldo_conta->nome }}</td>
-            <td align="right">{{ $saldo_conta->total_credito - $saldo_conta->total_debito }}</td>
+            <td align="right">{{ number_format($saldo_conta->total_credito - $saldo_conta->total_debito, 2, ',', '.') }}</td>
           </tr>
       </tbody>
     @endforeach

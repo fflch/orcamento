@@ -1,6 +1,6 @@
 <div class="form-group col-md-3 p-3">
     <div class="card p-3">
-        <h3><strong>Saldo de Dotações</strong></h3>
+        <h3><strong>Saldo - Dotações</strong></h3>
     </div>
     <br> 
     <form method="get" action="/relatorios/saldo_dotacoes">

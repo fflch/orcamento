@@ -48,16 +48,16 @@ class FicOrcamentariaController extends Controller
      */
     public function create(){
         $this->authorize('Todos');
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
-        $lista_descricoes       = Nota::lista_descricoes();
-        $lista_observacoes      = Nota::lista_observacoes();
-        $lista_tipos_contas     = TipoConta::lista_tipos_contas();
+        //$lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
+        //$lista_descricoes       = Nota::lista_descricoes();
+        //$lista_observacoes      = Nota::lista_observacoes();
+        //$lista_tipos_contas     = TipoConta::lista_tipos_contas();
         return view('ficorcamentarias.create',[ 
                     'ficorcamentaria'        => new FicOrcamentaria,
-                    'lista_dotorcamentarias' => $lista_dotorcamentarias,
-                    'lista_descricoes'       => $lista_descricoes,
-                    'lista_observacoes'      => $lista_observacoes,
-                    'lista_tipos_contas'     => $lista_tipos_contas,
+                    'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
+                    'lista_descricoes'       => Nota::lista_descricoes(),
+                    'lista_observacoes'      => Nota::lista_observacoes(),
+                    'lista_tipos_contas'     => TipoConta::lista_tipos_contas(),
         ]);
     }
 
@@ -68,19 +68,22 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function cpfo(FicOrcamentariaRequest $request){
+        //dd($request);
         $this->authorize('Todos');
-        $tipocontaid_quantidades = $request->tipocontaid_quantidades;
-        $chaves  = array_keys($tipocontaid_quantidades);
-        $valores = array_values($tipocontaid_quantidades);
+        $chaves  = array_keys($request->tipocontaid_quantidades);
+        $valores = array_values($request->tipocontaid_quantidades   );
         $novos_valores = [];
         foreach($chaves as $chave){
             $descricao_conta = TipoConta::descricao_tipo_conta($chave);
             $valor = $descricao_conta;
             array_push($novos_valores, $valor);
         }
-        $tipocontaid_descricaoconta = array_combine($chaves,$novos_valores);
-        $request_FO = $request;
-        $lista_contas_ativas = Conta::lista_contas_ativas();
+
+        $dotorcamentaria = DotOrcamentaria::dotacao($request->dotacao_id);
+        //dd($dotorcamentaria[0]->grupo);
+
+
+        //dd($novos_valores);
 
         /*return redirect()->route('ficorcamentarias.contrapartida', 
         compact('request_FO',
@@ -88,11 +91,14 @@ class FicOrcamentariaController extends Controller
                 'tipocontaid_descricaoconta',
                 'lista_contas'));*/
 
-        return view('ficorcamentarias.contrapartida', 
-                    compact('request_FO',
-                            'tipocontaid_quantidades',
-                            'tipocontaid_descricaoconta',
-                            'lista_contas_ativas'));
+        return view('ficorcamentarias.contrapartida',[ 
+                    'request_FO'                 => $request,
+                    'tipocontaid_quantidades'    => $request->tipocontaid_quantidades,
+                    'tipocontaid_descricaoconta' => array_combine($chaves,$novos_valores),
+                    'lista_contas_ativas'        => Conta::lista_contas_ativas(),
+                    'dotorcamentaria'            => DotOrcamentaria::dotacao($request->dotacao_id),
+
+        ]);
     }
 
     /**
@@ -101,16 +107,9 @@ class FicOrcamentariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //public function store(FicOrcamentariaCPRequest $request)
-    public function store(Request $request){
+    public function store(FicOrcamentariaCPRequest $request){
+    //public function store(Request $request){
         $this->authorize('Todos');
-        //dd($request);
-        /*$data = $request->validate([
-            "grupo"    => "required|array",
-            "grupo.*"  => "required|distinct",
-        ]);*/
-
-        //$movimento_ativo = Movimento::movimento_ativo();
         $fichaorcamentaria['dotacao_id']   = $request->dotacao_id_fo;
         $fichaorcamentaria['data']         = $request->data_fo;
         $fichaorcamentaria['empenho']      = $request->empenho_fo;
@@ -146,7 +145,7 @@ class FicOrcamentariaController extends Controller
                 Lancamento::create($lancamento);
             }
         }
-        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($request->dotacao_id);
         if(!$request->conta_id)
             $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
         else
@@ -215,7 +214,8 @@ class FicOrcamentariaController extends Controller
     public function destroy(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $ficorcamentaria->delete();
-        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
-        return redirect()->route('ficorcamentarias.index')->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
+        $calculaSaldoFichaOrcamentaria = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+        return redirect()->route('ficorcamentarias.index')
+                         ->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
     }
 }

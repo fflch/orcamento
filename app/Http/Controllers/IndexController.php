@@ -34,7 +34,7 @@ class indexController extends Controller
     public function mudaAno(Request $request){
         //dd($request);
         $this->authorize('Todos');
-        /*
+        
         # A validação ainda precisa passar para um local mais apropriado
         $validator = Validator::make(['ano' => $request->ano], [
             'ano' => 'required|integer|in:' . implode(',', Movimento::anos()),
@@ -45,8 +45,9 @@ class indexController extends Controller
                  ->withErrors($validator)
                  ->withInput();
         }
-        */
+        
         session(['ano' => $request->ano]);
+        //dd(session('ano'));
         return back();
     }
 }
