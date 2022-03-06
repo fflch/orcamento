@@ -47,6 +47,7 @@
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
                 <th width="7%" align="left">CP</th>
+                <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
                 <th width="7%" align="center">Saldo</th>
@@ -62,6 +63,7 @@
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
+                    <td align="left">{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)
                         <!--td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td-->
                         <td align="right">{{ $lancamento->debito }}</td>
@@ -91,7 +93,7 @@
             <tfoot>
                 <tr>
                     <td colspan="4">&nbsp;</td>
-                    <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
+                    <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') ?? '' }}</strong></font></td>
                     <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
                     <td align="right">
                     @if(($total_credito - $total_debito) == 0.00)

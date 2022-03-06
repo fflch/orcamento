@@ -8,6 +8,7 @@ use App\Http\Requests\ContaRequest;
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Area;
+use App\Models\Lancamento;
 
 class ContaController extends Controller
 {
@@ -40,7 +41,34 @@ class ContaController extends Controller
         return view('contas.index',[
                     'contas'             => $contas,
                     'lista_tipos_contas' => $lista_tipos_contas,
-]);
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */    
+    public function lancamentos_por_conta($conta_id){
+        $this->authorize('Todos');
+        $lancamentos = Lancamento::where('conta_id','=',$conta_id)->orderBy('data')->paginate(10);
+        $lista_contas_ativas = Conta::lista_contas_ativas();
+
+        $total_debito  = 0.00;
+        $total_credito = 0.00;
+        $concatena_debito = '';
+        foreach($lancamentos as $lancamento){
+            $total_debito     += $lancamento->debito_raw;
+            $concatena_debito .= $lancamento->debito_raw . ' -  ';
+            $total_credito    += $lancamento->credito_raw;
+        }
+
+        return view('lancamentos.index',[
+                    'lancamentos'         => $lancamentos,
+                    'total_debito'        => $total_debito,
+                    'total_credito'       => $total_credito,
+                    'lista_contas_ativas' => $lista_contas_ativas,
+        ]);
     }
 
     /**

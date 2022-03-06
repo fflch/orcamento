@@ -64,6 +64,8 @@
                     <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
                     <td align="left">{{ $conta->area->nome ?? '' }}</td>
                     <td align="left">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                    <td align="left"><a class="btn btn-dark" href="/lancamentos_por_conta/{{$conta->id}}" title="Ver Lançamentos da Conta {{ $conta->nome }}">Lançamentos</a></a></td>
+
                     <td align="center"><a class="btn btn-secondary" href="/contas/{{$conta->id}}">Ver</a></td>
                     @can('Administrador')
                         <td align="center"><a class="btn btn-warning" href="/contas/{{$conta->id}}/edit">Editar</a></td>

@@ -74,8 +74,8 @@ class FicOrcamentariaController extends Controller
         $valores = array_values($request->tipocontaid_quantidades   );
         $novos_valores = [];
         foreach($chaves as $chave){
-            $descricao_conta = TipoConta::descricao_tipo_conta($chave);
-            $valor = $descricao_conta;
+            //$descricao_conta = TipoConta::descricao_tipo_conta($chave);
+            $valor = TipoConta::descricao_tipo_conta($chave);
             array_push($novos_valores, $valor);
         }
 

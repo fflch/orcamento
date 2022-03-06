@@ -33,10 +33,24 @@ class RelatorioController extends Controller
         if($request->data != null){
             $periodo = $request->data;
             $data_convertida = implode("-", array_reverse(explode("/", $request->data)));
-            $balancete = DB::table('contas')
+            $balanceteO = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
-            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->select('contas.nome', 'tipo_contas.descricao',
+            DB::raw('SUM(lancamentos.debito) as total_debito'), 
+            DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->where('tipo_contas.relatoriobalancete','=',1)
+            ->where('lancamentos.receita','=',0)
+            ->where('lancamentos.data','<=',$data_convertida)
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->get();
+
+            $balanceteR = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
+            ->select('contas.nome', 'tipo_contas.descricao',
+            DB::raw('SUM(lancamentos.debito) as total_debito'), 
+            DB::raw('SUM(lancamentos.credito) as total_credito'))
             ->where('tipo_contas.relatoriobalancete','=',1)
             ->where('lancamentos.receita','=',1)
             ->where('lancamentos.data','<=',$data_convertida)
@@ -47,9 +61,24 @@ class RelatorioController extends Controller
             request()->session()->flash('alert-info','Informe a Data.');
             return redirect("/relatorios");            
         }
+
+        $balancete = [];
+
+        foreach($balanceteO as $valor){
+            array_push($balancete, $valor->nome);
+            array_push($balancete, $valor->descricao);
+            array_push($balancete, $valor->total_debito);
+            array_push($balancete, $valor->total_credito);
+        }
+
+
+        dd($balancete);
+        //dd($balanceteO);
+
         $pdf = PDF::loadView('pdfs.balancete', [
-                             'balancete' => $balancete,
-                             'periodo'   => $periodo,
+                             'balanceteO' => $balanceteO,
+                             'balanceteR' => $balanceteR,
+                             'periodo'    => $periodo,
         ])->setPaper('a4', 'landscape');
         return $pdf->download("balancete.pdf");
     }
