@@ -42,6 +42,7 @@ Route::resource('contas', ContaController::class);
 Route::get('/contas_por_tipo_de_conta/{tipoconta_id}', [ContaController::class,'contas_por_tipo_de_conta']);
 Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
+Route::get('/lancamentos_por_conta/{conta_id}', [ContaController::class,'lancamentos_por_conta']);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
 Route::post('/ficorcamentarias/cpfo', [FicOrcamentariaController::class,'cpfo'])->name('ficorcamentarias.cpfo');
 Route::resource('usuarios', UserController::class);

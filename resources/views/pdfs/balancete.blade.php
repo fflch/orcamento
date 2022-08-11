@@ -19,7 +19,7 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>Balancete até o dia {{ $periodo }}</center></h1>
+  <h1><center>[ Balancete até o dia {{ $periodo }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
@@ -31,13 +31,13 @@
     </thead>
     {{ $total_geral_debito = 0 }}
     {{ $total_geral_credito = 0 }}
-    @foreach ($balancete as $valor)
+    @foreach ($balanceteO as $valor)
       <tbody>
           <tr>
             <td align="left"> {{ $valor->nome }}</td>
-            <td align="right"> {{ $valor->total_debito }}</td>
-            <td align="right">R$ {{ $valor->total_credito }}</td>
-            <td align="right"> {{ $valor->total_credito - $valor->total_debito }} </td>
+            <td align="right"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }}</td>
+            <td align="right"> </td>
+            <td align="right"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }} </td>
             {{ $total_geral_debito += $valor->total_debito }}
             {{ $total_geral_credito += $valor->total_credito }}
           </tr>
@@ -48,9 +48,9 @@
     <tbody>
         <tr>
           <td width="61%" align="right">Totais Gerais</td>
-          <td width="13%" align="right">{{ $total_geral_debito }}</td>
-          <td width="13%" align="right">{{ $total_geral_credito }}</td>
-          <td width="13%" align="right">{{ $total_geral_credito - $total_geral_debito }}</td>
+          <td width="13%" align="right">{{ number_format($total_geral_debito, 2, ',', '.') }}</td>
+          <td width="13%" align="right">{{ number_format($total_geral_credito, 2, ',', '.') }}</td>
+          <td width="13%" align="right">{{ number_format($total_geral_credito - $total_geral_debito, 2, ',', '.') }}</td>
         </tr>
      <tbody>
   </table>
