@@ -32,18 +32,26 @@ class FicOrcamentaria extends Model
         return $this->belongsTo(DotOrcamentaria::class);
     }
 
+    public function setDebitoAttribute($value){
+        $this->attributes['debito'] = str_replace(',','.',$value);
+    }
+    
+    public function getDebitoAttribute($value){
+        return number_format($value, 2, ',', '');
+    }
+
     public function getDebitoRawAttribute(){
         if($this->debito){
             return (float)str_replace(',','.',$this->debito);
         }
     }
 
-    public function getDebitoAttribute($debito){
-        return number_format($debito, 2, ',', '.');
+    public function setCreditoAttribute($value){
+        $this->attributes['credito'] = str_replace(',','.',$value);
     }
-
-    public function setDebitoAttribute($debito){
-        $this->attributes['debito'] = str_replace(',', '.', $debito);
+    
+    public function getCreditoAttribute($value){
+        return number_format($value, 2, ',', '');
     }
 
     public function getCreditoRawAttribute(){
@@ -52,20 +60,12 @@ class FicOrcamentaria extends Model
         }
     }
 
-    public function getCreditoAttribute($credito){
-        return number_format($credito, 2, ',', '.');
-    }
-
-    public function setCreditoAttribute($credito){
-        $this->attributes['credito'] = str_replace(',', '.', $credito);
+    public function setSaldoAttribute($saldo){
+        $this->attributes['saldo'] = str_replace(',', '.', $saldo);
     }
 
     public function getSaldoAttribute($saldo){
         return number_format($saldo, 2, ',', '.');
-    }
-
-    public function setSaldoAttribute($saldo){
-        $this->attributes['saldo'] = str_replace(',', '.', $saldo);
     }
 
     public function getDataAttribute($data) {

@@ -28,7 +28,7 @@ class ContaUsuarioController extends Controller
             ->select('users.name', 'contas.nome')
             ->groupBy('users.name', 'contas.nome')
             ->get();
-            dd($contausuarios);
+            //dd($contausuarios);
         return view('contausuarios.index')->with('contausuarios', $contausuarios);
     }
 

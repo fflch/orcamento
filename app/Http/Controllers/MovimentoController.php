@@ -84,8 +84,6 @@ class MovimentoController extends Controller
      */
     public function update(MovimentoRequest $request, Movimento $movimento){
         $this->authorize('Administrador');
-        if($request->ativo == 1)
-            $affected = DB::table('movimentos')->update(['ativo' => 0]);
         $validated = $request->validated();
         $validated['concluido'] =  $request->concluido;
         $validated['ativo']     = $request->ativo;
