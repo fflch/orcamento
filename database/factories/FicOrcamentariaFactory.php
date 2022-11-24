@@ -27,11 +27,11 @@ class FicOrcamentariaFactory extends Factory
     {
         $valores = [0.00, 999.99];
         return [
-            'data'         => $this->faker->dateTimeBetween('+0 days', '+1 weeks'),
+            'data'         => date('d/m/Y', strtotime('+' . rand(0,7) . 'day')),
             'empenho'      => $this->faker->numberBetween($min = 1111111, $max = 9999999),
             'descricao'    => Nota::inRandomOrder()->first()->texto,
-            'debito'       => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
-            'credito'      => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000), 
+            'debito'       => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000),
+            'credito'      => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000),
             'saldo'        => '0.00',
             'observacao'   => Nota::inRandomOrder()->first()->texto,
             'movimento_id' => Movimento::inRandomOrder()->first()->id,

@@ -15,23 +15,16 @@ class MovimentoSeeder extends Seeder
      */
     public function run()
     {
-        $movimento1 = [
-            'ano'       => '2020',
-            'concluido' => TRUE, 
-            'ativo'     => FALSE,
-            'user_id'   => User::inRandomOrder()->first()->id,
-        ];
 
-        $movimento2 = [
-            'ano'       => '2021',
-            'concluido' => FALSE,
-            'ativo'     => TRUE,
-            'user_id'   => User::inRandomOrder()->first()->id,
-        ];
+        for($x = 0; $x < 4; $x++) {
+            Movimento::create(
+                [
+                    'ano'       => date("Y") - $x,
+                    'concluido' => (date("Y") - $x) < date("Y") ? FALSE : TRUE,
+                    'ativo'     => (date("Y") - $x) < date("Y") ? FALSE : TRUE,
+                    'user_id'   => User::inRandomOrder()->first()->id,
+                ]);
+        }
 
-        Movimento::create($movimento1);
-        Movimento::create($movimento2);
-
-       Movimento::factory(10)->create();
     }
 }
