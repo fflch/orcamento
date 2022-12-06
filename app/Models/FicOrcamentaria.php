@@ -36,7 +36,7 @@ class FicOrcamentaria extends Model
     public function setDebitoAttribute($value){
         $this->attributes['debito'] = str_replace(',','.',$value);
     }
-    
+
     public function getDebitoAttribute($value){
         return number_format($value, 2, ',', '');
     }
@@ -50,7 +50,7 @@ class FicOrcamentaria extends Model
     public function setCreditoAttribute($value){
         $this->attributes['credito'] = str_replace(',','.',$value);
     }
-    
+
     public function getCreditoAttribute($value){
         return number_format($value, 2, ',', '');
     }
@@ -72,7 +72,7 @@ class FicOrcamentaria extends Model
     public function getDataAttribute($data) {
         return implode('/',array_reverse(explode('-',$data)));
     }
-    
+
     public function setDataAttribute($data) {
         $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
