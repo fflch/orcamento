@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Conta;
 
 class Lancamento extends Model
 {
     use HasFactory;
     protected $fillable = [
         'movimento_id',
-        'conta_id',
+        //'conta_id',
         'ficorcamentaria_id',
         'descricao',
         'receita',
@@ -21,10 +22,10 @@ class Lancamento extends Model
         'debito',
         'credito',
         'user_id',
-        'percentual1',
-        'percentual2',
-        'percentual3',
-        'percentual4',
+        // 'percentual1',
+        // 'percentual2',
+        // 'percentual3',
+        // 'percentual4',
         //'total_percentuais',
     ];
 
@@ -36,10 +37,28 @@ class Lancamento extends Model
         return $this->belongsTo(Movimento::class);
     }
 
+    /*
     public function conta(){
         return $this->belongsTo(Conta::class);
+    }*/
+
+    public function setCreditoAttribute($value){
+        $this->attributes['credito'] = str_replace(',','.',$value);
+    }
+    
+    public function getCreditoAttribute($value){
+        return number_format($value, 2, ',', '');
     }
 
+    public function setDebitoAttribute($value){
+        $this->attributes['debito'] = str_replace(',','.',$value);
+    }
+    
+    public function getDebitoAttribute($value){
+        return number_format($value, 2, ',', '');
+    }
+
+    
     public function getDebitoRawAttribute(){
         if($this->debito){
             return (float)str_replace(',','.',$this->debito);
@@ -51,27 +70,11 @@ class Lancamento extends Model
             return (float)str_replace(',','.',$this->credito);
         }
     }
-    
-    public function getDebitoAttribute($debito){
-        return number_format($debito, 2, ',', '.');
-    }
-
-    public function getCreditoAttribute($credito){
-        return number_format($credito, 2, ',', '.');
-    }
 
     public function getSaldoAttribute($saldo){
         return number_format($saldo, 2, ',', '.');
     }
-
-    public function setDebitoAttribute($debito){
-        $this->attributes['debito'] = str_replace(',', '.', $debito);
-    }
-
-    public function setCreditoAttribute($credito){
-        $this->attributes['credito'] = str_replace(',', '.', $credito);
-    }
-
+    
     public function setSaldoAttribute($saldo){
         $this->attributes['saldo'] = str_replace(',', '.', $saldo);
     }
@@ -93,5 +96,11 @@ class Lancamento extends Model
             $calcula_saldo->update();
         }
         return $saldo;
+    }
+
+    public function contas(){
+        return $this->belongsToMany(Conta::class)
+                    ->withPivot(['percentual'])
+                    ->withTimestamps();
     }
 }

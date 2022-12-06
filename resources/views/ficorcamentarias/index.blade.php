@@ -58,18 +58,18 @@
                     <td align="left">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</td>
                     <td align="left">{{ $ficorcamentaria->data }}</td>
                     <td align="left">{{ $ficorcamentaria->descricao }}</td>
-                    <td align="right">{{ $ficorcamentaria->ficorcamentaria_id }}</td>
+                    <td>{{ $ficorcamentaria->ficorcamentaria_id }}</td>
                     @if($ficorcamentaria->debito != 0.00)
-                        <td align="right">{{ number_format($ficorcamentaria->debito_raw, 2, ',', '.') }}</td>
+                        <td>{{ number_format($ficorcamentaria->debito_raw, 2, ',', '.') }}</td>
                     @else
-                        <td align="right">&nbsp;</td>
+                        <td>&nbsp;</td>
                     @endif
                     @if($ficorcamentaria->credito != 0.00)
-                        <td align="right">{{ number_format($ficorcamentaria->credito_raw, 2, ',', '.') }}</td>
+                        <td>{{ number_format($ficorcamentaria->credito_raw, 2, ',', '.') }}</td>
                     @else
                         <td align="right">&nbsp;</td>
                     @endif
-                    <td align="right">{{ $ficorcamentaria->saldo }}</td>
+                    <td>{{ $ficorcamentaria->saldo }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/ficorcamentarias/{{$ficorcamentaria->id}}">Ver</a></td>
                     @can('Administrador')
                     <td align="center"><a class="btn btn-warning" href="/ficorcamentarias/{{$ficorcamentaria->id}}/edit">Editar</a></td>
@@ -87,9 +87,9 @@
         <tfoot>
             <tr>
                 <td colspan="4">&nbsp;</td>
-                <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
-                <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                <td align="right">
+                <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
+                <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
+                <td>
                 @if(($total_credito - $total_debito) == 0.00)
                     <font color="black">
                 @elseif(($total_credito - $total_debito) > 0.00)

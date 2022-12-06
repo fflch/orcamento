@@ -1,18 +1,17 @@
 @extends('master')
 @section('title')
-    Lançamentos: {{ $lancamento->conta->nome }}
+    Lançamentos
 @endsection
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
 <div class="card p-3">
-    <h2><strong>Lançamento: {{ $lancamento->conta->nome }}</strong></h2>
+    <h2><strong>Lançamento: </strong></h2>
 </div>
 <br>
 <div class="card p-4">
     <div class="form-row">
         <div class="form-group col-md-1"><b>Movimento:</b> {{ $lancamento->movimento->ano ?? ''}}</div>
-        <div class="form-group col-md-7"><b>Conta:</b> {{ $lancamento->conta->nome ?? '' }}</div>
         <div class="form-group col-md-1"><b>Grupo:</b> {{ $lancamento->grupo }}</div>
         <div class="form-group col-md-1"><b>Receita:</b>@if ($lancamento->receita == 1) [ x ] @else [ &nbsp; ] @endif</div>
         <div class="form-group col-md-2"><b>Empenho:</b> {{ $lancamento->empenho }}</div>
@@ -27,14 +26,10 @@
         <div class="form-group col-md-4"><b>Saldo:</b> {{ $lancamento->saldo }}</div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-2"><b>Estornado:</b>@if ($lancamento->estornado == 1) [ x ] @else [ &nbsp; ] @endif</div>
         <div class="form-group col-md-10"><b>Observação:</b> {{ $lancamento->observacao }}</div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-3"><b>Percentual #1:</b> {{ $lancamento->percentual1 }}</div>
-        <div class="form-group col-md-3"><b>Percentual #2:</b> {{ $lancamento->percentual2 }}</div>
-        <div class="form-group col-md-3"><b>Percentual #3:</b> {{ $lancamento->percentual3 }}</div>
-        <div class="form-group col-md-3"><b>Percentual #4:</b> {{ $lancamento->percentual4 }}</div>
+        <div class="form-group col-md-3"><b>Percentuais:</b> </div>
     </div>
     <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $lancamento->user->name ?? '' }}</div>

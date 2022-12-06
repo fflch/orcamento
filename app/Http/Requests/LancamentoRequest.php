@@ -25,9 +25,8 @@ class LancamentoRequest extends FormRequest
      */
     public function rules()
     {
-        //dd($this->total_percentuais);
         $rules = [
-            'conta_id'    => 'required',
+            //'conta_id'    => 'required',
             'grupo'       => 'required',
             'receita'     => 'boolean',
             'data'        => 'required',
@@ -37,11 +36,13 @@ class LancamentoRequest extends FormRequest
             'credito'     => 'required_without:debito|nullable',
             //'debito' => 'empty_with:credito',
             'observacao'  => 'required',
-            //'total_percentuais' => 'between:0,100',
-            'percentual1' => 'required|integer|between:0,100',
-            'percentual2' => 'required|integer|between:0,100',
-            'percentual3' => 'required|integer|between:0,100',
-            'percentual4' => 'required|integer|between:0,100',
+            'contas.*' => [
+                'string',
+            ],
+            'contas' => [
+                'required',
+                'array',
+            ],
         ];
         return $rules;
 
@@ -49,7 +50,7 @@ class LancamentoRequest extends FormRequest
 
     public function messages(){
         return [
-            'conta_id.required'        => 'Informe a Conta.',
+            //'conta_id.required'        => 'Informe a Conta.',
             'grupo.required'           => 'Informe o Grupo.',
             'receita.required'         => 'O campo Receita deve estar marcado ou desmarcado.',
             'data.required'            => 'Informe a Data.',
@@ -60,18 +61,18 @@ class LancamentoRequest extends FormRequest
             //'debito.float'             => 'O Débito deve ser um valor monetário.',
             //'credito.float'            => 'O Crédtio deve ser um valor monetário.',
             'observacao.required'      => 'Informe a Observação.',
-            'percentual1.required'     => 'Informe o Percentual #1.',
-            'percentual2.required'     => 'Informe o Percentual #2.',
-            'percentual3.required'     => 'Informe o Percentual #3.',
-            'percentual4.required'     => 'Informe o Percentual #4.',
-            'percentual1.integer'      => 'O Percentual #1 deve ser um inteiro.',
-            'percentual2.integer'      => 'O Percentual #2 deve ser um inteiro.',
-            'percentual3.integer'      => 'O Percentual #3 deve ser um inteiro.',
-            'percentual4.integer'      => 'O Percentual #4 deve ser um inteiro.',
-            'percentual1.between'      => 'O Percentual #1 deve ter, no máximo, três dígitos.',
-            'percentual2.between'      => 'O Percentual #2 deve ter, no máximo, três dígitos.',
-            'percentual3.between'      => 'O Percentual #3 deve ter, no máximo, três dígitos.',
-            'percentual4.between'      => 'O Percentual #4 deve ter, no máximo, três dígitos.',
+            // 'percentual1.required'     => 'Informe o Percentual #1.',
+            // 'percentual2.required'     => 'Informe o Percentual #2.',
+            // 'percentual3.required'     => 'Informe o Percentual #3.',
+            // 'percentual4.required'     => 'Informe o Percentual #4.',
+            // 'percentual1.integer'      => 'O Percentual #1 deve ser um inteiro.',
+            // 'percentual2.integer'      => 'O Percentual #2 deve ser um inteiro.',
+            // 'percentual3.integer'      => 'O Percentual #3 deve ser um inteiro.',
+            // 'percentual4.integer'      => 'O Percentual #4 deve ser um inteiro.',
+            // 'percentual1.between'      => 'O Percentual #1 deve ter, no máximo, três dígitos.',
+            // 'percentual2.between'      => 'O Percentual #2 deve ter, no máximo, três dígitos.',
+            // 'percentual3.between'      => 'O Percentual #3 deve ter, no máximo, três dígitos.',
+            // 'percentual4.between'      => 'O Percentual #4 deve ter, no máximo, três dígitos.',
         ];
     }
 }

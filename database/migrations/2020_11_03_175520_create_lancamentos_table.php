@@ -19,8 +19,8 @@ class CreateLancamentosTable extends Migration
             $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('cascade');
             $table->unsignedBigInteger('ficorcamentaria_id')->nullable();
             $table->foreign('ficorcamentaria_id')->references('id')->on('fic_orcamentarias')->onDelete('cascade');
-            $table->unsignedBigInteger('conta_id');
-            $table->foreign('conta_id')->references('id')->on('contas')->onDelete('cascade');
+            //$table->unsignedBigInteger('conta_id');
+            //$table->foreign('conta_id')->references('id')->on('contas')->onDelete('cascade');
             $table->string('grupo');
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->date('data');
@@ -31,12 +31,9 @@ class CreateLancamentosTable extends Migration
             $table->float('saldo', 15, 2)->nullable()->default(0.00);
             $table->boolean('estornado')->nullable()->default(FALSE);
             $table->string('observacao');
-            $table->integer('percentual1')->default(100);
-            $table->integer('percentual2')->default(0);
-            $table->integer('percentual3')->default(0);
-            $table->integer('percentual4')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

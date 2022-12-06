@@ -29,6 +29,11 @@
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $ficorcamentaria->user->name ?? '' }}</div>
         <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($ficorcamentaria->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
         <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($ficorcamentaria->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
+        <div class="form-group col-md-4"><b>Conta(s) com a(s) qua(is) faz contra-partida:</b><br>
+        @foreach($contas as $conta)
+             {{ $conta->nome }}<br>
+        @endforeach
+        </div>
     </div>
 </div>
 @can('Administrador')

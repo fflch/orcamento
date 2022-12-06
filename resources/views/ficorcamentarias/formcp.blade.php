@@ -26,13 +26,9 @@
 
                     <select class="contas_select form-control" name="conta_id[]" tabindex="1">
                         <option value=" ">&nbsp;</option>
-                        @foreach($tipocontaid_descricaoconta as $tipocontaid_descricaoconta_key=>$tipocontaid_descricaoconta_value)
-                            @foreach($lista_contas_ativas as $lista_conta)
-
-                            <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}  ({{ $lista_conta->descricao}})</option>
-
+                            @foreach($selecionados as $lista_conta)
+                                <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}  ({{ $lista_conta->descricao}})</option>
                             @endforeach
-                        @endforeach
                     </select>
 
                 </div>

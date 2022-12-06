@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Lancamento;
 
 class FicOrcamentaria extends Model
 {
     use HasFactory;
     protected $fillable = [
         'movimento_id',
-        'dotacao_id',   
+        'dotacao_id',
         'descricao',
         'observacao',
         'data',

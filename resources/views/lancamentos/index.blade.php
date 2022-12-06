@@ -43,7 +43,6 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
-                <th width="25%" align="left">Conta</th>
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
                 <th width="7%" align="left">CP</th>
@@ -59,23 +58,22 @@
         <tbody>
             @foreach($lancamentos as $lancamento)
                 <tr>
-                    <td align="left">{{ $lancamento->conta->nome ?? '' }}</td>
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
-                    <td align="left">{{ $lancamento->receita }}</td>
+                    <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)
                         <!--td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td-->
-                        <td align="right">{{ $lancamento->debito }}</td>
+                        <td>{{ $lancamento->debito }}</td>
                     @else
-                        <td align="right">&nbsp;</td>
+                        <td>&nbsp;</td>
                     @endif
                     @if($lancamento->credito != 0.00)
-                        <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+                        <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
                     @else
                         <td align="right">&nbsp;</td>
                     @endif
-                    <td align="right">{{ $lancamento->saldo }}</td>
+                    <td>{{ $lancamento->saldo }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                     @can('Administrador')
                         <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
@@ -93,9 +91,9 @@
             <tfoot>
                 <tr>
                     <td colspan="4">&nbsp;</td>
-                    <td align="right"><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') ?? '' }}</strong></font></td>
-                    <td align="right"><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                    <td align="right">
+                    <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') ?? '' }}</strong></font></td>
+                    <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
+                    <td>
                     @if(($total_credito - $total_debito) == 0.00)
                         <font color="black">
                     @elseif(($total_credito - $total_debito) > 0.00)
