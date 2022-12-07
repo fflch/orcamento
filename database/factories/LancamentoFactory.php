@@ -38,12 +38,7 @@ class LancamentoFactory extends Factory
                 'credito'            => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 1000),
                 'saldo'              => '0.00',
                 'observacao'         => Nota::inRandomOrder()->first()->texto,
-                'percentual1'        => 50,
-                'percentual2'        => 25,
-                'percentual3'        => 15,
-                'percentual4'        => 10,
                 'movimento_id'       => Movimento::inRandomOrder()->first()->id,
-                'conta_id'           => Conta::inRandomOrder()->first()->id,
                 'ficorcamentaria_id' => FicOrcamentaria::inRandomOrder()->first()->id,
                 'user_id'            => User::inRandomOrder()->first()->id,
             ];
