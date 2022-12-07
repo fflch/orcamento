@@ -17,7 +17,7 @@
     </div>
     <div class="form-group col-md-4">
         <label for="data">Data</label>
-        <input type="text" class="form-control datepicker data" name="data" value="{{ old('data', $ficorcamentaria->data) ?? Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="2">
+        <input type="text" class="form-control datepicker data" name="data" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="2">
     </div>
     <div class="form-group col-md-4">
         <label for="empenho">Empenho</label>

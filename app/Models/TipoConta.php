@@ -33,8 +33,9 @@ class TipoConta extends Model
         return $lista_contas_por_tipo;
     }
 
+    /* deletar em breve?
     public static function descricao_tipo_conta($tipoconta_id){
         $descricao_tipo_conta = TipoConta::where('id','=',$tipoconta_id)->value('descricao');
         return $descricao_tipo_conta;
-    }
+    }*/
 }

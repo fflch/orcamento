@@ -1,34 +1,17 @@
 <div class="form-row">
-    <div class="form-group col-md-8">
-        <label for="conta">Conta</label>
-        <select class="contas_select form-control" name="conta_id" tabindex="1">
-            <option value=" ">&nbsp;</option>
-            @foreach($lista_contas_ativas as $lista_conta_ativa)
-            <option value="{{ $lista_conta_ativa->id }}"
-            @if(old('conta_id') == $lista_conta_ativa->id)
-            {{'selected'}}
-            @else
-            {{($lancamento->conta_id === $lista_conta_ativa->id ) ? 'selected' : ''}}
-            @endif>
-            {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
-            </option>
-            @endforeach
-        </select>
-    </div>
     <div class="form-group col-md-1">
         <label for="grupo">Grupo</label>
-        <input type="text" class="form-control" name="grupo" value="{{ old('grupo', $lancamento->grupo) }}" placeholder="[ Ex: 080 ]" tabindex="2">
+        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? 80 }}" placeholder="[ Ex: 080 ]" tabindex="2">
     </div>
     <div class="form-group col-md-1">
         <label for="receita" class="checkbox-inline">Receita</label><br>
         <input type="checkbox" name="receita" id="receita" value="1" tabindex="3"
             @if (isset($lancamento->id) and ($lancamento->receita === 1))
-                checked
-            @endif >
+            @endif checked >
     </div>
     <div class="form-group col-md-1">
         <label fo col-md-2r="data">Data</label>
-        <input type="text" class="form-control datepicker data" name="data" value="{{ old('data', $lancamento->data) ?? Carbon\Carbon::now()->format('d/m/') . $movimento_ativo->ano  }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
+        <input type="text" class="form-control datepicker data" name="data" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
     </div>
     <div class="form-group col-md-1">
         <label for="empenho">Empenho</label>
@@ -70,20 +53,11 @@
 <div class="card p-3">    
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label for="percentual1">Percentual #1 (A própria conta escolhida acima)</label>
-            <input type="number" class="form-control" name="percentual1" value="{{ old('percentual1', $lancamento->percentual1) ?? 50 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="9">
-        </div>
-        <div class="form-group col-md-3">
-            <label for="percentual2">Percentual #2 ({{ $nome_conta_numero2[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual2" value="{{ old('percentual2', $lancamento->percentual2) ?? 25 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="10">
-        </div>
-        <div class="form-group col-md-3">
-            <label for="percentual3">Percentual #3 ({{ $nome_conta_numero3[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual3" value="{{ old('percentual3', $lancamento->percentual3) ?? 15 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="11">
-        </div>
-        <div class="form-group col-md-3">
-            <label for="percentual4">Percentual #4 ({{ $nome_conta_numero4[0]->nome }})</label>
-            <input type="number" class="form-control" name="percentual4" value="{{ old('percentual4', $lancamento->percentual4) ?? 10 }}" maxlength="3" placeholder="[ Ex: 100 ]" tabindex="12">
+            <div class="form-row">
+            <label for="percentual1"><b>Percentuais:</b></label>
+            <br>
+            @include('lancamentos.partials.percentual')
+            </div>       
         </div>
     </div>
 </div>

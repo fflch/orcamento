@@ -62,9 +62,10 @@ class Conta extends Model
         return $nome_conta_numero;
     }
 
+    /*
     public function lancamento(){
         return $this->hasMany(Lancamento::class);
-    }
+    }*/
 
     public function contas_usuarios()
     {
