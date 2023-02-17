@@ -77,7 +77,6 @@ class FicOrcamentaria extends Model
         $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
 
-
     static function calculaSaldo($dotacao_id){
         $ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$dotacao_id)->orderBy('data')->get();
         $saldo  = 0.00;

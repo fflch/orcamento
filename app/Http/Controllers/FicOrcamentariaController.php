@@ -23,9 +23,9 @@ class FicOrcamentariaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
         if($request->dotacao_id != null)
-            $ficorcamentarias = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data')->paginate(10);
+            $ficorcamentarias = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data', 'DESC')->paginate(10);
         else
-            $ficorcamentarias = FicOrcamentaria::orderBy('data')->paginate(10);
+            $ficorcamentarias = FicOrcamentaria::orderBy('data', 'DESC')->paginate(10);
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($ficorcamentarias as $ficorcamentaria){
@@ -69,7 +69,8 @@ class FicOrcamentariaController extends Controller
         
         $tipos_conta_selecionados = array_filter($request->tipocontaid_quantidades);
         $chaves = array_keys($tipos_conta_selecionados);
-        $selecionados = TipoConta::whereIn('id', $chaves)->get();
+        $selecionados = Conta::whereIn('tipoconta_id', $chaves)->get();
+
         $dotorcamentaria = DotOrcamentaria::dotacao($request->dotacao_id);
         
 
@@ -124,7 +125,7 @@ class FicOrcamentariaController extends Controller
                     $lancamento['credito']        = $request->credito[$i];
                 $lancamento['observacao']         = $request->observacao_fo;
                 $lancamento['user_id']            = auth()->user()->id;
-                $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;        
+                $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;   
                 Lancamento::create($lancamento);
             }
         }
@@ -151,7 +152,7 @@ class FicOrcamentariaController extends Controller
 
         $contas = collect();
         foreach($lancamentos as $lancamento){
-            $conta = Conta::where('id',$lancamento->conta_id)->first();
+            $conta = $lancamento->load('contas');
             $contas->push($conta);
         }
 
