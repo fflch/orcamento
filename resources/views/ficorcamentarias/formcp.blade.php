@@ -27,7 +27,7 @@
                     <select class="contas_select form-control" name="conta_id[]" tabindex="1">
                         <option value=" ">&nbsp;</option>
                             @foreach($selecionados as $lista_conta)
-                                <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}  ({{ $lista_conta->descricao}})</option>
+                                <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}</option>
                             @endforeach
                     </select>
 
