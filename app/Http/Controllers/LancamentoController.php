@@ -20,8 +20,12 @@ class LancamentoController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        
-        $lancamentos = Lancamento::orderBy('data', 'DESC')->paginate(10);
+
+        $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
+                          $query->whereHas('contas', function ($query) use ($request) {
+                              $query->where('conta_id', $request->conta_id);
+                          });
+                       })->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
@@ -104,7 +108,7 @@ class LancamentoController extends Controller
         //     $validated['debito']  = $request->debito   * $request->percentual1 / 100;
         // }
         // //$validated['total_percentuais']      = array_sum($percentuais);
-        
+
         // $validated['conta_id']     = $request->conta_id;
         // Lancamento::create($validated);
         // if($request->percentual1 != 100){
@@ -129,7 +133,7 @@ class LancamentoController extends Controller
         //         $lancamento->save();
         //     }
         // }
-        
+
         $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento);
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect()->route('lancamentos.index', [
@@ -141,7 +145,7 @@ class LancamentoController extends Controller
     {
         $contas_percentual = [];
         foreach($validated['contas'] as $key=>$valor){
-            $contas_percentual[$valor] = ['percentual'=>$validated['percentual'][$key]];
+            $contas_percentual[$valor] = ['percentual' => $validated['percentual'][$key]];
 
         }
         return $contas_percentual;
@@ -154,9 +158,9 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lancamento $lancamento){
-        
+
         $this->authorize('Todos');
-        
+
         return view('lancamentos.show', [
             'lancamento' => $lancamento->load('contas')
         ]);
