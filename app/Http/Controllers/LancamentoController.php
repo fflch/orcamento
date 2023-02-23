@@ -8,7 +8,6 @@ use App\Models\Conta;
 use App\Models\Nota;
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
-use App\Http\Controllers\DB;
 use Redirect;
 //use Illuminate\Support\Facades\Redirect;
 
@@ -21,10 +20,13 @@ class LancamentoController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->conta_id != null)
-            $lancamentos = Lancamento::where('conta_id','=',$request->conta_id)->orderBy('data')->paginate(10);
-        else
-            $lancamentos = Lancamento::orderBy('data')->paginate(10);
+
+        $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
+                          $query->whereHas('contas', function ($query) use ($request) {
+                              $query->where('conta_id', $request->conta_id);
+                          });
+                       })->orderBy('data', 'DESC')->paginate(10);
+
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';
@@ -79,9 +81,7 @@ class LancamentoController extends Controller
 
         $lancamento = Lancamento::create($validated);
 
-        $lancamento->contas()->sync($this->mapContas($validated['contas']));
-
-
+        $lancamento->contas()->sync($this->mapContas($validated));
 
         // $percentuais = [];
         // array_push($percentuais, $request->percentual1);
@@ -108,7 +108,7 @@ class LancamentoController extends Controller
         //     $validated['debito']  = $request->debito   * $request->percentual1 / 100;
         // }
         // //$validated['total_percentuais']      = array_sum($percentuais);
-        
+
         // $validated['conta_id']     = $request->conta_id;
         // Lancamento::create($validated);
         // if($request->percentual1 != 100){
@@ -133,18 +133,22 @@ class LancamentoController extends Controller
         //         $lancamento->save();
         //     }
         // }
-        //$calculaSaldoLancamento  = Lancamento::calculaSaldo($request->conta_id);
+
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento);
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect()->route('lancamentos.index', [
             'contas' => Conta::all(),
         ]);
     }
 
-    private function mapContas($contas)
+    private function mapContas($validated)
     {
-        return collect($contas)->map(function ($i) {
-            return ['percentual' => $i];
-        });
+        $contas_percentual = [];
+        foreach($validated['contas'] as $key=>$valor){
+            $contas_percentual[$valor] = ['percentual' => $validated['percentual'][$key]];
+
+        }
+        return $contas_percentual;
     }
 
     /**
@@ -154,11 +158,11 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lancamento $lancamento){
-        
+
         $this->authorize('Todos');
 
-        return view('lancamentos.show', compact('lancamento'), [
-            'contas' => Conta::all(),
+        return view('lancamentos.show', [
+            'lancamento' => $lancamento->load('contas')
         ]);
     }
 
@@ -214,7 +218,7 @@ class LancamentoController extends Controller
         //$lancamento->conta_id     = $request->conta_id;
         $validated['user_id']     = auth()->user()->id;
         $lancamento->update($validated);
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($request->conta_id);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
         return redirect()->route('lancamentos.index', [
             'contas' => Conta::all(),
@@ -230,7 +234,7 @@ class LancamentoController extends Controller
     public function destroy(Lancamento $lancamento){
         $this->authorize('Administrador');
         $lancamento->delete();
-        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento->conta_id);
+        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento);
         return redirect()->route('lancamentos.index',[
             'contas' => Conta::all(),
         ])

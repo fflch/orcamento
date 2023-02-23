@@ -31,7 +31,7 @@
         <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($ficorcamentaria->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
         <div class="form-group col-md-4"><b>Conta(s) com a(s) qua(is) faz contra-partida:</b><br>
         @foreach($contas as $conta)
-             {{ $conta->nome }}<br>
+             {{ $conta }}<br>
         @endforeach
         </div>
     </div>

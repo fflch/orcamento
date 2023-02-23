@@ -22,10 +22,12 @@ class FicOrcamentariaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->dotacao_id != null)
-            $ficorcamentarias = FicOrcamentaria::where('dotacao_id','=',$request->dotacao_id)->orderBy('data')->paginate(10);
-        else
-            $ficorcamentarias = FicOrcamentaria::orderBy('data')->paginate(10);
+
+        $ficorcamentarias = FicOrcamentaria::when($request->dotacao_id, function ($query) use ($request) {
+                                $query->where('dotacao_id','=',$request->dotacao_id);
+                            })
+                            ->orderBy('data', 'DESC')->paginate(10);
+
         $total_debito  = 0.00;
         $total_credito = 0.00;
         foreach($ficorcamentarias as $ficorcamentaria){
@@ -33,7 +35,7 @@ class FicOrcamentariaController extends Controller
             $total_credito += $ficorcamentaria->credito_raw;
         }
         $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
-        return view('ficorcamentarias.index',[ 
+        return view('ficorcamentarias.index',[
                     'ficorcamentarias'       => $ficorcamentarias,
                     'total_debito'           => $total_debito,
                     'total_credito'          => $total_credito,
@@ -48,7 +50,7 @@ class FicOrcamentariaController extends Controller
      */
     public function create(){
         $this->authorize('Todos');
-        return view('ficorcamentarias.create',[ 
+        return view('ficorcamentarias.create',[
                     'ficorcamentaria'        => new FicOrcamentaria,
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
                     'lista_descricoes'       => Nota::lista_descricoes(),
@@ -66,12 +68,13 @@ class FicOrcamentariaController extends Controller
     public function cpfo(FicOrcamentariaRequest $request){
 
         $this->authorize('Todos');
-        
+
         $tipos_conta_selecionados = array_filter($request->tipocontaid_quantidades);
         $chaves = array_keys($tipos_conta_selecionados);
-        $selecionados = TipoConta::whereIn('id', $chaves)->get();
+        $selecionados = Conta::whereIn('tipoconta_id', $chaves)->get();
+
         $dotorcamentaria = DotOrcamentaria::dotacao($request->dotacao_id);
-        
+
 
         return view('ficorcamentarias.contrapartida',[
                     'request_FO'                 => $request,
@@ -90,7 +93,7 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(FicOrcamentariaCPRequest $request){
-        
+
         $this->authorize('Todos');
         $fichaorcamentaria['dotacao_id']   = $request->dotacao_id_fo;
         $fichaorcamentaria['data']         = $request->data_fo;
@@ -124,7 +127,7 @@ class FicOrcamentariaController extends Controller
                     $lancamento['credito']        = $request->credito[$i];
                 $lancamento['observacao']         = $request->observacao_fo;
                 $lancamento['user_id']            = auth()->user()->id;
-                $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;        
+                $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
                 Lancamento::create($lancamento);
             }
         }
@@ -151,7 +154,7 @@ class FicOrcamentariaController extends Controller
 
         $contas = collect();
         foreach($lancamentos as $lancamento){
-            $conta = Conta::where('id',$lancamento->conta_id)->first();
+            $conta = $lancamento->load('contas');
             $contas->push($conta);
         }
 
@@ -169,7 +172,7 @@ class FicOrcamentariaController extends Controller
      */
     public function edit(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
-        return view('ficorcamentarias.edit',[ 
+        return view('ficorcamentarias.edit',[
                     'ficorcamentaria'        => $ficorcamentaria,
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
                     'lista_descricoes'       => Nota::lista_descricoes(),

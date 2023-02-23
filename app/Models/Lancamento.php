@@ -87,8 +87,15 @@ class Lancamento extends Model
         $this->attributes['data'] = implode('-',array_reverse(explode('/',$data)));
     }
 
-    static function calculaSaldo($conta_id){
-        $lancamentos_conta = Lancamento::where('conta_id','=',$conta_id)->orderBy('data')->get();
+    public function contas(){
+        return $this->belongsToMany(Conta::class)
+                    ->withPivot(['percentual'])
+                    ->withTimestamps();
+    }
+
+    static function calculaSaldo($lancamento){
+
+        $lancamentos_conta = Lancamento::with('contas')->get();
         $saldo  = 0.00;
         foreach($lancamentos_conta as $calcula_saldo){
             $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
@@ -98,9 +105,5 @@ class Lancamento extends Model
         return $saldo;
     }
 
-    public function contas(){
-        return $this->belongsToMany(Conta::class)
-                    ->withPivot(['percentual'])
-                    ->withTimestamps();
-    }
+    
 }

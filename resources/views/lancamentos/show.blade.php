@@ -29,7 +29,11 @@
         <div class="form-group col-md-10"><b>Observação:</b> {{ $lancamento->observacao }}</div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-3"><b>Percentuais:</b> </div>
+        <div class="form-group col-md-3"><b>Percentuais:</b><br>
+            @foreach($lancamento->contas as $conta)
+            {{ $conta->pivot->percentual }}% - {{ $conta->nome }}
+            @endforeach
+        </div>
     </div>
     <div class="form-row">        
         <div class="form-group col-md-4"><b>Cadastrado/Alterado por:</b> {{ $lancamento->user->name ?? '' }}</div>

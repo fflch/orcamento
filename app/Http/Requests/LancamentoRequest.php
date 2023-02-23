@@ -43,6 +43,7 @@ class LancamentoRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'percentual' => 'required'
         ];
         return $rules;
 
