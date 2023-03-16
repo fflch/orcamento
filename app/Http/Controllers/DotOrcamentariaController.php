@@ -15,13 +15,13 @@ class DotOrcamentariaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_dotacao != null)
-            $dotorcamentarias = DotOrcamentaria::where('dotacao','=',$request->busca_dotacao)
-                                               ->orderBy('dotacao')
-                                               ->paginate(10);
-        else
-            $dotorcamentarias = DotOrcamentaria::orderBy('dotacao')
-                                               ->paginate(10);
+        $dotorcamentarias = DotOrcamentaria::
+            when($request->busca_dotacao, function ($query) use ($request) {
+                return $query->where('dotacao', '=', $request->busca_dotacao);
+            })
+            ->orderBy('dotacao')
+            ->paginate(10);
+
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
     }
 
@@ -43,11 +43,7 @@ class DotOrcamentariaController extends Controller
      */
     public function store(DotOrcamentariaRequest $request){
         $this->authorize('Todos');
-        $validated = $request->validated();
-        $validated['receita'] = $request->receita;
-        $validated['ativo']   = $request->ativo;
-        $validated['user_id'] = \Auth::user()->id;
-        DotOrcamentaria::create($validated);
+        DotOrcamentaria::create($request->validated() + ['user_id' => \Auth::user()->id ]);
         $request->session()->flash('alert-success', 'Dotação Orçamentária [ ' . $request->dotacao . ' ] cadastrada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
@@ -83,11 +79,7 @@ class DotOrcamentariaController extends Controller
      */
     public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria){
         $this->authorize('Administrador');
-        $validated = $request->validated();
-        $validated['receita'] = $request->receita;
-        $validated['ativo']   = $request->ativo;
-        $validated['user_id'] = \Auth::user()->id;
-        $dotorcamentaria->update($validated);
+        $dotorcamentaria->update($request->validated() + ['user_id' => \Auth::user()->id] );
         $request->session()->flash('alert-success', 'Dotação Orçamentária [ ' . $dotorcamentaria->dotacao . ' ] alterada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
