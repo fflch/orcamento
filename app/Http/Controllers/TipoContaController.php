@@ -15,13 +15,12 @@ class TipoContaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_descricao != null)
-            $tipocontas = TipoConta::where('descricao','LIKE','%'.$request->busca_descricao.'%')
-                                   ->orderBy('descricao')
-                                   ->paginate(10);
-        else
-            $tipocontas = TipoConta::orderBy('descricao')
-                                   ->paginate(10);
+        $tipocontas = TipoConta::when($request->busca_descricao, function ($query) use ($request) {
+                          return $query->where('descricao', 'LIKE', '%'.$request->busca_descricao.'%');
+                      })
+                      ->orderBy('descricao')
+                      ->paginate(10);
+
         return view('tipocontas.index')->with('tipocontas', $tipocontas);
     }
 
@@ -43,11 +42,7 @@ class TipoContaController extends Controller
      */
     public function store(TipoContaRequest $request){
         $this->authorize('Todos');
-        $validated = $request->validated();
-        $validated['cpfo']               = $request->cpfo;
-        $validated['relatoriobalancete'] = $request->relatoriobalancete;
-        $validated['user_id']            = \Auth::user()->id;
-        TipoConta::create($validated);
+        TipoConta::create($request->validated() + [ 'user_id' => \Auth::user()->id ]);
         $request->session()->flash('alert-success', 'Tipo de Conta [ ' . $request->descricao . ' ] cadastrado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
@@ -83,11 +78,12 @@ class TipoContaController extends Controller
      */
     public function update(TipoContaRequest $request, TipoConta $tipoconta){
         $this->authorize('Administrador');
-        $validated = $request->validated();
-        $validated['cpfo']               = $request->cpfo;
-        $validated['relatoriobalancete'] = $request->relatoriobalancete;
-        $validated['user_id']            = \Auth::user()->id;
-        $tipoconta->update($validated);
+        $tipoconta->update([
+            'descricao' => $request->descricao,
+            'cpfo' => $request->has('cpfo'),
+            'relatoriobalancete' => $request->has('relatoriobalancete'),
+            'user_id' => \Auth::user()->id,
+        ]);
         $request->session()->flash('alert-success', 'Tipo de Conta [ ' . $tipoconta->descricao . ' ] alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }
@@ -101,9 +97,9 @@ class TipoContaController extends Controller
     public function destroy(TipoConta $tipoconta, Request $request){
         $this->authorize('Administrador');
         if($tipoconta->conta->isNotEmpty()){
-            request()->session()->flash('alert-danger','Tipo de Conta [ ' . $tipoconta->descricao . ' ] não pode ser excluído, 
+            request()->session()->flash('alert-danger','Tipo de Conta [ ' . $tipoconta->descricao . ' ] não pode ser excluído,
             pois existem Contas cadastradas nela.');
-            return redirect("/tipocontas");    
+            return redirect("/tipocontas");
         }
         $tipoconta->delete();
         return redirect()->route('tipocontas.index')->with('alert-success', 'Tipo de Conta [ ' . $tipoconta->descricao . ' ] excluído com sucesso!');
