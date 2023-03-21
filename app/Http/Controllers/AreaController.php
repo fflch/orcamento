@@ -15,10 +15,12 @@ class AreaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_nome != null)
-            $areas = Area::where('nome','LIKE','%'.$request->busca_nome.'%')->orderBy('nome')->paginate(10);
-        else
-            $areas = Area::orderBy('nome')->paginate(10);
+        $areas = Area::when($request->busca_nome, function ($query) use ($request) {
+                     return $query->where('nome','LIKE', '%' . $request->busca_nome . '%');
+                 })
+                 ->orderBy('nome')
+                 ->paginate(10);
+
         return view('areas.index', compact('areas'));
     }
 
@@ -41,9 +43,7 @@ class AreaController extends Controller
      */
     public function store(AreaRequest $request){
         $this->authorize('Todos');
-        $validated = $request->validated();
-        $validated['user_id'] = \Auth::user()->id;
-        Area::create($validated);
+        Area::create( $request->validated() + ['user_id' => \Auth::user()->id] );
         $request->session()->flash('alert-success', 'Área [ ' . $request->nome . ' ] cadastrada com sucesso!');
         return redirect()->route('areas.index');
     }
@@ -79,9 +79,7 @@ class AreaController extends Controller
      */
     public function update(AreaRequest $request, Area $area){
         $this->authorize('Administrador');
-        $validated = $request->validated();
-        $validated['user_id'] = \Auth::user()->id;
-        $area->update($validated);
+        $area->update( $request->validated() + ['user_id' => \Auth::user()->id] );
         $request->session()->flash('alert-success', 'Área [ ' . $area->nome . ' ] alterada com sucesso!');
         return redirect()->route('areas.index');
     }
@@ -95,9 +93,9 @@ class AreaController extends Controller
     public function destroy(Area $area){
         $this->authorize('Administrador');
         if($area->conta->isNotEmpty()){
-            request()->session()->flash('alert-danger','Área [ ' . $area->nome . ' ] não pode ser excluída, 
+            request()->session()->flash('alert-danger','Área [ ' . $area->nome . ' ] não pode ser excluída,
             pois existem Contas cadastradas nela.');
-            return redirect("/areas");    
+            return redirect("/areas");
         }
         $area->delete();
         return redirect()->route('areas.index')->with('alert-success', 'Área [ ' . $area->nome . ' ] excluída com sucesso!');
