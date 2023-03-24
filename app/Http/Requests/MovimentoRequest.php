@@ -24,30 +24,16 @@ class MovimentoRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = [
+            'ano' => 'required|integer|between:1,9999',
+            'concluido' => 'boolean',
+            'ativo'     => 'boolean',
+        ];
+
         if ($this->method() == 'POST'){
-            $rules = [
-                'ano' => [
-                    'required',
-                     Rule::unique('movimentos')->where(function ($query) {
-                         $query->where('ano', $this->ano);
-                     })
-                ],    
-            ];
+            $rules['ano'] .= "|unique:movimentos";
         }
-        else{
-            $rules = [
-                'ano' => [
-                    'required',
-                    'integer',
-                    'between:1,9999',
-                     Rule::unique('movimentos')->where(function ($query) {
-                         $query->where('ano', $this->ano);
-                     })->ignore($this->movimento->id)
-                ],
-            ];
-        }
-        $rules['concluido'] = 'boolean';
-        $rules['ativo']     = 'boolean';
+
         return $rules;
     }
 
