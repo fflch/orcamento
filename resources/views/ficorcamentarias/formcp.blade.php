@@ -23,10 +23,9 @@
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="conta">Escolha uma Conta: </label>
-
                     <select class="contas_select form-control" name="conta_id[]" tabindex="1">
                         <option value=" ">&nbsp;</option>
-                            @foreach($selecionados as $lista_conta)
+                            @foreach(\App\Models\Conta::where('tipoconta_id',$tipocontaid_quantidades_key)->get() as $lista_conta)
                                 <option value="{{ $lista_conta->id }}">{{ $lista_conta->nome }}</option>
                             @endforeach
                     </select>

@@ -49,7 +49,9 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        $this->authorize('Todos');
+
+        $this->authorize('Todos');       
+        
         return view('ficorcamentarias.create',[
                     'ficorcamentaria'        => new FicOrcamentaria,
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
@@ -69,17 +71,13 @@ class FicOrcamentariaController extends Controller
 
         $this->authorize('Todos');
 
-        $tipos_conta_selecionados = array_filter($request->tipocontaid_quantidades);
-        $chaves = array_keys($tipos_conta_selecionados);
-        $selecionados = Conta::whereIn('tipoconta_id', $chaves)->get();
-
+        $chaves = $request->contas;
+        $quantidades = array_filter($request->tipocontaid_quantidades);
         $dotorcamentaria = DotOrcamentaria::dotacao($request->dotacao_id);
-
 
         return view('ficorcamentarias.contrapartida',[
                     'request_FO'                 => $request,
-                    'tipocontaid_quantidades'    => $request->tipocontaid_quantidades,
-                    'selecionados' => $selecionados,
+                    'tipocontaid_quantidades'    => array_combine($chaves, $quantidades),
                     'lista_contas_ativas'        => Conta::lista_contas_ativas(),
                     'dotorcamentaria'            => DotOrcamentaria::dotacao($request->dotacao_id),
 
@@ -115,20 +113,21 @@ class FicOrcamentariaController extends Controller
                 $lancamento['conta_id']           = $request->conta_id[$i];
                 $lancamento['ficorcamentaria_id'] = $last_fichaorcamentaria_id;
                 $lancamento['grupo']              = $request->grupo[$i];
-
-                $lancamento['receita']            = $request->receita[$i];
-
+                $lancamento['receita'] = isset($request->receita[$i]) ? $request->receita[$i] : 0;
                 $lancamento['data']               = $request->data_fo;
                 $lancamento['empenho']            = $request->empenho_fo;
                 $lancamento['descricao']          = $request->descricao_fo;
-                if($request->debito_fo)
+                if($request->debito_fo){
                     $lancamento['debito']         = $request->debito[$i];
-                else
+                }
+                else {
                     $lancamento['credito']        = $request->credito[$i];
+                }
                 $lancamento['observacao']         = $request->observacao_fo;
                 $lancamento['user_id']            = auth()->user()->id;
                 $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
-                Lancamento::create($lancamento);
+                $lancamento_obj = Lancamento::create($lancamento);
+                $lancamento_obj->contas()->sync([$request->conta_id[$i] =>  ['percentual' => 100]]);
             }
         }
         $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($request->dotacao_id);
@@ -160,7 +159,7 @@ class FicOrcamentariaController extends Controller
 
         return view('ficorcamentarias.show', [
             'ficorcamentaria' => $ficorcamentaria,
-            'contas'          => $contas
+            'contas'          => $contas,
         ]);
     }
 

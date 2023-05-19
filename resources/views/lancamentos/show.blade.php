@@ -31,7 +31,7 @@
     <div class="form-row">
         <div class="form-group col-md-3"><b>Percentuais:</b><br>
             @foreach($lancamento->contas as $conta)
-            {{ $conta->pivot->percentual }}% - {{ $conta->nome }}
+            {{ $conta->pivot->percentual }}% - {{ $conta->nome }} <br>
             @endforeach
         </div>
     </div>
