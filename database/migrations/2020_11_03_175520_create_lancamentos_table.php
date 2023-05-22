@@ -19,8 +19,6 @@ class CreateLancamentosTable extends Migration
             $table->foreign('movimento_id')->references('id')->on('movimentos')->onDelete('cascade');
             $table->unsignedBigInteger('ficorcamentaria_id')->nullable();
             $table->foreign('ficorcamentaria_id')->references('id')->on('fic_orcamentarias')->onDelete('cascade');
-            //$table->unsignedBigInteger('conta_id');
-            //$table->foreign('conta_id')->references('id')->on('contas')->onDelete('cascade');
             $table->string('grupo');
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->date('data');
@@ -33,7 +31,6 @@ class CreateLancamentosTable extends Migration
             $table->string('observacao');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

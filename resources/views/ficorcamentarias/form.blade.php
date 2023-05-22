@@ -57,21 +57,26 @@
     </div>
 </div>
 <div class="card p-3">  
-    <div class="card-header">
-        <label for="tipos_contas">Contra-Partida - Tipos de Contas</label>
-    </div>  
-    <div class="form-row">
-        @foreach($lista_tipos_contas as $lista_tipo_conta)
-            @if ($lista_tipo_conta->cpfo)
-                <div class="form-group col-md-3">
-                    <p>
-                        {{ $lista_tipo_conta->descricao }}
-                        <input type="number" class="form-control" name="tipocontaid_quantidades[{{ $lista_tipo_conta->id }}]" value="0" placeholder="[ Ex: 1 ]" maxlength="1" tabindex="8">
-                    </p>
+    <b><label for="tipos_contas">Contra-Partida - Tipos de Contas:</label></b>
+        <div id="container" class="col-sm form-group">
+            @foreach(request()->campos ?? [''] as $select_campo)
+                <div class="row mb-1" id="lista_tipos_conta{{ $loop->index }}">
+                    @if (count($lista_tipos_contas) > 1)
+                    <select name="contas[]" class="btn btn-success mr-2">
+                    @endif
+                    @foreach($lista_tipos_contas as $lista_tipos_conta)
+                        <option value="{{ $lista_tipos_conta->id }}">    
+                            {{ $lista_tipos_conta->descricao }}
+                        </option>
+                    @endforeach
+                    </select>
+                    <input name="tipocontaid_quantidades[]" type="number" value="{{ request()->tipocontaid_quantidades[$loop->index] ?? 0 }}">
+                    <button class="btn btn-primary float-left ml-2">+</button>
+                    <button class="btn btn-danger float-left ml-2">-</button>
                 </div>
-            @endif
-        @endforeach
-    </div>
+            @endforeach
+            <div class="row mb-1" id="lista_tipos_conta{{ count(request()->lista_tipos_contas ?? ['']) }}"></div>
+        </div>
 </div>
 <br>
 <div class="form-row">
@@ -85,3 +90,29 @@
         </div>
     </div>
 </div>
+
+@section('javascripts_bottom')
+<script>
+  $(document).ready( function () {
+    let row_select = $("select[name^='contas']").length;
+
+    $("#container").on("click", ".btn-primary", function(e){
+      e.preventDefault();
+      let new_row_select = row_select - 1;
+      $("#lista_tipos_conta" + row_select).html( $("#lista_tipos_conta" + new_row_select).html() );
+      $("#container").append('<div class="row mb-1" id="lista_tipos_conta' + (row_select + 1)+ '"></div>');
+      row_select++;
+    });
+
+    $("#container").on("click", ".btn-danger", function(e){
+      e.preventDefault();
+      if(row_select > 1){
+        $("#lista_tipos_conta" + (row_select - 1)).remove();
+        $("#lista_tipos_conta" + row_select).attr('id', 'lista_tipos_conta' + (row_select - 1));
+        row_select--;
+      }
+    });
+
+  });
+</script>
+@endsection
