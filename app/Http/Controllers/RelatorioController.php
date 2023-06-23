@@ -35,7 +35,8 @@ class RelatorioController extends Controller
             $data_convertida = implode("-", array_reverse(explode("/", $request->data)));
             $balanceteO = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
+            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
+            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->select('contas.nome', 'tipo_contas.descricao',
             DB::raw('SUM(lancamentos.debito) as total_debito'), 
             DB::raw('SUM(lancamentos.credito) as total_credito'))
@@ -47,7 +48,8 @@ class RelatorioController extends Controller
 
             $balanceteR = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
+            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
+            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->select('contas.nome', 'tipo_contas.descricao',
             DB::raw('SUM(lancamentos.debito) as total_debito'), 
             DB::raw('SUM(lancamentos.credito) as total_credito'))
@@ -70,10 +72,6 @@ class RelatorioController extends Controller
             array_push($balancete, $valor->total_debito);
             array_push($balancete, $valor->total_credito);
         }
-
-
-        dd($balancete);
-        //dd($balanceteO);
 
         $pdf = PDF::loadView('pdfs.balancete', [
                              'balanceteO' => $balanceteO,
@@ -105,7 +103,8 @@ class RelatorioController extends Controller
             $descricao_tipoconta = TipoConta::descricao_tipo_conta($request->tipoconta_id);
             $saldo_contas = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->join('lancamentos', 'contas.id', '=', 'lancamentos.conta_id')
+            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
+            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
             ->where('contas.tipoconta_id','=',$request->tipoconta_id)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
@@ -146,9 +145,10 @@ class RelatorioController extends Controller
 
     public function lancamentos(Request $request){
         $lancamentos = new Lancamento;
-        if($request->conta_id != null)
-            $lancamentos = $lancamentos->where('conta_id','=',$request->conta_id);
-        else{
+        if($request->conta != null)
+            $lancamentos->load('contas')
+                        ->where('conta', 'conta_id');
+        else {
             request()->session()->flash('alert-info','Informe pelo menos a Conta.');
             return redirect("/relatorios");
         }
@@ -164,7 +164,7 @@ class RelatorioController extends Controller
         if($request->observacao != null)
             $lancamentos = $lancamentos->where('observacao','=',$request->observacao);
         $lancamentos = $lancamentos->orderBy('data')->get();
-        $nome_conta  = Conta::nome_conta($request->conta_id);
+        $nome_conta  = Conta::nome_conta($request->conta);
         $pdf = PDF::loadView('pdfs.lancamentos', [
                              'lancamentos' => $lancamentos,
                              'nome_conta'  => $nome_conta[0]->nome,

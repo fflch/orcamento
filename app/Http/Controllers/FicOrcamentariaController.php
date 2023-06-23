@@ -60,82 +60,28 @@ class FicOrcamentariaController extends Controller
                     'lista_tipos_contas'     => TipoConta::lista_tipos_contas(),
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cpfo(FicOrcamentariaRequest $request){
-
-        $this->authorize('Todos');
-
-        $chaves = $request->contas;
-        $quantidades = array_filter($request->tipocontaid_quantidades);
-        $dotorcamentaria = DotOrcamentaria::dotacao($request->dotacao_id);
-
-        return view('ficorcamentarias.contrapartida',[
-                    'request_FO'                 => $request,
-                    'tipocontaid_quantidades'    => array_combine($chaves, $quantidades),
-                    'lista_contas_ativas'        => Conta::lista_contas_ativas(),
-                    'dotorcamentaria'            => DotOrcamentaria::dotacao($request->dotacao_id),
-
-        ]);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FicOrcamentariaCPRequest $request){
+
+    public function store(FicOrcamentariaRequest $request){
 
         $this->authorize('Todos');
-        $fichaorcamentaria['dotacao_id']   = $request->dotacao_id_fo;
-        $fichaorcamentaria['data']         = $request->data_fo;
-        $fichaorcamentaria['empenho']      = $request->empenho_fo;
-        $fichaorcamentaria['descricao']    = $request->descricao_fo;
-        if($request->debito_fo)
-            $fichaorcamentaria['debito']   = $request->debito_fo;
-        else
-            $fichaorcamentaria['credito']  = $request->credito_fo;
-        $fichaorcamentaria['observacao']   = $request->observacao_fo;
-        $fichaorcamentaria['user_id']      = auth()->user()->id;
-        $fichaorcamentaria['movimento_id'] = Movimento::movimento_ativo()->id;
-        FicOrcamentaria::create($fichaorcamentaria);
-
-        $last_fichaorcamentaria_id = FicOrcamentaria::latest()->first()->id;
-        if(isset($request->conta_id)){
-            for($i=0; $i < count($request->conta_id); $i++){
-                //$lancamento = new Lancamento;
-                $lancamento['conta_id']           = $request->conta_id[$i];
-                $lancamento['ficorcamentaria_id'] = $last_fichaorcamentaria_id;
-                $lancamento['grupo']              = $request->grupo[$i];
-                $lancamento['receita'] = isset($request->receita[$i]) ? $request->receita[$i] : 0;
-                $lancamento['data']               = $request->data_fo;
-                $lancamento['empenho']            = $request->empenho_fo;
-                $lancamento['descricao']          = $request->descricao_fo;
-                if($request->debito_fo){
-                    $lancamento['debito']         = $request->debito[$i];
-                }
-                else {
-                    $lancamento['credito']        = $request->credito[$i];
-                }
-                $lancamento['observacao']         = $request->observacao_fo;
-                $lancamento['user_id']            = auth()->user()->id;
-                $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
-                $lancamento_obj = Lancamento::create($lancamento);
-                $lancamento_obj->contas()->sync([$request->conta_id[$i] =>  ['percentual' => 100]]);
-            }
-        }
-        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($request->dotacao_id);
-        if(!$request->conta_id)
-            $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
-        else
-            $request->session()->flash('alert-success', 'Ficha Orçamentária e Contra-Partida(s) cadastrada(s) com sucesso!');
-        return redirect()->route('ficorcamentarias.index');
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->user()->id;
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
+        $ficorcamentaria = FicOrcamentaria::create($validated);
+        $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
+        return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
     }
 
     /**
@@ -149,17 +95,16 @@ class FicOrcamentariaController extends Controller
 
         $lancamentos = Lancamento::where('ficorcamentaria_id',$ficorcamentaria->id)
                                     ->where('movimento_id',Movimento::movimento_ativo()->id) // ??
-                                    ->get();
+                                    ->paginate(5);
 
-        $contas = collect();
-        foreach($lancamentos as $lancamento){
-            $conta = $lancamento->load('contas');
-            $contas->push($conta);
-        }
+        $tiposdecontas = TipoConta::lista_tipos_contas();
+        $contas = Conta::lista_contas_ativas();
 
         return view('ficorcamentarias.show', [
             'ficorcamentaria' => $ficorcamentaria,
-            'contas'          => $contas,
+            'lancamentos'     => $lancamentos,
+            'tiposdecontas' =>  $tiposdecontas,
+            'contas' => $contas
         ]);
     }
 
@@ -202,6 +147,48 @@ class FicOrcamentariaController extends Controller
         $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');
+    }
+
+    public function storeCpfo(FicOrcamentaria $ficorcamentaria, FicOrcamentariaCPRequest $request){
+
+        $this->authorize('Todos');
+        
+        $lancamento['ficorcamentaria_id'] = $ficorcamentaria->id;
+        $lancamento['grupo']              = $request->grupo;
+        $lancamento['receita']            = $request->receita;
+        $lancamento['data']               = $ficorcamentaria->data;
+        $lancamento['empenho']            = $ficorcamentaria->empenho;
+        $lancamento['descricao']          = $ficorcamentaria->descricao;
+        if($request->debito){
+            $lancamento['debito']         = $request->debito;
+        }
+        else {
+            $lancamento['credito']        = $request->credito;
+        }
+        $lancamento['observacao']         = $ficorcamentaria->observacao;
+        $lancamento['user_id']            = auth()->user()->id;
+        $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
+        $lancamento_obj = Lancamento::create($lancamento);
+        $lancamento_obj->contas()->sync([$request->conta =>  ['percentual' => 100]]);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);
+        $request->session()->flash('alert-success', 'Contra-partida cadastrada com sucesso!');
+        return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
+    }
+
+    public function getContas(Request $request)
+    {
+        if($request->has('search')) {
+            $contas = Conta::where('tipoconta_id', $request->search)
+                      ->orderby('nome','asc')->get();
+        }
+        $response = array();
+        foreach($contas as $conta){
+            $response[] = array(
+                "id" => $conta->id,
+                "nome" => $conta->nome,
+            );
+        }
+        return response()->json($response);
     }
 
     /**

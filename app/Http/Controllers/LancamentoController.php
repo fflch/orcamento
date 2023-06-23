@@ -99,14 +99,7 @@ class LancamentoController extends Controller
         // //dd($total_percentuais);
         // $validated = $request->validated();
         // //dd($request->credito  * $request->percentual1 / 100);
-        // if($request->debito == null){
-        //     $validated['debito']  = 0.00;
-        //     $validated['credito'] = $request->credito  * $request->percentual1 / 100;
-        // }
-        // if($request->credito == null){
-        //     $validated['credito'] = 0.00;
-        //     $validated['debito']  = $request->debito   * $request->percentual1 / 100;
-        // }
+        // 
         // //$validated['total_percentuais']      = array_sum($percentuais);
 
         // $validated['conta_id']     = $request->conta_id;
@@ -174,6 +167,10 @@ class LancamentoController extends Controller
      */
     public function edit(Lancamento $lancamento){
         $this->authorize('Administrador');
+
+        $lancamento->load('contas');
+
+
         /*$lista_contas_ativas = Conta::lista_contas_ativas();
         $lista_descricoes    = Nota::lista_descricoes();
         $lista_observacoes   = Nota::lista_observacoes();
@@ -215,7 +212,6 @@ class LancamentoController extends Controller
         */
 
         $lancamento->movimento_id = $movimento_ativo->id;
-        //$lancamento->conta_id     = $request->conta_id;
         $validated['user_id']     = auth()->user()->id;
         $lancamento->update($validated);
         $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);
@@ -231,6 +227,7 @@ class LancamentoController extends Controller
      * @param  \App\Models\Lancamento  $lancamento
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(Lancamento $lancamento){
         $this->authorize('Administrador');
         $lancamento->delete();

@@ -27,7 +27,6 @@ use App\Http\Controllers\selTipoContaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/home', [IndexController::class, 'index']);
 Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
@@ -44,7 +43,8 @@ Route::resource('notas', NotaController::class);
 Route::resource('lancamentos', LancamentoController::class);
 Route::get('/lancamentos_por_conta/{conta_id}', [ContaController::class,'lancamentos_por_conta']);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
-Route::post('/ficorcamentarias/cpfo', [FicOrcamentariaController::class,'cpfo'])->name('ficorcamentarias.cpfo');
+Route::post('ficorcamentarias/', [FicOrcamentariaController::class, 'store']);
+Route::post('/ficorcamentarias/{ficorcamentaria}/cpfo/storeCpfo', [FicOrcamentariaController::class, 'storeCpfo']);
 Route::resource('usuarios', UserController::class);
 Route::resource('contausuarios', ContaUsuarioController::class);
 Route::resource('unidades', UnidadeController::class);
@@ -59,3 +59,4 @@ Route::get('/relatorios/lancamentos', [RelatorioController::class, 'lancamentos'
 Route::get('/relatorios/ficha_orcamentaria', [RelatorioController::class, 'ficha_orcamentaria'])->name('relatorios.ficha_orcamentaria');
 Route::get('/relatorios/despesas', [RelatorioController::class, 'despesas'])->name('relatorios.despesas');
 Route::get('/relatorios/despesas_miudas', [RelatorioController::class, 'despesas_miudas'])->name('relatorios.despesas_miudas');
+Route::post('/getContas',[FicOrcamentariaController::class,'getContas'])->name('contrapartida.getContas');

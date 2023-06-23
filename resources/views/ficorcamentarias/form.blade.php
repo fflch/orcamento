@@ -56,42 +56,18 @@
         </datalist>
     </div>
 </div>
-<div class="card p-3">  
-    <b><label for="tipos_contas">Contra-Partida - Tipos de Contas:</label></b>
-        <div id="container" class="col-sm form-group">
-            @foreach(request()->campos ?? [''] as $select_campo)
-                <div class="row mb-1" id="lista_tipos_conta{{ $loop->index }}">
-                    @if (count($lista_tipos_contas) > 1)
-                    <select name="contas[]" class="btn btn-success mr-2">
-                    @endif
-                    @foreach($lista_tipos_contas as $lista_tipos_conta)
-                        <option value="{{ $lista_tipos_conta->id }}">    
-                            {{ $lista_tipos_conta->descricao }}
-                        </option>
-                    @endforeach
-                    </select>
-                    <input name="tipocontaid_quantidades[]" type="number" value="{{ request()->tipocontaid_quantidades[$loop->index] ?? 0 }}">
-                    <button class="btn btn-primary float-left ml-2">+</button>
-                    <button class="btn btn-danger float-left ml-2">-</button>
-                </div>
-            @endforeach
-            <div class="row mb-1" id="lista_tipos_conta{{ count(request()->lista_tipos_contas ?? ['']) }}"></div>
-        </div>
-</div>
-<br>
 <div class="form-row">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group col-md-12">
-                <input type="submit" class="btn btn-primary" value="Continuar" tabindex="9">
-                <input type="reset" class="btn btn-warning" value="Desfazer" tabindex="10">
+                <button type="submit" class="btn btn-primary">Salvar</button>
                 <a href="{{ url()->previous() }}" class="btn btn-info" tabindex="11">Voltar</a>
             </div>
         </div>
     </div>
 </div>
 
-@section('javascripts_bottom')
+<!-- @section('javascripts_bottom')
 <script>
   $(document).ready( function () {
     let row_select = $("select[name^='contas']").length;
@@ -115,4 +91,4 @@
 
   });
 </script>
-@endsection
+@endsection -->

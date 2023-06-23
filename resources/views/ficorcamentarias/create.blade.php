@@ -9,10 +9,8 @@
 <br>
 <div class="border rounded bg-light">
     <div class="p-4">
-        @include('messages.flash')
         @include('messages.errors')
-        <!--form method="post" action="{{ url('/ficorcamentarias/cpfo') }}"-->
-        <form method="post" action="/ficorcamentarias/cpfo">
+        <form method="POST" action="ficorcamentarias/">
             @csrf
             @include('ficorcamentarias.form')
         </form>
