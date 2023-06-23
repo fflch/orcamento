@@ -32,6 +32,13 @@
         <div class="form-group col-md-3"><b>Percentuais:</b><br>
             @foreach($lancamento->contas as $conta)
             {{ $conta->pivot->percentual }}% - {{ $conta->nome }} <br>
+            Valor em reais:
+            @if($lancamento->debito != 0.00)            
+            {{ ( (float) $conta->pivot->percentual *  (float) $lancamento->debito)/100 }} <br>
+            @endif
+            @if($lancamento->credito != 0.00)
+            {{ ( (float) $conta->pivot->percentual *  (float) $lancamento->credito)/100 }} <br>
+            @endif
             @endforeach
         </div>
     </div>

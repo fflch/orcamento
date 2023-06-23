@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use  App\Rules\somaContrapartidaRule;
 
 class FicOrcamentariaCPRequest extends FormRequest
 {
@@ -23,8 +24,7 @@ class FicOrcamentariaCPRequest extends FormRequest
      */
     public function rules()    {
         return [
-            "conta_id"   => ['required','array'],
-            "conta_id.*" => ['required']
+            'conta'   => 'required',
         ];
     }
 }

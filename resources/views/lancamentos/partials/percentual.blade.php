@@ -6,7 +6,7 @@
                 <select name="contas[]" class="btn btn-success mr-2">
                 @endif
                 @foreach($contas as $conta)
-                    <option value="{{ $conta->id }}">    
+                    <option value="{{ $conta->id }}">
                         {{ $conta->nome }}
                     </option>
                 @endforeach

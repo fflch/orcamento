@@ -52,8 +52,8 @@ class Conta extends Model
         return $lista_contas_todas;
     }
 
-    public static function nome_conta($conta_id){
-        $nome_conta = Conta::where('id','=',$conta_id)->get();
+    public static function nome_conta($conta){
+        $nome_conta = Conta::where('id','=',$conta)->get();
         return $nome_conta;
     }
 

@@ -49,9 +49,9 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lancamentos_por_conta($conta_id){
+    public function lancamentos_por_conta($conta){
         $this->authorize('Todos');
-        $lancamentos = Lancamento::where('conta_id','=',$conta_id)->orderBy('data')->paginate(10);
+        $lancamentos = Lancamento::with('contas')->orderBy('data')->paginate(10);
         $lista_contas_ativas = Conta::lista_contas_ativas();
 
         $total_debito  = 0.00;
