@@ -170,14 +170,6 @@ class LancamentoController extends Controller
 
         $lancamento->load('contas');
 
-
-        /*$lista_contas_ativas = Conta::lista_contas_ativas();
-        $lista_descricoes    = Nota::lista_descricoes();
-        $lista_observacoes   = Nota::lista_observacoes();
-        $nome_conta_numero2  = Conta::nome_conta_numero(2);
-        $nome_conta_numero3  = Conta::nome_conta_numero(3);
-        $nome_conta_numero4  = Conta::nome_conta_numero(4);*/
-
         return view('lancamentos.edit', [
             'lancamento'          => $lancamento,
             'movimento_ativo'     => Movimento::movimento_ativo(),
