@@ -11,7 +11,7 @@
         <form method="post" action="/lancamentos/{{$lancamento->id}}">
             @csrf
             @method('patch')
-            @include('lancamentos.form')
+            @include('lancamentos.formedit')
         </form>
     </div>
 </div>
