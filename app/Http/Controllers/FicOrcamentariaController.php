@@ -152,22 +152,22 @@ class FicOrcamentariaController extends Controller
     public function storeCpfo(FicOrcamentaria $ficorcamentaria, FicOrcamentariaCPRequest $request){
 
         $this->authorize('Todos');
-        
+
         $lancamento['ficorcamentaria_id'] = $ficorcamentaria->id;
         $lancamento['grupo']              = $request->grupo;
         $lancamento['receita']            = $request->receita;
         $lancamento['data']               = $ficorcamentaria->data;
         $lancamento['empenho']            = $ficorcamentaria->empenho;
         $lancamento['descricao']          = $ficorcamentaria->descricao;
-        if($request->debito){
-            $lancamento['debito']         = $request->debito;
-        }
-        else {
-            $lancamento['credito']        = $request->credito;
-        }
         $lancamento['observacao']         = $ficorcamentaria->observacao;
         $lancamento['user_id']            = auth()->user()->id;
         $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
+        if($request->debito){
+            $lancamento['debito']         = $request->debito;
+        }
+        if($request->credito){
+            $lancamento['credito']         = $request->credito;
+        }
         $lancamento_obj = Lancamento::create($lancamento);
         $lancamento_obj->contas()->sync([$request->conta =>  ['percentual' => 100]]);
         $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);

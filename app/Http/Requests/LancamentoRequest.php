@@ -5,6 +5,7 @@ use Illuminate\Validation\Rule;
 
 use Illuminate\Foundation\Http\FormRequest;
 use MyValidator;
+use App\Rules\PercentualRule;
 
 class LancamentoRequest extends FormRequest
 {
@@ -41,7 +42,7 @@ class LancamentoRequest extends FormRequest
                 'required',
                 'array',
             ],
-            'percentual' => 'required'
+            'percentual' => ['required', new PercentualRule]
         ];
         return $rules;
 
@@ -56,8 +57,6 @@ class LancamentoRequest extends FormRequest
             'descricao.required'       => 'Informe a Descrição.',
             'debito.required_without'  => 'O Débito ou o Crédito deve ser informado.',
             'credito.required_without' => 'O Crédito ou o Débito deve ser informado.',
-            //'debito.float'             => 'O Débito deve ser um valor monetário.',
-            //'credito.float'            => 'O Crédtio deve ser um valor monetário.',
             'observacao.required'      => 'Informe a Observação.',
         ];
     }

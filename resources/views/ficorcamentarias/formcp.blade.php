@@ -43,7 +43,8 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group col-md-12">
-                    <input type="submit" class="btn btn-primary" value="Salvar">
+                <input type="hidden" name="ficorcamentaria_id" value="{{ $ficorcamentaria->id }}">
+                    <input type="submit" class="btn btn-success" value="Salvar">
                     <input type="reset" class="btn btn-warning" value="Desfazer">
                 </div>
             </div>

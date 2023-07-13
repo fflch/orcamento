@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use  App\Rules\somaContrapartidaRule;
+use App\Rules\ValorRule;
 
 class FicOrcamentariaCPRequest extends FormRequest
 {
@@ -22,9 +22,22 @@ class FicOrcamentariaCPRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()    {
+
+    public function rules()
+    {
         return [
             'conta'   => 'required',
+            'grupo' => 'required',
+            'ficorcamentaria_id' => 'required|integer',
+            'debito'     => ['required_without:credito', new ValorRule($this->ficorcamentaria_id)],
+            'credito'    => ['required_without:debito', new ValorRule($this->ficorcamentaria_id)],
+        ];
+    }
+
+    public function messages(){
+        return [
+            'conta.required' => 'Informe a Conta',
+            'grupo.required' => 'Informe o Grupo'
         ];
     }
 }

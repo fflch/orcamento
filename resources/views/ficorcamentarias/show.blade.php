@@ -3,9 +3,9 @@
     Ficha Orçamentária: {{ $ficorcamentaria->dotacao->dotacao }}
 @endsection
 @section('content')
+<div class="card p-3">
     @include('messages.flash')
     @include('messages.errors')
-<div class="card p-3">
     <h2><strong>Ficha Orçamentária: {{ $ficorcamentaria->dotacao->dotacao }}</strong></h2>
 </div>
 <br>
@@ -30,13 +30,27 @@
         <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($ficorcamentaria->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
         <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($ficorcamentaria->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
+<br>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+            <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
+            <a href="{{ route('ficorcamentarias.edit',$ficorcamentaria->id) }}" class="btn btn-warning">Editar</a>
+        </div>
+        <div class="form-group col-md-4" align="right">
+            <form method="post" role="form" action="{{ route('ficorcamentarias.destroy', $ficorcamentaria) }}" >
+                @csrf
+                <input name="_method" type="hidden" value="DELETE">
+                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir Ficha Orçamentária?');">Deletar</button>
+            </form>
+        </div>
+    </div>
 </div>
+<br>
 @can('Administrador')
 <div class="border rounded bg-light">
     <br>
     <h3 class="ml-2 mt-2">Adicionar Contra-Partida da Ficha Orçamentária</h3>
     <div class="p-4">
-        @include('messages.errors')
         <form method="POST" action="/ficorcamentarias/{{ $ficorcamentaria->id }}/cpfo/storeCpfo">
         @csrf
         @include('ficorcamentarias.formcp')
@@ -79,7 +93,6 @@
                     @endif
                     <td>{{ $lancamento->saldo }}</td>
                     @can('Administrador')
-                    <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                     <td align="center">
                         <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
                             @csrf
@@ -92,22 +105,6 @@
             @endforeach
         </tbody>
     </table>
-</div>
-<br>
-<div class="card p-3">
-    <div class="form-row">
-        <div class="form-group col-md-8">
-            <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
-            <a href="{{ route('ficorcamentarias.edit',$ficorcamentaria->id) }}" class="btn btn-warning">Editar</a>
-        </div>
-        <div class="form-group col-md-4" align="right">
-            <form method="post" role="form" action="{{ route('ficorcamentarias.destroy', $ficorcamentaria) }}" >
-                @csrf
-                <input name="_method" type="hidden" value="DELETE">
-                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir Ficha Orçamentária?');">Deletar</button>
-            </form>
-        </div>
-    </div>
 </div>
 @endcan
 @stop

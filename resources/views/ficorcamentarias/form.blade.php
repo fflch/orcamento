@@ -60,7 +60,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="form-group col-md-12">
-                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="submit" class="btn btn-success">Salvar</button>
                 <a href="{{ url()->previous() }}" class="btn btn-info" tabindex="11">Voltar</a>
             </div>
         </div>
