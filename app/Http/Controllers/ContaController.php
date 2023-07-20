@@ -18,12 +18,15 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
+
         $this->authorize('Todos');
+
         $contas = Conta::when($request->busca_nome, function ($query) use ($request) {
-                      return $query->where('nome', 'LIKE', '%' . $request->busca_nome.'%');
-                  })
-                  ->orderBy('nome')
-                  ->paginate(10);
+                      return $query->where('nome', 'LIKE', '%' . $request->busca_nome.'%');})
+                    ->when($request->tipoconta_id, function ($query) use ($request) {
+                        return $query->where('tipoconta_id','=', $request->tipoconta_id);})
+                    ->orderBy('nome')
+                    ->paginate(10);
 
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         return view('contas.index', compact('contas','lista_tipos_contas'));
@@ -50,9 +53,20 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function lancamentos_por_conta($conta){
+
         $this->authorize('Todos');
-        $lancamentos = Lancamento::with('contas')->orderBy('data')->paginate(10);
-        $lista_contas_ativas = Conta::lista_contas_ativas();
+        
+        $lancamentos = Lancamento::with('contas')->get();
+        
+        foreach($lancamentos as $lancamento){
+            
+            $pivot = $lancamento->contas->pluck('pivot');
+            $conta_id = $pivot->pluck('conta_id');
+            $lancamento_id = $pivot->pluck('lancamento_id');
+            //dd($conta_id);
+
+        }
+        
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
@@ -67,7 +81,7 @@ class ContaController extends Controller
                     'lancamentos'         => $lancamentos,
                     'total_debito'        => $total_debito,
                     'total_credito'       => $total_credito,
-                    'lista_contas_ativas' => $lista_contas_ativas,
+                    'lista_contas_ativas' => Conta::lista_contas_ativas(),
         ]);
     }
 
@@ -135,12 +149,10 @@ class ContaController extends Controller
      */
     public function update(ContaRequest $request, Conta $conta){
         $this->authorize('Administrador');
-        $conta->update([
-            'tipoconta_id' => $request->tipoconta_id,
-            'area_id'      => $request->area_id,
-            'ativo'        => $request->has('ativo'),
-            'user_id'      => \Auth::user()->id,
-        ]);
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->user()->id;
+        $validated['ativo'] = $request->has('ativo');
+        $conta->update($validated);
         $request->session()->flash('alert-success', 'Conta [ ' . $conta->nome . ' ] alterada com sucesso!');
         return redirect()->route('contas.index');
     }
@@ -152,7 +164,9 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Conta $conta, Request $request){
+
         $this->authorize('Administrador');
+        
         if($conta->lancamento->isNotEmpty()){
             request()->session()->flash('alert-danger','Conta [ ' . $conta->nome . ' ] não pode ser excluída,
             pois existem Lançamentos cadastrados nela.');

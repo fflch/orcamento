@@ -6,8 +6,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-//use \Spatie\Permission\Traits\HasRoles;
-//use \Uspdev\SenhaunicaSocialite\Traits\HasSenhaunica;
 
 class User extends Authenticatable
 {

@@ -11,7 +11,6 @@ class Lancamento extends Model
     use HasFactory;
     protected $fillable = [
         'movimento_id',
-        //'conta_id',
         'ficorcamentaria_id',
         'descricao',
         'receita',
@@ -21,12 +20,7 @@ class Lancamento extends Model
         'empenho',
         'debito',
         'credito',
-        'user_id',
-        // 'percentual1',
-        // 'percentual2',
-        // 'percentual3',
-        // 'percentual4',
-        //'total_percentuais',
+        'user_id'
     ];
 
     public function user(){
@@ -36,11 +30,6 @@ class Lancamento extends Model
     public function movimento(){
         return $this->belongsTo(Movimento::class);
     }
-
-    /*
-    public function conta(){
-        return $this->belongsTo(Conta::class);
-    }*/
 
     public function setCreditoAttribute($value){
         $this->attributes['credito'] = str_replace(',','.',$value);

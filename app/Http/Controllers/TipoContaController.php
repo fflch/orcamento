@@ -78,12 +78,19 @@ class TipoContaController extends Controller
      */
     public function update(TipoContaRequest $request, TipoConta $tipoconta){
         $this->authorize('Administrador');
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->user()->id;
+        $validated['cpfo'] = $request->has('cpfo');
+        $validated['relatoriobalancete'] = $request->has('relatoriobalancete');
+        $tipoconta->update($validated);
+        /*
         $tipoconta->update([
             'descricao' => $request->descricao,
             'cpfo' => $request->has('cpfo'),
             'relatoriobalancete' => $request->has('relatoriobalancete'),
             'user_id' => \Auth::user()->id,
         ]);
+        */
         $request->session()->flash('alert-success', 'Tipo de Conta [ ' . $tipoconta->descricao . ' ] alterado com sucesso!');
         return redirect()->route('tipocontas.index');
     }

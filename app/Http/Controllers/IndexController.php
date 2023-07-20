@@ -14,7 +14,8 @@ class indexController extends Controller
     }
 
     public function index(){
-        //dd(session('ano'));
+        //dd("oi");
+        
         if(auth()->user()){
             $perfil_logado = auth()->user()->perfil;
             if (session('ano') == null) {
@@ -32,7 +33,6 @@ class indexController extends Controller
     }
 
     public function mudaAno(Request $request){
-        //dd($request);
         $this->authorize('Todos');
         
         # A validação ainda precisa passar para um local mais apropriado
@@ -47,7 +47,6 @@ class indexController extends Controller
         }
         
         session(['ano' => $request->ano]);
-        //dd(session('ano'));
         return back();
     }
 }

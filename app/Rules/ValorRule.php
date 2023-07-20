@@ -33,18 +33,17 @@ class ValorRule implements Rule
 
         if($ficorcamentaria->credito != 0){
             $soma = array_sum($lancamentos->pluck('credito')->toArray());
+            $soma = $soma + str_replace(',', '.', $value);
+            if($soma > $ficorcamentaria->credito){
+                return false;
+            }
         }
-        if($ficorcamentaria->debito != 0){
+        elseif($ficorcamentaria->debito != 0){
             $soma = array_sum($lancamentos->pluck('debito')->toArray());
-        }
-
-        $soma = $soma + str_replace(',', '.', $value);
-
-        if($ficorcamentaria->credito != 0 && $soma > $ficorcamentaria->credito){
-            return false;
-        }
-        elseif($ficorcamentaria->debito != 0 && $soma > $ficorcamentaria->debito){
-            return false;
+            $soma = $soma + str_replace(',', '.', $value);
+            if($soma > $ficorcamentaria->debito){
+                return false;
+            }
         }
             
         return true;

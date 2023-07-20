@@ -7,13 +7,6 @@
         @csrf
         <div class="form-row">
             <div class="form-group col-md-12">
-                <!--input list="dotacoes" name="dotacao_id" id="dotacao_id" class="form-control" value="{{ $ficorcamentaria->dotacao ?? old('dotacao') }}" placeholder="[ Informe a Dotação ]">
-                <datalist id="dotacoes">
-                    @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
-                        <option value="{{ $lista_dotorcamentaria->id }}">{{ $lista_dotorcamentaria->dotacao }}
-                    @endforeach
-                </datalist-->
-
                 <select class="dotacoes_select form-control" name="dotacao_id" tabindex="1">
                         <option value=" ">[ Informe a Dotação ]</option>
                         @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)

@@ -15,14 +15,14 @@
             @csrf
             <div class="row">
                 <div class=" col-sm input-group">
-                    <select class="tipocontas_select form-control" name="busca_tipoconta_id"  onchange="this.form.submit()" tabindex="1">
+                    <select class="tipocontas_select form-control" name="tipoconta_id"  onchange="this.form.submit()" tabindex="1">
                         <option value=" ">[ Busca por Tipo de Conta ]</option>
                         @foreach($lista_tipos_contas as $lista_tipo_conta)
                             <option value="{{ $lista_tipo_conta->id }}"
                                 @if(old('tipoconta_id') == $lista_tipo_conta->id)
                                     {{ 'selected' }}
                                 @else
-                                    {{(request()->busca_tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
+                                    {{(request()->tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
                                 @endif>
                                 {{ $lista_tipo_conta->descricao }}
                             </option>

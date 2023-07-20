@@ -18,17 +18,16 @@ class ContaUsuarioController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca != null)
+        if($request->busca != null){
             $contausuarios = ContaUsuario::where('id_usuario','=',$request->busca)->paginate(10);
-        else
-            //$contausuarios = ContaUsuario::paginate(10);
+        } else {
             $contausuarios = DB::table('conta_usuarios')
             ->join('users', 'conta_usuarios.id_usuario', '=', 'users.id')
             ->join('contas', 'conta_usuarios.id_conta', '=', 'contas.id')
             ->select('users.name', 'contas.nome')
             ->groupBy('users.name', 'contas.nome')
             ->get();
-            //dd($contausuarios);
+        }
         return view('contausuarios.index')->with('contausuarios', $contausuarios);
     }
 

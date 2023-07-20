@@ -16,15 +16,16 @@ class NotaController extends Controller
      */
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_texto != null)
+        if($request->busca_texto != null){
             $notas = Nota::where('texto','LIKE','%'.$request->busca_texto.'%')
                          ->orderBy('tipo',)
                          ->orderBy('texto')
                          ->paginate(10);
-        else
+        }else{
             $notas = Nota::orderBy('tipo',)
                          ->orderBy('texto')
                          ->paginate(10);
+        }
         return view('notas.index')->with('notas', $notas);
     }
 
