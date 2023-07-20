@@ -56,7 +56,7 @@ class ContaController extends Controller
 
         $this->authorize('Todos');
         
-        $lancamentos = Lancamento::with('contas')->get();
+        $lancamentos = Lancamento::with('contas')->paginate(10);
         
         /*
         foreach($lancamentos as $lancamento){
