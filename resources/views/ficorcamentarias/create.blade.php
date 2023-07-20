@@ -10,7 +10,7 @@
 <div class="border rounded bg-light">
     <div class="p-4">
         @include('messages.errors')
-        <form method="POST" action="ficorcamentarias/">
+        <form method="POST" action="{{ url('ficorcamentarias') }}">
             @csrf
             @include('ficorcamentarias.form')
         </form>
