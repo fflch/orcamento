@@ -58,6 +58,7 @@ class ContaController extends Controller
         
         $lancamentos = Lancamento::with('contas')->get();
         
+        /*
         foreach($lancamentos as $lancamento){
             
             $pivot = $lancamento->contas->pluck('pivot');
@@ -66,7 +67,7 @@ class ContaController extends Controller
             //dd($conta_id);
 
         }
-        
+        */
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
