@@ -15,6 +15,7 @@ class CreateMovimentosTable extends Migration
     {
         Schema::create('movimentos', function (Blueprint $table) {
             $table->id();
+            //deixar nullable?
             $table->integer('ano')->unique();
             $table->boolean('concluido')->nullable()->default(FALSE);
             $table->boolean('ativo')->nullable()->default(FALSE);

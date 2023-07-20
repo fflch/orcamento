@@ -135,14 +135,8 @@ class FicOrcamentariaController extends Controller
     public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $validated = $request->validated();
-        if($request->debito == null)
-            $validated['debito']  = 0.00;
-        if($request->credito == null)
-            $validated['credito'] = 0.00;
         $validated['user_id']          = auth()->user()->id;
-        $ficorcamentaria->user_id      = auth()->user()->id;
-        $ficorcamentaria->movimento_id = Movimento::movimento_ativo()->id;
-        $ficorcamentaria->dotacao_id   = $request->dotacao_id;
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $ficorcamentaria->update($validated);
         $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
@@ -201,7 +195,6 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $ficorcamentaria->delete();
         $calculaSaldoFichaOrcamentaria = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
-        return redirect()->route('ficorcamentarias.index')
-                         ->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
+        return back()->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
     }
 }

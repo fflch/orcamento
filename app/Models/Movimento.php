@@ -35,13 +35,9 @@ class Movimento extends Model
     public static function movimento_anos(){
         $movimento_anos = Movimento::get('ano');
         return $movimento_anos;
-        //dd($movimento_anos);
-
     }
 
     public static function anos(){
         return range(date('Y'), 2008, -1);
-        //dd(range(date('Y'), 2008, -1));
-
     }
 }

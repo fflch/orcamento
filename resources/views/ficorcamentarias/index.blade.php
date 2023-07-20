@@ -16,7 +16,7 @@
             <div class="row">
                 <div class=" col-sm input-group">
                     <select class="dotacoes_select form-control" name="dotacao_id"  onchange="this.form.submit()" tabindex="1">
-                        <option value=" ">&nbsp;</option>
+                        <option value=" ">[ Busca por Dotação ]</option>
                         @foreach($lista_dotorcamentarias as $lista_dotorcamentaria)
                             <option value="{{ $lista_dotorcamentaria->id }}" @if(old('dotacao_id') == $lista_dotorcamentaria->id) {{ 'selected' }} @endif>
                                 {{ $lista_dotorcamentaria->dotacao }}

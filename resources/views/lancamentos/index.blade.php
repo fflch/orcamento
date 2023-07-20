@@ -63,7 +63,6 @@
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)
-                        <!--td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td-->
                         <td>{{ $lancamento->debito }}</td>
                     @else
                         <td>&nbsp;</td>

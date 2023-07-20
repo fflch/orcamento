@@ -9,7 +9,6 @@ use App\Models\Nota;
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
 use Redirect;
-//use Illuminate\Support\Facades\Redirect;
 
 class LancamentoController extends Controller
 {
@@ -22,9 +21,9 @@ class LancamentoController extends Controller
         $this->authorize('Todos');
 
         $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
-                          $query->whereHas('contas', function ($query) use ($request) {
-                              $query->where('conta_id', $request->conta_id);
-                          });
+                            $query->whereHas('contas', function ($query) use ($request) {
+                                $query->where('conta_id', $request->conta_id);
+                            });
                        })->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
@@ -122,7 +121,7 @@ class LancamentoController extends Controller
         return view('lancamentos.edit', [
             'lancamento'          => $lancamento,
             'movimento_ativo'     => Movimento::movimento_ativo(),
-            'contas' => Conta::lista_contas_ativas(),
+            'contas'              => Conta::lista_contas_ativas(),
             'lista_descricoes'    => Nota::lista_descricoes(),
             'lista_observacoes'   => Nota::lista_observacoes(),
             'nome_conta_numero2'  => Conta::nome_conta_numero(2),
@@ -140,9 +139,8 @@ class LancamentoController extends Controller
      */
     public function update(LancamentoRequest $request, Lancamento $lancamento){
         $this->authorize('Administrador');
-        $movimento_ativo          = Movimento::movimento_ativo();
         $validated = $request->validated();
-        $lancamento->movimento_id = $movimento_ativo->id;
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['user_id']     = auth()->user()->id;
         $lancamento->update($validated);
         $lancamento->contas()->sync($this->mapContas($validated));
