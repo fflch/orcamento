@@ -156,10 +156,10 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy(Lancamento $lancamento){
+    public function destroy(Request $request, Lancamento $lancamento){
         $this->authorize('Administrador');
         $lancamento->delete();
         $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento);
-        return back();
-    }
+        $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
+        return redirect()->route('lancamentos.index');    }
 }

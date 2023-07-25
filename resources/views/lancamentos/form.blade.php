@@ -7,7 +7,8 @@
         <label for="receita" class="checkbox-inline">Receita</label><br>
         <input type="checkbox" name="receita" id="receita" value="1" tabindex="3"
             @if (isset($lancamento->id) and ($lancamento->receita === 1))
-            @endif checked >
+            checked
+            @endif >
     </div>
     <div class="form-group col-md-1">
         <label fo col-md-2r="data">Data</label>

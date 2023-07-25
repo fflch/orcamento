@@ -15,8 +15,8 @@
             @csrf
             <div class="row">
                 <div class="col-sm input-group">
-                    <select class="contas_select form-control" name="conta_id" tabindex="1" placeholder="[ Busca por Conta ]" onchange="this.form.submit()">
-                        <option value=" ">&nbsp;</option>
+                    <select class="contas_select form-control" name="conta_id" tabindex="1" onchange="this.form.submit()">
+                        <option value=" ">[ Busca por Conta ]</option>
                         @foreach($lista_contas_ativas as $lista_conta_ativa)
                             <option value="{{ $lista_conta_ativa->id }}"
                             @if(old('conta_id') == $lista_conta_ativa->id)
