@@ -15,8 +15,6 @@ class CreateNotasTable extends Migration
     {
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipoconta_id');
-            $table->foreign('tipoconta_id')->references('id')->on('tipo_contas')->onDelete('cascade');
             $table->string('tipo');
             $table->string('texto');
             $table->unsignedBigInteger('user_id');

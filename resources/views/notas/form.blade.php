@@ -1,21 +1,5 @@
 <div class="form-row">
     <div class="form-group col-md-6">
-        <label for="tipoconta">Tipo De Conta</label>
-        <select class="tipocontas_select form-control" name="tipoconta_id" tabindex="1">
-            <option value=" ">&nbsp;</option>
-            @foreach($lista_tipos_contas as $lista_tipo_conta)
-                <option value="{{ $lista_tipo_conta->id }}"
-                    @if(old('conta_id') == $lista_tipo_conta->id)
-                        {{'selected'}}
-                    @else
-                        {{($nota->tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
-                    @endif>
-                    {{ $lista_tipo_conta->descricao }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group col-md-6">
         <label for="Tipo">Tipo</label>
         <select class="form-control" name="tipo" tabindex="2">
             <option value="{{ $nota->tipo ?? old('tipo') }}">{{ $nota->tipo ?? old('tipo') }}</option>

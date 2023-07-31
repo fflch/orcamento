@@ -11,7 +11,6 @@
 <br>
 <div class="card p-4">
     <div class="form-row">
-        <div class="form-group col-md-4"><b>Tipo de Conta:</b> {{ $nota->tipoconta->descricao ?? '' }}</div>
         <div class="form-group col-md-6"><b>Texto:</b> {{ $nota->texto }}</div>
         <div class="form-group col-md-2"><b>Tipo:</b> {{ $nota->tipo }}</div>
     </div>

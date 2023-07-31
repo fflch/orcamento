@@ -38,7 +38,6 @@ class NotaController extends Controller
         $this->authorize('Todos');
         return view('notas.create', [
             'nota'               => new Nota,
-            'lista_tipos_contas' => TipoConta::lista_tipos_contas(),
             'lista_tipos'        => Nota::lista_tipos(),
         ]);
     }
@@ -53,7 +52,6 @@ class NotaController extends Controller
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
-        $validated['tipoconta_id'] = $request->tipoconta_id;
         Nota::create($validated);
         $request->session()->flash('alert-success', 'Nota [ ' . $request->texto . ' ] cadastrada com sucesso!');
         return redirect()->route('notas.index');
@@ -80,7 +78,6 @@ class NotaController extends Controller
         $this->authorize('Administrador');
         return view('notas.edit', [
                     'nota'               => $nota,
-                    'lista_tipos_contas' => TipoConta::lista_tipos_contas(),
                     'lista_tipos'        => Nota::lista_tipos(),
         ]);
     }
@@ -96,7 +93,6 @@ class NotaController extends Controller
         $this->authorize('Administrador');
         $validated            = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $nota->tipoconta_id   = $request->tipoconta_id;
         $nota->update($validated);
         $request->session()->flash('alert-success', 'Nota [ ' . $nota->texto . ' ] alterada com sucesso!');
         return redirect()->route('notas.index');
