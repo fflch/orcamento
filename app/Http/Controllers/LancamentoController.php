@@ -78,7 +78,6 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
-        $validated['empenho']      = $request->empenho;
         $lancamento = Lancamento::create($validated);
         $lancamento->contas()->sync($this->mapContas($validated));
         $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento);
@@ -118,7 +117,7 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Lancamento $lancamento){
-        
+
         $this->authorize('Administrador');
 
         return view('lancamentos.edit', [

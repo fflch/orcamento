@@ -30,6 +30,7 @@ class LancamentoRequest extends FormRequest
             'grupo'       => 'required',
             'receita'     => 'boolean',
             'data'        => 'required',
+            'empenho'     => 'nullable',
             'descricao'   => 'required',
             'debito'      => 'required_without:credito|nullable',
             'credito'     => 'required_without:debito|nullable',
