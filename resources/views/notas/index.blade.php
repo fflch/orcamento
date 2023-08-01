@@ -33,9 +33,8 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
-                <th width="50%" align="left">Texto</th>
-                <th width="35%" align="left">Tipo de Conta</th>
-                <th width="5%" align="center">Tipo</th>
+                <th width="80%" align="left">Texto</th>
+                <th width="10%" align="center">Tipo</th>
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
@@ -45,7 +44,6 @@
             @foreach($notas as $nota)
             <tr>
                 <td align="left">{{ $nota->texto }}</td>
-                <td align="left">{{ $nota->tipoconta->descricao ?? '' }}</td>
                 <td align="left">{{ $nota->tipo }}</td>
                 <td align="center"><a class="btn btn-secondary" href="/notas/{{$nota->id}}">Ver</a></td>
                 @can('Administrador')

@@ -24,7 +24,9 @@ class LancamentoController extends Controller
                             $query->whereHas('contas', function ($query) use ($request) {
                                 $query->where('conta_id', $request->conta_id);
                             });
-                       })->orderBy('data', 'DESC')->paginate(10);
+                       })
+                       ->where('movimento_id',Movimento::movimento_ativo()->id)
+                       ->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
@@ -115,7 +117,7 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Lancamento $lancamento){
-        
+
         $this->authorize('Administrador');
 
         return view('lancamentos.edit', [

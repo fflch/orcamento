@@ -25,7 +25,6 @@ class FicOrcamentariaRequest extends FormRequest
         return [
             'dotacao_id' => 'required',
             'data'       => 'required',
-            'empenho'    => 'required',
             'descricao'  => 'required',
             'debito'     => 'required_without:credito',
             'credito'    => 'required_without:debito',
@@ -37,7 +36,6 @@ class FicOrcamentariaRequest extends FormRequest
         return [
             'dotacao_id.required'      => 'Informe a Dotação',
             'data.required'            => 'Informe a Data',
-            'empenho.required'         => 'Informe o Empenho',
             'descricao.required'       => 'Informe a Descrição',
             'debito.float'             => 'O Débito deve ser um valor monetário',
             'credito.float'            => 'O Crédtio deve ser um valor monetário',

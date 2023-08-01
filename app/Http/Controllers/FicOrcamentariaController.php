@@ -26,6 +26,7 @@ class FicOrcamentariaController extends Controller
         $ficorcamentarias = FicOrcamentaria::when($request->dotacao_id, function ($query) use ($request) {
                                 $query->where('dotacao_id','=',$request->dotacao_id);
                             })
+                            ->where('movimento_id',Movimento::movimento_ativo()->id)
                             ->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
@@ -94,7 +95,7 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Todos');
 
         $lancamentos = Lancamento::where('ficorcamentaria_id',$ficorcamentaria->id)
-                                    ->where('movimento_id',Movimento::movimento_ativo()->id) // ??
+                                    ->where('movimento_id',Movimento::movimento_ativo()->id)
                                     ->paginate(5);
 
         $tiposdecontas = TipoConta::lista_tipos_contas();
