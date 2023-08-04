@@ -27,7 +27,6 @@ class NotaFactory extends Factory
         return [
             'texto'        => $this->faker->name,
             'tipo'         => $tipos[array_rand($tipos)],
-            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
     }

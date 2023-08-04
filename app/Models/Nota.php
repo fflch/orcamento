@@ -9,7 +9,6 @@ class Nota extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'tipoconta_id',
         'texto',
         'tipo',
         'user_id'

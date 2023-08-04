@@ -30,8 +30,7 @@ class ContaRequest extends FormRequest
                     'required',
                      Rule::unique('contas')->where(function ($query) {
                          $query->where('nome', $this->nome)
-                            ->where('tipoconta_id', $this->tipoconta_id)
-                            ->where('area_id', $this->area_id);
+                            ->where('tipoconta_id', $this->tipoconta_id);
                      })
                 ],    
                 'numero' => [
@@ -49,8 +48,7 @@ class ContaRequest extends FormRequest
                     'required',
                      Rule::unique('contas')->where(function ($query) {
                          $query->where('nome', $this->nome)
-                            ->where('tipoconta_id', $this->tipoconta_id)
-                            ->where('area_id', $this->area_id);
+                            ->where('tipoconta_id', $this->tipoconta_id);
                      })->ignore($this->conta->id)
                 ],
                 'numero' => [
@@ -63,7 +61,6 @@ class ContaRequest extends FormRequest
             ];
         }
         $rules['tipoconta_id'] = 'required';
-        $rules['area_id']      = 'required';
         $rules['email']        = 'email|nullable';
         $rules['ativo']        = 'boolean';
         return $rules;
@@ -72,7 +69,6 @@ class ContaRequest extends FormRequest
     public function messages(){
         return [
             'tipoconta_id.required' => 'Informe o Tipo de Conta.',
-            'area_id.required'      => 'Informe o Nome da Área.',
             'nome.required'         => 'Informe o Nome da Conta.',
             'nome.unique'           => 'Já existe uma Conta com o nome [ ' . $this->nome . ' ] no mesmo Tipo de Conta/Área.',
             'email.email'           => 'Informe um endereço de E-mail válido.',

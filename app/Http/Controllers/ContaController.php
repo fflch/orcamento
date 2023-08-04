@@ -52,34 +52,25 @@ class ContaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lancamentos_por_conta($conta){
+    public function lancamentos_por_conta(Conta $conta){
 
         $this->authorize('Todos');
         
-        $lancamentos = Lancamento::with('contas')->paginate(10);
-        
-        /*
-        foreach($lancamentos as $lancamento){
-            
-            $pivot = $lancamento->contas->pluck('pivot');
-            $conta_id = $pivot->pluck('conta_id');
-            $lancamento_id = $pivot->pluck('lancamento_id');
-            //dd($conta_id);
-
-        }
-        */
+        $conta->load('lancamentos');
 
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';
-        foreach($lancamentos as $lancamento){
-            $total_debito     += $lancamento->debito_raw;
-            $concatena_debito .= $lancamento->debito_raw . ' -  ';
-            $total_credito    += $lancamento->credito_raw;
-        }
 
-        return view('lancamentos.index',[
-                    'lancamentos'         => $lancamentos,
+            foreach($conta->lancamentos as $lancamento){
+
+                $total_debito     += $lancamento->debito_raw;
+                $concatena_debito .= $lancamento->debito_raw . ' -  ';
+                $total_credito    += $lancamento->credito_raw;
+            }
+
+        return view('lancamentos.index_por_conta',[
+                    'lancamentos'         => $conta->load('lancamentos'),
                     'total_debito'        => $total_debito,
                     'total_credito'       => $total_credito,
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
@@ -133,11 +124,10 @@ class ContaController extends Controller
     public function edit(Conta $conta){
         $this->authorize('Administrador');
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
-        $lista_areas        = Area::lista_areas();
+
         return view('contas.edit',[
             'conta'              => $conta,
             'lista_tipos_contas' => $lista_tipos_contas,
-            'lista_areas'        => $lista_areas,
         ]);
     }
 
@@ -168,7 +158,7 @@ class ContaController extends Controller
 
         $this->authorize('Administrador');
         
-        if($conta->lancamento->isNotEmpty()){
+        if($conta->lancamentos->isNotEmpty()){
             request()->session()->flash('alert-danger','Conta [ ' . $conta->nome . ' ] não pode ser excluída,
             pois existem Lançamentos cadastrados nela.');
             return redirect("/contas");

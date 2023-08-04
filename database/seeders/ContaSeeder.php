@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Conta;
 use App\Models\TipoConta;
-use App\Models\Area;
 use App\Models\User;
 
 class ContaSeeder extends Seeder
@@ -24,7 +23,6 @@ class ContaSeeder extends Seeder
             'numero'       => 2,
             'ativo'        => TRUE,
             'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
-            'area_id'      => Area::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
 
@@ -35,7 +33,6 @@ class ContaSeeder extends Seeder
             'numero'       => 3,
             'ativo'        => FALSE,
             'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
-            'area_id'      => Area::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
 
@@ -46,7 +43,6 @@ class ContaSeeder extends Seeder
             'numero'       => 4,
             'ativo'        => FALSE,
             'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
-            'area_id'      => Area::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
 

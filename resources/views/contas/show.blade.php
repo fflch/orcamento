@@ -12,7 +12,6 @@
 <div class="card p-4">
     <div class="form-row">        
         <div class="form-group col-md-6"><b>Tipo de Conta:</b> {{ $conta->tipoconta->descricao ?? '' }}</div>
-        <div class="form-group col-md-6"><b>Área:</b> {{ $conta->area->nome ?? '' }}</div>
     </div>
     <div class="form-row">        
         <div class="form-group col-md-6"><b>Nome:</b> {{ $conta->nome }}</div>
