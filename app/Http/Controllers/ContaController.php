@@ -55,24 +55,13 @@ class ContaController extends Controller
     public function lancamentos_por_conta(Conta $conta){
 
         $this->authorize('Todos');
-        
+
         $conta->load('lancamentos');
 
-        $total_debito  = 0.00;
-        $total_credito = 0.00;
-        $concatena_debito = '';
-
-            foreach($conta->lancamentos as $lancamento){
-
-                $total_debito     += $lancamento->debito_raw;
-                $concatena_debito .= $lancamento->debito_raw . ' -  ';
-                $total_credito    += $lancamento->credito_raw;
-            }
-
         return view('lancamentos.index_por_conta',[
-                    'lancamentos'         => $conta->load('lancamentos'),
-                    'total_debito'        => $total_debito,
-                    'total_credito'       => $total_credito,
+                    'conta'               => $conta,
+                    'total_debito'        => $conta->lancamentos->sum('debito_raw'),
+                    'total_credito'       => $conta->lancamentos->sum('credito_raw'),
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
         ]);
     }
@@ -157,7 +146,7 @@ class ContaController extends Controller
     public function destroy(Conta $conta, Request $request){
 
         $this->authorize('Administrador');
-        
+
         if($conta->lancamentos->isNotEmpty()){
             request()->session()->flash('alert-danger','Conta [ ' . $conta->nome . ' ] não pode ser excluída,
             pois existem Lançamentos cadastrados nela.');

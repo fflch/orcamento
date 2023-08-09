@@ -7,7 +7,7 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Lançamentos</strong></h2>
-</div>    
+</div>
 <br>
 <div class="form-row">
     <div class="form-group col-md-10">
@@ -55,7 +55,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($lancamentos->lancamentos as $lancamento)
+            @foreach($conta->lancamentos as $lancamento)
                 <tr>
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
