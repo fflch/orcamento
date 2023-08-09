@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Nota;
-use App\Models\TipoConta;
 use App\Models\User;
 
 class NotaSeeder extends Seeder
@@ -20,13 +19,11 @@ class NotaSeeder extends Seeder
         $nota1 = [
             'texto'        => 'Suplementação de Cursos',
             'tipo'         => $tipos[array_rand($tipos)],
-            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
         $nota2 = [
             'texto'        => 'Referente JAN/',
             'tipo'         => $tipos[array_rand($tipos)],
-            'tipoconta_id' => TipoConta::inRandomOrder()->first()->id,
             'user_id'      => User::inRandomOrder()->first()->id,
         ];
 

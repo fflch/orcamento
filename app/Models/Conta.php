@@ -11,7 +11,6 @@ class Conta extends Model
     use HasFactory;
     protected $fillable = [
         'tipoconta_id',
-        'area_id',
         'nome',
         'email',
         'numero',
@@ -62,7 +61,7 @@ class Conta extends Model
         return $nome_conta_numero;
     }
 
-    public function lancamento(){
+    public function lancamentos(){
         return $this->belongsToMany(Lancamento::class)
                     ->withPivot(['percentual'])
                     ->withTimestamps();

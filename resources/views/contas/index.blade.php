@@ -48,10 +48,9 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
-                <th width="30%" align="left">Nome</th>
-                <th width="30%" align="left">Tipo de Conta</th>
-                <th width="25%" align="left">Área</th>
-                <th width="5%" align="center">Ativo</th>
+                <th width="40%" align="left">Nome</th>
+                <th width="40%" align="left">Tipo de Conta</th>
+                <th width="10%" align="center">Ativo</th>
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
@@ -62,7 +61,6 @@
                 <tr>
                     <td align="left">{{ $conta->nome }}</td>
                     <td align="left">{{ $conta->tipoconta->descricao ?? '' }}</td>
-                    <td align="left">{{ $conta->area->nome ?? '' }}</td>
                     <td align="left">@if ($conta->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                     <td align="left"><a class="btn btn-dark" href="/lancamentos_por_conta/{{$conta->id}}" title="Ver Lançamentos da Conta {{ $conta->nome }}">Lançamentos</a></a></td>
 

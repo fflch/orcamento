@@ -11,18 +11,6 @@
             @endforeach
         </select>
     </div>
-    <div class="form-group col-md-6">
-        <label for="area">Área</label>
-        <select class="areas_select form-control" name="area_id" tabindex="2">
-            <option value=" ">&nbsp;</option>
-            @foreach($lista_areas as $lista_area)
-                <option value="{{ $lista_area->id }}" @if(old('area_id') == $lista_area->id) {{'selected'}}
-            @else {{($conta->area_id === $lista_area->id ) ? 'selected' : ''}} @endif>
-                {{ $lista_area->nome }}
-                </option>
-            @endforeach
-        </select>
-    </div>
 </div>
 <div class="form-row">
     <div class="form-group col-md-6">
@@ -35,14 +23,11 @@
     </div>
     <div class="form-group col-md-1">
         <label for="numero">Número</label>
-        <input type="text" class="form-control" name="numero" value="{{ $conta->numero ?? old('numero') }}" placeholder="[ Ex: 1 ]" tabindex="5">
+        <input type="text" class="form-control" name="numero" value="1" placeholder="[ Ex: 1 ]" tabindex="5">
     </div>
     <div class="form-group col-md-1">
         <label class="checkbox-inline" for="ativo">Ativo<br>
-            <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6"
-            @if (isset($conta->id) and ($conta->ativo === 1))
-                checked
-            @endif >
+            <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6" checked>
         </label>    
     </div>
 </div>
