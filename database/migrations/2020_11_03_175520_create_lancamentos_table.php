@@ -22,7 +22,7 @@ class CreateLancamentosTable extends Migration
             $table->string('grupo');
             $table->boolean('receita')->nullable()->default(FALSE);
             $table->date('data');
-            $table->integer('empenho');
+            $table->integer('empenho')->nullable();
             $table->string('descricao');
             $table->float('debito', 15, 2)->nullable()->default(0.00);
             $table->float('credito', 15, 2)->nullable()->default(0.00);
