@@ -25,6 +25,7 @@ class FicOrcamentariaRequest extends FormRequest
         return [
             'dotacao_id' => 'required',
             'data'       => 'required',
+            'empenho'    => 'nullable',
             'descricao'  => 'required',
             'debito'     => 'required_without:credito',
             'credito'    => 'required_without:debito',
