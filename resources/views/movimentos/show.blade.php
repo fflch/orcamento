@@ -12,7 +12,6 @@
 <div class="card p-4">
     <div class="form-row">
         <div class="form-group col-md-8"><b>Ano:</b> {{ $movimento->ano }}</div>
-        <div class="form-group col-md-2"><b>Concluído:</b>@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif </div>
         <div class="form-group col-md-2"><b> Ativo:</b>@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</div>
     </div>        
     <div class="form-row">        

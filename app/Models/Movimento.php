@@ -10,7 +10,6 @@ class Movimento extends Model
     use HasFactory;
     protected $fillable = [
         'ano',
-        'concluido',
         'ativo',
         'user_id',
     ];
@@ -28,7 +27,7 @@ class Movimento extends Model
     }
 
     public static function movimento_ativo(){
-        $movimento_ativo = Movimento::where('ativo','=','1')->first();
+        $movimento_ativo = Movimento::where('ativo','=','1')->get();
         return $movimento_ativo;
     }
 

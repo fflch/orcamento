@@ -85,7 +85,6 @@ class MovimentoController extends Controller
             DB::table('movimentos')->update(['ativo' => 0]);
         $movimento->update([
             'ano'       => $request->ano,
-            'concluido' => $request->has('concluido'),
             'ativo'     => $request->has('ativo'),
             'user_id'   => \Auth::user()->id,
         ]);

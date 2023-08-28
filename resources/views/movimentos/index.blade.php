@@ -34,7 +34,6 @@
         <thead>
             <tr>
                 <th width="80%" align="left">Ano</th>
-                <th width="5%" align="center">Concluído</th>
                 <th width="5%" align="center">Ativo</th>
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
@@ -45,7 +44,6 @@
             @foreach($movimentos as $movimento)
                 <tr>
                     <td align="left">{{ $movimento->ano }}</td>
-                    <td>@if ($movimento->concluido == 1) [ x ] @else [ &nbsp; ] @endif</td>
                     <td>@if ($movimento->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
                     <td align="center"><a class="btn btn-secondary" href="/movimentos/{{$movimento->id}}">Ver</a></td>
                     @can('Administrador')

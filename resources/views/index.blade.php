@@ -11,7 +11,11 @@
             Utilize o menu acima para usar os recursos do sistema. Caso o menu não esteja aparecendo, significa que você não tem um <strong>perfil</strong>. 
             Seu perfil atual é: <strong>{{ $perfil_logado }}</strong>.
             As opções do menu podem variar de acordo com o seu perfil.
-            O movimento atualmente ativo é o <strong>{{ $movimento_ativo->ano }}</strong>.
+            O movimento atualmente ativo é o <strong>
+            @foreach($movimento_ativo as $ano)
+                {{ $ano->ano }}
+            @endforeach
+            </strong>.
             A seção atual tem o movimento <strong>{{ session('ano') }}</strong> definido como padrão. 
             Para sair, clique em <strong>Sair</strong> logo acima à direita, ao lado do seu nome e e-mail.
         </p>

@@ -26,7 +26,6 @@ class MovimentoRequest extends FormRequest
     {
         $rules = [
             'ano' => 'required|integer|between:1,9999',
-            'concluido' => 'boolean',
             'ativo'     => 'boolean',
         ];
 
@@ -43,7 +42,6 @@ class MovimentoRequest extends FormRequest
             'ano.integer'       => 'O Ano deve ser um número inteiro.',
             'ano.between'       => 'O Ano deve ter, no máximo, quatro dígitos.',
             'ano.unique'        => 'Já existe um Movimento com o ano [ ' . $this->ano . ' ].',
-            'concluido.boolean' => 'O campo Concluído deve estar marcado ou desmarcado.',
             'ativo.boolean'     => 'O campo Ativo deve estar marcado ou desmarcado.',
         ];
     }

@@ -15,12 +15,9 @@ class CreateMovimentosTable extends Migration
     {
         Schema::create('movimentos', function (Blueprint $table) {
             $table->id();
-            //deixar nullable?
             $table->integer('ano')->unique();
-            $table->boolean('concluido')->nullable()->default(FALSE);
             $table->boolean('ativo')->nullable()->default(FALSE);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
