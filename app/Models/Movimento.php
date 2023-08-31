@@ -27,7 +27,7 @@ class Movimento extends Model
     }
 
     public static function movimento_ativo(){
-        $movimento_ativo = Movimento::where('ativo','=','1')->get();
+        $movimento_ativo = Movimento::where('ativo','=','1')->first();
         return $movimento_ativo;
     }
 

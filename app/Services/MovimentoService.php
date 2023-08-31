@@ -18,29 +18,19 @@ class MovimentoService
         $movimento = Movimento::where('ano', $ano)->first();
         if($movimento){
             if($movimento->ativo != 1){
-                $movimento_ativo = Movimento::where('ano', $ano)->update([
+                $movimento = Movimento::where('ano', $ano)->update([
                     'ativo' => 1
                 ]);
             }
-            return $movimento_ativo;
+            return $movimento;
         } elseif($user->perfil == "Administrador"){
-                $movimento_ativo = Movimento::create([
+                $movimento = Movimento::create([
                     'ano' => $ano,
                     'ativo' => 1,
                     'user_id' => $user->id
                 ]);
-                return $movimento_ativo;   
-            } 
-          
+                return $movimento;
+            }
     }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }
