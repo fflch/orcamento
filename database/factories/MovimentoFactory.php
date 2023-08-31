@@ -26,7 +26,6 @@ class MovimentoFactory extends Factory
 
         return [
             'ano'       => $ano()->first() - 1, //$this->faker->numberBetween($min = 2030, $max = 2099),
-            'concluido' => $this->faker->boolean,
             'ativo'     => $this->faker->boolean,
             'user_id'   => User::inRandomOrder()->first()->id,
         ];

@@ -20,7 +20,6 @@ class MovimentoSeeder extends Seeder
             Movimento::create(
                 [
                     'ano'       => date("Y") - $x,
-                    'concluido' => (date("Y") - $x) < date("Y") ? FALSE : TRUE,
                     'ativo'     => (date("Y") - $x) < date("Y") ? FALSE : TRUE,
                     'user_id'   => User::inRandomOrder()->first()->id,
                 ]);

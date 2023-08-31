@@ -10,7 +10,6 @@ class Movimento extends Model
     use HasFactory;
     protected $fillable = [
         'ano',
-        'concluido',
         'ativo',
         'user_id',
     ];

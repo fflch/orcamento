@@ -14,19 +14,18 @@ class indexController extends Controller
     }
 
     public function index(){
-        //dd("oi");
-        
+
+        $perfil_logado = '';
+        $movimento_ativo = null;
         if(auth()->user()){
             $perfil_logado = auth()->user()->perfil;
+            $movimento_ativo = Movimento::movimento_ativo()->ano;
             if (session('ano') == null) {
-                session(['ano' => Movimento::movimento_ativo()->ano]);
+                session(['ano' => $movimento_ativo]);
             }
         }
-        else{
-            $perfil_logado = '';
-        }
         return view('index',[
-                    'movimento_ativo' => Movimento::movimento_ativo(),
+                    'movimento_ativo' => $movimento_ativo,
                     'perfil_logado'   => $perfil_logado,
                     'movimento_anos'  => Movimento::movimento_anos(),
         ]);
@@ -34,7 +33,7 @@ class indexController extends Controller
 
     public function mudaAno(Request $request){
         $this->authorize('Todos');
-        
+
         # A validação ainda precisa passar para um local mais apropriado
         $validator = Validator::make(['ano' => $request->ano], [
             'ano' => 'required|integer|in:' . implode(',', Movimento::anos()),
@@ -45,7 +44,7 @@ class indexController extends Controller
                  ->withErrors($validator)
                  ->withInput();
         }
-        
+
         session(['ano' => $request->ano]);
         return back();
     }

@@ -8,6 +8,7 @@ use App\Models\Movimento;
 use Socialite;
 use Auth;
 use Illuminate\Http\Request;
+use App\Services\MovimentoService;
 
 class LoginController extends Controller
 {
@@ -30,8 +31,14 @@ class LoginController extends Controller
         $user->name   = $userSenhaUnica->nompes;
         $user->save();
         Auth::login($user, true);
-        return redirect('/');
-        session(['ano' => Movimento::movimento_ativo()->ano]);
+        $movimento_ativo = MovimentoService::handle($user);
+        if($movimento_ativo){
+            session(['ano' => $movimento_ativo->ano]);
+            return redirect('/');
+        } else {
+            Auth::logout();
+            return view('alternateindex');
+        }
     }
 
     public function logout(){
