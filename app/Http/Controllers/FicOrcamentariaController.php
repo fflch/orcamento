@@ -23,10 +23,12 @@ class FicOrcamentariaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
 
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
         $ficorcamentarias = FicOrcamentaria::when($request->dotacao_id, function ($query) use ($request) {
                                 $query->where('dotacao_id','=',$request->dotacao_id);
                             })
-                            ->where('movimento_id',Movimento::movimento_ativo()->id)
+                            ->where('movimento_id', $movimento->id)
                             ->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
@@ -41,6 +43,7 @@ class FicOrcamentariaController extends Controller
                     'total_debito'           => $total_debito,
                     'total_credito'          => $total_credito,
                     'lista_dotorcamentarias' => $lista_dotorcamentarias,
+                    'movimento_anos'  => Movimento::movimento_anos()
         ]);
     }
 
@@ -79,7 +82,7 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Todos');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;        
         $ficorcamentaria = FicOrcamentaria::create($validated);
         $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
@@ -95,7 +98,6 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Todos');
 
         $lancamentos = Lancamento::where('ficorcamentaria_id',$ficorcamentaria->id)
-                                    ->where('movimento_id',Movimento::movimento_ativo()->id)
                                     ->paginate(5);
 
         $tiposdecontas = TipoConta::lista_tipos_contas();
@@ -136,8 +138,8 @@ class FicOrcamentariaController extends Controller
     public function update(FicOrcamentariaRequest $request, FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
         $validated = $request->validated();
-        $validated['user_id']          = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
+        $validated['user_id'] = auth()->user()->id;
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;       
         $ficorcamentaria->update($validated);
         $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
