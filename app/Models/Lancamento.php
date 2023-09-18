@@ -81,18 +81,18 @@ class Lancamento extends Model
                     ->withPivot(['percentual'])
                     ->withTimestamps();
     }
+    
+    public static function calculaSaldo($lancamento, $lancamento_last){
 
-    static function calculaSaldo($lancamento){
-
-        $lancamentos_conta = Lancamento::with('contas')->get();
-        $saldo  = 0.00;
-        foreach($lancamentos_conta as $calcula_saldo){
-            $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
-            $calcula_saldo->saldo = $saldo;
-            $calcula_saldo->update();
+        if($lancamento_last){
+            $saldo = (float)str_replace(',','.',$lancamento_last->saldo);
+        } else {
+            $saldo = 0.00;
         }
-        return $saldo;
+        $saldo += $lancamento->credito_raw - $lancamento->debito_raw;
+        $lancamento->saldo = $saldo;
+        $lancamento->update();
+       
     }
-
     
 }

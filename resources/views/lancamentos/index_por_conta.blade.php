@@ -62,12 +62,12 @@
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)
-                        <td>{{ $lancamento->debito }}</td>
+                        <td>{{ number_format((float)($lancamento->debito_raw * $lancamento->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td>&nbsp;</td>
                     @endif
                     @if($lancamento->credito != 0.00)
-                        <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+                    <td>{{ number_format((float)($lancamento->credito_raw * $lancamento->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td align="right">&nbsp;</td>
                     @endif
