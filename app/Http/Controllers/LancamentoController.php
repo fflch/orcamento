@@ -208,6 +208,7 @@ class LancamentoController extends Controller
         return redirect()->route('lancamentos.index');    
     }
 
+    /*
     public function destroyPercentual(Lancamento $lancamento){
         $this->authorize('Administrador');
         $lancamento->load('contas');
@@ -216,4 +217,5 @@ class LancamentoController extends Controller
         }
         return back();    
     }
+    */
 }
