@@ -83,7 +83,6 @@ class Lancamento extends Model
     }
     
     public static function calculaSaldo($lancamento, $lancamento_last){
-
         if($lancamento_last){
             $saldo = (float)str_replace(',','.',$lancamento_last->saldo);
         } else {

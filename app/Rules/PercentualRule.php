@@ -3,40 +3,31 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use App\Models\Lancamento;
 
 class PercentualRule implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $id;
+
+    public function __construct($id)
     {
-        //
+        $this->id = $id;
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
     public function passes($attribute, $value)
     {
-        if(array_sum($value) != 100) return false;
-
+        $lancamento = Lancamento::where('id', $this->id)->first();
+        $lancamento->load('contas');
+        $soma = $value;
+        foreach($lancamento->contas as $conta){
+            $soma += $conta->pivot->percentual;
+            if($soma > 100) return false;
+        }
         return true;
     }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
     public function message()
     {
-        return 'A soma dos percentuais deve ser igual a 100.';
+        return 'A soma dos percentuais não deve ultrapassar 100.';
     }
 }

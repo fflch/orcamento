@@ -7,6 +7,7 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Lançamentos</strong></h2>
+    @include('partials.mostra_ano')
 </div>    
 <br>
 <div class="form-row">

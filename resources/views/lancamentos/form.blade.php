@@ -51,15 +51,6 @@
         </datalist>
     </div>
 </div>
-<div class="card p-3">    
-    <div class="form-group col-md-3">
-        <div class="form-row">
-            <label for="percentual1"><b>Percentuais:</b></label>
-            @include('lancamentos.partials.percentual')
-        </div>       
-    </div>
-</div>
-<br>
 <div class="form-row">
     <div class="panel panel-default">
         <div class="panel-body">

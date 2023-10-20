@@ -35,14 +35,6 @@ class LancamentoRequest extends FormRequest
             'debito'      => 'required_without:credito|nullable',
             'credito'     => 'required_without:debito|nullable',
             'observacao'  => 'required',
-            'contas.*' => [
-                'string',
-            ],
-            'contas' => [
-                'required',
-                'array',
-            ],
-            'percentual' => ['required', new PercentualRule]
         ];
         return $rules;
 

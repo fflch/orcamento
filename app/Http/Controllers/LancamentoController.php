@@ -6,8 +6,10 @@ use App\Models\Lancamento;
 use App\Models\Movimento;
 use App\Models\Conta;
 use App\Models\Nota;
+use App\Models\TipoConta;
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
+use App\Http\Requests\PercentualRequest;
 use Redirect;
 
 class LancamentoController extends Controller
@@ -20,12 +22,14 @@ class LancamentoController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
 
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
         $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
                             $query->whereHas('contas', function ($query) use ($request) {
                                 $query->where('conta_id', $request->conta_id);
                             });
                        })
-                       ->where('movimento_id',Movimento::movimento_ativo()->id)
+                       ->where('movimento_id', $movimento->id)
                        ->orderBy('data', 'DESC')->paginate(10);
 
         $total_debito  = 0.00;
@@ -42,6 +46,7 @@ class LancamentoController extends Controller
                     'total_debito'        => $total_debito,
                     'total_credito'       => $total_credito,
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
+                    'movimento_anos'  => Movimento::movimento_anos()
         ]);
     }
 
@@ -53,6 +58,9 @@ class LancamentoController extends Controller
     public function create(){
 
         $this->authorize('Todos');
+
+        $tiposdecontas = TipoConta::lista_tipos_contas();
+
         return view('lancamentos.create', [
                     'lancamento'          => new Lancamento,
                     'movimento_ativo'     => Movimento::movimento_ativo(),
@@ -62,9 +70,25 @@ class LancamentoController extends Controller
                     'nome_conta_numero2'  => Conta::nome_conta_numero(2),
                     'nome_conta_numero3'  => Conta::nome_conta_numero(3),
                     'nome_conta_numero4'  => Conta::nome_conta_numero(4),
+                    'tiposdecontas'        => $tiposdecontas
         ]);
     }
 
+    public function getLancamentoContas(Request $request)
+    {
+        if($request->has('search')) {
+            $contas = Conta::where('tipoconta_id', $request->search)
+                      ->orderby('nome','asc')->get();
+        }
+        $response = array();
+        foreach($contas as $conta){
+            $response[] = array(
+                "id" => $conta->id,
+                "nome" => $conta->nome,
+            );
+        }
+        return response()->json($response);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -78,23 +102,34 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
+        $lancamento_last = Lancamento::all()->last();
         $lancamento = Lancamento::create($validated);
-        $lancamento->contas()->sync($this->mapContas($validated));
-        $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento);
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
-        return redirect()->route('lancamentos.index');
+        return redirect("/lancamentos/{$lancamento->id}");
     }
 
-    private function mapContas($validated)
+    public function storePercentual(Lancamento $lancamento, PercentualRequest $request){
+
+        $this->authorize('Todos');
+
+        $lancamento['id'] = $lancamento->id;
+        $lancamento_last = Lancamento::all()->last();
+        $contas_percentual[$request['contas']] = ['percentual' => $request['percentual']];
+        $lancamento->contas()->attach($contas_percentual);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
+        return redirect("/lancamentos/{$lancamento->id}");
+    }
+
+    private function mapContas($request)
     {
         $contas_percentual = [];
-        foreach($validated['contas'] as $key=>$valor){
-            $contas_percentual[$valor] = ['percentual' => $validated['percentual'][$key]];
-
+            foreach($request['contas'] as $key=>$valor){
+            $contas_percentual[$valor] = ['percentual' => $request['percentual']];
         }
         return $contas_percentual;
     }
-
     /**
      * Display the specified resource.
      *
@@ -105,8 +140,14 @@ class LancamentoController extends Controller
 
         $this->authorize('Todos');
 
+        $tiposdecontas = TipoConta::lista_tipos_contas();
+        $contas = Conta::lista_contas_ativas();
+        $lancamento->load('contas');
+
         return view('lancamentos.show', [
-            'lancamento' => $lancamento->load('contas')
+            'lancamento' => $lancamento,
+            'tiposdecontas' => $tiposdecontas,
+            'contas' => $contas
         ]);
     }
 
@@ -144,11 +185,11 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['user_id']     = auth()->user()->id;
+        $lancamento_last = Lancamento::all()->last();
         $lancamento->update($validated);
-        $lancamento->contas()->sync($this->mapContas($validated));
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
-        return redirect()->route('lancamentos.index');
+        return redirect("/lancamentos/{$lancamento->id}");
     }
 
     /**
@@ -160,8 +201,19 @@ class LancamentoController extends Controller
 
     public function destroy(Request $request, Lancamento $lancamento){
         $this->authorize('Administrador');
+        $lancamento_last = Lancamento::all()->last();
         $lancamento->delete();
-        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento);
-        $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
-        return redirect()->route('lancamentos.index');    }
+        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $request->session()->flash('alert-success', 'Lançamento deletado com sucesso!');
+        return redirect()->route('lancamentos.index');    
+    }
+
+    public function destroyPercentual(Lancamento $lancamento){
+        $this->authorize('Administrador');
+        $lancamento->load('contas');
+        foreach($lancamento->contas as $conta){
+           $conta->delete('percentual');
+        }
+        return back();    
+    }
 }
