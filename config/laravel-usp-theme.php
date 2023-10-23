@@ -60,11 +60,6 @@ $administracao = [
         'can'  => 'Todos',
     ],
     [
-        'text' => 'Contas x Usuários',
-        'url'  => '/contausuarios',
-        'can'  => 'Administrador',
-    ],
-    [
         'type' => 'divider',
         'can'  => 'Todos',
     ],

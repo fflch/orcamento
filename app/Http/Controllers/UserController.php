@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Conta;
+use App\Models\ContaUsuario;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\ContaUsuarioRequest;
 
 class UserController extends Controller
 {
@@ -16,14 +19,27 @@ class UserController extends Controller
 
     public function index(Request $request){
         $this->authorize('Todos');
-        if($request->busca_nome != null)
+        if($request->busca_nome != null){
             $usuarios = User::where('name','LIKE','%'.$request->busca_nome.'%')
                             ->orderBy('name')
                             ->paginate(10);
-        else
+        } else {
             $usuarios = User::orderBy('name')
                             ->paginate(10);
+        }
         return view('usuarios.index')->with('usuarios', $usuarios);
+    }
+
+    public function storeContaUsuario(ContaUsuarioRequest $request){
+        $this->authorize('Todos');
+        foreach($request->contaid as $id){
+                $validated = $request->validated();
+                $validated['id_conta']   = $id;
+                $validated['user_id']    = \Auth::user()->id;
+                ContaUsuario::create($validated);
+        }
+        $request->session()->flash('alert-success', 'Conta x Usuário cadastrada com sucesso!');
+        return back();
     }
 
     /**
@@ -34,7 +50,9 @@ class UserController extends Controller
      */
     public function show(User $usuario){
         $this->authorize('Todos');
-        return view('usuarios.show', compact('usuario'));
+        return view('usuarios.show', [
+            'usuario' => $usuario                    
+        ]);
     }
 
         /**
@@ -44,10 +62,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $usuario){
+
+        $contas = ContaUsuario::where('id_usuario', $usuario->id)->paginate(5);
+
         $this->authorize('Administrador');
         return view('usuarios.edit', [
-             'usuario'      => $usuario,
-             'lista_perfis' => User::lista_perfis()
+            'contas'   => $contas,
+            'usuario'      => $usuario,
+            'lista_perfis' => User::lista_perfis(),
+            'lista_contas_ativas' => Conta::lista_contas_ativas()
         ]);
     }
 
@@ -64,6 +87,12 @@ class UserController extends Controller
         $validated['user_id'] = \Auth::user()->id;
         $usuario->update($validated);
         $request->session()->flash('alert-success', 'Perfil do usuário [ ' . $usuario->name . ' ] alterado com sucesso para [ ' . $usuario->perfil . ' ]!');
-        return redirect()->route('usuarios.index');
+        return back();
+    }
+
+    public function destroyContaUsuario(ContaUsuario $conta){
+        $this->authorize('Administrador');
+        $conta->delete();
+        return back()->with('alert-success', 'Conta x Usuário excluída com sucesso!');
     }
 }

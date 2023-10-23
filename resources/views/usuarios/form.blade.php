@@ -25,7 +25,7 @@
 <div class="form-row">
     <div class="panel panel-body panel-default">
         <div class="form-group col-md-12">
-            <input type="submit" class="btn btn-primary" value="Salvar" tabindex="5">
+            <input type="submit" class="btn btn-primary" value="Alterar perfil" tabindex="5">
             <input type="reset" class="btn btn-warning" value="Desfazer" tabindex="6">
         </div>
     </div>

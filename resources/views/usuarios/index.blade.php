@@ -50,9 +50,8 @@
                     <td align="left">{{ $usuario->name }}</td>
                     <td align="left">{{ $usuario->email }}</td>
                     <td align="left">{{ $usuario->perfil }}</td>
-                    <td align="center"><a class="btn btn-secondary" href="/usuarios/{{$usuario->id}}">Ver</a></td>
                     @can('Administrador')
-                        <td align="center"><a class="btn btn-warning" href="/usuarios/{{$usuario->id}}/edit">Editar</a></td>
+                        <td align="center"><a class="btn btn-warning" href="/usuarios/{{$usuario->id}}/edit">Visualizar/Editar</a></td>
                     @endcan
                 </tr>
             @endforeach

@@ -47,10 +47,8 @@
         <div class="form-group col-md-4"><b>Criação:</b> {{ date_format($lancamento->created_at, 'd/m/Y H:i:s') ?? '' }}</div>
         <div class="form-group col-md-4"><b>Última Modificação:</b> {{ date_format($lancamento->updated_at, 'd/m/Y H:i:s') ?? '' }}</div>
     </div>
-</div>
 @can('Administrador')
     <br>
-    <div class="card p-3">
         <div class="form-row">
             <div class="form-group col-md-8">
                 <a href="{{ url()->previous() }}" class="btn btn-info">Voltar</a>
@@ -64,6 +62,40 @@
                 </form>
             </div>
         </div>    
-    </div>
+</div>
 @endcan
+<br>
+<div class="border rounded bg-light">
+    <br>
+    <h3 class="ml-2 mt-2">Adicionar Percentuais</h3>
+    <div class="p-4">
+        <form method="POST" action="/lancamentos/{{$lancamento->id}}/percentual/storePercentual">
+        @csrf
+        @include('lancamentos.partials.percentual')
+        </form>
+    </div>
+</div>
+<br>
+<div class="card p-3">
+    <div class="form-group col-md-4"><b>Percentuais cadastrados:</b></div>
+        <table class="table table-striped" border="0">
+            <thead>
+                <tr>
+                    <th width="47%" align="left">Conta</th>
+                    <th width="7%" align="center">Percentual</th>
+                    @can('Administrador')
+                        <th width="10%" align="center" colspan="3">&nbsp;</th>
+                    @endcan
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($lancamento->contas as $conta)
+                    <tr>
+                        <td align="left">{{ $conta->nome }}</td>
+                        <td>{{ $conta->pivot->percentual }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 @stop

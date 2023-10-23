@@ -150,24 +150,25 @@ class FicOrcamentariaController extends Controller
 
         $this->authorize('Todos');
 
-        $lancamento['ficorcamentaria_id'] = $ficorcamentaria->id;
-        $lancamento['grupo']              = $request->grupo;
-        $lancamento['receita']            = $request->receita;
-        $lancamento['data']               = $ficorcamentaria->data;
-        $lancamento['empenho']            = $ficorcamentaria->empenho;
-        $lancamento['descricao']          = $ficorcamentaria->descricao;
-        $lancamento['observacao']         = $ficorcamentaria->observacao;
-        $lancamento['user_id']            = auth()->user()->id;
-        $lancamento['movimento_id']       = Movimento::movimento_ativo()->id;
+        $lancamento_cpfo['ficorcamentaria_id'] = $ficorcamentaria->id;
+        $lancamento_cpfo['grupo']              = $request->grupo;
+        $lancamento_cpfo['receita']            = $request->receita;
+        $lancamento_cpfo['data']               = $ficorcamentaria->data;
+        $lancamento_cpfo['empenho']            = $ficorcamentaria->empenho;
+        $lancamento_cpfo['descricao']          = $ficorcamentaria->descricao;
+        $lancamento_cpfo['observacao']         = $ficorcamentaria->observacao;
+        $lancamento_cpfo['user_id']            = auth()->user()->id;
+        $lancamento_cpfo['movimento_id']       = Movimento::movimento_ativo()->id;
         if($request->debito){
-            $lancamento['debito']         = $request->debito;
+            $lancamento_cpfo['debito']         = $request->debito;
         }
         if($request->credito){
-            $lancamento['credito']         = $request->credito;
+            $lancamento_cpfo['credito']         = $request->credito;
         }
-        $lancamento_obj = Lancamento::create($lancamento);
-        $lancamento_obj->contas()->sync([$request->conta =>  ['percentual' => 100]]);
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento);
+        $lancamento_last = Lancamento::all()->last();
+        $lancamento = Lancamento::create($lancamento_cpfo);
+        $lancamento->contas()->sync([$request->conta =>  ['percentual' => 100]]);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Contra-partida cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
     }
