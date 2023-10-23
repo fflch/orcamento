@@ -10,6 +10,7 @@ use App\Models\TipoConta;
 use Illuminate\Http\Request;
 use App\Http\Requests\LancamentoRequest;
 use App\Http\Requests\PercentualRequest;
+use DB;
 use Redirect;
 
 class LancamentoController extends Controller
@@ -115,7 +116,7 @@ class LancamentoController extends Controller
 
         $lancamento['id'] = $lancamento->id;
         $lancamento_last = Lancamento::all()->last();
-        $contas_percentual[$request['contas']] = ['percentual' => $request['percentual']];
+        $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
         $lancamento->contas()->attach($contas_percentual);
         $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
@@ -208,14 +209,15 @@ class LancamentoController extends Controller
         return redirect()->route('lancamentos.index');    
     }
 
-    /*
-    public function destroyPercentual(Lancamento $lancamento){
+    public function destroyPercentual(Lancamento $lancamento, Request $request){
         $this->authorize('Administrador');
         $lancamento->load('contas');
         foreach($lancamento->contas as $conta){
-           $conta->delete('percentual');
+            DB::table('conta_lancamento')->where('conta_id', $conta->id)
+                                         ->where('percentual', $request['percentual'])
+                                         ->delete();
         }
+        $request->session()->flash('alert-success', 'Percentual deletado com sucesso!');
         return back();    
     }
-    */
 }

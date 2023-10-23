@@ -14,8 +14,6 @@ class CreateContaLancamentoTable extends Migration
     public function up()
     {
         Schema::create('conta_lancamento', function (Blueprint $table) {
-            //$table->id();
-
             $table->unsignedBigInteger('conta_id');
             $table->foreign('conta_id')->references('id')
                   ->on('contas')->onDelete('cascade');
@@ -24,7 +22,7 @@ class CreateContaLancamentoTable extends Migration
             $table->foreign('lancamento_id')->references('id')
                     ->on('lancamentos')->onDelete('cascade');
 
-            $table->integer('percentual');
+            $table->string('percentual');
             $table->timestamps();
         });
     }

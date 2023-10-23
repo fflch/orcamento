@@ -18,7 +18,7 @@ class PercentualRule implements Rule
     {
         $lancamento = Lancamento::where('id', $this->id)->first();
         $lancamento->load('contas');
-        $soma = $value;
+        $soma = str_replace(',', '.', $value);
         foreach($lancamento->contas as $conta){
             $soma += $conta->pivot->percentual;
             if($soma > 100) return false;
