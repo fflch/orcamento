@@ -93,6 +93,16 @@
                     <tr>
                         <td align="left">{{ $conta->nome }}</td>
                         <td>{{ $conta->pivot->percentual }}</td>
+                        @can('Administrador')
+                        <td align="center">
+                            <form method="post" role="form" action="/lancamentos/{{$lancamento->id}}/destroyPercentual" >
+                                @csrf
+                                <input name="_method" type="hidden" value="DELETE">
+                                <input type="hidden" name="percentual" value="{{ $conta->pivot->percentual }}">
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Percentual?');">Excluir</button>
+                            </form>
+                        </td>
+                        @endcan
                     </tr>
                 @endforeach
             </tbody>
