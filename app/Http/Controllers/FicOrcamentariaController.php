@@ -151,7 +151,7 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Todos');
 
         $lancamento_cpfo['ficorcamentaria_id'] = $ficorcamentaria->id;
-        $lancamento_cpfo['grupo']              = $request->grupo;
+        $lancamento_cpfo['grupo']              = $ficorcamentaria->dotacao->grupo;
         $lancamento_cpfo['receita']            = $request->receita;
         $lancamento_cpfo['data']               = $ficorcamentaria->data;
         $lancamento_cpfo['empenho']            = $ficorcamentaria->empenho;

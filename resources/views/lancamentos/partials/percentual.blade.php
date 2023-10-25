@@ -22,7 +22,7 @@
     </div>
     <div class="form-group col-md-1">
       <label for="grupo">Percentual</label>
-          <input type="text" class="form-control" name="percentual">
+          <input type="text" class="form-control" name="percentual" value="100">
     </div>
   </div>
 </div>
