@@ -22,10 +22,6 @@ class Conta extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function area(){
-        return $this->belongsTo(Area::class);
-    }
-
     public function tipoconta(){
         return $this->belongsTo(TipoConta::class);
     }

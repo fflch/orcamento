@@ -31,9 +31,6 @@
     @include('relatorios.indexfichaorcamentaria')
 </div>
 <div class="form-row">
-    @include('relatorios.indexdespesas')
-    <div class="form-group col-md-3 p-3"></div>
-    <div class="form-group col-md-3 p-3"></div>
     @include('relatorios.indexdespesasmiudas')
 </div>
 @endsection

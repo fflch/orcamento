@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ContaRequest;
 use App\Models\Movimento;
 use App\Models\TipoConta;
-use App\Models\Area;
 use App\Models\Lancamento;
 
 class ContaController extends Controller
@@ -75,8 +74,7 @@ class ContaController extends Controller
         $this->authorize('Todos');
         return view('contas.create',[
                     'conta'              => new Conta,
-                    'lista_tipos_contas' => TipoConta::lista_tipos_contas(),
-                    'lista_areas'        => Area::lista_areas(),
+                    'lista_tipos_contas' => TipoConta::lista_tipos_contas()
         ]);
     }
 

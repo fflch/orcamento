@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
 	    $this->call([
             UserSeeder::class,
             MovimentoSeeder::class,
-            AreaSeeder::class,
             TipoContaSeeder::class,
             DotOrcamentariaSeeder::class,
             ContaSeeder::class,

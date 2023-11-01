@@ -5,7 +5,6 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Conta;
 use App\Models\TipoConta;
-use App\Models\Area;
 use App\Models\User;
 
 class ContaFactory extends Factory

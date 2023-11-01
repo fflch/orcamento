@@ -10,7 +10,6 @@ use App\Models\Conta;
 use App\Models\TipoConta;
 use App\Models\DotOrcamentaria;
 use App\Models\Nota;
-use App\Models\Area;
 use Illuminate\Support\Facades\DB;
 use PDF;
 
@@ -24,8 +23,7 @@ class RelatorioController extends Controller
                     'lista_contas_ativas'    => Conta::lista_contas_ativas(),
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
                     'lista_descricoes'       => Nota::lista_descricoes(),
-                    'lista_observacoes'      => Nota::lista_observacoes(),
-                    'lista_areas'            => Area::lista_areas(),
+                    'lista_observacoes'      => Nota::lista_observacoes()
         ]);
     }
 
@@ -197,19 +195,6 @@ class RelatorioController extends Controller
 
         ])->setPaper('a4', 'landscape');
         return $pdf->download("ficha_orcamentaria.pdf");
-    }
-
-    public function despesas(Request $request){
-        if($request->area_id != null)
-            $despesas = FicOrcamentaria::All();
-        else{
-            request()->session()->flash('alert-info','Informe a Área.');
-            return redirect("/relatorios");
-        }
-        $pdf = PDF::loadView('pdfs.despesas', [
-                             'despesas' => $despesas,
-        ])->setPaper('a4', 'landscape');
-        return $pdf->download("despesas.pdf");
     }
 
     public function despesas_miudas(Request $request){
