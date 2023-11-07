@@ -3,12 +3,12 @@
         <label for="tipos_contas">Contas</label>
     </div>
     <div class="form-row">
-        @foreach($lista_contas_ativas as $lista_conta_ativa)
+        @foreach($contas_filtradas_objs as $contas_filtradas_obj)
             <div class="form-group col-md-2 p-3">
-                <label class="checkbox-inline" for="contaid[{{ $lista_conta_ativa->id }}]">
-                <input type="checkbox" id="contaid[{{ $lista_conta_ativa->id }}]" name="contaid[]" value="{{ $lista_conta_ativa->id }}" tabindex="6"
+                <label class="checkbox-inline" for="contaid[{{ $contas_filtradas_obj->id }}]">
+                <input type="checkbox" id="contaid[{{ $contas_filtradas_obj->id }}]" name="contaid[]" value="{{ $contas_filtradas_obj->id }}" tabindex="6"
                 @if (isset($conta->id) and ($conta->ativo === 1)) checked @endif >    
-                {{ $lista_conta_ativa->nome }}            
+                {{ $contas_filtradas_obj->nome }}            
                 </label>                                              
             </div>
         @endforeach
