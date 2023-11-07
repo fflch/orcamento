@@ -57,7 +57,6 @@ Route::get('/relatorios/saldo_contas', [RelatorioController::class, 'saldo_conta
 Route::get('/relatorios/saldo_dotacoes', [RelatorioController::class, 'saldo_dotacoes'])->name('relatorios.saldo_dotacoes');
 Route::get('/relatorios/lancamentos', [RelatorioController::class, 'lancamentos'])->name('relatorios.lancamentos');
 Route::get('/relatorios/ficha_orcamentaria', [RelatorioController::class, 'ficha_orcamentaria'])->name('relatorios.ficha_orcamentaria');
-Route::get('/relatorios/despesas', [RelatorioController::class, 'despesas'])->name('relatorios.despesas');
 Route::get('/relatorios/despesas_miudas', [RelatorioController::class, 'despesas_miudas'])->name('relatorios.despesas_miudas');
 Route::post('/getContas',[FicOrcamentariaController::class,'getContas'])->name('contrapartida.getContas');
 Route::post('/getLancamentoContas',[LancamentoController::class,'getLancamentoContas'])->name('percentual.getLancamentoContas');

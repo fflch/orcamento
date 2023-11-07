@@ -30,11 +30,6 @@ $administracao = [
         'can'  => 'Administrador',
     ],
     [
-        'text' => 'Áreas',
-        'url'  => '/areas',
-        'can'  => 'Todos',
-    ],
-    [
         'text' => 'Tipos de Contas',
         'url'  => '/tipocontas',
         'can'  => 'Administrador',
