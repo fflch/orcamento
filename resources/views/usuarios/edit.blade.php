@@ -31,7 +31,7 @@
   <br>
   <div class="card p-3">
       <div class="form-group col-md-4"><b>Contas atualmente vinculadas a esse usuário:</b></div>
-      <p>{{ $contas->links() }}</p>
+      <p>{{ $contas_vinculadas->links() }}</p>
       <table class="table table-striped" border="0">
           <thead>
               <tr>
@@ -40,7 +40,7 @@
               </tr>
           </thead>
           <tbody>
-          @foreach($contas as $conta)
+          @foreach($contas_vinculadas as $conta)
               <tr>
                   <td>{{ $conta->id }}</td>
                   <td>{{ $conta->conta->nome }}</td>

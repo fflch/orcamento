@@ -62,15 +62,19 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $usuario){
-
-        $contas = ContaUsuario::where('id_usuario', $usuario->id)->paginate(5);
-
+        
         $this->authorize('Administrador');
+        $contas_vinculadas = ContaUsuario::where('id_usuario', $usuario->id)->paginate(5);
+        $contas_totais = Conta::lista_contas_ativas()->pluck('id')->toArray();
+        $contas_por_usuario = ContaUsuario::where('id_usuario', $usuario->id)->pluck('id_conta')->toArray();
+        $contas_filtradas = array_diff($contas_totais, $contas_por_usuario);
+        $contas_filtradas_objs = Conta::findMany($contas_filtradas);
+
         return view('usuarios.edit', [
-            'contas'   => $contas,
+            'contas_vinculadas'   => $contas_vinculadas,
             'usuario'      => $usuario,
             'lista_perfis' => User::lista_perfis(),
-            'lista_contas_ativas' => Conta::lista_contas_ativas()
+            'contas_filtradas_objs' => $contas_filtradas_objs
         ]);
     }
 
