@@ -64,7 +64,7 @@ class UserController extends Controller
     public function edit(User $usuario){
         
         $this->authorize('Administrador');
-        $contas_vinculadas = ContaUsuario::where('id_usuario', $usuario->id)->paginate(5);
+        $contas_vinculadas = ContaUsuario::where('id_usuario', $usuario->id)->get();
         $contas_totais = Conta::lista_contas_ativas()->pluck('id')->toArray();
         $contas_por_usuario = ContaUsuario::where('id_usuario', $usuario->id)->pluck('id_conta')->toArray();
         $contas_filtradas = array_diff($contas_totais, $contas_por_usuario);
