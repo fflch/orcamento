@@ -51,7 +51,7 @@ class UserController extends Controller
     public function show(User $usuario){
         $this->authorize('Todos');
         return view('usuarios.show', [
-            'usuario' => $usuario                    
+            'usuario' => $usuario
         ]);
     }
 
@@ -62,7 +62,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(User $usuario){
-        
+
         $this->authorize('Administrador');
         $contas_vinculadas = ContaUsuario::where('id_usuario', $usuario->id)->get();
         $contas_totais = Conta::lista_contas_ativas()->pluck('id')->toArray();

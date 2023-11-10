@@ -41,7 +41,7 @@
           <tbody>
           @foreach($contas_vinculadas as $conta)
               <tr>
-                  <td>{{ $conta->conta->id }}</td>
+                  <td>{{ $conta->id_conta }}</td>
                   <td>{{ $conta->conta->nome }}</td>
                   @can('Administrador')
                   <td align="center">
