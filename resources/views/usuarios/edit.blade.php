@@ -31,7 +31,6 @@
   <br>
   <div class="card p-3">
       <div class="form-group col-md-4"><b>Contas atualmente vinculadas a esse usuário:</b></div>
-      <p>{{ $contas_vinculadas->links() }}</p>
       <table class="table table-striped" border="0">
           <thead>
               <tr>
@@ -42,7 +41,7 @@
           <tbody>
           @foreach($contas_vinculadas as $conta)
               <tr>
-                  <td>{{ $conta->id }}</td>
+                  <td>{{ $conta->id_conta }}</td>
                   <td>{{ $conta->conta->nome }}</td>
                   @can('Administrador')
                   <td align="center">
