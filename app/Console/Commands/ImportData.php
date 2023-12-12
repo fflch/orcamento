@@ -51,7 +51,6 @@ class ImportData extends Command
 
         // Importação da tabela tipo conta
         // 1. Ler o arquivo csv
-        /*
         $tipo_conta = Reader::createFromPath( $path . '/tipocontas.csv', 'r');
         $tipo_conta->setHeaderOffset(0);
         $records_tipo_conta = $tipo_conta->getRecords();
@@ -205,7 +204,7 @@ class ImportData extends Command
             $new->save();
               
         }
-        */
+        
         $lancamento = Reader::createFromPath( $path . '/lancamentos.csv', 'r');
         $lancamento->setHeaderOffset(0);
         $records_lancamento = $lancamento->getRecords();
