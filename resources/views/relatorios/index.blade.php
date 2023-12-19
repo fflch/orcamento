@@ -18,6 +18,7 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Relatórios</strong></h2>
+    @include('partials.mostra_ano')
 </div>
 <br> 
 <div class="form-row">

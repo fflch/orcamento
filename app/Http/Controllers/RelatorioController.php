@@ -18,6 +18,7 @@ class RelatorioController extends Controller
     public function relatorios(){
         $this->authorize('Todos');
         return view('relatorios.index', [
+                    'movimento_anos'  => Movimento::movimento_anos(),
                     'movimento_ativo'        => Movimento::movimento_ativo(),
                     'lista_tipos_contas'     => TipoConta::lista_tipos_contas(),
                     'lista_contas_ativas'    => Conta::lista_contas_ativas(),
@@ -83,7 +84,7 @@ class RelatorioController extends Controller
         if($request->grupo != null){
             $tiposconta     = TipoConta::All();
             $acompanhamento = Conta::All();
-            $periodo = $request->data;
+            $periodo = $request->referencia;
         }
         else{
             request()->session()->flash('alert-info','Informe o Grupo.');
@@ -97,6 +98,8 @@ class RelatorioController extends Controller
     }
 
     public function saldo_contas(Request $request){
+    $movimento = Movimento::where('ano', session('ano'))->first();
+
         if($request->tipoconta_id != null){
             $descricao_tipoconta = TipoConta::descricao_tipo_conta($request->tipoconta_id);
             $saldo_contas = DB::table('contas')
@@ -105,6 +108,7 @@ class RelatorioController extends Controller
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
             ->where('contas.tipoconta_id','=',$request->tipoconta_id)
+            ->where('lancamentos.movimento_id', $movimento->id)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
         }
@@ -115,11 +119,14 @@ class RelatorioController extends Controller
         $pdf = PDF::loadView('pdfs.saldo_contas', [
                              'saldo_contas'        => $saldo_contas,
                              'descricao_tipoconta' => $descricao_tipoconta,
+                             'movimento_anos'  => Movimento::movimento_anos()
         ])->setPaper('a4', 'portrait');
         return $pdf->download("saldo_contas.pdf");
     }
 
     public function saldo_dotacoes(Request $request){
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
         if($request->grupo != null){
             $saldo_dotacoes = DB::table('fic_orcamentarias')
             ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
@@ -127,6 +134,7 @@ class RelatorioController extends Controller
                 DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
                 DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
             ->where('dot_orcamentarias.grupo','=',$request->grupo)
+            ->where('movimento_id', $movimento->id)
             ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
             ->get();
         }
@@ -198,9 +206,11 @@ class RelatorioController extends Controller
     }
 
     public function despesas_miudas(Request $request){
-        if(($request->data_inicial != null) and ($request->data_final != null))
-            $despesas_miudas = FicOrcamentaria::All();
-        else{
+        if(($request->data_inicial != null) and ($request->data_final != null)) {
+            $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
+            $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
+            $despesas_miudas      = FicOrcamentaria::where('data', [$data_inicial_convertida, $data_final_convertida]);
+        } else {
             request()->session()->flash('alert-info','Informe o período.');
             return redirect("/relatorios");
         }
