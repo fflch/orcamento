@@ -34,10 +34,10 @@
             {{ $conta->pivot->percentual }}% - {{ $conta->nome }} <br>
             Valor em reais:
             @if($lancamento->debito != 0.00)            
-            {{ ( (float) $conta->pivot->percentual *  (float) $lancamento->debito)/100 }} <br>
+            {{ (float) $conta->pivot->percentual *  $lancamento->debitoraw/100 }} <br>
             @endif
             @if($lancamento->credito != 0.00)
-            {{ ( (float) $conta->pivot->percentual *  (float) $lancamento->credito)/100 }} <br>
+            {{ (float) $conta->pivot->percentual * $lancamento->creditoraw/100 }} <br>
             @endif
             @endforeach
         </div>
@@ -98,7 +98,8 @@
                             <form method="post" role="form" action="/lancamentos/{{$lancamento->id}}/destroyPercentual" >
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
-                                <input type="hidden" name="percentual" value="{{ $conta->pivot->percentual }}">
+                                <input type="hidden" name="lancamento_id" value="{{$lancamento->id}}">
+                                <input type="hidden" name="conta_id" value="{{$conta->id}}">
                                 <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Percentual?');">Excluir</button>
                             </form>
                         </td>

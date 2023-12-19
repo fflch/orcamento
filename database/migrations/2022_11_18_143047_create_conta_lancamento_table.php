@@ -22,6 +22,8 @@ class CreateContaLancamentoTable extends Migration
             $table->foreign('lancamento_id')->references('id')
                     ->on('lancamentos')->onDelete('cascade');
 
+            $table->primary(['conta_id', 'lancamento_id']);
+
             $table->string('percentual');
             $table->timestamps();
         });

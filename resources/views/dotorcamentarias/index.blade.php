@@ -55,6 +55,7 @@
                     <td align="left">{{ $dotorcamentaria->descricaoitem }}</td>
                     <td valign="middle">@if ($dotorcamentaria->receita == 1) [ x ] @else [ &nbsp; ] @endif</td>
                     <td valign="middle">@if ($dotorcamentaria->ativo == 1) [ x ] @else [ &nbsp; ] @endif</td>
+                    <td align="left"><a class="btn btn-dark" href="/fichas_por_dotacao/{{$dotorcamentaria->id}}" title="Ver Fichas da Dotação {{ $dotorcamentaria->dotacao }}">Fichas</a></a></td>
                     <td align="center"><a class="btn btn-secondary" href="/dotorcamentarias/{{$dotorcamentaria->id}}">Ver</a></td>
                     @can('Administrador')
                         <td align="center"><a class="btn btn-warning" href="/dotorcamentarias/{{$dotorcamentaria->id}}/edit">Editar</a></td>

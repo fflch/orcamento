@@ -7,6 +7,7 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Lançamentos</strong></h2>
+    @include('partials.mostra_ano')
 </div>
 <br>
 <div class="form-row">
@@ -55,22 +56,24 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($conta->lancamentos as $lancamento)
+            @foreach($lancamentos as $lancamento)
                 <tr>
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
+                    @foreach($lancamento->contas as $conta)
                     @if($lancamento->debito != 0.00)
-                        <td>{{ number_format((float)($lancamento->debito_raw * $lancamento->pivot->percentual/100),2, ',', '.') }}</td>
+                        <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td>&nbsp;</td>
                     @endif
                     @if($lancamento->credito != 0.00)
-                    <td>{{ number_format((float)($lancamento->credito_raw * $lancamento->pivot->percentual/100),2, ',', '.') }}</td>
+                    <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td align="right">&nbsp;</td>
                     @endif
+                    @endforeach
                     <td>{{ $lancamento->saldo }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                     @can('Administrador')

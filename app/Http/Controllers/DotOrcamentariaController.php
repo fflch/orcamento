@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DotOrcamentaria;
+use App\Models\FicOrcamentaria;
+use App\Models\Movimento;
 use Illuminate\Http\Request;
 use App\Http\Requests\DotOrcamentariaRequest;
 
@@ -23,6 +25,25 @@ class DotOrcamentariaController extends Controller
             ->paginate(10);
 
         return view('dotorcamentarias.index')->with('dotorcamentarias', $dotorcamentarias);
+    }
+
+    public function fichas_por_dotacao(DotOrcamentaria $dotorcamentaria){
+
+        $this->authorize('Todos');
+
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
+        $fichas = FicOrcamentaria::where('dotacao_id', $dotorcamentaria->id)
+                                   ->where('movimento_id', $movimento->id)
+                                   ->get();
+
+        return view('ficorcamentarias.index_por_dotacao',[
+                    'fichas' => $fichas,
+                    'dotorcamentaria' => $dotorcamentaria,
+                    'total_debito'        => $fichas->sum('debito_raw'),
+                    'total_credito'       => $fichas->sum('credito_raw'),
+                    'movimento_anos'  => Movimento::movimento_anos()
+        ]);
     }
 
     /**
