@@ -44,6 +44,7 @@ Route::get('/lancamentos_por_conta/{conta}', [ContaController::class,'lancamento
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);
 Route::post('ficorcamentarias/', [FicOrcamentariaController::class, 'store'])->name('ficorcamentarias');
 Route::post('/ficorcamentarias/{ficorcamentaria}/cpfo/storeCpfo', [FicOrcamentariaController::class, 'storeCpfo']);
+Route::get('/fichas_por_dotacao/{dotorcamentaria}', [DotOrcamentariaController::class,'fichas_por_dotacao']);
 Route::resource('usuarios', UserController::class);
 Route::delete('/usuarios/{conta}/destroyContaUsuario', [UserController::class, 'destroyContaUsuario']);
 Route::post('/usuarios/{usuario}/storeContaUsuario', [UserController::class, 'storeContaUsuario']);

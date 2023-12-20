@@ -117,9 +117,15 @@ class LancamentoController extends Controller
         $lancamento['id'] = $lancamento->id;
         $lancamento_last = Lancamento::all()->last();
         $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
-        $lancamento->contas()->attach($contas_percentual);
+        try {
+            $lancamento->contas()->attach($contas_percentual);
+        } 
+        catch(\Illuminate\Database\QueryException $error) {
+            return redirect()->back()->withErrors(($error->getCode() === '23000') ? 'Conta duplicada' : '');
+        }
         $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
+    
         return redirect("/lancamentos/{$lancamento->id}");
     }
 
@@ -211,12 +217,9 @@ class LancamentoController extends Controller
 
     public function destroyPercentual(Lancamento $lancamento, Request $request){
         $this->authorize('Administrador');
-        $lancamento->load('contas');
-        foreach($lancamento->contas as $conta){
-            DB::table('conta_lancamento')->where('conta_id', $conta->id)
-                                         ->where('percentual', $request['percentual'])
-                                         ->delete();
-        }
+        DB::table('conta_lancamento')->where('conta_id', $request->conta_id)
+                                        ->where('lancamento_id', $request->lancamento_id)
+                                        ->delete();
         $request->session()->flash('alert-success', 'Percentual deletado com sucesso!');
         return back();    
     }

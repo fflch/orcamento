@@ -55,13 +55,20 @@ class ContaController extends Controller
 
         $this->authorize('Todos');
 
-        $conta->load('lancamentos');
-
+        $movimento = Movimento::where('ano', session('ano'))->first();    
+        $lancamentos = Lancamento::with('contas')->where(function ($query) use ($conta) {
+            $query->whereHas('contas', function ($query) use ($conta) {
+                $query->where('conta_id', $conta->id);
+            });
+       })
+       ->where('movimento_id', $movimento->id)->get();
+    
         return view('lancamentos.index_por_conta',[
-                    'conta'               => $conta,
+                    'lancamentos'         => $lancamentos,
                     'total_debito'        => $conta->lancamentos->sum('debito_raw'),
                     'total_credito'       => $conta->lancamentos->sum('credito_raw'),
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
+                    'movimento_anos'      => Movimento::movimento_anos()
         ]);
     }
 
