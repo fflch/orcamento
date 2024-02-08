@@ -94,7 +94,7 @@ class RelatorioController extends Controller
             $inicio = Carbon::parse($dti);
             $fim = Carbon::parse($dtf);  
             $periodo = $fim->diffInDays($inicio);
-            if($periodo > 364){
+            if($periodo > 365){
                 request()->session()->flash('alert-info','O período deve ser de no máximo 1 ano entre data inicial e final');
                 return redirect("/relatorios");
             } else {
