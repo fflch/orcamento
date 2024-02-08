@@ -26,7 +26,7 @@ class FicOrcamentariaCPRequest extends FormRequest
     public function rules()
     {
         return [
-            'conta'   => 'required',
+            'contas'   => 'required',
             'grupo' => 'required',
             'ficorcamentaria_id' => 'required|integer',
             'debito'     => ['required_without:credito', new ValorRule($this->ficorcamentaria_id)],
@@ -36,7 +36,7 @@ class FicOrcamentariaCPRequest extends FormRequest
 
     public function messages(){
         return [
-            'conta.required' => 'Informe a Conta',
+            'contas.required' => 'Informe a Conta',
             'grupo.required' => 'Informe o Grupo'
         ];
     }
