@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
     // Fix para MariaDB ao rodar migrations
         Schema::defaultStringLength(191);
+        // força https na produção
+        if (\App::environment('production')) {
+            \URL::forceScheme('https');
+        }
     }
 }
