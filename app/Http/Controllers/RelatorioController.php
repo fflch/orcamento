@@ -12,6 +12,7 @@ use App\Models\DotOrcamentaria;
 use App\Models\Nota;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Carbon\Carbon;
 
 class RelatorioController extends Controller
 {
@@ -71,7 +72,6 @@ class RelatorioController extends Controller
             array_push($balancete, $valor->total_debito);
             array_push($balancete, $valor->total_credito);
         }
-
         $pdf = PDF::loadView('pdfs.balancete', [
                              'balanceteO' => $balanceteO,
                              'balanceteR' => $balanceteR,
@@ -84,21 +84,33 @@ class RelatorioController extends Controller
         if($request->grupo != null){
             $tiposconta     = TipoConta::All();
             $acompanhamento = Conta::All();
-            $periodo = $request->referencia;
-        }
-        else{
+        } else {
             request()->session()->flash('alert-info','Informe o Grupo.');
             return redirect("/relatorios");            
         }
+        if(($request->data_inicial != null) and ($request->data_final != null)){
+            $dti = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('d-m-Y');
+            $dtf = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('d-m-Y');
+            $inicio = Carbon::parse($dti);
+            $fim = Carbon::parse($dtf);  
+            $periodo = $fim->diffInDays($inicio);
+            if($periodo > 364){
+                request()->session()->flash('alert-info','O período deve ser de no máximo 1 ano entre data inicial e final');
+                return redirect("/relatorios");
+            } else {
+            $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
+            $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
+            $acompanhamento          = $acompanhamento->whereBetween('updated_at', [$data_inicial_convertida, $data_final_convertida]);
+            }
+        }
         $pdf = PDF::loadView('pdfs.acompanhamento', [
                              'acompanhamento' => $acompanhamento,
-                             'periodo'        => $periodo,
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");
     }
 
     public function saldo_contas(Request $request){
-    $movimento = Movimento::where('ano', session('ano'))->first();
+        $movimento = Movimento::where('ano', session('ano'))->first();
 
         if($request->tipoconta_id != null){
             $descricao_tipoconta = TipoConta::descricao_tipo_conta($request->tipoconta_id);
@@ -151,24 +163,38 @@ class RelatorioController extends Controller
 
     public function lancamentos(Request $request){
         $lancamentos = new Lancamento;
-        if($request->conta != null)
+        if($request->conta != null){
             $lancamentos->load('contas')
                         ->where('conta', 'conta_id');
-        else {
+        } else {
             request()->session()->flash('alert-info','Informe pelo menos a Conta.');
             return redirect("/relatorios");
         }
-        if($request->grupo != null)
+        if($request->grupo != null){
             $lancamentos = $lancamentos->where('grupo','=',$request->grupo);
+        }
+        //TODO: Mover isso para uma rule
         if(($request->data_inicial != null) and ($request->data_final != null)){
+            $dti = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('d-m-Y');
+            $dtf = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('d-m-Y');
+            $inicio = Carbon::parse($dti);
+            $fim = Carbon::parse($dtf);  
+            $periodo = $fim->diffInDays($inicio);
+            if($periodo > 30){
+                request()->session()->flash('alert-info','O período deve ser de no máximo 30 dias entre data inicial e final');
+                return redirect("/relatorios");
+            } else {
             $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
             $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
             $lancamentos             = $lancamentos->whereBetween('data', [$data_inicial_convertida, $data_final_convertida]);
+            }
         }
-        if($request->descricao != null)
+        if($request->descricao != null){
             $lancamentos = $lancamentos->where('descricao','=',$request->descricao);
-        if($request->observacao != null)
+        }
+        if($request->observacao != null){
             $lancamentos = $lancamentos->where('observacao','=',$request->observacao);
+        }
         $lancamentos = $lancamentos->orderBy('data')->get();
         $nome_conta  = Conta::nome_conta($request->conta);
         $pdf = PDF::loadView('pdfs.lancamentos', [
@@ -180,9 +206,9 @@ class RelatorioController extends Controller
 
     public function ficha_orcamentaria(Request $request){
         $ficha_orcamentaria = new FicOrcamentaria;
-        if($request->dotacao_id != null)
+        if($request->dotacao_id != null){
             $ficha_orcamentaria = $ficha_orcamentaria->where('dotacao_id','=',$request->dotacao_id);
-        else{
+        } else {
             request()->session()->flash('alert-info','Informe pelo menos a Dotação.');
             return redirect("/relatorios");
         }
@@ -191,10 +217,12 @@ class RelatorioController extends Controller
             $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
             $ficha_orcamentaria      = $ficha_orcamentaria->whereBetween('data', [$data_inicial_convertida, $data_final_convertida]);
         }
-        if($request->descricao != null)
+        if($request->descricao != null){
             $ficha_orcamentaria = $ficha_orcamentaria->where('descricao','=',$request->descricao);
-        if($request->observacao != null)
+        }
+        if($request->observacao != null){
             $ficha_orcamentaria = $ficha_orcamentaria->where('observacao','=',$request->observacao);
+        }
         $ficha_orcamentaria = $ficha_orcamentaria->orderBy('data')->get();
         $dotacao = DotOrcamentaria::dotacao($request->dotacao_id);
         $pdf = PDF::loadView('pdfs.ficha_orcamentaria', [
@@ -209,11 +237,12 @@ class RelatorioController extends Controller
         if(($request->data_inicial != null) and ($request->data_final != null)) {
             $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
             $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
-            $despesas_miudas      = FicOrcamentaria::where('data', [$data_inicial_convertida, $data_final_convertida]);
+            $despesas_miudas      = FicOrcamentaria::whereBetween('data', [$data_inicial_convertida, $data_final_convertida])->get();
         } else {
             request()->session()->flash('alert-info','Informe o período.');
             return redirect("/relatorios");
         }
+        //dd($despesas_miudas);
         $pdf = PDF::loadView('pdfs.despesas_miudas', [
                              'despesas_miudas' => $despesas_miudas,
         ])->setPaper('a4', 'landscape');

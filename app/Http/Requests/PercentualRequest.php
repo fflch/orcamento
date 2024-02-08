@@ -38,7 +38,7 @@ class PercentualRequest extends FormRequest
     public function messages(){
         return [
             'contas.required'           => 'Informe a Conta.',
-            'percentual.required'         => 'Informe o Percentual'
+            'percentual.required'         => 'Informe o Percentual.'
         ];
     }
 }

@@ -19,19 +19,19 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>[ Aqui vai o tipo de conta e a conta ]</center></h1>
+  <h1><center>[ Conta(tipo de conta) ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
         <th width="80%">Descrição</th>
-        <th width="20%">Valor</th>
+        <th width="20%">Ativo</th>
       </tr>
     </thead>
     @foreach ($acompanhamento as $acompanhamento_valor)
       <tbody>
           <tr>
             <td align="left">{{ $acompanhamento_valor->nome }}</td>
-            <td align="right">{{ $acompanhamento_valor->ativo }}</td>
+            <td align="right">{{ $acompanhamento_valor->ativo == '1' ? 'Sim':'Não'}}</td>
           </tr>
       </tbody>
     @endforeach
