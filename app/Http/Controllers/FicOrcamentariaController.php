@@ -167,7 +167,7 @@ class FicOrcamentariaController extends Controller
         }
         $lancamento_last = Lancamento::all()->last();
         $lancamento = Lancamento::create($lancamento_cpfo);
-        $lancamento->contas()->sync([$request->conta =>  ['percentual' => 100]]);
+        $lancamento->contas()->sync([$request->contas =>  ['percentual' => 100]]);
         $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Contra-partida cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");

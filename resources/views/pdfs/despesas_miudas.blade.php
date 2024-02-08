@@ -19,25 +19,23 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>[ Aqui vai a dotação ]</center></h1>
+  <h1><center>Despesas Miúdas</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
-        <th width="15%">Área</th>
-        <th width="30%">Seção</th>
         <th width="10%">Data</th>
         <th width="35%">Descrição</th>
-        <th width="10%">Valor</th>
+        <th width="10%">Crédito</th>
+        <th width="10%">Débito</th>
       </tr>
     </thead>
     @foreach ($despesas_miudas as $despesa_miuda)
       <tbody>
           <tr>
-            <td align="left">{{ $despesa_miuda->id }}</td>
-            <td align="right"></td>
-            <td align="right"></td>
-            <td align="right"></td>
-            <td align="right"></td>
+            <td align="right">{{ $despesa_miuda->data }}</td>
+            <td align="right">{{ $despesa_miuda->descricao }}</td>
+            <td align="right">{{ $despesa_miuda->credito }}</td>
+            <td align="right">{{ $despesa_miuda->debito }}</td>
           </tr>
       </tbody>
     @endforeach
