@@ -29,8 +29,8 @@ class FicOrcamentariaCPRequest extends FormRequest
             'contas'   => 'required',
             'grupo' => 'required',
             'ficorcamentaria_id' => 'required|integer',
-            'debito'     => ['required_without:credito', new ValorRule($this->ficorcamentaria_id)],
-            'credito'    => ['required_without:debito', new ValorRule($this->ficorcamentaria_id)],
+            'debito'     => 'required_without:credito',
+            'credito'    => 'required_without:debito',
         ];
     }
 

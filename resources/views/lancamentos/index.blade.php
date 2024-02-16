@@ -46,6 +46,7 @@
             <tr>
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
+                <th width="34%" align="left">Observação</th>
                 <th width="7%" align="left">CP</th>
                 <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
@@ -61,6 +62,7 @@
                 <tr>
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
+                    <td align="left">{{ $lancamento->observacao }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)

@@ -97,8 +97,8 @@ class FicOrcamentariaController extends Controller
     public function show(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Todos');
 
-        $lancamentos = Lancamento::where('ficorcamentaria_id',$ficorcamentaria->id)
-                                    ->paginate(5);
+        $lancamentos = Lancamento::where('ficorcamentaria_id', $ficorcamentaria->id)->get();
+        $lancamentos->load('contas');
 
         $tiposdecontas = TipoConta::lista_tipos_contas();
         $contas = Conta::lista_contas_ativas();
