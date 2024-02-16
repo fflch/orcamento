@@ -44,6 +44,7 @@
                 <th width="5%" align="left">Dotação</th>
                 <th width="10%" align="left">Data</th>
                 <th width="47%" align="left">Descrição</th>
+                <th width="47%" align="left">Observação</th>
                 <th width="7%" align="center">CP</th>
                 <th width="7%" align="center">Débito</th>
                 <th width="7%" align="center">Crédito</th>
@@ -59,6 +60,7 @@
                     <td align="left">{{ $ficorcamentaria->dotacao->dotacao ?? '' }}</td>
                     <td align="left">{{ $ficorcamentaria->data }}</td>
                     <td align="left">{{ $ficorcamentaria->descricao }}</td>
+                    <td align="left">{{ $ficorcamentaria->observacao }}</td>
                     <td>{{ $ficorcamentaria->ficorcamentaria_id }}</td>
                     @if($ficorcamentaria->debito != 0.00)
                         <td>{{ number_format($ficorcamentaria->debito_raw, 2, ',', '.') }}</td>

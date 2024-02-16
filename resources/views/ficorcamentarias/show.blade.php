@@ -60,11 +60,11 @@
 <br>
 <div class="card p-3">
     <div class="form-group col-md-4"><b>Contra-partidas cadastradas:</b></div>
-    <p>{{ $lancamentos->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr>
                 <th width="10%" align="left">Data</th>
+                <th width="10%" align="left">Conta vinculada</th>
                 <th width="47%" align="left">Descrição</th>
                 <th width="7%" align="center">CP</th>
                 <th width="7%" align="center">Débito</th>
@@ -77,31 +77,34 @@
         </thead>
         <tbody>
             @foreach($lancamentos as $lancamento)
-                <tr>
-                    <td align="left">{{ $lancamento->data }}</td>
-                    <td align="left">{{ $lancamento->descricao }}</td>
-                    <td>{{ $lancamento->ficorcamentaria_id }}</td>
-                    @if($lancamento->debito != 0.00)
-                        <td>{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
-                    @else
-                        <td>&nbsp;</td>
-                    @endif
-                    @if($lancamento->credito != 0.00)
-                        <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
-                    @else
-                        <td align="right">&nbsp;</td>
-                    @endif
-                    <td>{{ $lancamento->saldo }}</td>
-                    @can('Administrador')
-                    <td align="center">
-                        <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
-                            @csrf
-                            <input name="_method" type="hidden" value="DELETE">
-                            <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Contra-partida?');">Excluir</button>
-                        </form>
-                    </td>
-                    @endcan
+                @foreach($lancamento->contas as $conta)
+                    <tr>
+                        <td align="left">{{ $lancamento->data }}</td>
+                        <td align="left">{{ $conta->nome }}</td>
+                        <td align="left">{{ $lancamento->descricao }}</td>
+                        <td>{{ $lancamento->ficorcamentaria_id }}</td>
+                        @if($lancamento->debito != 0.00)
+                            <td>{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+                        @else
+                            <td>&nbsp;</td>
+                        @endif
+                        @if($lancamento->credito != 0.00)
+                            <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+                        @else
+                            <td align="right">&nbsp;</td>
+                        @endif
+                        <td>{{ $lancamento->saldo }}</td>
+                        @can('Administrador')
+                        <td align="center">
+                            <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
+                                @csrf
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir a Contra-partida?');">Excluir</button>
+                            </form>
+                        </td>
+                        @endcan
                 </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>

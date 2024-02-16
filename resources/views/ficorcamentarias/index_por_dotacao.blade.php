@@ -16,6 +16,7 @@
             <tr>
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
+                <th width="34%" align="left">Observação</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
                 <th width="7%" align="center">Saldo</th>
@@ -29,6 +30,7 @@
                 <tr>
                     <td align="left">{{ $ficha->data }}</td>
                     <td align="left">{{ $ficha->descricao }}</td>
+                    <td align="left">{{ $ficha->observacao }}</td>
                     @if($ficha->debito != 0.00)
                         <td>{{ $ficha->debito_raw }}</td>
                     @else
