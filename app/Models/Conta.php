@@ -63,13 +63,12 @@ class Conta extends Model
                     ->withTimestamps();
     }
 
-    public function contas_usuarios()
+    public function conta_usuarios()
     {
-        return $this->belongsToMany(User::class,'contas_usuarios')
-                ->using(ContaUsuario::class)
+        return $this->belongsToMany(User::class,'conta_usuarios', 'id_conta', 'id_usuario')
                 ->withTimestamps()
                 ->withPivot([
-                    'created_at'
+                    'created_at',
                 ]);
     }
 }

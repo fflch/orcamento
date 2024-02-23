@@ -8,6 +8,7 @@ use App\Http\Requests\ContaRequest;
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Lancamento;
+use DB;
 
 class ContaController extends Controller
 {
@@ -18,7 +19,7 @@ class ContaController extends Controller
      */
     public function index(Request $request){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $contas = Conta::when($request->busca_nome, function ($query) use ($request) {
                       return $query->where('nome', 'LIKE', '%' . $request->busca_nome.'%');})
@@ -37,7 +38,7 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function contas_por_tipo_de_conta($tipoconta_id){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
         $contas = Conta::where('tipoconta_id','=',$tipoconta_id)->orderBy('nome')->paginate(10);
         $lista_tipos_contas = TipoConta::lista_tipos_contas();
         return view('contas.index',[
@@ -53,7 +54,7 @@ class ContaController extends Controller
      */
     public function lancamentos_por_conta(Conta $conta){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $movimento = Movimento::where('ano', session('ano'))->first();    
         $lancamentos = Lancamento::with('contas')->where(function ($query) use ($conta) {
@@ -78,7 +79,7 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
         return view('contas.create',[
                     'conta'              => new Conta,
                     'lista_tipos_contas' => TipoConta::lista_tipos_contas()
@@ -92,7 +93,7 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ContaRequest $request){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
         Conta::create($request->validated() + ['user_id' => \Auth::user()->id]);
         $request->session()->flash('alert-success', 'Conta [ ' . $request->nome . ' ] cadastrada com sucesso!');
         return redirect()->route('contas.index');
@@ -105,7 +106,7 @@ class ContaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Conta $conta){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
         return view('contas.show', compact('conta'));
     }
 

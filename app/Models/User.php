@@ -48,8 +48,8 @@ class User extends Authenticatable
         return $lista_usuarios;
     }
 
-    public function contas_usuarios(){
-        return $this->belongsToMany(Conta::class,'contas_usuarios')
+    public function conta_usuarios(){
+        return $this->belongsToMany(Conta::class,'conta_usuarios', 'id_conta', 'id_usuario')
             ->using(ContaUsuario::class)
             ->withTimestamps()
             ->withPivot([
