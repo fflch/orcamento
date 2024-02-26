@@ -65,10 +65,9 @@ class UserController extends Controller
 
         $this->authorize('Administrador');
         $contas_vinculadas = ContaUsuario::where('id_usuario', $usuario->id)->get();
-        $contas_totais = Conta::lista_contas_ativas()->pluck('id')->toArray();
-        $contas_por_usuario = ContaUsuario::where('id_usuario', $usuario->id)->pluck('id_conta')->toArray();
-        $contas_filtradas = array_diff($contas_totais, $contas_por_usuario);
-        $contas_filtradas_objs = Conta::findMany($contas_filtradas);
+        $contas_totais = Conta::where('ativo', 1)->orderBy('nome')->get();
+        $contas_por_usuario = ContaUsuario::where('id_usuario', $usuario->id)->get();
+        $contas_filtradas_objs = $contas_totais->diff($contas_por_usuario);
 
         return view('usuarios.edit', [
             'contas_vinculadas'   => $contas_vinculadas,

@@ -13,16 +13,16 @@ $administracao = [
     [
         'text'    => 'Lançamentos',
         'url'     => '/lancamentos',
-        'can'     => 'Todos',
+        'can'     => 'Administrador',
     ],
     [
         'text'    => 'Fichas Orçamentárias',
         'url'     => '/ficorcamentarias',
-        'can'     => 'Todos',
+        'can'     => 'Administrador',
     ],
     [
         'type' => 'divider',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Movimentos',
@@ -37,36 +37,36 @@ $administracao = [
     [
         'text' => 'Contas',
         'url'  => '/contas',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Dotações Orçamentárias',
         'url'  => '/dotorcamentarias',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Notas',
         'url'  => '/notas',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'text' => 'Usuários',
         'url'  => '/usuarios',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'type' => 'divider',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
     [
         'type' => 'header',
         'text' => '<b><i class="fas fa-id-badge"></i> Configurações</b>',
-        'can' => 'Todos',
+        'can' => 'Administrador',
     ],
     [
         'text' => 'Unidade',
         'url'  => '/unidades',
-        'can'  => 'Todos',
+        'can'  => 'Administrador',
     ],
 ];
 return [
@@ -83,22 +83,27 @@ return [
         [
             'text'    => '<i class="far fa fa-plus"></i> Lançamentos',
             'url'     => '/lancamentos/create',
-            'can'     => 'Todos',
+            'can'     => 'Administrador',
         ],
         [
             'text'    => '<i class="far fa fa-plus"></i> Ficha Orçamentária',
             'url'     => '/ficorcamentarias/create',
-            'can'     => 'Todos',
+            'can'     => 'Administrador',
         ],
         [
             'text'    => '<i class="far fa-list-alt"></i> Relatórios',
             'url'     => '/relatorios',
-            'can'     => 'Todos',
+            'can'     => 'Administrador',
         ],
         [
             'text'    => 'Administração',
             'submenu' => $administracao,
-            'can'     => 'Todos',
+            'can'     => 'Administrador',
+        ],
+        [
+            'text' => 'Minhas contas',
+            'url'  => '/home_usuario',
+            'can'  => 'Todos',
         ],
     ]
 ];

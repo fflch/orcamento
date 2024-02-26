@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="table-responsive">
-    <p>{{ $ficorcamentarias->links() }}</p>
+    <p>{{ $ficorcamentarias->appends($_GET)->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr>
@@ -89,7 +89,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4">&nbsp;</td>
+                <td colspan="5">&nbsp;</td>
                 <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
                 <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
                 <td>
@@ -107,7 +107,7 @@
             </tr>
         </tfoot>
     </table>
-    <p>{{ $ficorcamentarias->links() }}</p>
+    <p>{{ $ficorcamentarias->appends($_GET)->links() }}</p>
 </div>
 @endsection
 @section('javascripts_bottom')

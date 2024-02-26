@@ -184,9 +184,7 @@ class RelatorioController extends Controller
                 request()->session()->flash('alert-info','O período deve ser de no máximo 30 dias entre data inicial e final');
                 return redirect("/relatorios");
             } else {
-            $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
-            $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
-            $lancamentos             = $lancamentos->whereBetween('data', [$data_inicial_convertida, $data_final_convertida]);
+            $lancamentos = $lancamentos->whereBetween('data', [$dti, $dtf]);
             }
         }
         if($request->descricao != null){

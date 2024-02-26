@@ -44,7 +44,7 @@
     </div>
 </div>
 <div class="table-responsive">
-    <p>{{ $contas->links() }}</p>
+    <p>{{ $contas->appends($_GET)->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr>
@@ -79,7 +79,7 @@
             @endforeach
         </tbody>
     </table>
-    <p>{{ $contas->links() }}</p>   
+    <p>{{ $contas->appends($_GET)->links() }}</p>   
 </div>
 @endsection
 @section('javascripts_bottom')

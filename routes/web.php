@@ -28,6 +28,7 @@ use App\Http\Controllers\selTipoContaController;
 */
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/home', [IndexController::class, 'index']);
+Route::get('/home_usuario', [IndexController::class, 'index_usuario']);
 Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::resource('movimentos', MovimentoController::class);

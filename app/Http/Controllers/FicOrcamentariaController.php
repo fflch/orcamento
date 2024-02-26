@@ -21,7 +21,7 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $movimento = Movimento::where('ano', session('ano'))->first();
 
@@ -54,7 +54,7 @@ class FicOrcamentariaController extends Controller
      */
     public function create(){
 
-        $this->authorize('Todos');       
+        $this->authorize('Administrador');       
         
         return view('ficorcamentarias.create',[
                     'ficorcamentaria'        => new FicOrcamentaria,
@@ -79,11 +79,13 @@ class FicOrcamentariaController extends Controller
 
     public function store(FicOrcamentariaRequest $request){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;        
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id; 
+        $ficorcamentaria_last = FicOrcamentaria::all()->last();       
         $ficorcamentaria = FicOrcamentaria::create($validated);
+        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
     }
@@ -95,7 +97,7 @@ class FicOrcamentariaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(FicOrcamentaria $ficorcamentaria){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $lancamentos = Lancamento::where('ficorcamentaria_id', $ficorcamentaria->id)->get();
         $lancamentos->load('contas');
@@ -139,16 +141,17 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;       
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;  
+        $ficorcamentaria_last = FicOrcamentaria::all()->last();       
         $ficorcamentaria->update($validated);
-        $calculaSaldoFichaOrcamentaria  = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
+        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');
     }
 
     public function storeCpfo(FicOrcamentaria $ficorcamentaria, FicOrcamentariaCPRequest $request){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $lancamento_cpfo['ficorcamentaria_id'] = $ficorcamentaria->id;
         $lancamento_cpfo['grupo']              = $ficorcamentaria->dotacao->grupo;
@@ -197,8 +200,9 @@ class FicOrcamentariaController extends Controller
      */
     public function destroy(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
+        $ficorcamentaria_last = FicOrcamentaria::all()->last();
         $ficorcamentaria->delete();
-        $calculaSaldoFichaOrcamentaria = FicOrcamentaria::calculaSaldo($ficorcamentaria->dotacao_id);
-        return back()->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
+        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
+        return redirect("/ficorcamentarias")->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
     }
 }

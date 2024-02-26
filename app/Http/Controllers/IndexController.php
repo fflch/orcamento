@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conta;
+use App\Models\Lancamento;
 use App\Models\Movimento;
+use App\Models\TipoConta;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use DB;
 
 class indexController extends Controller
 {
@@ -47,5 +52,32 @@ class indexController extends Controller
 
         session(['ano' => $request->ano]);
         return back();
+    }
+
+    public function index_usuario(Request $request){
+        $this->authorize('Todos');
+
+        $user = auth()->user();
+        $contas = Conta::whereHas('conta_usuarios', function ($query) use ($user) {
+            $query->where('id_usuario', $user->id);
+        })->get();
+
+        $lancamentos = [];
+
+        if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
+            $inicial = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('Y-m-d');
+            $final = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('Y-m-d');
+            $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
+                $query->where('conta_id', $request->conta_id);
+            })
+            ->whereBetween('data', [$inicial, $final])
+            ->get();
+        }
+
+        return view('index_usuario',[
+            'user' => $user,
+            'contas' => $contas,
+            'lancamentos' => $lancamentos
+        ]);
     }
 }
