@@ -58,29 +58,20 @@ class indexController extends Controller
         $this->authorize('Todos');
 
         $user = auth()->user();
-        $contas = Conta::with('conta_usuarios')->where(function ($query) use ($user) {
-            $query->whereHas('conta_usuarios', function ($query) use ($user) {
-                $query->where('id_usuario', $user->id);
-            });
+        $contas = Conta::whereHas('conta_usuarios', function ($query) use ($user) {
+            $query->where('id_usuario', $user->id);
         })->get();
 
         $lancamentos = [];
 
         if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
-
-            $lancamentos_id = DB::table('conta_lancamento')->where('conta_id', $request->conta_id)->pluck('lancamento_id')->toArray();
-            $lancamentos = Lancamento::find($lancamentos_id);    
-            $dti = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('d-m-Y');
-            $dtf = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('d-m-Y');
-            $inicio = Carbon::parse($dti);
-            $fim = Carbon::parse($dtf);  
-            $periodo = $fim->diffInDays($inicio);
-            if($periodo > 30){
-                request()->session()->flash('alert-info','O período deve ser de no máximo 30 dias entre data inicial e final');
-                return back();
-            } else {
-                $lancamentos = $lancamentos->whereBetween('data', [$dti, $dtf]);
-            }
+            $inicial = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('Y-m-d');
+            $final = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('Y-m-d');
+            $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
+                $query->where('conta_id', $request->conta_id);
+            })
+            ->whereBetween('data', [$inicial, $final])
+            ->get();
         }
 
         return view('index_usuario',[
