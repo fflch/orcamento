@@ -73,10 +73,21 @@ class indexController extends Controller
             $lancamentos = LancamentoService::handle($inicial, $final, $request->conta_id);
         }
 
+        $total_debito  = 0.00;
+        $total_credito = 0.00;
+        $concatena_debito = '';
+        foreach($lancamentos as $lancamento){
+            $total_debito     += $lancamento->debito_raw;
+            $concatena_debito .= $lancamento->debito_raw . ' -  ';
+            $total_credito    += $lancamento->credito_raw;
+        }
+
         return view('index_usuario',[
             'user' => $user,
             'contas' => $contas,
-            'lancamentos' => $lancamentos
+            'lancamentos' => $lancamentos,
+            'total_debito'        => $total_debito,
+            'total_credito'       => $total_credito
         ]);
     }
 
