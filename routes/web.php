@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\LoginController;
+//use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\TipoContaController;
 use App\Http\Controllers\AreaController;
@@ -29,8 +29,9 @@ use App\Http\Controllers\selTipoContaController;
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/home', [IndexController::class, 'index']);
 Route::get('/home_usuario', [IndexController::class, 'index_usuario']);
+Route::get('/lancamentos_por_usuario', [IndexController::class, 'lancamentos_por_usuario']);
 Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
-Route::get('callback', [LoginController::class, 'handleProviderCallback']);
+//Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
 Route::resource('areas', AreaController::class);

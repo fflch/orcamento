@@ -10,7 +10,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Services\FormataDataService;
+use App\Services\LancamentoService;
 use DB;
+use PDF;
 
 class indexController extends Controller
 {
@@ -63,15 +66,11 @@ class indexController extends Controller
         })->get();
 
         $lancamentos = [];
-
+        
         if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
-            $inicial = Carbon::createFromFormat('d/m/Y', $request->data_inicial)->format('Y-m-d');
-            $final = Carbon::createFromFormat('d/m/Y', $request->data_final)->format('Y-m-d');
-            $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
-                $query->where('conta_id', $request->conta_id);
-            })
-            ->whereBetween('data', [$inicial, $final])
-            ->get();
+            $inicial = FormataDataService::handle($request->data_inicial);
+            $final = FormataDataService::handle($request->data_final);
+            $lancamentos = LancamentoService::handle($inicial, $final, $request->conta_id);
         }
 
         return view('index_usuario',[
@@ -79,5 +78,23 @@ class indexController extends Controller
             'contas' => $contas,
             'lancamentos' => $lancamentos
         ]);
+    }
+
+    public function lancamentos_por_usuario(Request $request){
+
+        $lancamentos = [];
+
+        if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
+            $inicial = FormataDataService::handle($request->data_inicial);
+            $final = FormataDataService::handle($request->data_final);
+            $lancamentos = LancamentoService::handle($inicial, $final, $request->conta_id);
+        }
+
+        $nome_conta  = Conta::nome_conta($request->conta_id);
+        $pdf = PDF::loadView('pdfs.lancamentos', [
+            'lancamentos' => $lancamentos,
+            'nome_conta'  => $nome_conta[0]->nome,
+        ])->setPaper('a4', 'landscape');
+        return $pdf->download("lancamentos.pdf");
     }
 }

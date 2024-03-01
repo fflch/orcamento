@@ -25,26 +25,8 @@
             <div class="form-group col-md-6">        
                 <input type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
             </div>
-        </div>        
-        <div class="form-row">
-            <div class="form-group col-md-12">        
-                <input list="descricoes" name="descricao" id="descricao" class="form-control" value="{{ $lancamento->descricao ?? old('descricao') }}" placeholder="[ Informe a Descrição ]">
-                <datalist id="descricoes">
-                    @foreach($lista_descricoes as $lista_descricao)
-                        <option value="{{ $lista_descricao->texto }}">{{ $lista_descricao->texto }}
-                    @endforeach
-                </datalist>
-            </div>
-        </div>        
-        <div class="form-row">
-            <div class="form-group col-md-11">          
-                <input list="observacoes" name="observacao" id="observacao" class="form-control" value="{{ $lancamento->observacao ?? old('observacao') }}" placeholder="[ Informe a Observação ]">
-                <datalist id="observacoes">
-                @foreach($lista_observacoes as $lista_observacao)
-                <option value="{{ $lista_observacao->texto }}">{{ $lista_observacao->texto }}
-                @endforeach
-                </datalist>
-            </div>   
+        </div>               
+        <div class="form-row">  
             <div class="form-group col-md-1" align="right">      
                 <span class="input-group-btn">
                 <button type="submit" class="btn btn-success"><strong>OK</strong></button>
