@@ -13,9 +13,9 @@ class FormataDataService
      */
     public function handle($data)
     {
-        $data = Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d');
 
-        return $data;
+        return Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d');
+
     }
 
 }

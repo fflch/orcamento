@@ -14,6 +14,7 @@ use App\Services\FormataDataService;
 use App\Services\LancamentoService;
 use DB;
 use PDF;
+use App\Http\Requests\LancamentoUserRequest;
 
 class indexController extends Controller
 {
@@ -57,55 +58,4 @@ class indexController extends Controller
         return back();
     }
 
-    public function index_usuario(Request $request){
-        $this->authorize('Todos');
-
-        $user = auth()->user();
-        $contas = Conta::whereHas('conta_usuarios', function ($query) use ($user) {
-            $query->where('id_usuario', $user->id);
-        })->get();
-
-        $lancamentos = [];
-        
-        if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
-            $lancamentos = LancamentoService::handle($inicial, $final, $request->conta_id);
-        }
-
-        $total_debito  = 0.00;
-        $total_credito = 0.00;
-        $concatena_debito = '';
-        foreach($lancamentos as $lancamento){
-            $total_debito     += $lancamento->debito_raw;
-            $concatena_debito .= $lancamento->debito_raw . ' -  ';
-            $total_credito    += $lancamento->credito_raw;
-        }
-
-        return view('index_usuario',[
-            'user' => $user,
-            'contas' => $contas,
-            'lancamentos' => $lancamentos,
-            'total_debito'        => $total_debito,
-            'total_credito'       => $total_credito
-        ]);
-    }
-
-    public function lancamentos_por_usuario(Request $request){
-
-        $lancamentos = [];
-
-        if(($request->data_inicial != null) and ($request->data_final != null) and ($request->conta_id != null)){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
-            $lancamentos = LancamentoService::handle($inicial, $final, $request->conta_id);
-        }
-
-        $nome_conta  = Conta::nome_conta($request->conta_id);
-        $pdf = PDF::loadView('pdfs.lancamentos', [
-            'lancamentos' => $lancamentos,
-            'nome_conta'  => $nome_conta[0]->nome,
-        ])->setPaper('a4', 'landscape');
-        return $pdf->download("lancamentos.pdf");
-    }
 }

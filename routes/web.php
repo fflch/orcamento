@@ -15,6 +15,7 @@ use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\selTipoContaController;
+use App\Http\Controllers\LancamentoUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,9 @@ use App\Http\Controllers\selTipoContaController;
 */
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/home', [IndexController::class, 'index']);
-Route::get('/home_usuario', [IndexController::class, 'index_usuario']);
-Route::get('/lancamentos_por_usuario', [IndexController::class, 'lancamentos_por_usuario']);
+Route::get('/home_usuario', [LancamentoUserController::class, 'index']);
+Route::get('/lancamentos_usuario', [LancamentoUserController::class, 'lancamentos']);
+Route::get('/lancamentos_usuario_pdf', [LancamentoUserController::class, 'lancamentos_pdf']);
 Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
 //Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::resource('movimentos', MovimentoController::class);
