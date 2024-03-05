@@ -8,7 +8,7 @@
                 <label class="checkbox-inline" for="contaid[{{ $contas_filtradas_obj->id }}]">
                 <input type="checkbox" id="contaid[{{ $contas_filtradas_obj->id }}]" name="contaid[]" value="{{ $contas_filtradas_obj->id }}" tabindex="6"
                 @if (isset($conta->id) and ($conta->ativo === 1)) checked @endif >    
-                {{ $contas_filtradas_obj->nome }}            
+                {{ $contas_filtradas_obj->nome }} - {{ $contas_filtradas_obj->tipoconta->descricao }}         
                 </label>                                              
             </div>
         @endforeach
