@@ -93,15 +93,7 @@ class RelatorioController extends Controller
         if(($request->data_inicial != null) and ($request->data_final != null)){
             $inicial = FormataDataService::handle($request->data_inicial);
             $final = FormataDataService::handle($request->data_final);
-            $inicio = Carbon::parse($inicial);
-            $fim = Carbon::parse($final);  
-            $periodo = $fim->diffInDays($inicio);
-            if($periodo > 365){
-                request()->session()->flash('alert-info','O período deve ser de no máximo 1 ano entre data inicial e final');
-                return redirect("/relatorios");
-            }  else {
             $acompanhamento = $acompanhamento->whereBetween('updated_at', [$inicial, $final]);
-            }
         }
         $pdf = PDF::loadView('pdfs.acompanhamento', [
                              'acompanhamento' => $acompanhamento,
@@ -169,19 +161,11 @@ class RelatorioController extends Controller
         if(($request->data_inicial != null) and ($request->data_final != null)){
             $inicial = FormataDataService::handle($request->data_inicial);
             $final = FormataDataService::handle($request->data_final);
-            $inicio = Carbon::parse($inicial);
-            $fim = Carbon::parse($final);  
-            $periodo = $fim->diffInDays($inicio);
-            if($periodo > 30){
-                request()->session()->flash('alert-info','O período deve ser de no máximo 30 dias entre data inicial e final');
-                return redirect("/relatorios");
-            } else {
-                $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
-                    $query->where('conta_id', $request->conta);
-                })
-                ->whereBetween('data', [$inicial, $final])
-                ->get();
-            }
+            $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
+                $query->where('conta_id', $request->conta);
+            })
+            ->whereBetween('data', [$inicial, $final])
+            ->get();
         }
         if($request->grupo){
             $lancamentos = $lancamentos->where('grupo', $request->grupo);
