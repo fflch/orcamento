@@ -68,24 +68,24 @@
             </thead>
             <tbody>
                 @forelse($lancamentos as $lancamento)
-                    <tr>
-                            <td align="left">{{ $lancamento->data }}</td>
-                            <td align="left">{{ $lancamento->descricao }}</td>
-                            <td align="left">{{ $lancamento->observacao }}</td>
-                            @foreach($lancamento->contas as $conta)
-                            @if($lancamento->debito != 0.00)
-                                <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                            @else
-                                <td>&nbsp;</td>
-                            @endif
-                            @if($lancamento->credito != 0.00)
-                            <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                            @else
-                                <td>&nbsp;</td>
-                            @endif
-                            @endforeach
-                            <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
-                    </tr>
+                    @foreach($lancamento->contas as $conta)
+                        <tr>
+                                <td align="left">{{ $lancamento->data }}</td>
+                                <td align="left">{{ $lancamento->descricao }}</td>
+                                <td align="left">{{ $lancamento->observacao }}</td>
+                                @if($lancamento->debito != 0.00)
+                                    <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                                @else
+                                    <td>&nbsp;</td>
+                                @endif
+                                @if($lancamento->credito != 0.00)
+                                <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                                @else
+                                    <td>&nbsp;</td>
+                                @endif
+                                <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
                 @empty
                     <tr> <td colspan="6" align="center"> Não há lançamentos cadastrados nesse período. </td> </tr>
                 @endforelse
