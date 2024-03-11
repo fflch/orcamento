@@ -20,11 +20,13 @@ class RelatorioController extends Controller
 {
     public function relatorios(){
         $this->authorize('Todos');
+
         return view('relatorios.index', [
+                    'tiposdecontas' => TipoConta::lista_tipos_contas(),
+                    'contas' => Conta::lista_contas_ativas(),
                     'movimento_anos'  => Movimento::movimento_anos(),
                     'movimento_ativo'        => Movimento::movimento_ativo(),
                     'lista_tipos_contas'     => TipoConta::lista_tipos_contas(),
-                    'lista_contas_ativas'    => Conta::lista_contas_ativas(),
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
                     'lista_descricoes'       => Nota::lista_descricoes(),
                     'lista_observacoes'      => Nota::lista_observacoes()
@@ -138,6 +140,7 @@ class RelatorioController extends Controller
                 DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
                 DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
             ->where('dot_orcamentarias.grupo','=',$request->grupo)
+            ->where('dot_orcamentarias.receita', '=', $request->receita_dotacao)
             ->where('movimento_id', $movimento->id)
             ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
             ->get();
@@ -154,7 +157,7 @@ class RelatorioController extends Controller
     }
 
     public function lancamentos(Request $request){
-        if($request->conta == null){
+        if($request->contas == null){
             request()->session()->flash('alert-info','Informe pelo menos a Conta.');
             return redirect("/relatorios");
         }
@@ -162,15 +165,12 @@ class RelatorioController extends Controller
             $inicial = FormataDataService::handle($request->data_inicial);
             $final = FormataDataService::handle($request->data_final);
             $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
-                $query->where('conta_id', $request->conta);
+                $query->where('conta_id', $request->contas);
             })
             ->whereBetween('data', [$inicial, $final])
             ->get();
         }
-        if($request->grupo){
-            $lancamentos = $lancamentos->where('grupo', $request->grupo);
-        }
-        $nome_conta  = Conta::nome_conta($request->conta);
+        $nome_conta  = Conta::nome_conta($request->contas);
         $pdf = PDF::loadView('pdfs.lancamentos', [
                              'lancamentos' => $lancamentos,
                              'nome_conta'  => $nome_conta[0]->nome,
@@ -205,20 +205,5 @@ class RelatorioController extends Controller
 
         ])->setPaper('a4', 'landscape');
         return $pdf->download("ficha_orcamentaria.pdf");
-    }
-
-    public function despesas_miudas(Request $request){
-        if(($request->data_inicial != null) and ($request->data_final != null)) {
-            $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
-            $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
-            $despesas_miudas      = FicOrcamentaria::whereBetween('data', [$data_inicial_convertida, $data_final_convertida])->get();
-        } else {
-            request()->session()->flash('alert-info','Informe o período.');
-            return redirect("/relatorios");
-        }
-        $pdf = PDF::loadView('pdfs.despesas_miudas', [
-                             'despesas_miudas' => $despesas_miudas,
-        ])->setPaper('a4', 'landscape');
-        return $pdf->download("despesas_miudas.pdf");
     }
 }

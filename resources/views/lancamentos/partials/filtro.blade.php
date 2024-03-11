@@ -1,22 +1,34 @@
-<div class="card p-3">  
-    @include('lancamentos.partials.filtro')
-  <div class="form-group col-md-1">
-    <label for="grupo">Percentual</label>
-        <input type="text" class="form-control" name="percentual" value="100">
-  </div>
-  <br>
   <div class="form-row">
-      <div class="panel panel-default">
-          <div class="panel-body">
-              <div class="form-group col-md-12">
-                  <input type="hidden" name="id" value="{{ $lancamento->id }}">
-                  <input type="submit" class="btn btn-success" value="Salvar">
-                  <input type="reset" class="btn btn-warning" value="Desfazer">
-              </div>
-          </div>
-      </div>
+        <div class="form-group col-md-9">
+            <label for="conta">Escolha um Tipo de conta: </label>
+              <select class="contas_select form-control" name="tipoconta" id="tipoconta">   
+              <option value=" ">Selecione o tipo de conta...</option>
+                    @foreach($tiposdecontas as $tiposdeconta)
+                      @if(old('tipoconta') != '')
+                          <option value="{{ old('tipoconta') }}" 
+                          {{ old('tipoconta') == $tiposdeconta->id ? 'selected' : '' }}>
+                            {{ $tiposdeconta->descricao }}
+                          </option>
+                      @else
+                        <option value="{{$tiposdeconta->id}}">{{ $tiposdeconta->descricao }}</option>
+                      @endif
+                    @endforeach
+              </select>
+        </div>
   </div>
-</div>
+  <div class="form-row">
+    <div class="form-group col-md-9">
+      <label for="conta">Escolha uma Conta: </label>
+        <select class="contas_select form-control" name="contas" id="conta" tabindex="1">           
+          <option value=" ">&nbsp;</option>
+            @foreach($contas as $conta)
+                <option value="{{ $conta->id }}">
+                  {{ $conta->nome }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+  </div>
 @section('javascripts_bottom')
 <script type="text/javascript">
   // CSRF Token
@@ -61,3 +73,4 @@
     });
 </script>
 @endsection
+

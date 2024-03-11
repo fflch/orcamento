@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Conta;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContaRequest;
@@ -63,12 +64,15 @@ class ContaController extends Controller
             });
        })
        ->where('movimento_id', $movimento->id)->get();
+
+       $hoje = Carbon::now()->format('m/d/Y');
     
         return view('lancamentos.index_por_conta',[
+                    'conta'               => $conta,
+                    'hoje'                => $hoje,
                     'lancamentos'         => $lancamentos,
                     'total_debito'        => $conta->lancamentos->sum('debito_raw'),
                     'total_credito'       => $conta->lancamentos->sum('credito_raw'),
-                    'lista_contas_ativas' => Conta::lista_contas_ativas(),
                     'movimento_anos'      => Movimento::movimento_anos()
         ]);
     }

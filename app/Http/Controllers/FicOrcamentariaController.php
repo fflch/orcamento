@@ -12,6 +12,7 @@ use App\Models\Lancamento;
 use Illuminate\Http\Request;
 use App\Http\Requests\FicOrcamentariaRequest;
 use App\Http\Requests\FicOrcamentariaCPRequest;
+use Carbon\Carbon;
 
 class FicOrcamentariaController extends Controller
 {
@@ -31,18 +32,27 @@ class FicOrcamentariaController extends Controller
                             ->where('movimento_id', $movimento->id)
                             ->orderBy('data', 'DESC')->paginate(10);
 
+        $saldos = FicOrcamentaria::when($request->dotacao_id, function ($query) use ($request) {
+            $query->where('dotacao_id','=',$request->dotacao_id);
+        })
+        ->where('movimento_id', $movimento->id)
+        ->orderBy('data', 'DESC')->get();
+
         $total_debito  = 0.00;
         $total_credito = 0.00;
-        foreach($ficorcamentarias as $ficorcamentaria){
-            $total_debito  += $ficorcamentaria->debito_raw;
-            $total_credito += $ficorcamentaria->credito_raw;
+        foreach($saldos as $saldo){
+            $total_debito  += $saldo->debito_raw;
+            $total_credito += $saldo->credito_raw;
         }
-        $lista_dotorcamentarias = DotOrcamentaria::lista_dotorcamentarias_ativas();
+
+        $hoje = Carbon::now()->format('m/d/Y');
+
         return view('ficorcamentarias.index',[
                     'ficorcamentarias'       => $ficorcamentarias,
                     'total_debito'           => $total_debito,
                     'total_credito'          => $total_credito,
-                    'lista_dotorcamentarias' => $lista_dotorcamentarias,
+                    'hoje'                   => $hoje,
+                    'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
                     'movimento_anos'  => Movimento::movimento_anos()
         ]);
     }

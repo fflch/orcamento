@@ -59,6 +59,7 @@
         </thead>
         <tbody>
             @foreach($lancamentos as $lancamento)
+                @foreach($lancamento->contas as $conta)
                 <tr>
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
@@ -66,14 +67,14 @@
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)
-                        <td>{{ $lancamento->debito }}</td>
+                        <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td>&nbsp;</td>
                     @endif
                     @if($lancamento->credito != 0.00)
-                        <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+                    <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
-                        <td align="right">&nbsp;</td>
+                        <td>&nbsp;</td>
                     @endif
                     <td>{{ $lancamento->saldo }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
@@ -88,30 +89,13 @@
                         </td>
                     @endcan
                 </tr>
+                @endforeach
             @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5">&nbsp;</td>
-                    <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') ?? '' }}</strong></font></td>
-                    <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                    <td>
-                    @if(($total_credito - $total_debito) == 0.00)
-                        <font color="black">
-                    @elseif(($total_credito - $total_debito) > 0.00)
-                        <font color="green">
-                    @else
-                        <font color="red">
-                    @endif
-                    <strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
-                    @can('Administrador')
-                        <td colspan="3">&nbsp;</td>
-                    @endcan
-                </tr>
-            </tfoot>
+        </tbody>
     </table>
-    <p>{{ $lancamentos->appends($_GET)->links() }}</p>
 </div>
+<br>
+@include('lancamentos.partials.saldo')
 @endsection
 @section('javascripts_bottom')
     <script>
