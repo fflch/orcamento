@@ -32,9 +32,9 @@
     @foreach ($saldo_dotacoes as $saldo_dotacao)
       <tbody>
           <tr>
-            <td align="left">{{ $saldo_dotacao->dotacao }}</td>
-            <td align="right">{{ $saldo_dotacao->item }}</td>
-            <td align="right">{{ number_format($saldo_dotacao->total_credito - $saldo_dotacao->total_debito, 2, ',', '.') }}</td>
+            <td align="left" style="border: 1px solid black">{{ $saldo_dotacao->dotacao }}</td>
+            <td align="right" style="border: 1px solid black">{{ $saldo_dotacao->item }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format($saldo_dotacao->total_credito - $saldo_dotacao->total_debito, 2, ',', '.') }}</td>
           </tr>
       </tbody>
     @endforeach

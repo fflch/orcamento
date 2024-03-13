@@ -27,7 +27,7 @@
         <th width="8%">Empenho</th>
         <th width="30%">Descrição</th>
         <th width="8%">Débito</th>
-        <th width="8%">Crédtio</th>
+        <th width="8%">Crédito</th>
         <th width="8%">Saldo</th>
         <th width="30%">Observação</th>
       </tr>
@@ -35,21 +35,21 @@
     @foreach ($lancamentos as $lancamento)
       <tbody>
           <tr>
-            <td align="center">{{ $lancamento->data }}</td>
-            <td align="right">{{ $lancamento->empenho }}</td>
-            <td align="left">{{ $lancamento->descricao }}</td>
+            <td align="center" style="border: 1px solid black">{{ $lancamento->data }}</td>
+            <td align="right" style="border: 1px solid black">{{ $lancamento->empenho }}</td>
+            <td align="left" style="border: 1px solid black">{{ $lancamento->descricao }}</td>
             @if($lancamento->debito != 0.00)
-              <td align="right">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
             @else
-              <td align="right">&nbsp;</td>
+              <td align="right" style="border: 1px solid black">&nbsp;</td>
             @endif
             @if($lancamento->credito != 0.00)
-              <td align="right">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
             @else
-              <td align="right">&nbsp;</td>
+              <td align="right" style="border: 1px solid black">&nbsp;</td>
             @endif
-            <td align="right">{{ $lancamento->saldo }}</td>
-            <td align="left">{{ $lancamento->observacao }}</td>
+            <td align="right" style="border: 1px solid black">{{ $lancamento->saldo }}</td>
+            <td align="left" style="border: 1px solid black">{{ $lancamento->observacao }}</td>
           </tr>
       </tbody>
     @endforeach

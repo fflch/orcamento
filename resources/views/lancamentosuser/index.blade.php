@@ -29,10 +29,10 @@
         </select>
     </div>
         <div class="form-group col-md-4">
-            <input type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
         </div>
         <div class="form-group col-md-4">
-            <input type="text" class="form-control datepicker data" name="data_final" value="31/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="31/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
         </div>
         <div class="form-group col-md-4">
         <button type="submit" class="btn btn-success">Buscar</button>
@@ -68,24 +68,24 @@
             </thead>
             <tbody>
                 @forelse($lancamentos as $lancamento)
-                    <tr>
-                            <td align="left">{{ $lancamento->data }}</td>
-                            <td align="left">{{ $lancamento->descricao }}</td>
-                            <td align="left">{{ $lancamento->observacao }}</td>
-                            @foreach($lancamento->contas as $conta)
-                            @if($lancamento->debito != 0.00)
-                                <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                            @else
-                                <td>&nbsp;</td>
-                            @endif
-                            @if($lancamento->credito != 0.00)
-                            <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                            @else
-                                <td>&nbsp;</td>
-                            @endif
-                            @endforeach
-                            <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
-                    </tr>
+                    @foreach($lancamento->contas as $conta)
+                        <tr>
+                                <td align="left">{{ $lancamento->data }}</td>
+                                <td align="left">{{ $lancamento->descricao }}</td>
+                                <td align="left">{{ $lancamento->observacao }}</td>
+                                @if($lancamento->debito != 0.00)
+                                    <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                                @else
+                                    <td>&nbsp;</td>
+                                @endif
+                                @if($lancamento->credito != 0.00)
+                                <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                                @else
+                                    <td>&nbsp;</td>
+                                @endif
+                                <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
                 @empty
                     <tr> <td colspan="6" align="center"> Não há lançamentos cadastrados nesse período. </td> </tr>
                 @endforelse

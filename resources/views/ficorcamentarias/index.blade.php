@@ -87,28 +87,10 @@
                 </tr>
             @endforeach
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5">&nbsp;</td>
-                <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') }}</strong></font></td>
-                <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                <td>
-                @if(($total_credito - $total_debito) == 0.00)
-                    <font color="black">
-                @elseif(($total_credito - $total_debito) > 0.00)
-                    <font color="green">
-                @else
-                    <font color="red">
-                @endif                        
-                <strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
-                @can('Administrador')
-                    <td colspan="3">&nbsp;</td>
-                @endcan
-            </tr>
-        </tfoot>
     </table>
-    <p>{{ $ficorcamentarias->appends($_GET)->links() }}</p>
 </div>
+<br>
+@include('lancamentos.partials.saldo')
 @endsection
 @section('javascripts_bottom')
     <script>

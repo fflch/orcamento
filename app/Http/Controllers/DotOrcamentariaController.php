@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\DotOrcamentaria;
 use App\Models\FicOrcamentaria;
 use App\Models\Movimento;
@@ -37,12 +38,15 @@ class DotOrcamentariaController extends Controller
                                    ->where('movimento_id', $movimento->id)
                                    ->get();
 
+        $hoje = Carbon::now()->format('m/d/Y');
+
         return view('ficorcamentarias.index_por_dotacao',[
-                    'fichas' => $fichas,
-                    'dotorcamentaria' => $dotorcamentaria,
+                    'fichas'              => $fichas,
+                    'dotorcamentaria'     => $dotorcamentaria,
+                    'hoje'                => $hoje,
                     'total_debito'        => $fichas->sum('debito_raw'),
                     'total_credito'       => $fichas->sum('credito_raw'),
-                    'movimento_anos'  => Movimento::movimento_anos()
+                    'movimento_anos'      => Movimento::movimento_anos()
         ]);
     }
 

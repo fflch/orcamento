@@ -30,8 +30,8 @@
     @foreach ($acompanhamento as $acompanhamento_valor)
       <tbody>
           <tr>
-            <td align="left">{{ $acompanhamento_valor->nome }}</td>
-            <td align="right">{{ $acompanhamento_valor->ativo == '1' ? 'Sim':'Não'}}</td>
+            <td align="left" style="border: 1px solid black">{{ $acompanhamento_valor->nome }}</td>
+            <td align="right" style="border: 1px solid black">{{ $acompanhamento_valor->ativo == '1' ? 'Sim':'Não'}}</td>
           </tr>
       </tbody>
     @endforeach

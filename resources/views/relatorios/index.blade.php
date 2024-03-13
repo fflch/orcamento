@@ -31,9 +31,6 @@
     @include('relatorios.indexlancamentos')
     @include('relatorios.indexfichaorcamentaria')
 </div>
-<div class="form-row">
-    @include('relatorios.indexdespesasmiudas')
-</div>
 @endsection
 @section('javascripts_bottom')
     <script>

@@ -30,8 +30,8 @@
     @foreach ($saldo_contas as $saldo_conta)
       <tbody>
           <tr>
-            <td align="left">{{ $saldo_conta->nome }}</td>
-            <td align="right">{{ number_format($saldo_conta->total_credito - $saldo_conta->total_debito, 2, ',', '.') }}</td>
+            <td align="left" style="border: 1px solid black">{{ $saldo_conta->nome }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format($saldo_conta->total_credito - $saldo_conta->total_debito, 2, ',', '.') }}</td>
           </tr>
       </tbody>
     @endforeach

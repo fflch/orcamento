@@ -34,10 +34,10 @@
     @foreach ($balanceteO as $valor)
       <tbody>
           <tr>
-            <td align="left"> {{ $valor->nome }}</td>
-            <td align="right"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }}</td>
-            <td align="right"> </td>
-            <td align="right"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }} </td>
+            <td align="left" style="border: 1px solid black"> {{ $valor->nome }}</td>
+            <td align="right" style="border: 1px solid black"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }}</td>
+            <td align="right" style="border: 1px solid black"> </td>
+            <td align="right" style="border: 1px solid black"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }} </td>
             {{ $total_geral_debito += $valor->total_debito }}
             {{ $total_geral_credito += $valor->total_credito }}
           </tr>
@@ -47,10 +47,10 @@
   <table width="100%" border="0px" style="background-color:#A2A2A2;">
     <tbody>
         <tr>
-          <td width="61%" align="right">Totais Gerais</td>
-          <td width="13%" align="right">{{ number_format($total_geral_debito, 2, ',', '.') }}</td>
-          <td width="13%" align="right">{{ number_format($total_geral_credito, 2, ',', '.') }}</td>
-          <td width="13%" align="right">{{ number_format($total_geral_credito - $total_geral_debito, 2, ',', '.') }}</td>
+          <td width="61%" align="right" style="border: 1px solid black">Totais Gerais</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_debito, 2, ',', '.') }}</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_credito, 2, ',', '.') }}</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_credito - $total_geral_debito, 2, ',', '.') }}</td>
         </tr>
      <tbody>
   </table>
