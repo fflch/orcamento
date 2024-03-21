@@ -972,16 +972,16 @@
         },
         {
             "name": "fflch/laravel-fflch-pdf",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fflch/laravel-fflch-pdf.git",
-                "reference": "c4281e02b2ee1c374ad1b7530cf41e80dbc86009"
+                "reference": "cb81a6444c2d8dda5fb361eada98d71407755103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fflch/laravel-fflch-pdf/zipball/c4281e02b2ee1c374ad1b7530cf41e80dbc86009",
-                "reference": "c4281e02b2ee1c374ad1b7530cf41e80dbc86009",
+                "url": "https://api.github.com/repos/fflch/laravel-fflch-pdf/zipball/cb81a6444c2d8dda5fb361eada98d71407755103",
+                "reference": "cb81a6444c2d8dda5fb361eada98d71407755103",
                 "shasum": ""
             },
             "require": {
@@ -1013,9 +1013,9 @@
             "description": "fflch pdf for laravel",
             "support": {
                 "issues": "https://github.com/fflch/laravel-fflch-pdf/issues",
-                "source": "https://github.com/fflch/laravel-fflch-pdf/tree/1.0.5"
+                "source": "https://github.com/fflch/laravel-fflch-pdf/tree/1.0.6"
             },
-            "time": "2021-10-06T20:18:00+00:00"
+            "time": "2024-03-21T19:25:21+00:00"
         },
         {
             "name": "fideloper/proxy",
