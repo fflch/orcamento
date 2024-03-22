@@ -34,51 +34,52 @@ class RelatorioController extends Controller
     }
 
     public function balancete(Request $request){
-        if($request->data != null){
-            $periodo = $request->data;
-            $data_convertida = implode("-", array_reverse(explode("/", $request->data)));
-            $balanceteO = DB::table('contas')
+
+        $ano = explode("/", $request->data);
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
+        if($request->data != null && $ano[2] == $movimento->ano){
+
+            $periodo = FormataDataService::handle($request->data);     
+
+            $saldos = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            ->select('contas.nome', 'tipo_contas.descricao',
-            DB::raw('SUM(lancamentos.debito) as total_debito'), 
-            DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->selectRaw('contas.nome, tipo_contas.descricao,
+                        SUM(lancamentos.debito) as total_debito, 
+                        SUM(lancamentos.credito) as total_credito')
             ->where('tipo_contas.relatoriobalancete','=',1)
-            ->where('lancamentos.receita','=',0)
-            ->where('lancamentos.data','<=',$data_convertida)
+            ->where('lancamentos.movimento_id', '=', $movimento->id)
+            ->where('lancamentos.data','<=',$periodo)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
 
-            $balanceteR = DB::table('contas')
-            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
-            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            ->select('contas.nome', 'tipo_contas.descricao',
-            DB::raw('SUM(lancamentos.debito) as total_debito'), 
-            DB::raw('SUM(lancamentos.credito) as total_credito'))
-            ->where('tipo_contas.relatoriobalancete','=',1)
-            ->where('lancamentos.receita','=',1)
-            ->where('lancamentos.data','<=',$data_convertida)
-            ->groupBy('contas.nome', 'tipo_contas.descricao')
-            ->get();
-        }
-        else{
-            request()->session()->flash('alert-info','Informe a Data.');
+            // Monta um array de array das contas e duas chaves saldo_orcamento e saldo_renda
+            $contas = $saldos->pluck('nome')->toArray();
+            $balancete = [];
+            foreach($contas as $conta){
+                $balancete[$conta] = [
+                    'saldo_orcamento' => 0.0,
+                    'saldo_renda' => 0.0
+                ];
+            }  
+            // Preenche o array balancete
+            foreach($saldos as $saldo){
+                if($saldo->descricao == "ORÇAMENTO"){
+                    $balancete[$saldo->nome]['saldo_orcamento'] = $saldo->total_credito - $saldo->total_debito;
+                } else {
+                    $balancete[$saldo->nome]['saldo_renda'] = $saldo->total_credito - $saldo->total_debito;
+                }
+            }
+
+        } else {
+            request()->session()->flash('alert-info','Ao informar a data, certifique-se de que o ano é correpondente com o da sessão.');
             return redirect("/relatorios");            
         }
 
-        $balancete = [];
-
-        foreach($balanceteO as $valor){
-            array_push($balancete, $valor->nome);
-            array_push($balancete, $valor->descricao);
-            array_push($balancete, $valor->total_debito);
-            array_push($balancete, $valor->total_credito);
-        }
         $pdf = PDF::loadView('pdfs.balancete', [
-                             'balanceteO' => $balanceteO,
-                             'balanceteR' => $balanceteR,
+                             'balancete' => $balancete,
                              'periodo'    => $periodo,
         ])->setPaper('a4', 'landscape');
         return $pdf->download("balancete.pdf");
@@ -170,8 +171,10 @@ class RelatorioController extends Controller
             ->whereBetween('data', [$inicial, $final])
             ->get();
         }
+        $lancamentos->load('contas');
         $nome_conta  = Conta::nome_conta($request->contas);
         $pdf = PDF::loadView('pdfs.lancamentos', [
+                             'conta_id'    => $request->contas,
                              'lancamentos' => $lancamentos,
                              'nome_conta'  => $nome_conta[0]->nome,
         ])->setPaper('a4', 'landscape');

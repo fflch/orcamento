@@ -33,25 +33,29 @@
       </tr>
     </thead>
     @foreach ($lancamentos as $lancamento)
+      @foreach($lancamento->contas as $conta)
+      @if($conta->id == $conta_id)
       <tbody>
           <tr>
             <td align="center" style="border: 1px solid black">{{ $lancamento->data }}</td>
             <td align="right" style="border: 1px solid black">{{ $lancamento->empenho }}</td>
             <td align="left" style="border: 1px solid black">{{ $lancamento->descricao }}</td>
             @if($lancamento->debito != 0.00)
-              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+                <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
             @else
-              <td align="right" style="border: 1px solid black">&nbsp;</td>
+                <td align="right" style="border: 1px solid black">&nbsp;</td>
             @endif
             @if($lancamento->credito != 0.00)
-              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->credito_raw, 2, ',', '.') }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
             @else
-              <td align="right" style="border: 1px solid black">&nbsp;</td>
+                <td align="right" style="border: 1px solid black">&nbsp;</td>
             @endif
             <td align="right" style="border: 1px solid black">{{ $lancamento->saldo }}</td>
             <td align="left" style="border: 1px solid black">{{ $lancamento->observacao }}</td>
           </tr>
       </tbody>
+      @endif
+      @endforeach
     @endforeach
   </table>
 @endsection

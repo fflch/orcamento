@@ -29,28 +29,28 @@
         <th width="13%">Total Geral</th>
       </tr>
     </thead>
-    {{ $total_geral_debito = 0 }}
-    {{ $total_geral_credito = 0 }}
-    @foreach ($balanceteO as $valor)
+    {{ $total_orcamento = 0 }}
+    {{ $total_renda = 0 }}
+    @foreach ($balancete as $key => $saldo)
       <tbody>
           <tr>
-            <td align="left" style="border: 1px solid black"> {{ $valor->nome }}</td>
-            <td align="right" style="border: 1px solid black"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }}</td>
-            <td align="right" style="border: 1px solid black"> </td>
-            <td align="right" style="border: 1px solid black"> {{ number_format($valor->total_credito - $valor->total_debito, 2, ',', '.') }} </td>
-            {{ $total_geral_debito += $valor->total_debito }}
-            {{ $total_geral_credito += $valor->total_credito }}
+            <td align="left" style="border: 1px solid black"> {{ $key }}</td>
+            <td align="right" style="border: 1px solid black"> {{ number_format($saldo['saldo_orcamento'], 2) }} </td>
+            <td align="right" style="border: 1px solid black"> {{ number_format($saldo['saldo_renda'], 2) }} </td>
+            <td align="right" style="border: 1px solid black"> {{ number_format($saldo['saldo_orcamento'] +  $saldo['saldo_renda'], 2) }}</td>
           </tr>
       </tbody>
+      {{ $total_orcamento += $saldo['saldo_orcamento'] }}
+      {{ $total_renda += $saldo['saldo_renda'] }}
     @endforeach
   </table>
   <table width="100%" border="0px" style="background-color:#A2A2A2;">
     <tbody>
         <tr>
           <td width="61%" align="right" style="border: 1px solid black">Totais Gerais</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_debito, 2, ',', '.') }}</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_credito, 2, ',', '.') }}</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_geral_credito - $total_geral_debito, 2, ',', '.') }}</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento, 2, ',', '.') }}</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_renda, 2, ',', '.') }}</td>
+          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento + $total_renda, 2, ',', '.') }}</td>
         </tr>
      <tbody>
   </table>
