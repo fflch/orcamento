@@ -40,14 +40,14 @@ class RelatorioController extends Controller
 
         if($request->data != null && $ano[2] == $movimento->ano){
 
-            $periodo = FormataDataService::handle($request->data);     
+            $periodo = FormataDataService::handle($request->data);
 
             $saldos = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->selectRaw('contas.nome, tipo_contas.descricao,
-                        SUM(lancamentos.debito) as total_debito, 
+                        SUM(lancamentos.debito) as total_debito,
                         SUM(lancamentos.credito) as total_credito')
             ->where('tipo_contas.relatoriobalancete','=',1)
             ->where('lancamentos.movimento_id', '=', $movimento->id)
@@ -63,7 +63,7 @@ class RelatorioController extends Controller
                     'saldo_orcamento' => 0.0,
                     'saldo_renda' => 0.0
                 ];
-            }  
+            }
             // Preenche o array balancete
             foreach($saldos as $saldo){
                 if($saldo->descricao == "ORÇAMENTO"){
@@ -75,7 +75,7 @@ class RelatorioController extends Controller
 
         } else {
             request()->session()->flash('alert-info','Ao informar a data, certifique-se de que o ano é correpondente com o da sessão.');
-            return redirect("/relatorios");            
+            return redirect("/relatorios");
         }
 
         $pdf = PDF::loadView('pdfs.balancete', [
@@ -91,7 +91,7 @@ class RelatorioController extends Controller
             $acompanhamento = Conta::All();
         } else {
             request()->session()->flash('alert-info','Informe o Grupo.');
-            return redirect("/relatorios");            
+            return redirect("/relatorios");
         }
         if(($request->data_inicial != null) and ($request->data_final != null)){
             $inicial = FormataDataService::handle($request->data_inicial);
@@ -121,7 +121,7 @@ class RelatorioController extends Controller
         }
         else{
             request()->session()->flash('alert-info','Informe o Tipo de Conta.');
-            return redirect("/relatorios");            
+            return redirect("/relatorios");
         }
         $pdf = PDF::loadView('pdfs.saldo_contas', [
                              'saldo_contas'        => $saldo_contas,
@@ -137,7 +137,7 @@ class RelatorioController extends Controller
         if($request->grupo != null){
             $saldo_dotacoes = DB::table('fic_orcamentarias')
             ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
-            ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item', 
+            ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item',
                 DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
                 DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
             ->where('dot_orcamentarias.grupo','=',$request->grupo)
@@ -148,7 +148,7 @@ class RelatorioController extends Controller
         }
         else{
             request()->session()->flash('alert-info','Informe o Grupo.');
-            return redirect("/relatorios");            
+            return redirect("/relatorios");
         }
         $pdf = PDF::loadView('pdfs.saldo_dotacoes', [
                              'saldo_dotacoes' => $saldo_dotacoes,
