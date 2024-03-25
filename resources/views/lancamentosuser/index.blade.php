@@ -69,6 +69,7 @@
             <tbody>
                 @forelse($lancamentos as $lancamento)
                     @foreach($lancamento->contas as $conta)
+                    @if($conta->id == $conta_id)
                         <tr>
                                 <td align="left">{{ $lancamento->data }}</td>
                                 <td align="left">{{ $lancamento->descricao }}</td>
@@ -85,6 +86,7 @@
                                 @endif
                                 <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
                         </tr>
+                    @endif
                     @endforeach
                 @empty
                     <tr> <td colspan="6" align="center"> Não há lançamentos cadastrados nesse período. </td> </tr>

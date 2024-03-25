@@ -37,15 +37,13 @@ class LancamentoUserController extends Controller
     public function lancamentos(LancamentoUserRequest $request){
         $this->authorize('Todos');
 
-        $start_time = microtime(true);
         $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
-        $end_time = microtime(true);
-
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';
+
         foreach($lancamentos as $lancamento){
             $total_debito     += $lancamento->debito_raw;
             $concatena_debito .= $lancamento->debito_raw . ' -  ';
@@ -55,6 +53,7 @@ class LancamentoUserController extends Controller
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
             'contas' => $this->contas,
+            'conta_id' => $request->conta_id,
             'lancamentos' => $lancamentos,
             'total_debito'        => $total_debito,
             'total_credito'       => $total_credito
@@ -70,6 +69,7 @@ class LancamentoUserController extends Controller
 
         $nome_conta  = Conta::nome_conta($request->conta_id);
         $pdf = PDF::loadView('pdfs.lancamentos', [
+            'conta_id'    => $request->conta_id,
             'lancamentos' => $lancamentos,
             'nome_conta'  => $nome_conta[0]->nome,
         ])->setPaper('a4', 'landscape');
