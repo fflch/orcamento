@@ -1,6 +1,10 @@
 <?php
 $right_menu = [
     [
+        // menu utilizado para views da biblioteca senhaunica-socialite.
+        'key' => 'senhaunica-socialite',
+    ],
+    [
         'text'   => '<i class="fas fa-hard-hat"></i>',
         'title'  => 'Logs',
         'target' => '_blank',
