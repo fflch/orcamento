@@ -114,9 +114,8 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
-        $lancamento_last = Lancamento::all()->last();
         $lancamento = Lancamento::create($validated);
-        $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo();
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect("/lancamentos/{$lancamento->id}");
     }
@@ -126,7 +125,6 @@ class LancamentoController extends Controller
         $this->authorize('Todos');
 
         $lancamento['id'] = $lancamento->id;
-        $lancamento_last = Lancamento::all()->last();
         $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
         try {
             $lancamento->contas()->attach($contas_percentual);
@@ -134,7 +132,7 @@ class LancamentoController extends Controller
         catch(\Illuminate\Database\QueryException $error) {
             return redirect()->back()->withErrors(($error->getCode() === '23000') ? 'Conta duplicada' : '');
         }
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo();
         $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
     
         return redirect("/lancamentos/{$lancamento->id}");
@@ -203,9 +201,8 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['user_id']     = auth()->user()->id;
-        $lancamento_last = Lancamento::all()->last();
         $lancamento->update($validated);
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo();
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
         return redirect("/lancamentos/{$lancamento->id}");
     }
@@ -221,7 +218,7 @@ class LancamentoController extends Controller
         $this->authorize('Administrador');
         $lancamento_last = Lancamento::all()->last();
         $lancamento->delete();
-        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento, $lancamento_last);
+        $calculaSaldoLancamento = Lancamento::calculaSaldo();
         $request->session()->flash('alert-success', 'Lançamento deletado com sucesso!');
         return redirect()->route('lancamentos.index');    
     }

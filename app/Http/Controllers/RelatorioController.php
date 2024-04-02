@@ -54,6 +54,8 @@ class RelatorioController extends Controller
             ->where('lancamentos.data','<=',$periodo)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
+            //não traz dados
+            dd($saldos);
 
             // Monta um array de array das contas e duas chaves saldo_orcamento e saldo_renda
             $contas = $saldos->pluck('nome')->toArray();
@@ -134,21 +136,33 @@ class RelatorioController extends Controller
     public function saldo_dotacoes(Request $request){
         $movimento = Movimento::where('ano', session('ano'))->first();
 
-        if($request->grupo != null){
+        if($request->grupo == null){
+            request()->session()->flash('alert-info','Informe o Grupo.');
+            return redirect("/relatorios");
+        }
+        if($request->receita_dotacao == null){
             $saldo_dotacoes = DB::table('fic_orcamentarias')
             ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
             ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item',
                 DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
                 DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
             ->where('dot_orcamentarias.grupo','=',$request->grupo)
-            ->where('dot_orcamentarias.receita', '=', $request->receita_dotacao)
+            ->where('dot_orcamentarias.receita','=',0)
             ->where('movimento_id', $movimento->id)
             ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
             ->get();
         }
         else{
-            request()->session()->flash('alert-info','Informe o Grupo.');
-            return redirect("/relatorios");
+            $saldo_dotacoes = DB::table('fic_orcamentarias')
+            ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
+            ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item',
+                DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
+                DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
+            ->where('dot_orcamentarias.grupo','=',$request->grupo)
+            ->where('dot_orcamentarias.receita','=',1)
+            ->where('movimento_id', $movimento->id)
+            ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
+            ->get();
         }
         $pdf = PDF::loadView('pdfs.saldo_dotacoes', [
                              'saldo_dotacoes' => $saldo_dotacoes,
