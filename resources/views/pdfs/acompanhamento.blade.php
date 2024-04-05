@@ -19,19 +19,19 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>[ Conta(tipo de conta) ]</center></h1>
+  <h1><center>[ Acompanhamento do grupo {{ $grupo }} até o dia {{ $final }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
         <th width="80%">Descrição</th>
-        <th width="20%">Ativo</th>
+        <th width="20%">Saldo</th>
       </tr>
     </thead>
-    @foreach ($acompanhamento as $acompanhamento_valor)
+    @foreach ($table as $key => $acompanhamento)
       <tbody>
           <tr>
-            <td align="left" style="border: 1px solid black">{{ $acompanhamento_valor->nome }}</td>
-            <td align="right" style="border: 1px solid black">{{ $acompanhamento_valor->ativo == '1' ? 'Sim':'Não'}}</td>
+            <td align="left" style="border: 1px solid black">{{ $acompanhamento['nome_conta'] }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format($acompanhamento['saldo'],2) }}</td>
           </tr>
       </tbody>
     @endforeach

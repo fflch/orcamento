@@ -19,14 +19,20 @@
                     <select class="contas_select form-control" name="conta_id" tabindex="1" onchange="this.form.submit()">
                         <option value=" ">[ Busca por Conta ]</option>
                         @foreach($lista_contas_ativas as $lista_conta_ativa)
-                            <option value="{{ $lista_conta_ativa->id }}"
-                            @if(old('conta_id') == $lista_conta_ativa->id)
-                                {{'selected'}}
-                            @endif>
-                            {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
-                            </option>
+                            @if(old('conta_id') == '')
+                                <option value="{{ $lista_conta_ativa->id }}"
+                                {{ ( $lista_conta_ativa->id == request()->conta_id ) ? 'selected' : '' }}>
+                                {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
+                                </option>
+                                @else
+                                <option value="{{ $lista_conta_ativa->id }}">
+                                {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
+                                </option>
+                            @endif
                         @endforeach
                     </select>
+                    &nbsp;E/OU&nbsp;       
+                    <input size="100%" type="text" class="form-control" name="busca_grupo" value="{{ request()->busca_grupo }}" placeholder="[ Busca por Grupo ]">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
@@ -47,6 +53,7 @@
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
                 <th width="34%" align="left">Observação</th>
+                <th width="7%" align="left">Grupo</th>
                 <th width="7%" align="left">CP</th>
                 <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
@@ -64,6 +71,7 @@
                     <td align="left">{{ $lancamento->data }}</td>
                     <td align="left">{{ $lancamento->descricao }}</td>
                     <td align="left">{{ $lancamento->observacao }}</td>
+                    <td align="left">{{ $lancamento->grupo }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
                     <td>{{ $lancamento->receita }}</td>
                     @if($lancamento->debito != 0.00)

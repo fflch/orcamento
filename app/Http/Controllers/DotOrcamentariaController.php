@@ -19,8 +19,9 @@ class DotOrcamentariaController extends Controller
     public function index(Request $request){
         $this->authorize('Todos');
         $dotorcamentarias = DotOrcamentaria::
-            when($request->busca_dotacao, function ($query) use ($request) {
-                return $query->where('dotacao', '=', $request->busca_dotacao);
+            when($request->busca_dotacao, $request->busca_grupo, function ($query) use ($request) {
+                return $query->where('dotacao', '=', $request->busca_dotacao)
+                             ->where('grupo', $request->busca_grupo);
             })
             ->orderBy('dotacao')
             ->paginate(10);

@@ -7,6 +7,7 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Contas vinculadas ao usuário: {{ $user->name }}</strong></h2>
+    @include('partials.mostra_ano')
 <br>
 <form method="GET" action="/lancamentos_usuario">
 @csrf
@@ -18,7 +19,7 @@
                 @if(old('conta_id') == '')
                     <option value="{{ $conta->id }}"
                         {{ ( $conta->id == request()->conta_id ) ? 'selected' : '' }}>
-                        {{ $conta->nome }}
+                        {{ $conta->nome }} - {{ $conta->tipoconta->descricao }}
                     </option>
                 @else
                     <option value="{{ $conta->id }}">
@@ -29,10 +30,10 @@
         </select>
     </div>
         <div class="form-group col-md-4">
-            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}">
         </div>
         <div class="form-group col-md-4">
-            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="31/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ session('ano') }}">
         </div>
         <div class="form-group col-md-4">
         <button type="submit" class="btn btn-success">Buscar</button>

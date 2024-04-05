@@ -26,9 +26,10 @@ class LancamentoController extends Controller
 
         $movimento = Movimento::where('ano', session('ano'))->first();
 
-        $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
+        $lancamentos = Lancamento::when($request->conta_id, $request->busca_grupo, function ($query) use ($request) {
                             $query->whereHas('contas', function ($query) use ($request) {
-                                $query->where('conta_id', $request->conta_id);
+                                $query->where('conta_id', $request->conta_id)
+                                      ->where('grupo', $request->busca_grupo);
                             });
                        })
                        ->where('movimento_id', $movimento->id)
@@ -114,8 +115,9 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
+        $lancamento_last = Lancamento::all()->last();
         $lancamento = Lancamento::create($validated);
-        $calculaSaldoLancamento  = Lancamento::calculaSaldo();
+        $calculaSaldoLancamento  = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Lançamento cadastrado com sucesso!');
         return redirect("/lancamentos/{$lancamento->id}");
     }
@@ -125,6 +127,7 @@ class LancamentoController extends Controller
         $this->authorize('Todos');
 
         $lancamento['id'] = $lancamento->id;
+        $lancamento_last = Lancamento::all()->last();
         $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
         try {
             $lancamento->contas()->attach($contas_percentual);
@@ -132,7 +135,7 @@ class LancamentoController extends Controller
         catch(\Illuminate\Database\QueryException $error) {
             return redirect()->back()->withErrors(($error->getCode() === '23000') ? 'Conta duplicada' : '');
         }
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo();
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
     
         return redirect("/lancamentos/{$lancamento->id}");
@@ -201,8 +204,9 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['user_id']     = auth()->user()->id;
+        $lancamento_last = Lancamento::all()->last();
         $lancamento->update($validated);
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo();
+        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
         return redirect("/lancamentos/{$lancamento->id}");
     }
@@ -218,7 +222,7 @@ class LancamentoController extends Controller
         $this->authorize('Administrador');
         $lancamento_last = Lancamento::all()->last();
         $lancamento->delete();
-        $calculaSaldoLancamento = Lancamento::calculaSaldo();
+        $calculaSaldoLancamento = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Lançamento deletado com sucesso!');
         return redirect()->route('lancamentos.index');    
     }

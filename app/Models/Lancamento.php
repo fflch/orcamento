@@ -82,16 +82,15 @@ class Lancamento extends Model
                     ->withTimestamps();
     }
     
-    public static function calculaSaldo(){
-        $lancamentos = Lancamento::all()->groupBy('id');
-
-        $lancamentos->saldo = 0.00;
-
-        foreach($lancamentos as $lancamento){
-            foreach($lancamento as $lanc){
-                $lanc->saldo = (float) $lanc->credito_raw - $lanc->debito_raw;    
-                $lanc->save();
-            }
+    public static function calculaSaldo($lancamento, $lancamento_last){
+        if($lancamento_last){
+            $saldo = (float)str_replace(',','.',$lancamento_last->saldo);
+        } else {
+            $saldo = 0.00;
         }
+        $saldo += $lancamento->credito_raw - $lancamento->debito_raw;
+        $lancamento->saldo = $saldo;
+        $lancamento->update();
+       
     }
 }

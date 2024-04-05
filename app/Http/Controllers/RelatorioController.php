@@ -54,8 +54,6 @@ class RelatorioController extends Controller
             ->where('lancamentos.data','<=',$periodo)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
-            //não traz dados
-            dd($saldos);
 
             // Monta um array de array das contas e duas chaves saldo_orcamento e saldo_renda
             $contas = $saldos->pluck('nome')->toArray();
@@ -88,20 +86,62 @@ class RelatorioController extends Controller
     }
 
     public function acompanhamento(Request $request){
+
         if($request->grupo != null){
-            $tiposconta     = TipoConta::All();
-            $acompanhamento = Conta::All();
+            $inicial = FormataDataService::handle($request->data_inicial);
+            $final = FormataDataService::handle($request->data_final);
+
+            $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
+                                    ->whereBetween('data', [$inicial, $final])
+                                    ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+                                    ->pluck('conta_id')
+                                    ->toArray();
+
+            $contas_id = array_unique($lancamentos);
+
+            $table = [];
+            foreach($contas_id as $conta_id){
+
+                $conta = Conta::find($conta_id);
+
+                $lancamentos_nesta_conta = Lancamento::where('grupo',(int)$request->grupo)
+                                        ->whereBetween('data', [$inicial, $final])
+                                        ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+                                        ->where('conta_id', $conta_id)
+                                        ->select('debito','credito', 'receita')->get();
+                                
+                if($request->receita_acompanhamento != null){
+                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 1);
+                } else {
+                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 0);
+                }           
+                
+                // Calcula débitos
+                $debitos = [];
+                foreach($lancamentos_nesta_conta as $lancamento){
+                    $debitos[] = (float) str_replace(',','.',$lancamento->debito);
+                }
+
+                // Calcula crédito
+                $creditos = [];
+                foreach($lancamentos_nesta_conta as $lancamento){
+                    $creditos[] = (float) str_replace(',','.',$lancamento->credito);
+                }
+
+                $table[] = [
+                    'nome_conta' => $conta->nome,
+                    'saldo'      => array_sum($debitos) - array_sum($creditos),
+                ];
+            }  
         } else {
             request()->session()->flash('alert-info','Informe o Grupo.');
             return redirect("/relatorios");
         }
-        if(($request->data_inicial != null) and ($request->data_final != null)){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
-            $acompanhamento = $acompanhamento->whereBetween('updated_at', [$inicial, $final]);
-        }
+        
         $pdf = PDF::loadView('pdfs.acompanhamento', [
-                             'acompanhamento' => $acompanhamento,
+                             'table' => $table,
+                             'final' => $final,
+                             'grupo' => $request->grupo
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");
     }
@@ -184,6 +224,9 @@ class RelatorioController extends Controller
             })
             ->whereBetween('data', [$inicial, $final])
             ->get();
+        }
+        if($request->grupo != null){
+            $lancamentos = $lancamentos->where('grupo', $request->grupo);
         }
         $lancamentos->load('contas');
         $nome_conta  = Conta::nome_conta($request->contas);

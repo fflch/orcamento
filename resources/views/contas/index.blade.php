@@ -18,14 +18,16 @@
                     <select class="tipocontas_select form-control" name="tipoconta_id"  onchange="this.form.submit()" tabindex="1">
                         <option value=" ">[ Busca por Tipo de Conta ]</option>
                         @foreach($lista_tipos_contas as $lista_tipo_conta)
-                            <option value="{{ $lista_tipo_conta->id }}"
-                                @if(old('tipoconta_id') == $lista_tipo_conta->id)
-                                    {{ 'selected' }}
-                                @else
-                                    {{(request()->tipoconta_id === $lista_tipo_conta->id ) ? 'selected' : ''}}
-                                @endif>
+                            @if(old('tipoconta_id') == '')
+                                <option value="{{ $lista_tipo_conta->id }}"
+                                {{ ( $lista_tipo_conta->id == request()->tipoconta_id ) ? 'selected' : '' }}>
                                 {{ $lista_tipo_conta->descricao }}
-                            </option>
+                                </option>
+                                @else
+                                <option value="{{ $lista_tipo_conta->id }}">
+                                {{ $lista_tipo_conta->descricao }}
+                                </option>
+                            @endif
                         @endforeach
                     </select>
                     &nbsp;OU&nbsp;       
