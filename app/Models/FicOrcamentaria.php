@@ -92,8 +92,8 @@ class FicOrcamentaria extends Model
             $calcula_saldo->update();
         }
     }
-    
-    
+    */
+
     public static function calculaSaldo($ficorcamentaria, $ficorcamentaria_last){
         if($ficorcamentaria_last){
             $saldo = (float)str_replace(',','.',$ficorcamentaria_last->saldo);
@@ -104,19 +104,5 @@ class FicOrcamentaria extends Model
         $ficorcamentaria->saldo = $saldo;
         $ficorcamentaria->update();
        
-    }
-    */
-    
-    public static function calculaSaldo(){
-        $ficorcamentarias = FicOrcamentaria::all()->groupBy('id');
-
-        $ficorcamentarias->saldo = 0.00;
-
-        foreach($ficorcamentarias as $ficorcamentaria){
-            foreach($ficorcamentaria as $ficha){
-                $ficha->saldo = (float) $ficha->credito_raw - $ficha->debito_raw;    
-                $ficha->save();
-            }
-        }
     }
 }

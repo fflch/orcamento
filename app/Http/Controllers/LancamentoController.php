@@ -26,10 +26,9 @@ class LancamentoController extends Controller
 
         $movimento = Movimento::where('ano', session('ano'))->first();
 
-        $lancamentos = Lancamento::when($request->conta_id, $request->busca_grupo, function ($query) use ($request) {
+        $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
                             $query->whereHas('contas', function ($query) use ($request) {
-                                $query->where('conta_id', $request->conta_id)
-                                      ->where('grupo', $request->busca_grupo);
+                                $query->where('conta_id', $request->conta_id);
                             });
                        })
                        ->where('movimento_id', $movimento->id)

@@ -7,7 +7,6 @@
     @include('messages.errors')
 <div class="card p-3">
     <h2><strong>Contas vinculadas ao usuário: {{ $user->name }}</strong></h2>
-    @include('partials.mostra_ano')
 <br>
 <form method="GET" action="/lancamentos_usuario">
 @csrf

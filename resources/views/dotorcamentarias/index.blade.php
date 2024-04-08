@@ -17,8 +17,6 @@
                 <div class=" col-sm input-group">
                     <input size="100%" type="text" class="form-control" name="busca_dotacao" value="{{ request()->busca_dotacao }}" placeholder="[ Busca por Dotação Orçamentária ]">
                     </select>
-                    &nbsp;E/OU&nbsp;       
-                    <input size="100%" type="text" class="form-control" name="busca_grupo" value="{{ request()->busca_grupo }}" placeholder="[ Busca por Grupo ]">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/dotorcamentarias" title="Limpar a Busca"><strong>X</strong></a>
