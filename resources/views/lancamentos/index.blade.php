@@ -19,15 +19,19 @@
                     <select class="contas_select form-control" name="conta_id" tabindex="1" onchange="this.form.submit()">
                         <option value=" ">[ Busca por Conta ]</option>
                         @foreach($lista_contas_ativas as $lista_conta_ativa)
-                            <option value="{{ $lista_conta_ativa->id }}"
-                            @if(old('conta_id') == $lista_conta_ativa->id)
-                                {{'selected'}}
-                            @endif>
-                            {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
-                            </option>
+                            @if(old('conta_id') == '')
+                                <option value="{{ $lista_conta_ativa->id }}"
+                                {{ ( $lista_conta_ativa->id == request()->conta_id ) ? 'selected' : '' }}>
+                                {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
+                                </option>
+                                @else
+                                <option value="{{ $lista_conta_ativa->id }}">
+                                {{ $lista_conta_ativa->nome }} ({{ $lista_conta_ativa->descricao}})
+                                </option>
+                            @endif
                         @endforeach
                     </select>
-                    <span class="input-group-btn">
+                   <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
                     </span>

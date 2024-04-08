@@ -93,5 +93,4 @@ class Lancamento extends Model
         $lancamento->update();
        
     }
-    
 }

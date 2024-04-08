@@ -25,4 +25,9 @@ class ContaUsuario extends Model
     public function usuario(){
         return $this->belongsTo(User::class,'id_usuario');
     }
+    /*
+    public function tipoconta(){
+        return $this->belongsTo(TipoConta::class);
+    }
+    */
 }

@@ -29,7 +29,7 @@ class LancamentoUserController extends Controller
     public function index(){
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
-            'contas' => $this->contas,
+            'contas' => $this->contas
         ]);
     }
 
@@ -40,6 +40,8 @@ class LancamentoUserController extends Controller
         $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
+        //$lancamentos->load('contas');
+
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';
@@ -48,6 +50,17 @@ class LancamentoUserController extends Controller
             $total_debito     += $lancamento->debito_raw;
             $concatena_debito .= $lancamento->debito_raw . ' -  ';
             $total_credito    += $lancamento->credito_raw;
+            /*
+            foreach($lancamento->contas as $conta){
+                //dump($lancamento->credito_raw * $conta->pivot->percentual/100);
+                //dump($lancamento->credito_raw);
+                //dump($conta->pivot->percentual);
+                $total_debito     += $lancamento->debito_raw * $conta->pivot->percentual/100;
+                $concatena_debito .= $lancamento->debito_raw . ' -  ';
+                $total_credito    += $lancamento->credito_raw * $conta->pivot->percentual/100;
+                //dump($total_credito);
+            }
+              */
         }
 
         return view('lancamentosuser.index',[

@@ -42,7 +42,7 @@
           @foreach($contas_vinculadas as $conta)
               <tr>
                   <td>{{ $conta->id_conta }}</td>
-                  <td>{{ $conta->conta->nome }}</td>
+                  <td>{{ $conta->conta->nome }} - {{ App\Models\Conta::find($conta->id_conta)->tipoconta->descricao }} </td>
                   @can('Administrador')
                   <td align="center">
                       <form method="post" role="form" action="/usuarios/{{ $conta->id }}/destroyContaUsuario" >

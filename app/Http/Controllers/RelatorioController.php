@@ -86,20 +86,62 @@ class RelatorioController extends Controller
     }
 
     public function acompanhamento(Request $request){
+
         if($request->grupo != null){
-            $tiposconta     = TipoConta::All();
-            $acompanhamento = Conta::All();
+            $inicial = FormataDataService::handle($request->data_inicial);
+            $final = FormataDataService::handle($request->data_final);
+
+            $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
+                                    ->whereBetween('data', [$inicial, $final])
+                                    ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+                                    ->pluck('conta_id')
+                                    ->toArray();
+
+            $contas_id = array_unique($lancamentos);
+
+            $table = [];
+            foreach($contas_id as $conta_id){
+
+                $conta = Conta::find($conta_id);
+
+                $lancamentos_nesta_conta = Lancamento::where('grupo',(int)$request->grupo)
+                                        ->whereBetween('data', [$inicial, $final])
+                                        ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+                                        ->where('conta_id', $conta_id)
+                                        ->select('debito','credito', 'receita')->get();
+                                
+                if($request->receita_acompanhamento != null){
+                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 1);
+                } else {
+                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 0);
+                }           
+                
+                // Calcula débitos
+                $debitos = [];
+                foreach($lancamentos_nesta_conta as $lancamento){
+                    $debitos[] = (float) str_replace(',','.',$lancamento->debito);
+                }
+
+                // Calcula crédito
+                $creditos = [];
+                foreach($lancamentos_nesta_conta as $lancamento){
+                    $creditos[] = (float) str_replace(',','.',$lancamento->credito);
+                }
+
+                $table[] = [
+                    'nome_conta' => $conta->nome,
+                    'saldo'      => array_sum($debitos) - array_sum($creditos),
+                ];
+            }  
         } else {
             request()->session()->flash('alert-info','Informe o Grupo.');
             return redirect("/relatorios");
         }
-        if(($request->data_inicial != null) and ($request->data_final != null)){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
-            $acompanhamento = $acompanhamento->whereBetween('updated_at', [$inicial, $final]);
-        }
+        
         $pdf = PDF::loadView('pdfs.acompanhamento', [
-                             'acompanhamento' => $acompanhamento,
+                             'table' => $table,
+                             'final' => $final,
+                             'grupo' => $request->grupo
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");
     }
@@ -134,21 +176,33 @@ class RelatorioController extends Controller
     public function saldo_dotacoes(Request $request){
         $movimento = Movimento::where('ano', session('ano'))->first();
 
-        if($request->grupo != null){
+        if($request->grupo == null){
+            request()->session()->flash('alert-info','Informe o Grupo.');
+            return redirect("/relatorios");
+        }
+        if($request->receita_dotacao == null){
             $saldo_dotacoes = DB::table('fic_orcamentarias')
             ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
             ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item',
                 DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
                 DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
             ->where('dot_orcamentarias.grupo','=',$request->grupo)
-            ->where('dot_orcamentarias.receita', '=', $request->receita_dotacao)
+            ->where('dot_orcamentarias.receita','=',0)
             ->where('movimento_id', $movimento->id)
             ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
             ->get();
         }
         else{
-            request()->session()->flash('alert-info','Informe o Grupo.');
-            return redirect("/relatorios");
+            $saldo_dotacoes = DB::table('fic_orcamentarias')
+            ->join('dot_orcamentarias', 'fic_orcamentarias.dotacao_id', '=', 'dot_orcamentarias.id')
+            ->select('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item',
+                DB::raw('SUM(fic_orcamentarias.debito) as total_debito'),
+                DB::raw('SUM(fic_orcamentarias.credito) as total_credito'))
+            ->where('dot_orcamentarias.grupo','=',$request->grupo)
+            ->where('dot_orcamentarias.receita','=',1)
+            ->where('movimento_id', $movimento->id)
+            ->groupBy('dot_orcamentarias.dotacao', 'dot_orcamentarias.grupo', 'dot_orcamentarias.item')
+            ->get();
         }
         $pdf = PDF::loadView('pdfs.saldo_dotacoes', [
                              'saldo_dotacoes' => $saldo_dotacoes,
@@ -170,6 +224,9 @@ class RelatorioController extends Controller
             })
             ->whereBetween('data', [$inicial, $final])
             ->get();
+        }
+        if($request->grupo != null){
+            $lancamentos = $lancamentos->where('grupo', $request->grupo);
         }
         $lancamentos->load('contas');
         $nome_conta  = Conta::nome_conta($request->contas);

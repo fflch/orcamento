@@ -92,8 +92,8 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id; 
-        $ficorcamentaria_last = FicOrcamentaria::all()->last();       
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;    
+        $ficorcamentaria_last = FicOrcamentaria::all()->last();  
         $ficorcamentaria = FicOrcamentaria::create($validated);
         $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
@@ -151,8 +151,8 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;  
-        $ficorcamentaria_last = FicOrcamentaria::all()->last();       
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;   
+        $ficorcamentaria_last = FicOrcamentaria::all()->last();  
         $ficorcamentaria->update($validated);
         $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
