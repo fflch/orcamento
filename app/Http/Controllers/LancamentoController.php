@@ -31,16 +31,29 @@ class LancamentoController extends Controller
                                 $query->where('conta_id', $request->conta_id);
                             });
                        })
+                       ->when($request->busca_grupo, function ($query) use ($request) {
+                        return $query->where('grupo', '=', $request->busca_grupo);
+                        })
                        ->where('movimento_id', $movimento->id)
                        ->orderBy('data', 'DESC')->paginate(10);
         $lancamentos->load('contas');
 
-        $saldos = Lancamento::when($request->conta_id, function ($query) use ($request) {
-            $query->whereHas('contas', function ($query) use ($request) {
-                $query->where('conta_id', $request->conta_id);
-            });
-       })
-       ->where('movimento_id', $movimento->id)->get();
+        /* Código teste
+        foreach($lancamentos as $lancamento){
+            foreach($lancamento->contas as $conta){
+                $lancamento->saldo = 0.00;
+                if($lancamento->debito != 0.001){
+                    $lancamento->saldo = $lancamento->debito_raw - (float) $lancamento->saldo * $conta->pivot->percentual/100;
+                }
+                if($lancamento->credito != 0.001){
+                    $lancamento->saldo = $lancamento->credito_raw - (float) $lancamento->saldo * $conta->pivot->percentual/100;
+                }
+            }
+        }
+        */
+
+        $saldos = Lancamento::where('movimento_id', $movimento->id)->get();
+
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $concatena_debito = '';

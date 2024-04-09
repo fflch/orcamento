@@ -19,7 +19,7 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>[ Acompanhamento do grupo {{ $grupo }} até o dia {{ $final }} ]</center></h1>
+  <h1><center>[ Acompanhamento do grupo {{ $grupo }} até o dia {{ $periodo }} ]</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
