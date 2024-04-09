@@ -31,7 +31,9 @@
                             @endif
                         @endforeach
                     </select>
-                   <span class="input-group-btn">
+                    &nbsp;E/OU&nbsp;       
+                    <input size="100%" type="text" class="form-control" name="busca_grupo" value="{{ request()->busca_grupo }}" placeholder="[ Busca por Grupo ]">
+                    <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
                     </span>
@@ -51,11 +53,14 @@
                 <th width="10%" align="left">Data</th>
                 <th width="34%" align="left">Descrição</th>
                 <th width="34%" align="left">Observação</th>
+                <th width="7%" align="left">Grupo</th>
                 <th width="7%" align="left">CP</th>
                 <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
+                @if(request()->conta_id)
                 <th width="7%" align="center">Saldo</th>
+                @endif
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
@@ -76,11 +81,13 @@
                         <td>&nbsp;</td>
                     @endif
                     @if($lancamento->credito != 0.00)
-                    <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                        <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
                     @else
                         <td>&nbsp;</td>
                     @endif
-                    <td>{{ $lancamento->saldo }}</td>
+                    @if(request()->conta_id)
+                        <td>{{ $lancamento->saldo }}</td>
+                    @endif
                     <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                     @can('Administrador')
                         <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>

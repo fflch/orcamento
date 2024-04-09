@@ -30,7 +30,7 @@
                             @endif
                         @endforeach
                     </select>
-                    &nbsp;OU&nbsp;       
+                    &nbsp;E/OU&nbsp;       
                     <input size="100%" type="text" class="form-control" name="busca_nome" value="{{ request()->busca_nome }}" placeholder="[ Busca por Nome ]">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>

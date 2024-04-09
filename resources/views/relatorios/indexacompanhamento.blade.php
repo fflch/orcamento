@@ -15,11 +15,8 @@
             </div>
         </div>        
         <div class="form-row">
-            <div class="form-group col-md-4">
-                <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
-            </div>
-            <div class="form-group col-md-4">
-                <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
+            <div class="form-group col-md-9">
+                <input autocomplete="off" type="text" class="form-control datepicker data" name="data" value="31/12/{{ session('ano') }}" placeholder="[ Ex: 01/01/2020 ]">
             </div>
             <div class="form-group col-md-3" align="right">
                 <span class="input-group-btn">

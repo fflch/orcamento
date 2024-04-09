@@ -22,6 +22,9 @@ class DotOrcamentariaController extends Controller
             when($request->busca_dotacao, function ($query) use ($request) {
                 return $query->where('dotacao', '=', $request->busca_dotacao);
             })
+            ->when($request->busca_grupo, function ($query) use ($request) {
+                return $query->where('grupo', '=', $request->busca_grupo);
+            })
             ->orderBy('dotacao')
             ->paginate(10);
 

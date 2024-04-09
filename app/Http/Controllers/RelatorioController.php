@@ -86,13 +86,15 @@ class RelatorioController extends Controller
     }
 
     public function acompanhamento(Request $request){
+        $ano = explode("/", $request->data);
+        $movimento = Movimento::where('ano', session('ano'))->first();
 
-        if($request->grupo != null){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
+        if($request->grupo != null && $ano[2] == $movimento->ano){
+            $periodo = FormataDataService::handle($request->data);
 
             $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
-                                    ->whereBetween('data', [$inicial, $final])
+                                    ->where('data', '<=', $periodo)
+                                    ->where('movimento_id', '=', $movimento->id)
                                     ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
                                     ->pluck('conta_id')
                                     ->toArray();
@@ -105,7 +107,8 @@ class RelatorioController extends Controller
                 $conta = Conta::find($conta_id);
 
                 $lancamentos_nesta_conta = Lancamento::where('grupo',(int)$request->grupo)
-                                        ->whereBetween('data', [$inicial, $final])
+                                        ->where('data', '<=', $periodo)
+                                        ->where('movimento_id', '=', $movimento->id)
                                         ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
                                         ->where('conta_id', $conta_id)
                                         ->select('debito','credito', 'receita')->get();
@@ -134,13 +137,13 @@ class RelatorioController extends Controller
                 ];
             }  
         } else {
-            request()->session()->flash('alert-info','Informe o Grupo.');
+            request()->session()->flash('alert-info','Informe o Grupo e certifique-se de que o ano é correpondente com o da sessão.');
             return redirect("/relatorios");
         }
         
         $pdf = PDF::loadView('pdfs.acompanhamento', [
                              'table' => $table,
-                             'final' => $final,
+                             'periodo' => $periodo,
                              'grupo' => $request->grupo
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");
@@ -211,6 +214,7 @@ class RelatorioController extends Controller
         return $pdf->download("saldo_dotacoes.pdf");
     }
 
+    //verificar se o ano da data é igual ao escolhido na sessão
     public function lancamentos(Request $request){
         if($request->contas == null){
             request()->session()->flash('alert-info','Informe pelo menos a Conta.');
@@ -222,11 +226,15 @@ class RelatorioController extends Controller
             $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
                 $query->where('conta_id', $request->contas);
             })
+            ->when($request->grupo, function ($query) use ($request) {
+                return $query->where('grupo', $request->grupo);
+            })
             ->whereBetween('data', [$inicial, $final])
+            ->orderBy('data')
             ->get();
-        }
-        if($request->grupo != null){
-            $lancamentos = $lancamentos->where('grupo', $request->grupo);
+        } else {
+            request()->session()->flash('alert-info','Informe as duas datas requeridas.');
+            return back();
         }
         $lancamentos->load('contas');
         $nome_conta  = Conta::nome_conta($request->contas);
@@ -238,26 +246,25 @@ class RelatorioController extends Controller
         return $pdf->download("lancamentos.pdf");
     }
 
+    //verificar se o ano da data é igual ao escolhido na sessão
     public function ficha_orcamentaria(Request $request){
-        $ficha_orcamentaria = new FicOrcamentaria;
-        if($request->dotacao_id != null){
-            $ficha_orcamentaria = $ficha_orcamentaria->where('dotacao_id','=',$request->dotacao_id);
-        } else {
+        if($request->dotacao_id == null){
             request()->session()->flash('alert-info','Informe pelo menos a Dotação.');
             return redirect("/relatorios");
         }
         if(($request->data_inicial != null) and ($request->data_final != null)){
-            $data_inicial_convertida = implode("-", array_reverse(explode("/", $request->data_inicial)));
-            $data_final_convertida   = implode("-", array_reverse(explode("/", $request->data_final)));
-            $ficha_orcamentaria      = $ficha_orcamentaria->whereBetween('data', [$data_inicial_convertida, $data_final_convertida]);
+            $inicial = FormataDataService::handle($request->data_inicial);
+            $final = FormataDataService::handle($request->data_final);
+            $ficha_orcamentaria = FicOrcamentaria::when($request->dotacao_id, function ($query) use ($request) {
+                return $query->where('dotacao_id', $request->dotacao_id);
+            })
+            ->whereBetween('data', [$inicial, $final])
+            ->orderBy('data')
+            ->get();
+        } else {
+            request()->session()->flash('alert-info','Informe as duas datas requeridas.');
+            return back();
         }
-        if($request->descricao != null){
-            $ficha_orcamentaria = $ficha_orcamentaria->where('descricao','=',$request->descricao);
-        }
-        if($request->observacao != null){
-            $ficha_orcamentaria = $ficha_orcamentaria->where('observacao','=',$request->observacao);
-        }
-        $ficha_orcamentaria = $ficha_orcamentaria->orderBy('data')->get();
         $dotacao = DotOrcamentaria::dotacao($request->dotacao_id);
         $pdf = PDF::loadView('pdfs.ficha_orcamentaria', [
                              'ficha_orcamentaria' => $ficha_orcamentaria,
