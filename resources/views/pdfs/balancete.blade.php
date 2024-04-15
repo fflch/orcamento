@@ -39,19 +39,15 @@
             <td align="right" style="border: 1px solid black"> {{ number_format($saldo['saldo_renda'], 2) }} </td>
             <td align="right" style="border: 1px solid black"> {{ number_format($saldo['saldo_orcamento'] +  $saldo['saldo_renda'], 2) }}</td>
           </tr>
-      </tbody>
       {{ $total_orcamento += $saldo['saldo_orcamento'] }}
       {{ $total_renda += $saldo['saldo_renda'] }}
     @endforeach
-  </table>
-  <table width="100%" border="0px" style="background-color:#A2A2A2;">
-    <tbody>
-        <tr>
-          <td width="61%" align="right" style="border: 1px solid black">Totais Gerais</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento, 2, ',', '.') }}</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_renda, 2, ',', '.') }}</td>
-          <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento + $total_renda, 2, ',', '.') }}</td>
-        </tr>
+          <tr style="background-color:#A2A2A2;">
+            <td width="61%" align="right" style="border: 1px solid black">Totais Gerais</td>
+            <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento, 2, ',', '.') }}</td>
+            <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_renda, 2, ',', '.') }}</td>
+            <td width="13%" align="right" style="border: 1px solid black">{{ number_format($total_orcamento + $total_renda, 2, ',', '.') }}</td>
+          </tr>
      <tbody>
   </table>
 @endsection
