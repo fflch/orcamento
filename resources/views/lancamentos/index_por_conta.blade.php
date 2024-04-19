@@ -21,7 +21,6 @@
                 <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
-                <th width="7%" align="center">Saldo</th>
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
@@ -46,7 +45,6 @@
                         @else
                             <td align="right">&nbsp;</td>
                         @endif
-                        <td>{{ $lancamento->saldo }}</td>
                         <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                         @can('Administrador')
                             <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>

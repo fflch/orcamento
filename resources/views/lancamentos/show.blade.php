@@ -21,8 +21,8 @@
         <div class="form-group col-md-9"><b>Descrição:</b> {{ $lancamento->descricao }}</div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-4"><b>Débito:</b> @if($lancamento->debito != 0.00) {{ $lancamento->debito }} @endif</div>
-        <div class="form-group col-md-4"><b>Crédito:</b> @if($lancamento->credito != 0.00) {{ $lancamento->credito }} @endif</div>
+        <div class="form-group col-md-4"><b>Débito:</b> @if($lancamento->debito != 0.00) {{ number_format($lancamento->debito_raw, 2, ',', '.') }} @endif</div>
+        <div class="form-group col-md-4"><b>Crédito:</b> @if($lancamento->credito != 0.00) {{ number_format($lancamento->credito_raw, 2, ',', '.') }} @endif</div>
         <div class="form-group col-md-4"><b>Saldo:</b> {{ $lancamento->saldo }}</div>
     </div>
     <div class="form-row">

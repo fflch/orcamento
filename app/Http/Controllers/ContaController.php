@@ -65,7 +65,7 @@ class ContaController extends Controller
        })
        ->where('movimento_id', $movimento->id)->get();
 
-       $hoje = Carbon::now()->format('m/d/Y');
+       $hoje = Carbon::now()->format('d/m/Y');
     
         return view('lancamentos.index_por_conta',[
                     'conta'               => $conta,
