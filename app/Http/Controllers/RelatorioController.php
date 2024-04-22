@@ -15,6 +15,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Services\LancamentoService;
 use App\Services\FormataDataService;
+use App\Services\Query;
 
 class RelatorioController extends Controller
 {
@@ -88,11 +89,17 @@ class RelatorioController extends Controller
     public function acompanhamento(Request $request){
         $ano = explode("/", $request->data);
         $movimento = Movimento::where('ano', session('ano'))->first();
+        $periodo = FormataDataService::handle($request->data);
 
         if($request->grupo != null && $ano[2] == $movimento->ano){
-            $periodo = FormataDataService::handle($request->data);
 
-            $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
+            //Monta a parte de cima do PDF (créditos)
+            $saldo_inicial = Query::RELAFICHAORCAMENTSDOINICIAL($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            $suplementacoes_comuns = Query::RELAGASTOSUPLEMENTACAOREC($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            $suplementacoes_gastos = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            $suplementacoes = array_merge($suplementacoes_comuns, $suplementacoes_gastos);
+
+           $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
                                     ->where('data', '<=', $periodo)
                                     ->where('movimento_id', '=', $movimento->id)
                                     ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
@@ -136,14 +143,26 @@ class RelatorioController extends Controller
                     'saldo'      => array_sum($debitos) - array_sum($creditos),
                 ];
             }  
+
+            //código usado somente quando o acompanhamento é referente ao grupo 080 (conta)
+            $orcamento = [];
+            $renda_industrial = [];
+            if((int)$request->grupo == 80){
+                $orcamento = Query::RELAPREVISAONAOVERBA($movimento->id, $request->grupo, $request->receita_acompanhamento); 
+                $renda_industrial = Query::RELARENDAINDUSTRIALADM($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            }
+
         } else {
             request()->session()->flash('alert-info','Informe o Grupo e certifique-se de que o ano é correpondente com o da sessão.');
             return redirect("/relatorios");
         }
-        
+    
         $pdf = PDF::loadView('pdfs.acompanhamento', [
+                             'orcamento' => $orcamento,
+                             'saldo_inicial' => $saldo_inicial,
+                             'suplementacoes' => $suplementacoes,
+                             'renda_industrial' => $renda_industrial,
                              'table' => $table,
-                             'periodo' => $periodo,
                              'grupo' => $request->grupo
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");

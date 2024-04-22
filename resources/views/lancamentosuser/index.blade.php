@@ -21,18 +21,27 @@
                         {{ $conta->nome }} - {{ $conta->tipoconta->descricao }}
                     </option>
                 @else
-                    <option value="{{ $conta->id }}">
-                        {{ $conta->nome }}
+                    <option value="{{ $conta->id }}"
+                        {{ ( $conta->id == old('conta_id') ) ? 'selected' : '' }}>
+                        {{ $conta->nome }} - {{ $conta->tipoconta->descricao }}
                     </option>
                 @endif
             @endforeach
         </select>
     </div>
         <div class="form-group col-md-4">
-            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="01/01/{{ session('ano') }}">
+            @if(request()->data_inicial)
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="{{ request()->data_inicial }}">
+            @else
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_inicial" value="{{ old('data_inicial') }}">
+            @endif
         </div>
         <div class="form-group col-md-4">
-            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="31/12/{{ session('ano') }}">
+            @if(request()->data_inicial)
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="{{ request()->data_final }}">
+            @else
+            <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="{{ old('data_final') }}">
+            @endif        
         </div>
         <div class="form-group col-md-4">
         <button type="submit" class="btn btn-success">Buscar</button>

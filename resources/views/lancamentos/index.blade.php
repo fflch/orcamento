@@ -50,7 +50,10 @@
     <table class="table table-striped" border="0">
         <thead>
             <tr>
-                <th width="10%" align="left">Data</th>
+                <th width="5%" align="left">Data</th>
+                @if(request()->conta_id)
+                <th width="5%" align="left">Conta</th>
+                @endif
                 <th width="34%" align="left">Descrição</th>
                 <th width="34%" align="left">Observação</th>
                 <th width="7%" align="left">Grupo</th>
@@ -58,9 +61,6 @@
                 <th width="7%" align="left">REC</th>
                 <th width="7%" align="left">Débito</th>
                 <th width="7%" align="center">Crédito</th>
-                @if(request()->conta_id)
-                <th width="7%" align="center">Saldo</th>
-                @endif
                 @can('Administrador')
                     <th width="10%" align="center" colspan="3">&nbsp;</th>
                 @endcan
@@ -68,39 +68,38 @@
         </thead>
         <tbody>
             @foreach($lancamentos as $lancamento)
-                @foreach($lancamento->contas as $conta)
-                <tr>
-                    <td align="left">{{ $lancamento->data }}</td>
-                    <td align="left">{{ $lancamento->descricao }}</td>
-                    <td align="left">{{ $lancamento->observacao }}</td>
-                    <td align="left">{{ $lancamento->ficorcamentaria_id }}</td>
-                    <td>{{ $lancamento->receita }}</td>
-                    @if($lancamento->debito != 0.00)
-                        <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                    @else
-                        <td>&nbsp;</td>
-                    @endif
-                    @if($lancamento->credito != 0.00)
-                        <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                    @else
-                        <td>&nbsp;</td>
-                    @endif
-                    @if(request()->conta_id)
-                        <td>{{ $lancamento->saldo }}</td>
-                    @endif
-                    <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
-                    @can('Administrador')
-                        <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
-                        <td align="center">
-                            <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
-                                @csrf
-                                <input name="_method" type="hidden" value="DELETE">
-                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Excluir</button>
-                            </form>
-                        </td>
-                    @endcan
-                </tr>
-                @endforeach
+                        <tr>
+                            <td align="left">{{ $lancamento->data }}</td>
+                            @if(request()->conta_id)
+                            <td align="left">{{ $lancamento->conta->nome }}</td>
+                            @endif
+                            <td align="left">{{ $lancamento->descricao }}</td>
+                            <td align="left">{{ $lancamento->observacao }}</td>
+                            <td align="left">{{ $lancamento->grupo  }}</td>
+                            <td align="left">{{ $lancamento->ficorcamentaria_id  }}</td>
+                            <td>{{ $lancamento->receita }}</td>
+                            @if($lancamento->debito != 0.00)
+                                <td>{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
+                            @else
+                                <td>&nbsp;</td>
+                            @endif
+                            @if($lancamento->credito != 0.00)
+                                <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }} </td>
+                            @else
+                                <td>&nbsp;</td>
+                            @endif
+                            <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
+                            @can('Administrador')
+                                <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
+                                <td align="center">
+                                    <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
+                                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Excluir</button>
+                                    </form>
+                                </td>
+                            @endcan
+                        </tr>
             @endforeach
         </tbody>
     </table>
