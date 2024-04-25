@@ -28,6 +28,7 @@
         <th width="30%">Descrição</th>
         <th width="8%">Débito</th>
         <th width="8%">Crédito</th>
+        <th width="8%">Saldo</th>
         <th width="30%">Observação</th>
       </tr>
     </thead>
@@ -51,6 +52,7 @@
               @else
                   <td align="right" style="border: 1px solid black">&nbsp;</td>
               @endif
+              <td align="left" style="border: 1px solid black">{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
               <td align="left" style="border: 1px solid black">{{ $lancamento->observacao }}</td>
             </tr>
         </tbody>

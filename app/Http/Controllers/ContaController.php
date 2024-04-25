@@ -9,6 +9,7 @@ use App\Http\Requests\ContaRequest;
 use App\Models\Movimento;
 use App\Models\TipoConta;
 use App\Models\Lancamento;
+use App\Services\LancamentoService;
 use DB;
 
 class ContaController extends Controller
@@ -65,14 +66,14 @@ class ContaController extends Controller
        })
        ->where('movimento_id', $movimento->id)->get();
 
-       $hoje = Carbon::now()->format('d/m/Y');
+       $totais = LancamentoService::manipulaLancamentos($lancamentos, $conta->id);  
     
         return view('lancamentos.index_por_conta',[
                     'conta'               => $conta,
-                    'hoje'                => $hoje,
+                    'hoje'                => Carbon::now()->format('d/m/Y'),
                     'lancamentos'         => $lancamentos,
-                    'total_debito'        => $conta->lancamentos->sum('debito_raw'),
-                    'total_credito'       => $conta->lancamentos->sum('credito_raw'),
+                    'total_debito'        => $totais['total_debito'],
+                    'total_credito'       => $totais['total_credito'],
                     'movimento_anos'      => Movimento::movimento_anos()
         ]);
     }
