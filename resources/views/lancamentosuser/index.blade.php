@@ -93,7 +93,7 @@
                                 @else
                                     <td>&nbsp;</td>
                                 @endif
-                                <td>{{ number_format(($lancamento->credito_raw - $lancamento->debito_raw), 2, ',', '.') }}</td>
+                                <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
                         </tr>
                     @endif
                     @endforeach
@@ -101,25 +101,11 @@
                     <tr> <td colspan="6" align="center"> Não há lançamentos cadastrados nesse período. </td> </tr>
                 @endforelse
             </tbody>
-            <tfoot>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td><font color="red"><strong>{{ number_format($total_debito, 2, ',', '.') ?? '' }}</strong></font></td>
-                    <td><font color="blue"><strong>{{ number_format($total_credito, 2, ',', '.') }}</strong></font></td>
-                    <td>
-                    @if(($total_credito - $total_debito) == 0.00)
-                        <font color="black">
-                    @elseif(($total_credito - $total_debito) > 0.00)
-                        <font color="green">
-                    @else
-                        <font color="red">
-                    @endif
-                    <strong>{{ number_format(($total_credito - $total_debito), 2, ',', '.') }}</strong></font></td>
-                </tr>
-            </tfoot>
         </table>
     </div>
+    <br>
+    <h5><strong>Saldo total da conta:</strong></h5>
+    <br>
+    @include('lancamentos.partials.saldo')
     @endisset
 @endsection
