@@ -15,6 +15,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Services\LancamentoService;
 use App\Services\FormataDataService;
+use App\Services\FicOrcamentariaService;
 use App\Services\Query;
 
 class RelatorioController extends Controller
@@ -251,16 +252,21 @@ class RelatorioController extends Controller
             ->whereBetween('data', [$inicial, $final])
             ->orderBy('data')
             ->get();
+            
+            $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->contas);  
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
         }
         $lancamentos->load('contas');
         $nome_conta  = Conta::nome_conta($request->contas);
+
         $pdf = PDF::loadView('pdfs.lancamentos', [
                              'conta_id'    => $request->contas,
                              'lancamentos' => $lancamentos,
                              'nome_conta'  => $nome_conta[0]->nome,
+                             'total_debito'        => $totais['total_debito'],
+                            'total_credito'       => $totais['total_credito']
         ])->setPaper('a4', 'landscape');
         return $pdf->download("lancamentos.pdf");
     }
@@ -280,6 +286,9 @@ class RelatorioController extends Controller
             ->whereBetween('data', [$inicial, $final])
             ->orderBy('data')
             ->get();
+
+            $totais = FicOrcamentariaService::handle($ficha_orcamentaria);  
+
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
@@ -288,6 +297,8 @@ class RelatorioController extends Controller
         $pdf = PDF::loadView('pdfs.ficha_orcamentaria', [
                              'ficha_orcamentaria' => $ficha_orcamentaria,
                              'dotacao'            => $dotacao[0]->dotacao,
+                             'total_debito'        => $totais['total_debito'],
+                             'total_credito'       => $totais['total_credito']
 
         ])->setPaper('a4', 'landscape');
         return $pdf->download("ficha_orcamentaria.pdf");

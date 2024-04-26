@@ -13,6 +13,7 @@ use App\Http\Requests\PercentualRequest;
 use Carbon\Carbon;
 use DB;
 use Redirect;
+use App\Services\LancamentoService;
 
 class LancamentoController extends Controller
 {
@@ -25,8 +26,9 @@ class LancamentoController extends Controller
         $this->authorize('Todos');
 
         $movimento = Movimento::where('ano', session('ano'))->first();
-
-        $lancamentos = Lancamento::when($request->conta_id, function ($query) use ($request) {
+    
+        $lancamentos = Lancamento::where('movimento_id', $movimento->id)
+                       ->when($request->conta_id, function ($query) use ($request) {
                             $query->whereHas('contas', function ($query) use ($request) {
                                 $query->where('conta_id', $request->conta_id);
                             });
@@ -34,66 +36,15 @@ class LancamentoController extends Controller
                        ->when($request->busca_grupo, function ($query) use ($request) {
                             return $query->where('grupo', '=', $request->busca_grupo);
                         })
-                       ->where('movimento_id', $movimento->id)
-                       ->orderBy('data', 'ASC')->paginate(10);
+                       ->orderBy('data', 'ASC')->paginate(500);
         
-        $hoje = Carbon::now()->format('d/m/Y');
-
-        $total_debito  = 0.00;
-        $total_credito = 0.00;
-        $concatena_debito = '';
-               
-        foreach($lancamentos as $key=>$lancamento){           
-            $lancamento->conta = Conta::find(request()->conta_id);
-            $lancamento->debito_valor = $lancamento->debito_raw;
-            $lancamento->credito_valor = $lancamento->credito_raw;
-
-            if($request->conta_id || $request->busca_grupo){
-                $relation = DB::table('conta_lancamento')
-                                ->where('lancamento_id',$lancamento->id)
-                                ->where('conta_id',$request->conta_id)
-                                ->first();
-                
-                if($relation != null){
-                    $lancamento->debito_valor = number_format(((float)$lancamento->debito_raw * $relation->percentual/100),2, ',', '.');
-                    $lancamento->credito_valor = number_format(((float)$lancamento->credito_raw * $relation->percentual/100),2, ',', '.');
-                  
-                    $saldos = DB::table('lancamentos')
-                    ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-                    ->selectRaw('SUM(lancamentos.debito) as total_debito,
-                                SUM(lancamentos.credito) as total_credito')
-                    ->where('conta_id', $request->conta_id)
-                    ->where('movimento_id', $movimento->id)
-                    ->get();      
-
-                    foreach($saldos as $saldo){
-                        $total_debito     += $saldo->total_debito * $relation->percentual/100;
-                        $concatena_debito .= $saldo->total_debito . ' -  ';
-                        $total_credito    += $saldo->total_credito * $relation->percentual/100;
-                    }
-                }
-            }
-            else {
-                    $saldos = DB::table('lancamentos')
-                    ->selectRaw('SUM(lancamentos.debito) as total_debito,
-                                SUM(lancamentos.credito) as total_credito')
-                    ->where('movimento_id', $movimento->id)
-                    ->get();
-
-                    foreach($saldos as $saldo){
-                        $total_debito     += $saldo->total_debito;
-                        $concatena_debito .= $saldo->total_debito . ' -  ';
-                        $total_credito    += $saldo->total_credito;
-                    }
-                    
-            }
-        }
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
 
         return view('lancamentos.index', [
                     'lancamentos'         => $lancamentos,
-                    'total_debito'        => $total_debito,
-                    'total_credito'       => $total_credito,
-                    'hoje'                => $hoje,
+                    'total_debito'        => $totais['total_debito'],
+                    'total_credito'       => $totais['total_credito'],
+                    'hoje'                => Carbon::now()->format('d/m/Y'),
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
                     'movimento_anos'  => Movimento::movimento_anos()
         ]);

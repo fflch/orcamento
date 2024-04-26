@@ -45,7 +45,7 @@
                     @else
                         <td align="right">&nbsp;</td>
                     @endif
-                    <td>{{ $ficorcamentaria->saldo }}</td>
+                    <td>{{ number_format($ficorcamentaria->saldo_valor, 2, ',', '.') }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/ficorcamentarias/{{$ficorcamentaria->id}}">Ver</a></td>
                     @can('Administrador')
                     <td align="center"><a class="btn btn-warning" href="/ficorcamentarias/{{$ficorcamentaria->id}}/edit">Editar</a></td>

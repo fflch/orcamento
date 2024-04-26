@@ -8,6 +8,7 @@ use App\Models\FicOrcamentaria;
 use App\Models\Movimento;
 use Illuminate\Http\Request;
 use App\Http\Requests\DotOrcamentariaRequest;
+use App\Services\FicOrcamentariaService;
 
 class DotOrcamentariaController extends Controller
 {
@@ -41,14 +42,14 @@ class DotOrcamentariaController extends Controller
                                    ->where('movimento_id', $movimento->id)
                                    ->get();
 
-        $hoje = Carbon::now()->format('m/d/Y');
+        $totais = FicOrcamentariaService::handle($fichas);  
 
         return view('ficorcamentarias.index_por_dotacao',[
                     'fichas'              => $fichas,
                     'dotorcamentaria'     => $dotorcamentaria,
-                    'hoje'                => $hoje,
-                    'total_debito'        => $fichas->sum('debito_raw'),
-                    'total_credito'       => $fichas->sum('credito_raw'),
+                    'hoje'                => Carbon::now()->format('d/m/Y'),
+                    'total_debito'        => $totais['total_debito'],
+                    'total_credito'       => $totais['total_credito'],
                     'movimento_anos'      => Movimento::movimento_anos()
         ]);
     }

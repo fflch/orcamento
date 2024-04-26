@@ -9,6 +9,7 @@ use App\Models\Lancamento;
 use App\Services\FormataDataService;
 use App\Services\LancamentoService;
 use App\Http\Requests\LancamentoUserRequest;
+use Carbon\Carbon;
 use PDF;
 
 class LancamentoUserController extends Controller
@@ -36,40 +37,21 @@ class LancamentoUserController extends Controller
 
     public function lancamentos(LancamentoUserRequest $request){
         $this->authorize('Todos');
-
+        
         $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
-        //$lancamentos->load('contas');
 
-        $total_debito  = 0.00;
-        $total_credito = 0.00;
-        $concatena_debito = '';
-
-        foreach($lancamentos as $lancamento){
-            $total_debito     += $lancamento->debito_raw;
-            $concatena_debito .= $lancamento->debito_raw . ' -  ';
-            $total_credito    += $lancamento->credito_raw;
-            /*
-            foreach($lancamento->contas as $conta){
-                //dump($lancamento->credito_raw * $conta->pivot->percentual/100);
-                //dump($lancamento->credito_raw);
-                //dump($conta->pivot->percentual);
-                $total_debito     += $lancamento->debito_raw * $conta->pivot->percentual/100;
-                $concatena_debito .= $lancamento->debito_raw . ' -  ';
-                $total_credito    += $lancamento->credito_raw * $conta->pivot->percentual/100;
-                //dump($total_credito);
-            }
-              */
-        }
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
 
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
             'contas' => $this->contas,
             'conta_id' => $request->conta_id,
+            'hoje' => Carbon::now()->format('d/m/Y'),
             'lancamentos' => $lancamentos,
-            'total_debito'        => $total_debito,
-            'total_credito'       => $total_credito
+            'total_debito'        => $totais['total_debito'],
+            'total_credito'       => $totais['total_credito']        
         ]);
     }
 
@@ -80,11 +62,15 @@ class LancamentoUserController extends Controller
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
 
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
+
         $nome_conta  = Conta::nome_conta($request->conta_id);
         $pdf = PDF::loadView('pdfs.lancamentos', [
             'conta_id'    => $request->conta_id,
             'lancamentos' => $lancamentos,
             'nome_conta'  => $nome_conta[0]->nome,
+            'total_debito'        => $totais['total_debito'],
+            'total_credito'       => $totais['total_credito'] 
         ])->setPaper('a4', 'landscape');
 
         return $pdf->download("lancamentos.pdf");
