@@ -18,9 +18,8 @@
         <div class="form-group col-md-5"><b>Descrição:</b> {{ $ficorcamentaria->descricao }}</div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-4"><b>Débito:</b> @if($ficorcamentaria->debito != 0.00) {{ $ficorcamentaria->debito }} @endif</div>
-        <div class="form-group col-md-4"><b>Crédito:</b> @if($ficorcamentaria->credito != 0.00) {{ $ficorcamentaria->credito }} @endif</div>
-        <div class="form-group col-md-4"><b>Saldo:</b> {{ $ficorcamentaria->saldo }}</div>
+        <div class="form-group col-md-4"><b>Débito:</b> @if($ficorcamentaria->debito != 0.00) {{ number_format($ficorcamentaria->debito_raw, 2, ',', '.') }} @endif</div>
+        <div class="form-group col-md-4"><b>Crédito:</b> @if($ficorcamentaria->credito != 0.00) {{ number_format($ficorcamentaria->credito_raw, 2, ',', '.') }} @endif</div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-12"><b>Observação:</b> {{ $ficorcamentaria->observacao }}</div>
