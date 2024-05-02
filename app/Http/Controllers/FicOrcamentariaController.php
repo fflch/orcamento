@@ -80,10 +80,8 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;    
-        $ficorcamentaria_last = FicOrcamentaria::all()->last();  
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $ficorcamentaria = FicOrcamentaria::create($validated);
-        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
     }
@@ -140,9 +138,7 @@ class FicOrcamentariaController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;   
-        $ficorcamentaria_last = FicOrcamentaria::all()->last();  
         $ficorcamentaria->update($validated);
-        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');
     }
@@ -166,10 +162,8 @@ class FicOrcamentariaController extends Controller
         if($request->credito){
             $lancamento_cpfo['credito']         = $request->credito;
         }
-        $lancamento_last = Lancamento::all()->last();
         $lancamento = Lancamento::create($lancamento_cpfo);
         $lancamento->contas()->sync([$request->contas =>  ['percentual' => 100]]);
-        $calculaSaldoLancamento   = Lancamento::calculaSaldo($lancamento, $lancamento_last);
         $request->session()->flash('alert-success', 'Contra-partida cadastrada com sucesso!');
         return redirect("/ficorcamentarias/{$ficorcamentaria->id}");
     }
@@ -198,9 +192,7 @@ class FicOrcamentariaController extends Controller
      */
     public function destroy(FicOrcamentaria $ficorcamentaria){
         $this->authorize('Administrador');
-        $ficorcamentaria_last = FicOrcamentaria::all()->last();
         $ficorcamentaria->delete();
-        $calculaSaldoFicha  = FicOrcamentaria::calculaSaldo($ficorcamentaria, $ficorcamentaria_last);
         return redirect("/ficorcamentarias")->with('alert-success', 'Ficha Orçamentária excluída com sucesso!');
     }
 }

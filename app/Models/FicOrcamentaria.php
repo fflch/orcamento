@@ -61,14 +61,6 @@ class FicOrcamentaria extends Model
         }
     }
 
-    public function setSaldoAttribute($saldo){
-        $this->attributes['saldo'] = str_replace(',', '.', $saldo);
-    }
-
-    public function getSaldoAttribute($saldo){
-        return number_format($saldo, 2, ',', '.');
-    }
-
     public function getDataAttribute($data) {
         return implode('/',array_reverse(explode('-',$data)));
     }
@@ -80,29 +72,5 @@ class FicOrcamentaria extends Model
     public function contas(){
         return $this->belongsToMany(Conta::class)
                     ->withTimestamps();
-    }
-
-    /*
-    static function calculaSaldo($ficorcamentaria, ){
-        $ficorcamentarias_dotacao = FicOrcamentaria::where('dotacao_id','=',$dotacao_id)->orderBy('data')->get();
-        $saldo  = 0.00;
-        foreach($ficorcamentarias_dotacao as $calcula_saldo){
-            $saldo += $calcula_saldo->credito_raw - $calcula_saldo->debito_raw;
-            $calcula_saldo->saldo = $saldo;
-            $calcula_saldo->update();
-        }
-    }
-    */
-
-    public static function calculaSaldo($ficorcamentaria, $ficorcamentaria_last){
-        if($ficorcamentaria_last){
-            $saldo = (float)str_replace(',','.',$ficorcamentaria_last->saldo);
-        } else {
-            $saldo = 0.00;
-        }
-        $saldo += $ficorcamentaria->credito_raw - $ficorcamentaria->debito_raw;
-        $ficorcamentaria->saldo = $saldo;
-        $ficorcamentaria->update();
-       
     }
 }

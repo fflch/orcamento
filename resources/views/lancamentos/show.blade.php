@@ -23,7 +23,6 @@
     <div class="form-row">
         <div class="form-group col-md-4"><b>Débito:</b> @if($lancamento->debito != 0.00) {{ number_format($lancamento->debito_raw, 2, ',', '.') }} @endif</div>
         <div class="form-group col-md-4"><b>Crédito:</b> @if($lancamento->credito != 0.00) {{ number_format($lancamento->credito_raw, 2, ',', '.') }} @endif</div>
-        <div class="form-group col-md-4"><b>Saldo:</b> {{ $lancamento->saldo }}</div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-10"><b>Observação:</b> {{ $lancamento->observacao }}</div>

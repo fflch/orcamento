@@ -60,14 +60,6 @@ class Lancamento extends Model
         }
     }
 
-    public function getSaldoAttribute($saldo){
-        return number_format($saldo, 2, ',', '.');
-    }
-    
-    public function setSaldoAttribute($saldo){
-        $this->attributes['saldo'] = str_replace(',', '.', $saldo);
-    }
-
     public function getDataAttribute($data) {
         return implode('/',array_reverse(explode('-',$data)));
     }
@@ -80,17 +72,5 @@ class Lancamento extends Model
         return $this->belongsToMany(Conta::class)
                     ->withPivot(['percentual'])
                     ->withTimestamps();
-    }
-    
-    public static function calculaSaldo($lancamento, $lancamento_last){
-        if($lancamento_last){
-            $saldo = (float)str_replace(',','.',$lancamento_last->saldo);
-        } else {
-            $saldo = 0.00;
-        }
-        $saldo += $lancamento->credito_raw - $lancamento->debito_raw;
-        $lancamento->saldo = $saldo;
-        $lancamento->update();
-       
     }
 }
