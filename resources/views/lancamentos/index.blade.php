@@ -79,16 +79,26 @@
                             <td align="left">{{ $lancamento->grupo  }}</td>
                             <td align="left">{{ $lancamento->ficorcamentaria_id  }}</td>
                             <td>{{ $lancamento->receita }}</td>
-                            @if($lancamento->debito != 0.00)
-                                <td>{{ number_format($lancamento->debito_raw, 2, ',', '.') }}</td>
-                            @else
+
+                            
+                            @if($lancamento->debito != 0.00) 
+                                <td>{{ $lancamento->debito }}</td>
+                            @else 
                                 <td>&nbsp;</td>
                             @endif
-                            @if($lancamento->credito != 0.00)
-                                <td>{{ number_format($lancamento->credito_raw, 2, ',', '.') }} </td>
-                            @else
+
+                            @if($lancamento->credito != 0.00) 
+                                <td>{{ $lancamento->credito }}
+                                    @php $valor = $lancamento->credito_raw @endphp
+                                    @include('lancamentos.partials.pivots')
+                                </td>
+                            @else 
                                 <td>&nbsp;</td>
                             @endif
+
+
+                            </td>
+                            
                             <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
                             <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                             @can('Administrador')

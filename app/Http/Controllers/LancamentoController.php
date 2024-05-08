@@ -38,7 +38,7 @@ class LancamentoController extends Controller
                         })
                        ->orderBy('data', 'ASC')->paginate(500);
         
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);
 
         return view('lancamentos.index', [
                     'lancamentos'         => $lancamentos,
