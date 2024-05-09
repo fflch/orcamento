@@ -32,22 +32,20 @@ class LancamentoService
      * variáveis temporária chamada de saldo_valor para facilicar a exibição nas views, seja pdf ou html
      * 2. retorna $total_debito e $total_credito
      */
-    public static function manipulaLancamentos($lancamentos, $conta_id = null){
+    public static function manipulaLancamentos($lancamentos, $lancamentos_fake, $conta_id = null){
         $total_debito  = 0.00;
         $total_credito = 0.00;
         $saldo_auxiliar = 0;
 
-        foreach($lancamentos as $key=>$lancamento){
-            $pivots = \App\Models\ContaLancamento::where('lancamento_id',$lancamento->id)->get();
+        foreach($lancamentos as $lancamento){
+            $pivots = ContaLancamento::where('lancamento_id',$lancamento->id)->get();
 
-            if($pivots != null) {
-                $lancamento_temp=$lancamento;
-                $lancamentos->forget($key);
-
+            if($pivots->isNotEmpty()) {
+            
                 // Se tem relação na tabela conta_lancamento, vamos ter que duplicar, triplicar etc os lançamentos
                 foreach($pivots as $pivot){
-                    $new = $lancamento_temp->replicate();
-                    $new->id = $lancamento_temp->id;
+                    $new = $lancamento->replicate();
+                    $new->id = $lancamento->id;
 
                     $new->conta = Conta::find($pivot->conta_id);
 
@@ -66,16 +64,23 @@ class LancamentoService
     
                     $saldo_auxiliar = $saldo_auxiliar + ((float)$new->credito_raw - (float)$new->debito_raw);
                     $new->saldo_valor = $saldo_auxiliar;
-                    $lancamentos->push($new);
+
+                    $lancamentos_fake->push($new);
                 }
 
             } else {
-                dd('aa');
                 $total_debito = $total_debito + $lancamento->debito_raw;
                 $total_credito = $total_credito + $lancamento->credito_raw;
 
                 $saldo_auxiliar = $saldo_auxiliar + ($lancamento->credito_raw - $lancamento->debito_raw);
                 $lancamento->saldo_valor = $saldo_auxiliar;
+
+                // Se tem filtro de conta
+                if($conta_id != null) {
+                    $lancamento->conta = Conta::find($conta_id);
+                }
+
+                $lancamentos_fake->push($lancamento);
             }
         }
         return [

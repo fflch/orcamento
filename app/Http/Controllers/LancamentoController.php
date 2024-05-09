@@ -38,7 +38,12 @@ class LancamentoController extends Controller
                         })
                        ->orderBy('data', 'ASC')->get();
 
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);
+                       $lancamentos = Lancamento::where('movimento_id', $movimento->id)->get();
+
+        $lancamentos_fake = collect();
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);
+
+        $lancamentos = $lancamentos_fake;
 
         return view('lancamentos.index', [
                     'lancamentos'         => $lancamentos,
