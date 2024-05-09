@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Lancamento;
 use App\Models\Conta;
+use App\Models\ContaLancamento;
 use DB;
 
 class LancamentoService
@@ -36,28 +37,40 @@ class LancamentoService
         $total_credito = 0.00;
         $saldo_auxiliar = 0;
 
-        foreach($lancamentos as $index=>$lancamento){                
-            // Se tem conta_id, temos que verificar a relação!
-            if($conta_id){
-                $lancamento->conta = Conta::find($conta_id);
+        foreach($lancamentos as $key=>$lancamento){
+            $pivots = \App\Models\ContaLancamento::where('lancamento_id',$lancamento->id)->get();
 
-                $relation = DB::table('conta_lancamento')
-                                ->where('lancamento_id',$lancamento->id)
-                                ->where('conta_id',$conta_id)
-                                ->first();
-                
-                if($relation != null){
-                    $debito_float = (float)$lancamento->debito_raw * $relation->percentual/100;
-                    $credito_float = (float)$lancamento->credito_raw * $relation->percentual/100;
+            if($pivots != null) {
+                $lancamento_temp=$lancamento;
+                $lancamentos->forget($key);
 
-                    $total_debito = $total_debito + $debito_float;
-                    $total_credito = $total_credito + $credito_float;
+                // Se tem relação na tabela conta_lancamento, vamos ter que duplicar, triplicar etc os lançamentos
+                foreach($pivots as $pivot){
+                    $new = $lancamento_temp->replicate();
+                    $new->id = $lancamento_temp->id;
 
-                    $saldo_auxiliar = $saldo_auxiliar + ($credito_float - $debito_float);
-                    $lancamento->saldo_valor = $saldo_auxiliar;
+                    $new->conta = Conta::find($pivot->conta_id);
 
+                    // Se tiver filtro por conta
+                    if($conta_id != null and $conta_id!=$new->conta->id) continue;
+ 
+                    if($new->debito != 0.00) {
+                        $new->debito = (float) ($new->debito_raw * $pivot->percentual/100);
+                    }
+                    if($new->credito != 0.00) {
+                        $new->credito = (float)($new->credito_raw * $pivot->percentual/100);
+                    }
+    
+                    $total_debito = $total_debito + (float)$new->debito_raw ;
+                    $total_credito = $total_credito + (float)$new->credito_raw;
+    
+                    $saldo_auxiliar = $saldo_auxiliar + ((float)$new->credito_raw - (float)$new->debito_raw);
+                    $new->saldo_valor = $saldo_auxiliar;
+                    $lancamentos->push($new);
                 }
+
             } else {
+                dd('aa');
                 $total_debito = $total_debito + $lancamento->debito_raw;
                 $total_credito = $total_credito + $lancamento->credito_raw;
 

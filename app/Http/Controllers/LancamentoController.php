@@ -36,8 +36,8 @@ class LancamentoController extends Controller
                        ->when($request->busca_grupo, function ($query) use ($request) {
                             return $query->where('grupo', '=', $request->busca_grupo);
                         })
-                       ->orderBy('data', 'ASC')->paginate(500);
-        
+                       ->orderBy('data', 'ASC')->get();
+
         $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);
 
         return view('lancamentos.index', [

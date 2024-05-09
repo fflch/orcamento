@@ -46,7 +46,6 @@
     </div>
 </div>
 <div class="table-responsive">
-    <p>{{ $lancamentos->appends($_GET)->links() }}</p>
     <table class="table table-striped" border="0">
         <thead>
             <tr>
@@ -69,49 +68,42 @@
         </thead>
         <tbody>
             @foreach($lancamentos as $lancamento)
-                        <tr>
-                            <td align="left">{{ $lancamento->data }}</td>
-                            @if(request()->conta_id)
-                            <td align="left">{{ $lancamento->conta->nome }}</td>
-                            @endif
-                            <td align="left">{{ $lancamento->descricao }}</td>
-                            <td align="left">{{ $lancamento->observacao }}</td>
-                            <td align="left">{{ $lancamento->grupo  }}</td>
-                            <td align="left">{{ $lancamento->ficorcamentaria_id  }}</td>
-                            <td>{{ $lancamento->receita }}</td>
+                <tr>
+                    <td align="left">{{$lancamento->id }} {{ $lancamento->data }}</td>
+                    @if(request()->conta_id)
+                    <td align="left">{{ $lancamento->conta->nome }}</td>
+                    @endif
+                    <td align="left">{{ $lancamento->descricao }}</td>
+                    <td align="left">{{ $lancamento->observacao }}</td>
+                    <td align="left">{{ $lancamento->grupo  }}</td>
+                    <td align="left">{{ $lancamento->ficorcamentaria_id  }}</td>
+                    <td>{{ $lancamento->receita }}</td>
+                    
+                    @if($lancamento->debito != 0.00) 
+                        <td>{{ $lancamento->debito }}</td>
+                    @else 
+                        <td>&nbsp;</td>
+                    @endif
 
-                            
-                            @if($lancamento->debito != 0.00) 
-                                <td>{{ $lancamento->debito }}</td>
-                            @else 
-                                <td>&nbsp;</td>
-                            @endif
-
-                            @if($lancamento->credito != 0.00) 
-                                <td>{{ $lancamento->credito }}
-                                    @php $valor = $lancamento->credito_raw @endphp
-                                    @include('lancamentos.partials.pivots')
-                                </td>
-                            @else 
-                                <td>&nbsp;</td>
-                            @endif
-
-
-                            </td>
-                            
-                            <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
-                            <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
-                            @can('Administrador')
-                                <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
-                                <td align="center">
-                                    <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
-                                        @csrf
-                                        <input name="_method" type="hidden" value="DELETE">
-                                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Excluir</button>
-                                    </form>
-                                </td>
-                            @endcan
-                        </tr>
+                    @if($lancamento->credito != 0.00) 
+                        <td>{{ $lancamento->credito }}</td>
+                    @else 
+                        <td>&nbsp;</td>
+                    @endif
+                    
+                    <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
+                    <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
+                    @can('Administrador')
+                        <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
+                        <td align="center">
+                            <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
+                                @csrf
+                                <input name="_method" type="hidden" value="DELETE">
+                                <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Excluir</button>
+                            </form>
+                        </td>
+                    @endcan
+                </tr>
             @endforeach
         </tbody>
     </table>
