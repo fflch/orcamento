@@ -23,7 +23,7 @@ class LancamentoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $movimento = Movimento::where('ano', session('ano'))->first();
     
@@ -62,7 +62,7 @@ class LancamentoController extends Controller
      */
     public function create(){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $tiposdecontas = TipoConta::lista_tipos_contas();
 
@@ -102,7 +102,7 @@ class LancamentoController extends Controller
      */
     public function store(LancamentoRequest $request){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $validated = $request->validated();
         $validated['user_id']      = auth()->user()->id;
@@ -114,7 +114,7 @@ class LancamentoController extends Controller
 
     public function storePercentual(Lancamento $lancamento, PercentualRequest $request){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $lancamento['id'] = $lancamento->id;
         $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
@@ -145,7 +145,7 @@ class LancamentoController extends Controller
      */
     public function show(Lancamento $lancamento){
 
-        $this->authorize('Todos');
+        $this->authorize('Administrador');
 
         $tiposdecontas = TipoConta::lista_tipos_contas();
         $contas = Conta::lista_contas_ativas();

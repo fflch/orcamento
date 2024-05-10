@@ -17,6 +17,7 @@ class LancamentoUserController extends Controller
     protected $contas;
 
     public function __construct(){
+
         $this->middleware(function ($request, $next) {
             $user_id = auth()->user()->id;
             $this->contas = Conta::whereHas('conta_usuarios', function ($query) use ($user_id) {
@@ -28,6 +29,7 @@ class LancamentoUserController extends Controller
     }
 
     public function index(){
+        $this->authorize('Todos');
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
             'contas' => $this->contas
@@ -42,7 +44,9 @@ class LancamentoUserController extends Controller
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
 
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
+        $lancamentos_fake = collect();
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);
+        $lancamentos = $lancamentos_fake;
 
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
@@ -61,8 +65,10 @@ class LancamentoUserController extends Controller
         $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
                                                 FormataDataService::handle($request->data_final),
                                                 $request->conta_id);
+        $lancamentos_fake = collect();
+        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);  
 
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->conta_id);  
+        $lancamentos = $lancamentos_fake;
 
         $nome_conta  = Conta::nome_conta($request->conta_id);
         $pdf = PDF::loadView('pdfs.lancamentos', [

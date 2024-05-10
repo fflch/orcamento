@@ -253,7 +253,9 @@ class RelatorioController extends Controller
             ->orderBy('data')
             ->get();
             
-            $totais = LancamentoService::manipulaLancamentos($lancamentos, request()->contas);  
+            $lancamentos_fake = collect();
+            $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);  
+            $lancamentos = $lancamentos_fake;
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
