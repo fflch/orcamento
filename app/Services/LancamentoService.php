@@ -69,16 +69,14 @@ class LancamentoService
                 }
 
             } else {
+                // Se estivermos lidando com o caso de uma busca, não mostramos lançamentos sem percentuais
+                if($conta_id != null) continue;
+
                 $total_debito = $total_debito + $lancamento->debito_raw;
                 $total_credito = $total_credito + $lancamento->credito_raw;
 
                 $saldo_auxiliar = $saldo_auxiliar + ($lancamento->credito_raw - $lancamento->debito_raw);
                 $lancamento->saldo_valor = $saldo_auxiliar;
-
-                // Se tem filtro de conta
-                if($conta_id != null) {
-                    $lancamento->conta = Conta::find($conta_id);
-                }
 
                 $lancamentos_fake->push($lancamento);
             }
