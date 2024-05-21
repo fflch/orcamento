@@ -4,6 +4,8 @@ namespace App\Services;
 use App\Models\Lancamento;
 use App\Models\Conta;
 
+use App\Services\LancamentoService;
+
 use DB;
 
 class Query{
