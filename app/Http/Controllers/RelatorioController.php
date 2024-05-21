@@ -100,50 +100,7 @@ class RelatorioController extends Controller
             $suplementacoes_gastos = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
             $suplementacoes = array_merge($suplementacoes_comuns, $suplementacoes_gastos);
 
-           $lancamentos = Lancamento::where('grupo',(int)$request->grupo)
-                                    ->where('data', '<=', $periodo)
-                                    ->where('movimento_id', '=', $movimento->id)
-                                    ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-                                    ->pluck('conta_id')
-                                    ->toArray();
-
-            $contas_id = array_unique($lancamentos);
-
-            $table = [];
-            foreach($contas_id as $conta_id){
-
-                $conta = Conta::find($conta_id);
-
-                $lancamentos_nesta_conta = Lancamento::where('grupo',(int)$request->grupo)
-                                        ->where('data', '<=', $periodo)
-                                        ->where('movimento_id', '=', $movimento->id)
-                                        ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-                                        ->where('conta_id', $conta_id)
-                                        ->select('debito','credito', 'receita')->get();
-                                
-                if($request->receita_acompanhamento != null){
-                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 1);
-                } else {
-                    $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 0);
-                }           
-                
-                // Calcula débitos
-                $debitos = [];
-                foreach($lancamentos_nesta_conta as $lancamento){
-                    $debitos[] = (float) str_replace(',','.',$lancamento->debito);
-                }
-
-                // Calcula crédito
-                $creditos = [];
-                foreach($lancamentos_nesta_conta as $lancamento){
-                    $creditos[] = (float) str_replace(',','.',$lancamento->credito);
-                }
-
-                $table[] = [
-                    'nome_conta' => $conta->nome,
-                    'saldo'      => array_sum($debitos) - array_sum($creditos),
-                ];
-            }  
+            $table = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, (int)$request->grupo, $request->receita_acompanhamento, $periodo);
 
             //código usado somente quando o acompanhamento é referente ao grupo 080 (conta)
             $orcamento = [];
@@ -160,7 +117,7 @@ class RelatorioController extends Controller
     
         $pdf = PDF::loadView('pdfs.acompanhamento', [
                              'orcamento' => $orcamento,
-                             'saldo_inicial' => $saldo_inicial,
+                             'saldo_inicial' => $saldo_inicial[0],
                              'suplementacoes' => $suplementacoes,
                              'renda_industrial' => $renda_industrial,
                              'table' => $table,
@@ -260,7 +217,7 @@ class RelatorioController extends Controller
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
         }
-        $lancamentos->load('contas');
+        
         $nome_conta  = Conta::nome_conta($request->contas);
 
         $pdf = PDF::loadView('pdfs.lancamentos', [
