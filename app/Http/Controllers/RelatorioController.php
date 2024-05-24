@@ -114,10 +114,17 @@ class RelatorioController extends Controller
             request()->session()->flash('alert-info','Informe o Grupo e certifique-se de que o ano é correpondente com o da sessão.');
             return redirect("/relatorios");
         }
-    
+
+        if(empty($saldo_inicial)){
+            $saldo_inicial = new \StdClass;
+            $saldo_inicial->descricaogrupo = 'Saldo Inicial';
+            $saldo_inicial->SDOINICIAL = 0;
+        } 
+        else $saldo_inicial = $saldo_inicial[0];
+
         $pdf = PDF::loadView('pdfs.acompanhamento', [
                              'orcamento' => $orcamento,
-                             'saldo_inicial' => $saldo_inicial[0],
+                             'saldo_inicial' => $saldo_inicial,
                              'suplementacoes' => $suplementacoes,
                              'renda_industrial' => $renda_industrial,
                              'table' => $table,
