@@ -192,6 +192,7 @@ class LancamentoController extends Controller
         $validated = $request->validated();
         $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $validated['user_id']     = auth()->user()->id;
+        $validated['receita'] = $request->has('receita');
         $lancamento->update($validated);
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');
         return redirect("/lancamentos/{$lancamento->id}");
