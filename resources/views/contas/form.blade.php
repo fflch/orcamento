@@ -23,11 +23,14 @@
     </div>
     <div class="form-group col-md-1">
         <label for="numero">Número</label>
-        <input type="text" class="form-control" name="numero" value="1" placeholder="[ Ex: 1 ]" tabindex="5">
+        <input type="text" class="form-control" name="numero" value="{{ $conta->numero }}" placeholder="[ Ex: 1 ]" tabindex="5">
     </div>
     <div class="form-group col-md-1">
         <label class="checkbox-inline" for="ativo">Ativo<br>
-            <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6" checked>
+            <input type="checkbox" id="ativo" name="ativo" value="1" tabindex="6"  
+            @if (isset($conta->id) and ($conta->ativo === 1))
+            checked
+            @endif>
         </label>    
     </div>
 </div>

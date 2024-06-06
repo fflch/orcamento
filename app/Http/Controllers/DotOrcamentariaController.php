@@ -108,7 +108,11 @@ class DotOrcamentariaController extends Controller
      */
     public function update(DotOrcamentariaRequest $request, DotOrcamentaria $dotorcamentaria){
         $this->authorize('Administrador');
-        $dotorcamentaria->update($request->validated() + ['user_id' => \Auth::user()->id] );
+        $dotorcamentaria->update($request->validated() + [
+            'user_id' => \Auth::user()->id,
+            'receita' => $request->has('receita'),
+            'ativo'   => $request->has('ativo')
+            ] );
         $request->session()->flash('alert-success', 'Dotação Orçamentária [ ' . $dotorcamentaria->dotacao . ' ] alterada com sucesso!');
         return redirect()->route('dotorcamentarias.index');
     }
