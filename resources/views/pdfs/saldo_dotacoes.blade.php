@@ -20,7 +20,7 @@
     }
   </style>
 
-  <h1><center>[ Grupo {{ $grupo }} ]</center></h1>
+  <br><h3><center>[ Grupo {{ $grupo }} ]</center></h3>
   <table width="100%" border="0px">
     <thead>
       <tr>

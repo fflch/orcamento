@@ -1,7 +1,7 @@
   <div class="form-row">
         <div class="form-group col-md-9">
             <label for="conta">Escolha um Tipo de conta: </label>
-              <select class="contas_select form-control" name="tipoconta" id="tipoconta">   
+              <select class="tipocontas_select form-control" name="tipoconta" id="tipoconta">   
               <option value=" ">Selecione o tipo de conta...</option>
                     @foreach($tiposdecontas as $tiposdeconta)
                       @if(old('tipoconta') != '')
@@ -70,6 +70,11 @@
       $("#tipoconta").change(function () {
         filtro($(this).val())
       });
+    });
+
+    $(document).ready(function() {
+        $('.tipocontas_select').select2();
+        $('.contas_select').select2();
     });
 </script>
 @endsection

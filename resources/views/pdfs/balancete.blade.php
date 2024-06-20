@@ -19,7 +19,7 @@
       padding-bottom: 5 px;
     }
   </style>
-  <h1><center>[ Balancete até o dia {{ $periodo }} ]</center></h1>
+  <br><h3><center>[ Balancete até o dia {{ $periodo }} ]</center></h3>
   <table width="100%" border="0px">
     <thead>
       <tr>
