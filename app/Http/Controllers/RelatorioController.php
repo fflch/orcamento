@@ -207,15 +207,19 @@ class RelatorioController extends Controller
         if(($request->data_inicial != null) and ($request->data_final != null)){
             $inicial = FormataDataService::handle($request->data_inicial);
             $final = FormataDataService::handle($request->data_final);
-            $lancamentos = Lancamento::whereHas('contas', function ($query) use ($request) {
-                $query->where('conta_id', $request->contas);
-            })
-            ->when($request->grupo, function ($query) use ($request) {
-                return $query->where('grupo', $request->grupo);
-            })
-            ->whereBetween('data', [$inicial, $final])
-            ->orderBy('data')
-            ->get();
+
+            $movimento = Movimento::where('ano', session('ano'))->first();
+
+            $lancamentos = Lancamento::where('movimento_id', $movimento->id)
+                            ->whereHas('contas', function ($query) use ($request) {
+                                $query->where('conta_id', $request->contas);
+                            })
+                            ->when($request->grupo, function ($query) use ($request) {
+                                return $query->where('grupo', $request->grupo);
+                            })
+                            ->whereBetween('data', [$inicial, $final])
+                            ->orderBy('data')
+                            ->get();
             
             $lancamentos_fake = collect();
             $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);  
