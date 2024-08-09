@@ -33,4 +33,10 @@ class MovimentoService
             }
     }
 
+    # retorna o ano do movimento da sessao
+    public function anomovimento()
+    {
+        return Movimento::where('ano', session('ano'))->first();
+    }
+
 }
