@@ -15,6 +15,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Services\LancamentoService;
 use App\Services\FormataDataService;
+use App\Services\MovimentoService;
 use App\Services\FicOrcamentariaService;
 use App\Services\Query;
 
@@ -161,7 +162,7 @@ class RelatorioController extends Controller
     }
 
     public function saldo_dotacoes(Request $request){
-        $movimento = Movimento::where('ano', session('ano'))->first();
+        $movimento = MovimentoService::anomovimento();
 
         if($request->grupo == null){
             request()->session()->flash('alert-info','Informe o Grupo.');
@@ -243,6 +244,7 @@ class RelatorioController extends Controller
 
     //verificar se o ano da data é igual ao escolhido na sessão
     public function ficha_orcamentaria(Request $request){
+        $movimento = MovimentoService::anomovimento();
         if($request->dotacao_id == null){
             request()->session()->flash('alert-info','Informe pelo menos a Dotação.');
             return redirect("/relatorios");
@@ -254,6 +256,7 @@ class RelatorioController extends Controller
                 return $query->where('dotacao_id', $request->dotacao_id);
             })
             ->whereBetween('data', [$inicial, $final])
+            ->where('movimento_id', $movimento->id)
             ->orderBy('data')
             ->get();
 
