@@ -59,6 +59,7 @@ Route::get('/relatorios', [RelatorioController::class, 'relatorios'])->name('rel
 Route::get('/relatorios/balancete', [RelatorioController::class, 'balancete'])->name('relatorios.balancete');
 Route::get('/relatorios/acompanhamento', [RelatorioController::class, 'acompanhamento'])->name('relatorios.acompanhamento');
 Route::get('/relatorios/saldo_contas', [RelatorioController::class, 'saldo_contas'])->name('relatorios.saldo_contas');
+Route::get('/relatorios/saldo_projetos_especiais', [RelatorioController::class, 'saldo_projetos_especiais'])->name('relatorios.saldo_projetos_especiais');
 Route::get('/relatorios/saldo_dotacoes', [RelatorioController::class, 'saldo_dotacoes'])->name('relatorios.saldo_dotacoes');
 Route::get('/relatorios/lancamentos', [RelatorioController::class, 'lancamentos'])->name('relatorios.lancamentos');
 Route::get('/relatorios/ficha_orcamentaria', [RelatorioController::class, 'ficha_orcamentaria'])->name('relatorios.ficha_orcamentaria');

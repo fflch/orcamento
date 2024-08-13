@@ -23,4 +23,13 @@
             </div>
         </div>
     </form>
+
+    <form method="get" action="/relatorios/saldo_projetos_especiais">
+        @csrf
+        <div class="form-group col-md" align="right">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-success"><strong>Saldo Projetos Especiais</strong></button>
+            </span>
+        </div>
+    </form>
 </div>

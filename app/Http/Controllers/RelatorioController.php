@@ -97,8 +97,11 @@ class RelatorioController extends Controller
 
             //Monta a parte de cima do PDF (créditos)
             $saldo_inicial = Query::RELAFICHAORCAMENTSDOINICIAL($movimento->id, $request->grupo, $request->receita_acompanhamento);
+
             $suplementacoes_comuns = Query::RELAGASTOSUPLEMENTACAOREC($movimento->id, $request->grupo, $request->receita_acompanhamento);
+
             $suplementacoes_gastos = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
+
             $suplementacoes = array_merge($suplementacoes_comuns, $suplementacoes_gastos);
 
             $table = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, (int)$request->grupo, $request->receita_acompanhamento, $periodo);
@@ -134,7 +137,49 @@ class RelatorioController extends Controller
         return $pdf->download("acompanhamento.pdf");
     }
 
+
+    public function saldo_projetos_especiais(Request $request){
+
+        $movimento = Movimento::where('ano', session('ano'))->first();
+
+        // Selecionando tipo de conta PROJETOS ESPECIAIS
+        $projetos_especiais = TipoConta::where('descricao','PROJETOS ESPECIAIS')->first();
+
+        $descricao_tipoconta = TipoConta::descricao_tipo_conta($request->tipoconta_id);
+
+        $saldo_contas_renda_industrial = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
+            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->where('contas.tipoconta_id','=',$projetos_especiais->id)
+            ->where('lancamentos.movimento_id', $movimento->id)
+            ->where('contas.nome','LIKE','%RENDA INDUSTRIAL%')
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->get();
+
+        $saldo_contas_orcamento = DB::table('contas')
+            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
+            ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
+            ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->where('contas.tipoconta_id','=',$projetos_especiais->id)
+            ->where('lancamentos.movimento_id', $movimento->id)
+            ->where('contas.nome','LIKE','%ORÇAMENTO%')
+            ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->get();
+        
+        $pdf = PDF::loadView('pdfs.saldo_projetos_especiais', [
+                             'saldo_contas_orcamento'        => $saldo_contas_orcamento,
+                             'saldo_contas_renda_industrial' => $saldo_contas_renda_industrial,
+                             'descricao_tipoconta' => $descricao_tipoconta,
+                             'movimento_anos'  => Movimento::movimento_anos()
+        ])->setPaper('a4', 'portrait');
+        return $pdf->download("saldo_projetos_especiais.pdf");
+    }
+
     public function saldo_contas(Request $request){
+
         $movimento = Movimento::where('ano', session('ano'))->first();
 
         if($request->tipoconta_id != null){
