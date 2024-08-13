@@ -20,6 +20,8 @@
     }
   </style>
 
+  @php $soma_saldo = 0; @endphp
+
   <br><h3><center>[ Grupo {{ $grupo }} ]</center></h3>
   <table width="100%" border="0px">
     <thead>
@@ -29,14 +31,20 @@
         <th width="20%">Saldo</th>
       </tr>
     </thead>
+    <tbody>
     @foreach ($saldo_dotacoes as $saldo_dotacao)
-      <tbody>
+    @php $soma_saldo =$soma_saldo +$saldo_dotacao->total_credito - $saldo_dotacao->total_debito ;  @endphp
           <tr>
             <td align="left" style="border: 1px solid black">{{ $saldo_dotacao->dotacao }}</td>
             <td align="right" style="border: 1px solid black">{{ $saldo_dotacao->item }}</td>
             <td align="right" style="border: 1px solid black">{{ number_format($saldo_dotacao->total_credito - $saldo_dotacao->total_debito, 2, ',', '.') }}</td>
           </tr>
-      </tbody>
     @endforeach
+    <tr>
+          <td align="left" style="border: 1px solid black" colspan='2'><b>TOTAL</b></td>
+          <td align="right" style="border: 1px solid black"><b>{{ number_format($soma_saldo, 2, ',', '.') }}</b></td>
+        </tr>
+    </tbody>
   </table>
+  
 @endsection
