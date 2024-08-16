@@ -90,7 +90,7 @@ class RelatorioController extends Controller
 
     public function acompanhamento(Request $request){
         $ano = explode("/", $request->data);
-        $movimento = Movimento::where('ano', session('ano'))->first();
+        $movimento = MovimentoService::anomovimento();
         $periodo = FormataDataService::handle($request->data);
 
         if($request->grupo != null && $ano[2] == $movimento->ano){
@@ -98,11 +98,7 @@ class RelatorioController extends Controller
             //Monta a parte de cima do PDF (créditos)
             $saldo_inicial = Query::RELAFICHAORCAMENTSDOINICIAL($movimento->id, $request->grupo, $request->receita_acompanhamento);
 
-            $suplementacoes_comuns = Query::RELAGASTOSUPLEMENTACAOREC($movimento->id, $request->grupo, $request->receita_acompanhamento);
-
-            $suplementacoes_gastos = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
-
-            $suplementacoes = array_merge($suplementacoes_comuns, $suplementacoes_gastos);
+            $suplementacoes = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
 
             $table = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, (int)$request->grupo, $request->receita_acompanhamento, $periodo);
 
