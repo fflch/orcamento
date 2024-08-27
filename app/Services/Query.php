@@ -19,53 +19,45 @@ class Query{
 
     //Pega lançamento cadastrado como Saldo Inicial/crédito - parte de cima do PDF
     public function RELAFICHAORCAMENTSDOINICIAL($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        if($PRECEITA == null){
-            $PRECEITA = 0;
-        }
-        $query = "SELECT D.descricaogrupo, (SUM(F.credito)) AS SDOINICIAL
-        FROM dot_orcamentarias AS D
-        INNER JOIN fic_orcamentarias AS F ON (D.id = F.dotacao_id)
-        WHERE F.movimento_id = {$PCODIGOMOVIMENTO}
-        AND UPPER(F.descricao) LIKE 'SALDO INICIAL%' 
-        AND D.grupo = {$PGRUPO}
-        AND D.receita = {$PRECEITA}
-        GROUP BY D.descricaogrupo";
-        $results = DB::select(DB::raw($query));
-        return $results;
+        $query = "SELECT d.descricaogrupo, (SUM(f.credito)) AS saldoinicial
+        FROM dot_orcamentarias AS d
+        INNER JOIN fic_orcamentarias AS f ON (d.id = f.dotacao_id)
+        WHERE f.movimento_id = {$PCODIGOMOVIMENTO}
+        AND UPPER(f.descricao) LIKE 'SALDO INICIAL%'
+        AND d.grupo = {$PGRUPO}
+        AND d.receita = '{$PRECEITA}'
+        GROUP BY d.descricaogrupo";
+        return DB::select(DB::raw($query));
     }
 
     //Pega suplementação que é cadastrada como gasto efetivo, mas entendida como crédito - parte de cima do PDF
     public function RELAGASTOSUPLEMENTACAO($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        // FALTA CONFERIR NA VIEW SE AS PORCENTAGENS DE CONTA_LANCAMENTO ESTÃO SENDO APLICADAS 
+        // FALTA CONFERIR NA VIEW SE AS PORCENTAGENS DE CONTA_LANCAMENTO ESTÃO SENDO APLICADAS
         if ($PRECEITA ?? 0){
-            $query = "SELECT FO.descricao, (SUM(FO.credito)) AS TOTALCREDITO,
-            (SUM(FO.debito)) AS TOTALDEBITO
-            FROM fic_orcamentarias AS FO
-            INNER JOIN dot_orcamentarias AS D ON (FO.dotacao_id = D.id)
-            WHERE FO.movimento_id = {$PCODIGOMOVIMENTO}
-            AND UPPER(FO.descricao) LIKE 'SUPLEMENTA%'
-            AND UPPER(FO.descricao) NOT LIKE 'SUPLEMENTA% RECEITA%'
-            AND UPPER(FO.descricao) NOT LIKE 'SUPLEMENTA% TRANSP%'
-            AND D.grupo = {$PGRUPO}
-            AND D.receita = 1
-            GROUP BY FO.descricao";
-            
+            $query = "SELECT fo.descricao, ((SUM(fo.credito)) - (SUM(fo.debito))) AS total
+            FROM fic_orcamentarias AS fo
+            INNER JOIN dot_orcamentarias AS d ON (fo.dotacao_id = d.id)
+            WHERE fo.movimento_id = {$PCODIGOMOVIMENTO}
+            AND UPPER(fo.descricao) LIKE 'SUPLEMENTA%'
+            AND UPPER(fo.descricao) NOT LIKE 'SUPLEMENTA% RECEITA%'
+            AND UPPER(fo.descricao) NOT LIKE 'SUPLEMENTA% TRANSP%'
+            AND d.grupo = {$PGRUPO}
+            AND d.receita = 1
+            GROUP BY fo.descricao";
         }
         else{
-
-            $query = "SELECT C.nome as descricao, (SUM(L.credito)) AS TOTALCREDITO,
-            (SUM(L.debito)) AS TOTALDEBITO
-            FROM contas AS C
-            INNER JOIN conta_lancamento AS CL ON (C.id = CL.conta_id)
-            INNER JOIN lancamentos AS L ON (L.id = CL.lancamento_id)
-            INNER JOIN tipo_contas AS T  ON (C.tipoconta_id = T.id)
-            INNER JOIN fic_orcamentarias AS FO ON (L.ficorcamentaria_id = FO.id)
-            INNER JOIN dot_orcamentarias AS D ON (FO.dotacao_id = D.id)
-            WHERE FO.movimento_id = {$PCODIGOMOVIMENTO}
-            AND UPPER(L.descricao) LIKE 'SUPLEMENTA%'
-            AND D.grupo = {$PGRUPO}
-            AND D.receita = 0
-            AND UPPER(T.descricao) LIKE 'GASTO%'
+            $query = "SELECT c.nome as descricao, ((SUM(fo.credito)) - (SUM(fo.debito))) AS total
+            FROM contas AS c
+            INNER JOIN conta_lancamento AS cl ON (c.id = cl.conta_id)
+            INNER JOIN lancamentos AS l ON (l.id = cl.lancamento_id)
+            INNER JOIN tipo_contas AS t  ON (c.tipoconta_id = t.id)
+            INNER JOIN fic_orcamentarias AS fo ON (l.ficorcamentaria_id = fo.id)
+            INNER JOIN dot_orcamentarias AS d ON (fo.dotacao_id = d.id)
+            WHERE fo.movimento_id = {$PCODIGOMOVIMENTO}
+            AND UPPER(l.descricao) LIKE 'SUPLEMENTA%'
+            AND d.grupo = {$PGRUPO}
+            AND d.receita = 0
+            AND UPPER(t.descricao) LIKE 'GASTO%'
             GROUP BY descricao
             ORDER BY descricao";
         }
@@ -73,120 +65,40 @@ class Query{
     }
 
     public function RELAGASTONAOSUPLEMENTACAO($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA, $PERIODO){
-
-        // Vamos pegar os id's das contas que contém lançamentos no grupo e movimento selecionados
-        $contas_ids = Lancamento::where('grupo',$PGRUPO)
-            ->where('lancamentos.descricao', 'NOT LIKE', '%SUPLEMENTA%')
-            // join para pegar as contas 
-            ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            // join para pegar o tipo de conta e portanto a descrição
-            ->join('contas', 'conta_lancamento.conta_id', '=', 'contas.id')
-            ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->where('tipo_contas.descricao', 'LIKE', 'GASTO%')
-            ->where('lancamentos.movimento_id', '=', $PCODIGOMOVIMENTO)
-            ->orderBy('contas.nome', 'ASC')
-            ->pluck('conta_id') // só queremos os IDs das contas
-            ->toArray();
-
-        $contas_ids = array_unique($contas_ids);
-
-        $table = [];
-        foreach($contas_ids as $conta_id){
-
-            $conta = Conta::find($conta_id);
-
-            $lancamentos_nesta_conta = Lancamento::where('grupo',$PGRUPO)
-                        ->where('data', '<=', $PERIODO)
-                        ->where('movimento_id', '=', $PCODIGOMOVIMENTO)
-                        ->join('conta_lancamento', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-                        ->where('conta_id', $conta_id)
-                        ->select('debito','credito', 'receita')->get();
-            
-            if($PRECEITA != null){
-                $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 1);
-            } else {
-                $lancamentos_nesta_conta = $lancamentos_nesta_conta->where('receita', 0);
-            }           
-
-            // Calcula débitos
-            $debitos = [];
-            foreach($lancamentos_nesta_conta as $lancamento){
-                $debitos[] = (float) str_replace(',','.',$lancamento->debito);
-            }
-
-            // Calcula crédito
-            $creditos = [];
-            foreach($lancamentos_nesta_conta as $lancamento){
-                $creditos[] = (float) str_replace(',','.',$lancamento->credito);
-            }
-
-            $saldo = array_sum($debitos) - array_sum($creditos);
-            if($saldo > 0){
-                $table[] = [
-                    'nome_conta' => $conta->nome,
-                    'saldo'      => $saldo
-                ];            
-            }
-        }
-
-        // Ordenando $table em ordem alfabética
-        return $table;
+        $query = "SELECT co.nome, ((sum(l.debito)) - (sum(l.credito))) AS total FROM lancamentos l
+                  INNER JOIN conta_lancamento c ON (c.lancamento_id = l.id)
+                  INNER JOIN contas co ON (co.id = c.conta_id)
+                  INNER JOIN tipo_contas t on (co.tipoconta_id = t.id)
+                  INNER JOIN fic_orcamentarias f on (f.id = l.ficorcamentaria_id)
+                  INNER JOIN dot_orcamentarias d on (d.id = f.dotacao_id)
+                  WHERE UPPER(l.descricao) NOT LIKE '%SUPLEMENTA%' AND f.movimento_id = {$PCODIGOMOVIMENTO}
+                  AND d.grupo = '{$PGRUPO}' AND UPPER(t.descricao) LIKE 'GASTO%' AND d.receita = '{$PRECEITA}'
+                  GROUP BY co.nome
+                  ORDER BY co.nome";
+        return DB::select(DB::raw($query));
     }
-
-    /*
-    //Pega as contas de gasto efetivo/débito - parte de baixo do PDF
-    //ainda não usada
-    public function RELAGASTONAOSUPLEMENTACAO($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        if($PRECEITA == null){
-            $PRECEITA = 0;
-        }
-        $query = "SELECT 
-            (SUM(L.credito)) AS TOTALCREDITO,
-            (SUM(L.debito)) AS TOTALDEBITO
-        FROM lancamentos AS L 
-        INNER JOIN conta_lancamento AS CL ON (L.id = CL.lancamento_id)
-        INNER JOIN contas AS C ON (C.id = CL.conta_id)
-        INNER JOIN tipo_contas AS T  ON (C.tipoconta_id = T.id)
-        INNER JOIN fic_orcamentarias AS FO ON (L.ficorcamentaria_id = FO.id)
-        INNER JOIN dot_orcamentarias AS D ON (FO.dotacao_id = D.id)
-        WHERE FO.movimento_id = {$PCODIGOMOVIMENTO}
-        AND UPPER(L.descricao) NOT LIKE '%SUPLEMENTA%'
-        AND D.receita = $PRECEITA 
-        AND D.grupo = $PGRUPO
-        AND UPPER(T.descricao) LIKE 'GASTO%'
-        GROUP BY C.nome
-        ORDER BY C.nome";
-        $results = DB::select(DB::raw($query));
-        return $results;
-    }
-    */
 
     //Pega as contas vinculadas ao tipo de conta Previsão da Administração, no relatório Orçamento
     public function RELAPREVISAONAOVERBA($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        if($PRECEITA == null){
-            $PRECEITA = 0;
-        }
-        $query = "SELECT C.nome, (SUM(L.credito)) AS TOTALCREDITO,
-        (SUM(L.debito)) AS TOTALDEBITO
-        FROM lancamentos AS L
-        INNER JOIN conta_lancamento AS CL ON (L.id = CL.lancamento_id)
-        INNER JOIN contas AS C ON (C.id = CL.conta_id)
-        INNER JOIN tipo_contas AS T ON (C.tipoconta_id = T.id)
-        WHERE L.movimento_id = {$PCODIGOMOVIMENTO}
-        AND (UPPER(C.nome) NOT LIKE 'VERBA%' 
-        AND UPPER(C.nome) NOT LIKE 'CONTROLE%')
-        AND L.grupo = {$PGRUPO}
-        AND L.receita = {$PRECEITA}
-        AND UPPER(T.descricao) LIKE 'PREVIS%'
-        GROUP BY C.nome";
-        $results = DB::select(DB::raw($query));
-        return $results;
+        $query = "SELECT c.nome, ((SUM(l.credito)) - (SUM(l.debito))) AS total
+        FROM lancamentos AS l
+        INNER JOIN conta_lancamento AS cl ON (l.id = cl.lancamento_id)
+        INNER JOIN contas AS c ON (c.id = cl.conta_id)
+        INNER JOIN tipo_contas AS t ON (c.tipoconta_id = t.id)
+        WHERE l.movimento_id = {$PCODIGOMOVIMENTO}
+        AND (UPPER(c.nome) NOT LIKE 'VERBA%'
+        AND UPPER(c.nome) NOT LIKE 'CONTROLE%')
+        AND l.grupo = '{$PGRUPO}'
+        AND l.receita = '{$PRECEITA}'
+        AND UPPER(t.descricao) LIKE 'PREVIS%'
+        GROUP BY c.nome";
+        return DB::select(DB::raw($query));
     }
 
     //acho que não é mais usado
     /*
     public function RELAPREVISAOMATCONSUMO(){
-        $query = "SELECT DISTINCT A.NOME, (SUM(L.CREDITO)) AS TOTALCREDITO,
+        $query = "SELECT DISTINCT A.NOME, (SUM(L.CREDITO)) AS totalCREDITO,
         (SUM(L.DEBITO)) AS TOTALDEBITO, SA.SALDOCONSUMO
         FROM LANCAMENTOS L
         INNER JOIN CONTAS      C ON (L.CODIGOCONTA = C.CODIGO)
@@ -202,7 +114,7 @@ class Query{
         GROUP BY A.NOME, SA.SALDOCONSUMO";
         $results = DB::select(DB::raw($query));
     }
-    
+
     //Pega as contas vinculadas ao tipo de conta Previsão da Administração, no relatório Orçamento
     //ainda não usada - usada para fazer a parte que o setor quer eliminar (saldo orçamentário)
     public function RELAPREVISAOVERBA($PCODIGOMOVIMENTO, $PRECEITA, $PGRUPO){
@@ -224,22 +136,17 @@ class Query{
 
     //Pega as contas vinculadas ao tipo de conta Administração, no relatório de Renda Industrial
     public function RELARENDAINDUSTRIALADM($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        if($PRECEITA == null){
-            $PRECEITA = 0;
-        }
-        $query = "SELECT C.nome, (SUM(L.credito)) AS TOTALCREDITO,
-        (SUM(L.credito)) AS TOTALDEBITO
-        FROM lancamentos AS L
-        INNER JOIN conta_lancamento AS CL ON (L.id = CL.lancamento_id)
-        INNER JOIN contas AS C ON (C.id = CL.conta_id)
-        INNER JOIN tipo_contas AS T ON (C.tipoconta_id = T.id)
-        WHERE L.movimento_id = {$PCODIGOMOVIMENTO}
-        AND (L.grupo = $PGRUPO) 
-        AND (L.receita = $PRECEITA)
-        AND UPPER(T.descricao) LIKE 'RENDA INDUSTRIAL - ADMINISTRA%'
-        GROUP BY C.nome";
-        $results = DB::select(DB::raw($query));
-        return $results;
+        $query = "SELECT c.nome, ((SUM(l.credito)) - (SUM(l.debito))) AS total
+        FROM lancamentos AS l
+        INNER JOIN conta_lancamento AS cl ON (l.id = cl.lancamento_id)
+        INNER JOIN contas AS c ON (c.id = cl.conta_id)
+        INNER JOIN tipo_contas AS t ON (c.tipoconta_id = t.id)
+        WHERE l.movimento_id = {$PCODIGOMOVIMENTO}
+        AND (l.grupo = '{$PGRUPO}')
+        AND (l.receita = '{$PRECEITA}')
+        AND UPPER(t.descricao) LIKE 'RENDA INDUSTRIAL - ADMINISTRA%'
+        GROUP BY c.nome";
+        return DB::select(DB::raw($query));
     }
 
 }
