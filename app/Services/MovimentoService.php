@@ -12,7 +12,7 @@ class MovimentoService
      *
      * @return void
      */
-    public function handle($user)
+    public static function handle($user)
     {
         $ano = Carbon::now()->year;
         $movimento = Movimento::where('ano', $ano)->first();
@@ -34,7 +34,7 @@ class MovimentoService
     }
 
     # retorna o ano do movimento da sessao
-    public function anomovimento()
+    public static function anomovimento()
     {
         return Movimento::where('ano', session('ano'))->first();
     }
