@@ -100,14 +100,14 @@ class RelatorioController extends Controller
 
             $suplementacoes = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
 
-            $table = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, (int)$request->grupo, $request->receita_acompanhamento, $periodo);
+            $gastos = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento, $periodo);
 
             //código usado somente quando o acompanhamento é referente ao grupo 080 (conta)
-            $orcamento = [];
-            $renda_industrial = [];
+            $naoverbaprevisoes = [];
+            $renda_industriais = [];
             if((int)$request->grupo == 80){
-                $orcamento = Query::RELAPREVISAONAOVERBA($movimento->id, $request->grupo, $request->receita_acompanhamento); 
-                $renda_industrial = Query::RELARENDAINDUSTRIALADM($movimento->id, $request->grupo, $request->receita_acompanhamento);
+                $naoverbaprevisoes = Query::RELAPREVISAONAOVERBA($movimento->id, $request->grupo, $request->receita_acompanhamento);
+                $renda_industriais = Query::RELARENDAINDUSTRIALADM($movimento->id, $request->grupo, $request->receita_acompanhamento);
             }
 
         } else {
@@ -118,16 +118,20 @@ class RelatorioController extends Controller
         if(empty($saldo_inicial)){
             $saldo_inicial = new \StdClass;
             $saldo_inicial->descricaogrupo = 'Saldo Inicial';
-            $saldo_inicial->SDOINICIAL = 0;
-        } 
+            $saldo_inicial->saldoinicial = 0;
+        }
         else $saldo_inicial = $saldo_inicial[0];
 
         $pdf = PDF::loadView('pdfs.acompanhamento', [
-                             'orcamento' => $orcamento,
                              'saldo_inicial' => $saldo_inicial,
                              'suplementacoes' => $suplementacoes,
-                             'renda_industrial' => $renda_industrial,
-                             'table' => $table,
+                             'total_suplementacoes' => collect($suplementacoes)->sum('total'),
+                             'renda_industriais' => $renda_industriais,
+                             'total_renda_industrial' => collect($renda_industriais)->sum('total'),
+                             'gastos' => $gastos,
+                             'total_gastos' => collect($gastos)->sum('total'),
+                             'naoverbaprevisoes' => $naoverbaprevisoes,
+                             'total_naoverbaprevisoes' => collect($naoverbaprevisoes)->sum('total'),
                              'grupo' => $request->grupo
         ])->setPaper('a4', 'portrait');
         return $pdf->download("acompanhamento.pdf");
@@ -164,7 +168,7 @@ class RelatorioController extends Controller
             ->where('contas.nome','LIKE','%ORÇAMENTO%')
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
-        
+
         $pdf = PDF::loadView('pdfs.saldo_projetos_especiais', [
                              'saldo_contas_orcamento'        => $saldo_contas_orcamento,
                              'saldo_contas_renda_industrial' => $saldo_contas_renda_industrial,
@@ -262,15 +266,15 @@ class RelatorioController extends Controller
                             ->whereBetween('data', [$inicial, $final])
                             ->orderBy('data')
                             ->get();
-            
+
             $lancamentos_fake = collect();
-            $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);  
+            $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);
             $lancamentos = $lancamentos_fake;
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
         }
-        
+
         $nome_conta  = Conta::nome_conta($request->contas);
 
         $pdf = PDF::loadView('pdfs.lancamentos', [
@@ -301,7 +305,7 @@ class RelatorioController extends Controller
             ->orderBy('data')
             ->get();
 
-            $totais = FicOrcamentariaService::handle($ficha_orcamentaria);  
+            $totais = FicOrcamentariaService::handle($ficha_orcamentaria);
 
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
