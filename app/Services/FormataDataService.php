@@ -11,11 +11,9 @@ class FormataDataService
      *
      * @return void
      */
-    public function handle($data)
+    public static function handle($data)
     {
-
         return Carbon::createFromFormat('d/m/Y', $data)->format('Y-m-d');
-
     }
 
 }
