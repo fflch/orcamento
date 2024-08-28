@@ -151,18 +151,19 @@ class RelatorioController extends Controller
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('(SUM(lancamentos.credito)) - (SUM(lancamentos.debito)) as total'))
             ->where('contas.tipoconta_id','=',$projetos_especiais->id)
             ->where('lancamentos.movimento_id', $movimento->id)
             ->where('contas.nome','LIKE','%RENDA INDUSTRIAL%')
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->get();
 
+
         $saldo_contas_orcamento = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('(SUM(lancamentos.credito)) - (SUM(lancamentos.debito)) as total'))
             ->where('contas.tipoconta_id','=',$projetos_especiais->id)
             ->where('lancamentos.movimento_id', $movimento->id)
             ->where('contas.nome','LIKE','%ORÇAMENTO%')
@@ -172,6 +173,8 @@ class RelatorioController extends Controller
         $pdf = PDF::loadView('pdfs.saldo_projetos_especiais', [
                              'saldo_contas_orcamento'        => $saldo_contas_orcamento,
                              'saldo_contas_renda_industrial' => $saldo_contas_renda_industrial,
+                             'total_saldo_contas_renda_industrial' => $saldo_contas_renda_industrial->sum('total'),
+                             'total_saldo_contas_orcamento' => $saldo_contas_orcamento->sum('total'),
                              'descricao_tipoconta' => $descricao_tipoconta,
                              'movimento_anos'  => Movimento::movimento_anos()
         ])->setPaper('a4', 'portrait');
@@ -188,7 +191,7 @@ class RelatorioController extends Controller
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
-            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('SUM(lancamentos.debito) as total_debito'), DB::raw('SUM(lancamentos.credito) as total_credito'))
+            ->select('contas.nome', 'tipo_contas.descricao', DB::raw('(SUM(lancamentos.credito)) - (SUM(lancamentos.debito)) as total'))
             ->where('contas.tipoconta_id','=',$request->tipoconta_id)
             ->where('lancamentos.movimento_id', $movimento->id)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
@@ -200,6 +203,7 @@ class RelatorioController extends Controller
         }
         $pdf = PDF::loadView('pdfs.saldo_contas', [
                              'saldo_contas'        => $saldo_contas,
+                             'total_saldo_contas' => $saldo_contas->sum('total'),
                              'descricao_tipoconta' => $descricao_tipoconta,
                              'movimento_anos'  => Movimento::movimento_anos()
         ])->setPaper('a4', 'portrait');

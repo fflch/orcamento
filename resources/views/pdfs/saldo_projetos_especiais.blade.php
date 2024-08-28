@@ -5,22 +5,18 @@
       text-align: right;
     }
     td {
-      padding-right: 5 px;
-      padding-left: 5 px;
-      padding-top: 5 px;
-      padding-bottom: 5 px;
+      padding-right: 5px;
+      padding-left: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
     thead {
       background-color: #0F1C78;
       color: #FFFFFF;
-      padding-right: 5 px;
-      padding-left: 5 px;
-      padding-top: 5 px;
-      padding-bottom: 5 px;
     }
   </style>
 
-  <h1>Orçamento</h1>
+  <h1><center>Orçamento</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
@@ -32,13 +28,17 @@
       <tbody>
           <tr>
             <td align="left" style="border: 1px solid black">{{ $saldo_conta->nome }}</td>
-            <td align="right" style="border: 1px solid black">{{ number_format($saldo_conta->total_credito - $saldo_conta->total_debito, 2, ',', '.') }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format($saldo_conta->total, 2, ',', '.') }}</td>
           </tr>
-      </tbody>
     @endforeach
+      <tr style="background-color:#A2A2A2;">
+        <td align="left" style="border: 1px solid black; font-weight: bold;">TOTAL</td>
+        <td align="right" style="border: 1px solid black; font-weight: bold;">{{ number_format($total_saldo_contas_orcamento, 2, ',', '.') }}</td>
+      </tr>
+    </tbody>
   </table>
 
-  <h1>Renda Industrial</h1>
+  <h1><center>Renda Industrial</center></h1>
   <table width="100%" border="0px">
     <thead>
       <tr>
@@ -50,10 +50,13 @@
       <tbody>
           <tr>
             <td align="left" style="border: 1px solid black">{{ $saldo_conta->nome }}</td>
-            <td align="right" style="border: 1px solid black">{{ number_format($saldo_conta->total_credito - $saldo_conta->total_debito, 2, ',', '.') }}</td>
+            <td align="right" style="border: 1px solid black">{{ number_format($saldo_conta->total, 2, ',', '.') }}</td>
           </tr>
-      </tbody>
     @endforeach
+      <tr style="background-color:#A2A2A2;">
+        <td align="left" style="border: 1px solid black; font-weight: bold;">TOTAL</td>
+        <td align="right" style="border: 1px solid black; font-weight: bold;">{{ number_format($total_saldo_contas_renda_industrial, 2, ',', '.') }}</td>
+      </tr>
+    </tbody>
   </table>
-
 @endsection
