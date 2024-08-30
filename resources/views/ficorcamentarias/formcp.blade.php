@@ -9,7 +9,7 @@
           <label for="receita" class="checkbox-inline">Receita</label><br>
               <input type="checkbox" name="receita" id="receita" value="1">
       </div>
-      @if($ficorcamentaria->debito != 0)
+      @if($ficorcamentaria->debito > $ficorcamentaria->credito)
       <div class="form-group col-md-1">
           <label for="debito">Débito</label>
               <input type="text" class="form-control" name="debito" value="{{ $ficorcamentaria->debito ?? old('debito') }}" placeholder="[ Ex: 100,00 ]">
