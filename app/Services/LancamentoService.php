@@ -14,7 +14,7 @@ class LancamentoService
      *
      * @return void
      */
-    public function handle($inicial, $final, $conta)
+    public static function handle($inicial, $final, $conta)
     {
         $lancamentos = Lancamento::whereHas('contas', function ($query) use ($conta) {
             $query->where('conta_id', $conta);
@@ -64,7 +64,6 @@ class LancamentoService
     
                     $saldo_auxiliar = $saldo_auxiliar + ((float)$new->credito_raw - (float)$new->debito_raw);
                     $new->saldo_valor = $saldo_auxiliar;
-
                     $lancamentos_fake->push($new);
                 }
 
