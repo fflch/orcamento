@@ -50,12 +50,13 @@ class RelatorioController extends Controller
             ->join('conta_lancamento', 'contas.id', '=', 'conta_lancamento.conta_id')
             ->join('lancamentos', 'lancamentos.id', '=', 'conta_lancamento.lancamento_id')
             ->selectRaw('contas.nome, tipo_contas.descricao,
-                        SUM(lancamentos.debito) as total_debito,
-                        SUM(lancamentos.credito) as total_credito')
+                        SUM(ROUND(((lancamentos.debito * conta_lancamento.percentual) / 100),2)) as sum_debito,
+                        SUM(ROUND(((lancamentos.credito * conta_lancamento.percentual) / 100),2)) as sum_credito')
             ->where('tipo_contas.relatoriobalancete','=',1)
             ->where('lancamentos.movimento_id', '=', $movimento->id)
             ->where('lancamentos.data','<=',$periodo)
             ->groupBy('contas.nome', 'tipo_contas.descricao')
+            ->orderBy('contas.nome')
             ->get();
 
             // Monta um array de array das contas e duas chaves saldo_orcamento e saldo_renda
@@ -70,9 +71,9 @@ class RelatorioController extends Controller
             // Preenche o array balancete
             foreach($saldos as $saldo){
                 if($saldo->descricao == "ORÇAMENTO"){
-                    $balancete[$saldo->nome]['saldo_orcamento'] = $saldo->total_credito - $saldo->total_debito;
+                    $balancete[$saldo->nome]['saldo_orcamento'] = $saldo->sum_credito - $saldo->sum_debito;
                 } else {
-                    $balancete[$saldo->nome]['saldo_renda'] = $saldo->total_credito - $saldo->total_debito;
+                    $balancete[$saldo->nome]['saldo_renda'] = $saldo->sum_credito - $saldo->sum_debito;
                 }
             }
 
@@ -274,6 +275,7 @@ class RelatorioController extends Controller
             $lancamentos_fake = collect();
             $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);
             $lancamentos = $lancamentos_fake;
+            #dd($lancamentos);
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
