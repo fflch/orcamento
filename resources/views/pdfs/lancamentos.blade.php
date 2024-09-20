@@ -43,12 +43,12 @@
               <td align="right" style="border: 1px solid black">{{ $lancamento->empenho }}</td>
               <td align="left" style="border: 1px solid black">{{ $lancamento->descricao }}</td>
               @if($lancamento->debito != 0.00)
-                  <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+                  <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->debito_raw),2, ',', '.') }}</td>
               @else
                   <td align="right" style="border: 1px solid black">&nbsp;</td>
               @endif
               @if($lancamento->credito != 0.00)
-              <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
+              <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->credito_raw),2, ',', '.') }}</td>
               @else
                   <td align="right" style="border: 1px solid black">&nbsp;</td>
               @endif
@@ -56,8 +56,8 @@
               <td align="left" style="border: 1px solid black">{{ $lancamento->observacao }}</td>
             </tr>
         </tbody>
-        {{ $total_debito += (float)($lancamento->debito_raw * $conta->pivot->percentual/100) }}
-        {{ $total_credito += (float)($lancamento->credito_raw * $conta->pivot->percentual/100) }}
+        {{ $total_debito += (float)($lancamento->debito_raw) }}
+        {{ $total_credito += (float)($lancamento->credito_raw) }}
         @endif
       @endforeach
     @endforeach
