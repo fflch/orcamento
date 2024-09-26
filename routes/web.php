@@ -43,6 +43,7 @@ Route::get('/contas_por_tipo_de_conta/{tipoconta_id}', [ContaController::class,'
 Route::resource('notas', NotaController::class);
 Route::post('/lancamentos/{lancamento}/percentual/storePercentual', [LancamentoController::class, 'storePercentual']);
 Route::delete('/lancamentos/{lancamento}/destroyPercentual', [LancamentoController::class, 'destroyPercentual']);
+Route::get('/lancamentos/search', [LancamentoController::class, 'search'])->name('lancamentos_search');
 Route::resource('lancamentos', LancamentoController::class);
 Route::get('/lancamentos_por_conta/{conta}', [ContaController::class,'lancamentos_por_conta']);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);

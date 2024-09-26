@@ -22,11 +22,23 @@ class LancamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
+    public function index(){
+        $this->authorize('Administrador');
+        return view('lancamentos.index', [
+            'lancamentos'         => collect(),
+            'total_debito'        => 0,
+            'total_credito'       => 0,
+            'hoje'                => Carbon::now()->format('d/m/Y'),
+            'lista_contas_ativas' => Conta::lista_contas_ativas(),
+            'movimento_anos'  => Movimento::movimento_anos()
+        ]);
+    }
+
+    public function search(Request $request){
         $this->authorize('Administrador');
 
         $movimento = Movimento::where('ano', session('ano'))->first();
-    
+
         $lancamentos = Lancamento::where('movimento_id', $movimento->id)
                        ->when($request->conta_id, function ($query) use ($request) {
                             $query->whereHas('contas', function ($query) use ($request) {
@@ -37,8 +49,6 @@ class LancamentoController extends Controller
                             return $query->where('grupo', '=', $request->busca_grupo);
                         })
                        ->orderBy('data', 'ASC')->get();
-
-                       $lancamentos = Lancamento::where('movimento_id', $movimento->id)->get();
 
         $lancamentos_fake = collect();
         $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);

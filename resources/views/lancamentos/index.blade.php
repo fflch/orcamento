@@ -12,7 +12,7 @@
 <br>
 <div class="form-row">
     <div class="form-group col-md-10">
-        <form method="get" action="/lancamentos">
+        <form method="get" action="/lancamentos/search">
             @csrf
             <div class="row">
                 <div class="col-sm input-group">
