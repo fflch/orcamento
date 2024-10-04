@@ -30,7 +30,7 @@ class Conta extends Model
         $lista_contas_ativas = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
             ->select('contas.id', 'contas.nome', 'tipo_contas.descricao')
-            ->where('ativo','=','1') 
+            ->where('ativo','=','1')
             ->groupBy('contas.id', 'contas.nome', 'tipo_contas.descricao')
             ->orderBy('nome')
             ->get();
@@ -40,7 +40,7 @@ class Conta extends Model
     public static function lista_contas_todas(){
         $lista_contas_todas = DB::table('contas')
             ->join('tipo_contas', 'contas.tipoconta_id', '=', 'tipo_contas.id')
-            ->select('contas.nome', 'tipo_contas.descricao') 
+            ->select('contas.nome', 'tipo_contas.descricao')
             ->groupBy('contas.nome', 'tipo_contas.descricao')
             ->orderBy('nome')
             ->get();
@@ -48,8 +48,7 @@ class Conta extends Model
     }
 
     public static function nome_conta($conta){
-        $nome_conta = Conta::where('id','=',$conta)->get();
-        return $nome_conta;
+        return Conta::select('nome')->where('id', $conta)->first()->nome;
     }
 
     public static function nome_conta_numero($numero){

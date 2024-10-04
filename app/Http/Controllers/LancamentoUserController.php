@@ -36,17 +36,12 @@ class LancamentoUserController extends Controller
         ]);
     }
 
-
     public function lancamentos(LancamentoUserRequest $request){
         $this->authorize('Todos');
-        
-        $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
-                                                FormataDataService::handle($request->data_final),
-                                                $request->conta_id);
 
-        $lancamentos_fake = collect();
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);
-        $lancamentos = $lancamentos_fake;
+        $lancamentos = LancamentoService::saldo(null, $request->conta_id, null,
+            FormataDataService::handle($request->data_inicial),
+            FormataDataService::handle($request->data_final));
 
         return view('lancamentosuser.index',[
             'user' => auth()->user(),
@@ -54,29 +49,24 @@ class LancamentoUserController extends Controller
             'conta_id' => $request->conta_id,
             'hoje' => Carbon::now()->format('d/m/Y'),
             'lancamentos' => $lancamentos,
-            'total_debito'        => $totais['total_debito'],
-            'total_credito'       => $totais['total_credito']        
+            'total_debito'        => $lancamentos->sum('valor_debito'),
+            'total_credito'       => $lancamentos->sum('valor_credito')
         ]);
     }
 
     public function lancamentos_pdf(LancamentoUserRequest $request){
         $this->authorize('Todos');
 
-        $lancamentos = LancamentoService::handle(FormataDataService::handle($request->data_inicial),
-                                                FormataDataService::handle($request->data_final),
-                                                $request->conta_id);
-        $lancamentos_fake = collect();
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);  
+        $lancamentos = LancamentoService::saldo(null, $request->conta_id, null,
+            FormataDataService::handle($request->data_inicial),
+            FormataDataService::handle($request->data_final));
 
-        $lancamentos = $lancamentos_fake;
-
-        $nome_conta  = Conta::nome_conta($request->conta_id);
         $pdf = PDF::loadView('pdfs.lancamentos', [
             'conta_id'    => $request->conta_id,
             'lancamentos' => $lancamentos,
-            'nome_conta'  => $nome_conta[0]->nome,
-            'total_debito'        => $totais['total_debito'],
-            'total_credito'       => $totais['total_credito'] 
+            'nome_conta'  => Conta::nome_conta($request->conta_id),
+            'total_debito'        => $lancamentos->sum('valor_debito'),
+            'total_credito'       => $lancamentos->sum('valor_credito')
         ])->setPaper('a4', 'landscape');
 
         return $pdf->download("lancamentos.pdf");

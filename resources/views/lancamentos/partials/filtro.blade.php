@@ -1,11 +1,11 @@
   <div class="form-row">
         <div class="form-group col-md-9">
             <label for="conta">Escolha um Tipo de conta: </label>
-              <select class="tipocontas_select form-control" name="tipoconta" id="tipoconta">   
+              <select class="tipocontas_select form-control" name="tipoconta" id="tipoconta">
               <option value=" ">Selecione o tipo de conta...</option>
                     @foreach($tiposdecontas as $tiposdeconta)
                       @if(old('tipoconta') != '')
-                          <option value="{{ old('tipoconta') }}" 
+                          <option value="{{ old('tipoconta') }}"
                           {{ old('tipoconta') == $tiposdeconta->id ? 'selected' : '' }}>
                             {{ $tiposdeconta->descricao }}
                           </option>
@@ -19,7 +19,7 @@
   <div class="form-row">
     <div class="form-group col-md-9">
       <label for="conta">Escolha uma Conta: </label>
-        <select class="contas_select form-control" name="contas" id="conta" tabindex="1">           
+        <select class="contas_select form-control" name="contas" id="conta" tabindex="1">
           <option value=" ">&nbsp;</option>
             @foreach($contas as $conta)
                 <option value="{{ $conta->id }}">
@@ -64,7 +64,7 @@
           $('#conta').html('<option value="">Selecione um Tipo de conta</option>');
         }
       }
-      
+
       if( $("#tipoconta").val() ) filtro($("#tipoconta").val())
 
       $("#tipoconta").change(function () {

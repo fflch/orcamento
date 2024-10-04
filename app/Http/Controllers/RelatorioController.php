@@ -256,39 +256,22 @@ class RelatorioController extends Controller
             return redirect("/relatorios");
         }
         if(($request->data_inicial != null) and ($request->data_final != null)){
-            $inicial = FormataDataService::handle($request->data_inicial);
-            $final = FormataDataService::handle($request->data_final);
-
             $movimento = Movimento::where('ano', session('ano'))->first();
+            $lancamentos = LancamentoService::saldo($movimento->id, $request->contas, $request->grupo,
+                FormataDataService::handle($request->data_inicial),
+                FormataDataService::handle($request->data_final));
 
-            $lancamentos = Lancamento::where('movimento_id', $movimento->id)
-                            ->whereHas('contas', function ($query) use ($request) {
-                                $query->where('conta_id', $request->contas);
-                            })
-                            ->when($request->grupo, function ($query) use ($request) {
-                                return $query->where('grupo', $request->grupo);
-                            })
-                            ->whereBetween('data', [$inicial, $final])
-                            ->orderBy('data')
-                            ->get();
-
-            $lancamentos_fake = collect();
-            $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->contas);
-            $lancamentos = $lancamentos_fake;
-            #dd($lancamentos);
         } else {
             request()->session()->flash('alert-info','Informe as duas datas requeridas.');
             return back();
         }
 
-        $nome_conta  = Conta::nome_conta($request->contas);
-
         $pdf = PDF::loadView('pdfs.lancamentos', [
-                             'conta_id'    => $request->contas,
-                             'lancamentos' => $lancamentos,
-                             'nome_conta'  => $nome_conta[0]->nome,
-                             'total_debito'        => $totais['total_debito'],
-                            'total_credito'       => $totais['total_credito']
+                             'conta_id'      => $request->contas,
+                             'lancamentos'   => $lancamentos,
+                             'nome_conta'    => Conta::nome_conta($request->contas),
+                             'total_debito'  => $lancamentos->sum('valor_debito'),
+                             'total_credito' => $lancamentos->sum('valor_credito')
         ])->setPaper('a4', 'landscape');
         return $pdf->download("lancamentos.pdf");
     }

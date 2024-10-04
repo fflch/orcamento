@@ -9,81 +9,51 @@ use DB;
 
 class LancamentoService
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public static function handle($inicial, $final, $conta)
-    {
-        $lancamentos = Lancamento::whereHas('contas', function ($query) use ($conta) {
-            $query->where('conta_id', $conta);
-        })
-        ->whereBetween('data', [$inicial, $final])
-        ->get();
+
+    public static function saldo(int $movimento = null, int $conta = null, string $grupo = null, string $inicial = null, string $final = null) {
+        $saldo = 0;
+
+        $lancamentos = DB::table(
+            'lancamentos'
+        )->leftJoin(
+            'conta_lancamento',
+            'lancamentos.id', '=', 'conta_lancamento.lancamento_id'
+        )->select(
+            'lancamentos.id', 'lancamentos.data', 'lancamentos.observacao', 'lancamentos.descricao', 'lancamentos.grupo',
+            'lancamentos.ficorcamentaria_id', 'lancamentos.receita', 'lancamentos.debito', 'lancamentos.credito', 'lancamentos.empenho',
+            DB::Raw('((lancamentos.debito * conta_lancamento.percentual)/100) as valor_debito, ((lancamentos.credito * conta_lancamento.percentual)/100) as valor_credito')
+        )->when($movimento, function($query, $movimento) {
+                $query->whereRaw('lancamentos.movimento_id = ?', [$movimento]);
+            }
+        )->when($conta, function($query, $conta) {
+                $query->whereRaw('conta_lancamento.conta_id = ?', [$conta]);
+            }
+        )->when($grupo, function($query, $grupo) {
+                $query->whereRaw('lancamentos.grupo = ?', [$grupo]);
+            }
+        )->when($inicial && $final, function($query) use ($inicial, $final) {
+                $query->whereRaw('lancamentos.data BETWEEN ? AND ?', [$inicial, $final]);
+            }
+        )->orderBy(
+            'lancamentos.data', 'asc'
+        )->get()
+        ->map(function ($lancamento) use (&$saldo) {
+           if(is_null($lancamento->valor_debito) && is_null($lancamento->valor_credito)) {
+               $lancamento->valor_debito = $lancamento->debito;
+               $lancamento->valor_credito = $lancamento->credito;
+           }
+           else {
+               $lancamento->valor_debito = round($lancamento->valor_debito,2);
+               $lancamento->valor_credito = round($lancamento->valor_credito,2);
+           }
+           $lancamento->data = implode('/',array_reverse(explode('-',$lancamento->data)));
+           $saldo += $lancamento->valor_credito - $lancamento->valor_debito;
+           $lancamento->saldo = $saldo;
+
+           return $lancamento;
+        });
 
         return $lancamentos;
-    }
-
-    /**
-     * Essa função não apresenta nenhum efeito colateral no banco de dados, pois nada é salvo.
-     * Ela faz duas coisas:
-     * 1. dado uma coleção de objetos $lancamentos, para cada $lancamento adicionamos uma
-     * variáveis temporária chamada de saldo_valor para facilicar a exibição nas views, seja pdf ou html
-     * 2. retorna $total_debito e $total_credito
-     */
-    public static function manipulaLancamentos($lancamentos, $lancamentos_fake, $conta_id = null){
-        $total_debito  = 0.00;
-        $total_credito = 0.00;
-        $saldo_auxiliar = 0;
-
-        foreach($lancamentos as $lancamento){
-            $pivots = ContaLancamento::where('lancamento_id',$lancamento->id)->get();
-
-            if($pivots->isNotEmpty()) {
-            
-                // Se tem relação na tabela conta_lancamento, vamos ter que duplicar, triplicar etc os lançamentos
-                foreach($pivots as $pivot){
-                    $new = $lancamento->replicate();
-                    $new->id = $lancamento->id;
-
-                    $new->conta = Conta::find($pivot->conta_id);
-
-                    // Se tiver filtro por conta
-                    if($conta_id != null and $conta_id!=$new->conta->id) continue;
- 
-                    if($new->debito != 0.00) {
-                        $new->debito = (float) ($new->debito_raw * $pivot->percentual/100);
-                    }
-                    if($new->credito != 0.00) {
-                        $new->credito = (float)($new->credito_raw * $pivot->percentual/100);
-                    }
-    
-                    $total_debito = $total_debito + (float)$new->debito_raw ;
-                    $total_credito = $total_credito + (float)$new->credito_raw;
-    
-                    $saldo_auxiliar = $saldo_auxiliar + ((float)$new->credito_raw - (float)$new->debito_raw);
-                    $new->saldo_valor = $saldo_auxiliar;
-                    $lancamentos_fake->push($new);
-                }
-
-            } else {
-                // Se estivermos lidando com o caso de uma busca, não mostramos lançamentos sem percentuais
-                if($conta_id != null) continue;
-
-                $total_debito = $total_debito + $lancamento->debito_raw;
-                $total_credito = $total_credito + $lancamento->credito_raw;
-
-                $saldo_auxiliar = $saldo_auxiliar + ($lancamento->credito_raw - $lancamento->debito_raw);
-                $lancamento->saldo_valor = $saldo_auxiliar;
-
-                $lancamentos_fake->push($lancamento);
-            }
-        }
-        return [
-            'total_debito' => $total_debito, 
-            'total_credito' => $total_credito
-        ];
     }
 
 }

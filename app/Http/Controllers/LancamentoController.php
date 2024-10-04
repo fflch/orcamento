@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DB;
 use Redirect;
 use App\Services\LancamentoService;
+use App\Services\MovimentoService;
 
 class LancamentoController extends Controller
 {
@@ -24,6 +25,7 @@ class LancamentoController extends Controller
      */
     public function index(){
         $this->authorize('Administrador');
+
         return view('lancamentos.index', [
             'lancamentos'         => collect(),
             'total_debito'        => 0,
@@ -37,28 +39,13 @@ class LancamentoController extends Controller
     public function search(Request $request){
         $this->authorize('Administrador');
 
-        $movimento = Movimento::where('ano', session('ano'))->first();
-
-        $lancamentos = Lancamento::where('movimento_id', $movimento->id)
-                       ->when($request->conta_id, function ($query) use ($request) {
-                            $query->whereHas('contas', function ($query) use ($request) {
-                                $query->where('conta_id', $request->conta_id);
-                            });
-                       })
-                       ->when($request->busca_grupo, function ($query) use ($request) {
-                            return $query->where('grupo', '=', $request->busca_grupo);
-                        })
-                       ->orderBy('data', 'ASC')->get();
-
-        $lancamentos_fake = collect();
-        $totais = LancamentoService::manipulaLancamentos($lancamentos, $lancamentos_fake, request()->conta_id);
-
-        $lancamentos = $lancamentos_fake;
+        $movimento = MovimentoService::anomovimento();
+        $lancamentos = LancamentoService::saldo($movimento->id, $request->conta_id, $request->grupo);
 
         return view('lancamentos.index', [
                     'lancamentos'         => $lancamentos,
-                    'total_debito'        => $totais['total_debito'],
-                    'total_credito'       => $totais['total_credito'],
+                    'total_debito'        => $lancamentos->sum('valor_debito'),
+                    'total_credito'       => $lancamentos->sum('valor_credito'),
                     'hoje'                => Carbon::now()->format('d/m/Y'),
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
                     'movimento_anos'  => Movimento::movimento_anos()
@@ -130,12 +117,12 @@ class LancamentoController extends Controller
         $contas_percentual[$request['contas']] = ['percentual' => str_replace(',', '.', $request['percentual'])];
         try {
             $lancamento->contas()->attach($contas_percentual);
-        } 
+        }
         catch(\Illuminate\Database\QueryException $error) {
             return redirect()->back()->withErrors(($error->getCode() === '23000') ? 'Conta duplicada' : '');
         }
         $request->session()->flash('alert-success', 'Percentual cadastrado com sucesso!');
-    
+
         return redirect("/lancamentos/{$lancamento->id}");
     }
 
@@ -219,7 +206,7 @@ class LancamentoController extends Controller
         $this->authorize('Administrador');
         $lancamento->delete();
         $request->session()->flash('alert-success', 'Lançamento deletado com sucesso!');
-        return redirect()->route('lancamentos.index');    
+        return redirect()->route('lancamentos.index');
     }
 
     public function destroyPercentual(Lancamento $lancamento, Request $request){
@@ -228,6 +215,6 @@ class LancamentoController extends Controller
                                         ->where('lancamento_id', $request->lancamento_id)
                                         ->delete();
         $request->session()->flash('alert-success', 'Percentual deletado com sucesso!');
-        return back();    
+        return back();
     }
 }

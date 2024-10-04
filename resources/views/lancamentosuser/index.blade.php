@@ -41,7 +41,7 @@
             <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="{{ request()->data_final }}">
             @else
             <input autocomplete="off" type="text" class="form-control datepicker data" name="data_final" value="{{ old('data_final') }}">
-            @endif        
+            @endif
         </div>
         <div class="form-group col-md-4">
         <button type="submit" class="btn btn-success">Buscar</button>
@@ -77,26 +77,14 @@
             </thead>
             <tbody>
                 @forelse($lancamentos as $lancamento)
-                    @foreach($lancamento->contas as $conta)
-                    @if($conta->id == $conta_id)
                         <tr>
                                 <td align="left">{{ $lancamento->data }}</td>
                                 <td align="left">{{ $lancamento->descricao }}</td>
                                 <td align="left">{{ $lancamento->observacao }}</td>
-                                @if($lancamento->debito != 0.00)
-                                    <td>{{ number_format((float)($lancamento->debito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                                @else
-                                    <td>&nbsp;</td>
-                                @endif
-                                @if($lancamento->credito != 0.00)
-                                <td>{{ number_format((float)($lancamento->credito_raw * $conta->pivot->percentual/100),2, ',', '.') }}</td>
-                                @else
-                                    <td>&nbsp;</td>
-                                @endif
-                                <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($lancamento->debito, 2, ',', '.') }}</td>
+                                <td>{{ number_format($lancamento->credito, 2, ',', '.') }}</td>
+                                <td>{{ number_format($lancamento->saldo, 2, ',', '.') }}</td>
                         </tr>
-                    @endif
-                    @endforeach
                 @empty
                     <tr> <td colspan="6" align="center"> Não há lançamentos cadastrados nesse período. </td> </tr>
                 @endforelse

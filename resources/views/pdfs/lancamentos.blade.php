@@ -32,34 +32,18 @@
         <th width="30%">Observação</th>
       </tr>
     </thead>
-    {{ $total_debito = 0 }}
-    {{ $total_credito = 0 }}
     @foreach ($lancamentos as $lancamento)
-      @foreach($lancamento->contas as $conta)
-        @if($conta->id == $conta_id)
         <tbody>
             <tr>
               <td align="center" style="border: 1px solid black">{{ $lancamento->data }}</td>
               <td align="right" style="border: 1px solid black">{{ $lancamento->empenho }}</td>
               <td align="left" style="border: 1px solid black">{{ $lancamento->descricao }}</td>
-              @if($lancamento->debito != 0.00)
-                  <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->debito_raw),2, ',', '.') }}</td>
-              @else
-                  <td align="right" style="border: 1px solid black">&nbsp;</td>
-              @endif
-              @if($lancamento->credito != 0.00)
-              <td align="right" style="border: 1px solid black">{{ number_format((float)($lancamento->credito_raw),2, ',', '.') }}</td>
-              @else
-                  <td align="right" style="border: 1px solid black">&nbsp;</td>
-              @endif
-              <td align="left" style="border: 1px solid black">{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
+              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->valor_debito, 2, ',', '.') }}</td>
+              <td align="right" style="border: 1px solid black">{{ number_format($lancamento->valor_credito, 2, ',', '.') }}</td>
+              <td align="left" style="border: 1px solid black">{{ number_format($lancamento->saldo, 2, ',', '.') }}</td>
               <td align="left" style="border: 1px solid black">{{ $lancamento->observacao }}</td>
             </tr>
         </tbody>
-        {{ $total_debito += (float)($lancamento->debito_raw) }}
-        {{ $total_credito += (float)($lancamento->credito_raw) }}
-        @endif
-      @endforeach
     @endforeach
   </table>
   <table width="100%" border="0px" style="background-color:#A2A2A2;">

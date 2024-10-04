@@ -8,7 +8,7 @@
 <div class="card p-3">
     <h2><strong>Lançamentos</strong></h2>
     @include('partials.mostra_ano')
-</div>    
+</div>
 <br>
 <div class="form-row">
     <div class="form-group col-md-10">
@@ -31,8 +31,8 @@
                             @endif
                         @endforeach
                     </select>
-                    &nbsp;E/OU&nbsp;       
-                    <input size="100%" type="text" class="form-control" name="busca_grupo" value="{{ request()->busca_grupo }}" placeholder="[ Busca por Grupo ]">
+                    &nbsp;E/OU&nbsp;
+                    <input size="100%" type="text" class="form-control" name="grupo" value="{{ request()->busca_grupo }}" placeholder="[ Busca por Grupo ]">
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"><strong>Buscar</strong></button>
                         <a class="btn btn-danger" href="/lancamentos" title="Limpar a Busca"><strong>X</strong></a>
@@ -78,25 +78,14 @@
                     <td align="left">{{ $lancamento->grupo  }}</td>
                     <td align="left">{{ $lancamento->ficorcamentaria_id  }}</td>
                     <td>{{ $lancamento->receita }}</td>
-                    
-                    @if($lancamento->debito != 0.00) 
-                        <td>{{ $lancamento->debito }}</td>
-                    @else 
-                        <td>&nbsp;</td>
-                    @endif
-
-                    @if($lancamento->credito != 0.00) 
-                        <td>{{ $lancamento->credito }}</td>
-                    @else 
-                        <td>&nbsp;</td>
-                    @endif
-                    
-                    <td>{{ number_format($lancamento->saldo_valor, 2, ',', '.') }}</td>
+                    <td>{{ number_format($lancamento->valor_debito, 2, ',', '.') }}</td>
+                    <td>{{ number_format($lancamento->valor_credito, 2, ',', '.') }}</td>
+                    <td>{{ number_format($lancamento->saldo, 2, ',', '.') }}</td>
                     <td align="center"><a class="btn btn-secondary" href="/lancamentos/{{$lancamento->id}}">Ver</a></td>
                     @can('Administrador')
                         <td align="center"><a class="btn btn-warning" href="/lancamentos/{{$lancamento->id}}/edit">Editar</a></td>
                         <td align="center">
-                            <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento) }}" >
+                          <form method="post" role="form" action="{{ route('lancamentos.destroy', $lancamento->id) }}" >
                                 @csrf
                                 <input name="_method" type="hidden" value="DELETE">
                                 <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Deseja realmente excluir o Lançamento?');">Excluir</button>
