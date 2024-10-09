@@ -50,9 +50,6 @@
         <thead>
             <tr>
                 <th width="5%" align="left">Data</th>
-                @if(request()->conta_id)
-                <th width="5%" align="left">Conta</th>
-                @endif
                 <th width="34%" align="left">Descrição</th>
                 <th width="34%" align="left">Observação</th>
                 <th width="7%" align="left">Grupo</th>
