@@ -61,10 +61,10 @@
   <table width="100%" border="0px" style="background-color:#A2A2A2;">
     <tbody>
         <tr>
-          <td width="61%" align="center" style="border: 1px solid black"><strong>Totais Gerais</strong></td>
-          <td width="13%" align="center" style="border: 1px solid black"><strong>Débitos: {{ number_format($total_debito, 2, ',', '.') }}</td>
-          <td width="13%" align="center" style="border: 1px solid black"><strong>Créditos: {{ number_format($total_credito, 2, ',', '.') }}</td>
-          <td width="13%" align="center" style="border: 1px solid black"><strong>Saldo total: {{ number_format($total_credito - $total_debito, 2, ',', '.') }}</td>
+          <td width="10%" align="center" style="border: 1px solid black"><strong>Totais Gerais</strong></td>
+          <td width="30%" align="center" style="border: 1px solid black"><strong>Débitos: {{ number_format($total_debito, 2, ',', '.') }}</td>
+          <td width="30%" align="center" style="border: 1px solid black"><strong>Créditos: {{ number_format($total_credito, 2, ',', '.') }}</td>
+          <td width="30%" align="center" style="border: 1px solid black"><strong>Saldo total: {{ number_format($total_credito - $total_debito, 2, ',', '.') }}</td>
         </tr>
     </tbody>
   </table>
