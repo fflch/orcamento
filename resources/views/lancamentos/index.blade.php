@@ -70,9 +70,6 @@
             @foreach($lancamentos as $lancamento)
                 <tr>
                     <td align="left">{{$lancamento->id }} {{ $lancamento->data }}</td>
-                    @if(request()->conta_id)
-                    <td align="left">{{ $lancamento->conta->nome }}</td>
-                    @endif
                     <td align="left">{{ $lancamento->descricao }}</td>
                     <td align="left">{{ $lancamento->observacao }}</td>
                     <td align="left">{{ $lancamento->grupo  }}</td>
