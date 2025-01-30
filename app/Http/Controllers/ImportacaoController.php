@@ -15,7 +15,7 @@ class ImportacaoController extends Controller
 {
 
     public function index() {
-        Gate::authorize('admin');
+        Gate::authorize('Administrador');
 
         $ano = MovimentoService::anomovimento();
         $anoanterior = Movimento::select('id')
@@ -30,7 +30,7 @@ class ImportacaoController extends Controller
     }
 
     public function store() {
-        Gate::authorize('admin');
+        Gate::authorize('Administrador');
 
         $ano = MovimentoService::anomovimento();
         $importacao = Lancamento::select('id')->where('observacao', "Importação")
