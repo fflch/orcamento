@@ -3,7 +3,7 @@
 namespace App\Services;
 use App\Models\Lancamento;
 use App\Models\Conta;
-
+use App\Models\TipoConta;
 use App\Services\LancamentoService;
 
 use DB;
@@ -149,4 +149,18 @@ class Query{
         return DB::select($query);
     }
 
+    public static function SaldoProjetosEspeciais(int $ano_id) {
+        $tipoconta = TipoConta::select('id')
+            ->where('descricao','PROJETOS ESPECIAIS')->first();
+
+        $query = "SELECT l.grupo, c.id, c.nome, tc.descricao, (SUM(l.credito) - SUM(l.debito)) as total
+            from contas c inner join tipo_contas tc on (c.tipoconta_id = tc.id)
+            INNER JOIN conta_lancamento cl on (cl.conta_id = c.id)
+            INNER JOIN lancamentos l on (l.id = cl.lancamento_id)
+            WHERE c.tipoconta_id = {$tipoconta->id} AND l.movimento_id = {$ano_id}
+            GROUP BY c.nome, c.id, tc.descricao, l.grupo
+            HAVING (SUM(l.credito) - SUM(l.debito)) <> 0";
+
+        return DB::select($query);
+    }
 }

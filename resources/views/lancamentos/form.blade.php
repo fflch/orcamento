@@ -1,7 +1,7 @@
 <div class="form-row">
     <div class="form-group col-md-1">
         <label for="grupo">Grupo</label>
-        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? 80 }}" placeholder="[ Ex: 080 ]" tabindex="2">
+        <input type="text" class="form-control" name="grupo" value="{{ $lancamento->grupo ?? old('grupo') ?? '080' }}" placeholder="[ Ex: 080 ]" tabindex="2">
     </div>
     <div class="form-group col-md-1">
         <label for="receita" class="checkbox-inline">Receita</label><br>

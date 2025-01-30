@@ -59,6 +59,11 @@ $administracao = [
         'can'  => 'Administrador',
     ],
     [
+        'text' => 'Projetos Especiais - Importação',
+        'url'  => '/importacao',
+        'can'  => 'Administrador',
+    ],
+    [
         'type' => 'divider',
         'can'  => 'Administrador',
     ],

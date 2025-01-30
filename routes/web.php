@@ -4,7 +4,7 @@ use App\Http\Controllers\IndexController;
 //use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MovimentoController;
 use App\Http\Controllers\TipoContaController;
-use App\Http\Controllers\AreaController;
+//use App\Http\Controllers\AreaController;
 use App\Http\Controllers\DotOrcamentariaController;
 use App\Http\Controllers\ContaController;
 use App\Http\Controllers\NotaController;
@@ -16,6 +16,7 @@ use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\selTipoContaController;
 use App\Http\Controllers\LancamentoUserController;
+use App\Http\Controllers\ImportacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
 //Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::resource('movimentos', MovimentoController::class);
 Route::resource('tipocontas', TipoContaController::class);
-Route::resource('areas', AreaController::class);
+//Route::resource('areas', AreaController::class);
 Route::resource('dotorcamentarias', DotOrcamentariaController::class);
 Route::resource('contas', ContaController::class);
 Route::get('/contas_por_tipo_de_conta/{tipoconta_id}', [ContaController::class,'contas_por_tipo_de_conta']);
@@ -66,3 +67,5 @@ Route::get('/relatorios/lancamentos', [RelatorioController::class, 'lancamentos'
 Route::get('/relatorios/ficha_orcamentaria', [RelatorioController::class, 'ficha_orcamentaria'])->name('relatorios.ficha_orcamentaria');
 Route::post('/getContas',[FicOrcamentariaController::class,'getContas'])->name('contrapartida.getContas');
 Route::post('/getLancamentoContas',[LancamentoController::class,'getLancamentoContas'])->name('percentual.getLancamentoContas');
+Route::get('/importacao', [ImportacaoController::class, 'index']);
+Route::post('/importacao', [ImportacaoController::class, 'store']);
