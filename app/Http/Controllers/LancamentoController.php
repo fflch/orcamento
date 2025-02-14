@@ -187,8 +187,7 @@ class LancamentoController extends Controller
     public function update(LancamentoRequest $request, Lancamento $lancamento){
         $this->authorize('Administrador');
         $validated = $request->validated();
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
-        $validated['user_id']     = auth()->user()->id;
+        $validated['user_id'] = auth()->user()->id;
         $validated['receita'] = $request->has('receita');
         $lancamento->update($validated);
         $request->session()->flash('alert-success', 'Lançamento alterado com sucesso!');

@@ -12,7 +12,7 @@
     </div>
     <div class="form-group col-md-1">
         <label fo col-md-2r="data">Data</label>
-        <input type="text" class="form-control datepicker data" name="data" value="{{ Carbon\Carbon::now()->format('d/m/Y') }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
+        <input type="text" class="form-control datepicker data" name="data" value="{{ old('data', $lancamento->data) }}" placeholder="[ Ex: {{ Carbon\Carbon::now()->format('d/m/Y') }} ]" tabindex="3">
     </div>
     <div class="form-group col-md-1">
         <label for="empenho">Empenho</label>
