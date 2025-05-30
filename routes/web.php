@@ -45,6 +45,7 @@ Route::resource('notas', NotaController::class);
 Route::post('/lancamentos/{lancamento}/percentual/storePercentual', [LancamentoController::class, 'storePercentual']);
 Route::delete('/lancamentos/{lancamento}/destroyPercentual', [LancamentoController::class, 'destroyPercentual']);
 Route::get('/lancamentos/search', [LancamentoController::class, 'search'])->name('lancamentos_search');
+Route::get('/lancamentos/export/search', [LancamentoController::class, 'export']);
 Route::resource('lancamentos', LancamentoController::class);
 Route::get('/lancamentos_por_conta/{conta}', [ContaController::class,'lancamentos_por_conta']);
 Route::resource('ficorcamentarias', FicOrcamentariaController::class);

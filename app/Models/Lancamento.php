@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Conta;
+use Illuminate\Support\Facades\Schema;
 
 class Lancamento extends Model
 {
@@ -22,6 +23,20 @@ class Lancamento extends Model
         'credito',
         'user_id'
     ];
+
+    public static function campos(){
+        return collect([
+            'data' => 'Data',
+            'descricao' => 'Descrição',
+            'observacao' => 'Observação',
+            'grupo' => 'Grupo',
+            'ficorcamentaria_id' => 'CP',
+            'receita' => 'REC',
+            'debito' => 'Débito',
+            'credito' => 'Crédito',
+            'saldo' => 'Saldo',
+        ]);
+    }
 
     public function user(){
         return $this->belongsTo(User::class);
