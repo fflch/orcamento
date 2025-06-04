@@ -45,14 +45,6 @@
         <a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a>
     </div>
 
-    <form method="get" action="/lancamentos/export" style="margin-bottom:6px;">
-        <a 
-        href="/lancamentos/export/search?_token={{ request()->_token }}&conta_id={{ request()->conta_id }}&grupo={{ request()->grupo }}"
-        type="submit" class="btn btn-success">
-        <i class="fas fa-file-export"></i> Exportar para Excel
-        </a>
-    </form>
-
 </div>
 <div class="table-responsive">
     <table class="table table-striped" border="0">

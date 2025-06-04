@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\LancamentosExport;
 use App\Models\Lancamento;
 use App\Models\Movimento;
 use App\Models\Conta;
@@ -16,7 +15,6 @@ use DB;
 use Redirect;
 use App\Services\LancamentoService;
 use App\Services\MovimentoService;
-use Maatwebsite\Excel\Facades\Excel;
 
 class LancamentoController extends Controller
 {
@@ -52,10 +50,6 @@ class LancamentoController extends Controller
                     'lista_contas_ativas' => Conta::lista_contas_ativas(),
                     'movimento_anos'  => Movimento::movimento_anos()
         ]);
-    }
-
-    public function export(Request $request){
-        return Excel::download(new LancamentosExport, "lancamentos_".session('ano')."_{$request->grupo}.xlsx");
     }
 
     /**

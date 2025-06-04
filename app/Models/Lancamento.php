@@ -24,20 +24,6 @@ class Lancamento extends Model
         'user_id'
     ];
 
-    public static function campos(){
-        return collect([
-            'data' => 'Data',
-            'descricao' => 'Descrição',
-            'observacao' => 'Observação',
-            'grupo' => 'Grupo',
-            'ficorcamentaria_id' => 'CP',
-            'receita' => 'REC',
-            'debito' => 'Débito',
-            'credito' => 'Crédito',
-            'saldo' => 'Saldo',
-        ]);
-    }
-
     public function user(){
         return $this->belongsTo(User::class);
     }
