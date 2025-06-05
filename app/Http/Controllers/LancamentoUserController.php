@@ -56,20 +56,17 @@ class LancamentoUserController extends Controller
     }
 
     public function export(Excel $excel){
-        $lancamentos = LancamentoService::saldo(null, request()->conta_id, null, FormataDataService::handle(request()->data_inicial), FormataDataService::handle(request()->data_final));
+        $lancamentos = LancamentoService::saldo(
+            null,
+            request()->conta_id,
+            null,
+            FormataDataService::handle(request()->data_inicial),
+            FormataDataService::handle(request()->data_final)
+        )->select('data','descricao','observacao','debito','credito','saldo');
 
-        foreach($lancamentos as $lancamento){
-            $data[] = collect([
-                'Data' => $lancamento->data,
-                'Descrição' => $lancamento->descricao,
-                'Observação' => $lancamento->observacao,
-                'Débito' => $lancamento->debito,
-                'Crédito' => $lancamento->credito,
-                'Saldo' => $lancamento->saldo,
-            ]);
-        }
-        $cabecalho = $data[0]->keys();
-        $export = new ExcelExport($data, $cabecalho->toArray());
+        $header = ['Data','Descrição','Observação','Débito','Crédito','Saldo'];
+        $export = new ExcelExport($lancamentos->toArray(), $header);
+
         return $excel->download($export, "Lancamentos_".auth()->user()->name.".xlsx");
     }
 
