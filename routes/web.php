@@ -33,6 +33,7 @@ Route::get('/home', [IndexController::class, 'index']);
 Route::get('/home_usuario', [LancamentoUserController::class, 'index']);
 Route::get('/lancamentos_usuario', [LancamentoUserController::class, 'lancamentos']);
 Route::get('/lancamentos_usuario_pdf', [LancamentoUserController::class, 'lancamentos_pdf']);
+Route::get('lancamentos_usuario_excel', [LancamentoUserController::class, 'export']);
 Route::get('mudaano/{ano}', [IndexController::class, 'mudaAno']);
 //Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::resource('movimentos', MovimentoController::class);

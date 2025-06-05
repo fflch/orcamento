@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\Conta;
-use App\Models\Lancamento;
 use App\Services\FormataDataService;
 use App\Services\LancamentoService;
 use App\Http\Requests\LancamentoUserRequest;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Excel;
+use App\Exports\ExcelExport;
+use App\Models\Lancamento;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class LancamentoUserController extends Controller
@@ -52,6 +53,21 @@ class LancamentoUserController extends Controller
             'total_debito'        => $lancamentos->sum('valor_debito'),
             'total_credito'       => $lancamentos->sum('valor_credito')
         ]);
+    }
+
+    public function export(Excel $excel){
+        $lancamentos = LancamentoService::saldo(
+            null,
+            request()->conta_id,
+            null,
+            FormataDataService::handle(request()->data_inicial),
+            FormataDataService::handle(request()->data_final)
+        )->select('data','descricao','observacao','debito','credito','saldo');
+
+        $header = ['Data','Descrição','Observação','Débito','Crédito','Saldo'];
+        $export = new ExcelExport($lancamentos->toArray(), $header);
+
+        return $excel->download($export, "Lancamentos_".auth()->user()->name.".xlsx");
     }
 
     public function lancamentos_pdf(LancamentoUserRequest $request){

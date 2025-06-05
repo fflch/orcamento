@@ -60,6 +60,7 @@
             <i class="fa fa-file" aria-hidden="true"></i>
                 Gerar PDF
           </a>
+          <a href="/lancamentos_usuario_excel/?conta_id={{ request()->get('conta_id') }}&data_inicial={{ request()->get('data_inicial') }}&data_final={{ request()->get('data_final') }}" class="btn btn-success"><i class="fas fa-file-export"></i> Exportar para Excel</a>
         </div>
         @endif
     </div>

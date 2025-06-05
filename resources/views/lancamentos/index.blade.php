@@ -44,6 +44,7 @@
     <div class="form-group col-md-2" align="right">
         <a href="{{ route('lancamentos.create') }}" class="btn btn-success"><strong>Adicionar Lançamento</strong></a>
     </div>
+
 </div>
 <div class="table-responsive">
     <table class="table table-striped" border="0">
