@@ -93,22 +93,23 @@ class RelatorioController extends Controller
         $ano = explode("/", $request->data);
         $movimento = MovimentoService::anomovimento();
         $periodo = FormataDataService::handle($request->data);
+        $receita = $request->receita_acompanhamento ?? 0;
 
         if($request->grupo != null && $ano[2] == $movimento->ano){
 
             //Monta a parte de cima do PDF (créditos)
-            $saldo_inicial = Query::RELAFICHAORCAMENTSDOINICIAL($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            $saldo_inicial = Query::RELAFICHAORCAMENTSDOINICIAL($movimento->id, $request->grupo, $receita);
 
-            $suplementacoes = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento);
+            $suplementacoes = Query::RELAGASTOSUPLEMENTACAO($movimento->id, $request->grupo, $receita);
 
-            $gastos = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, $request->grupo, $request->receita_acompanhamento, $periodo);
+            $gastos = Query::RELAGASTONAOSUPLEMENTACAO($movimento->id, $request->grupo, $receita, $periodo);
 
             //código usado somente quando o acompanhamento é referente ao grupo 080 (conta)
             $naoverbaprevisoes = [];
             $renda_industriais = [];
             if((int)$request->grupo == 80){
-                $naoverbaprevisoes = Query::RELAPREVISAONAOVERBA($movimento->id, $request->grupo, $request->receita_acompanhamento);
-                $renda_industriais = Query::RELARENDAINDUSTRIALADM($movimento->id, $request->grupo, $request->receita_acompanhamento);
+                $naoverbaprevisoes = Query::RELAPREVISAONAOVERBA($movimento->id, $request->grupo, $receita);
+                $renda_industriais = Query::RELARENDAINDUSTRIALADM($movimento->id, $request->grupo, $receita);
             }
 
         } else {

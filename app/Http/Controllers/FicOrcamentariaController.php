@@ -33,7 +33,7 @@ class FicOrcamentariaController extends Controller
                             ->where('movimento_id', $movimento->id)
                             ->orderBy('data', 'ASC')->paginate(500);
 
-        $totais = FicOrcamentariaService::handle($ficorcamentarias);  
+        $totais = FicOrcamentariaService::handle($ficorcamentarias);
 
         return view('ficorcamentarias.index',[
                     'ficorcamentarias'       => $ficorcamentarias,
@@ -52,8 +52,8 @@ class FicOrcamentariaController extends Controller
      */
     public function create(){
 
-        $this->authorize('Administrador');       
-        
+        $this->authorize('Administrador');
+
         return view('ficorcamentarias.create',[
                     'ficorcamentaria'        => new FicOrcamentaria,
                     'lista_dotorcamentarias' => DotOrcamentaria::lista_dotorcamentarias_ativas(),
@@ -137,7 +137,7 @@ class FicOrcamentariaController extends Controller
         $this->authorize('Administrador');
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        $validated['movimento_id'] = Movimento::movimento_ativo()->id;   
+        $validated['movimento_id'] = Movimento::movimento_ativo()->id;
         $ficorcamentaria->update($validated);
         $request->session()->flash('alert-success', 'Ficha Orçamentária alterada com sucesso!');
         return redirect()->route('ficorcamentarias.index');
@@ -149,7 +149,7 @@ class FicOrcamentariaController extends Controller
 
         $lancamento_cpfo['ficorcamentaria_id'] = $ficorcamentaria->id;
         $lancamento_cpfo['grupo']              = $ficorcamentaria->dotacao->grupo;
-        $lancamento_cpfo['receita']            = $request->receita;
+        $lancamento_cpfo['receita']            = $request->receita ?? 0;
         $lancamento_cpfo['data']               = $ficorcamentaria->data;
         $lancamento_cpfo['empenho']            = $ficorcamentaria->empenho;
         $lancamento_cpfo['descricao']          = $ficorcamentaria->descricao;

@@ -92,6 +92,7 @@ class Query{
         AND l.receita = '{$PRECEITA}'
         AND UPPER(t.descricao) LIKE 'PREVIS%'
         GROUP BY c.nome";
+
         return DB::select($query);
     }
 
