@@ -1,12 +1,8 @@
 <?php
 
 namespace App\Services;
-use App\Models\Lancamento;
-use App\Models\Conta;
 use App\Models\TipoConta;
-use App\Services\LancamentoService;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class Query{
 
@@ -137,7 +133,8 @@ class Query{
 
     //Pega as contas vinculadas ao tipo de conta Administração, no relatório de Renda Industrial
     public static function RELARENDAINDUSTRIALADM($PCODIGOMOVIMENTO, $PGRUPO, $PRECEITA){
-        $query = "SELECT c.nome, ((SUM(l.credito)) - (SUM(l.debito))) AS total
+        $query = "SELECT l.id, c.nome, l.credito, l.debito,
+        ((cl.percentual * l.credito)/100) as valor_credito, ((cl.percentual * l.debito)/100) as valor_debito
         FROM lancamentos AS l
         INNER JOIN conta_lancamento AS cl ON (l.id = cl.lancamento_id)
         INNER JOIN contas AS c ON (c.id = cl.conta_id)
@@ -146,8 +143,27 @@ class Query{
         AND (l.grupo = '{$PGRUPO}')
         AND (l.receita = '{$PRECEITA}')
         AND UPPER(t.descricao) LIKE 'RENDA INDUSTRIAL - ADMINISTRA%'
-        GROUP BY c.nome";
-        return DB::select($query);
+        ORDER BY c.nome";
+
+        $result = DB::select($query);
+        $renda = collect($result)->map(function ($item) {
+            $credito = round($item->valor_credito, 2) ?? $item->credito;
+            $debito = round($item->valor_debito, 2) ?? $item->debito;
+            return [
+                'nome' => $item->nome,
+                'valor' => $credito - $debito,
+            ];
+        });
+        $grouped = $renda->groupBy('nome');
+        $totais = [];
+        foreach ($grouped as $nome => $valor) {
+            $totais[] = (object) [
+                'nome' => $nome,
+                'total' => $valor->sum('valor'),
+            ];
+        }
+
+        return $totais;
     }
 
     public static function SaldoProjetosEspeciais(int $ano_id) {
