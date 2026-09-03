@@ -1,5 +1,6 @@
 services:
   orcamento:
+    build: .
     image: orcamento:latest
     container_name: orcamento
     ports:
@@ -27,6 +28,22 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - orcamento-network
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: orcamento_phpmyadmin
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: orcamento
+    networks:
+      - orcamento-network
 
   selenium:
     image: selenium/standalone-chrome
@@ -49,6 +66,15 @@ services:
         aliases:
           - auth.local
 
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: orcamento_mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Interface Web
+    networks:
+      - orcamento-network
+      
 networks:
   orcamento-network:
 
