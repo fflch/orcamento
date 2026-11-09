@@ -1,5 +1,6 @@
 services:
   orcamento:
+    build: .
     image: orcamento:latest
     container_name: orcamento
     ports:
@@ -36,7 +37,7 @@ services:
     networks:
       - orcamento-network
     shm_size: 2gb
-    
+
   senhaunica-faker:
     image: uspdev/senhaunica-faker
     container_name: orcamento_senhaunica-faker
