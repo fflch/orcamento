@@ -19,6 +19,8 @@ class LancamentoUserController extends Controller
 
     public function __construct(){
 
+        $this->middleware('auth');
+
         $this->middleware(function ($request, $next) {
             $user_id = auth()->user()->id;
             $this->contas = Conta::whereHas('conta_usuarios', function ($query) use ($user_id) {

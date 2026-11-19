@@ -43,6 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Alteração preventiva para Laravel 12.72 em relação ao cookie "remember me" que gera TypeError.
+     */
+    public function getAuthPassword()
+    {
+        return (string) parent::getAuthPassword();
+    }
+
     public static function lista_usuarios(){
         $lista_usuarios = User::where('perfil','!=','Nenhum')->orderBy('name')->get();
         return $lista_usuarios;
